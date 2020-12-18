@@ -96,14 +96,14 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sdn_net <span class="keyword">as</span> sn</span><br><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>此处利用了networkx的Graph图结构；json用于将数据转化为字典集；sdn_net是之前写的流表下发和拓扑抽象的脚本，此处引用其中的函数<del>太懒了</del></p>
+<p>此处利用了<code>networkx</code>的<code>Graph</code>图结构；<code>json</code>用于将数据转化为字典集；sdn_net是之前写的流表下发和拓扑抽象的脚本，此处引用其中的函数<del>其实就是懒</del></p>
 </blockquote>
 </li>
 <li><p>调用北向接口获取链路信息</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">G = nx.Graph()</span><br><span class="line">status,resp = sn.get_links(ip)</span><br><span class="line">resp = json.loads(resp)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> resp[<span class="string">&quot;links&quot;</span>]:</span><br><span class="line">     G.add_edge(i[<span class="string">&quot;src&quot;</span>][<span class="string">&quot;device&quot;</span>],i[<span class="string">&quot;dst&quot;</span>][<span class="string">&quot;device&quot;</span>])</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>这里使用了Graph做无向图，解决了链路双向的处理问题</p>
+<p>这里使用了<code>Graph</code>做无向图，解决了链路双向的处理问题</p>
 </blockquote>
 </li>
 <li><p>写入本地文件</p>
@@ -111,13 +111,23 @@
 
 <blockquote>
 <p>因为每次获取链路的状态应更新原来的状态，所以需要每次清空文件再进行写入</p>
-<p>此处如果不写明topo.txt的绝对路径，在之后的Java调用中会默认保存到Java项目目录下</p>
+<p>此处如果不写明topo.txt的绝对路径，在之后的<code>Java</code>调用中会默认保存到<code>Java</code>项目目录下</p>
+</blockquote>
+</li>
+<li><p>文件形式改为<code>Json</code></p>
+<p>和前端兄弟商定后，要达到如下效果</p>
+<p><img src="https://i.bmp.ovh/imgs/2020/12/63e684ff26e0de1e.png" alt="效果图"></p>
+<p>故改装代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  filename = <span class="string">&quot;&#123;YOUR PATH&#125;/topo.json&quot;</span></span><br><span class="line">ttopo = []</span><br><span class="line">       <span class="keyword">for</span> i <span class="keyword">in</span> G.edges():</span><br><span class="line">            topo.append(&#123;<span class="string">&quot;a&quot;</span>:i[<span class="number">0</span>],<span class="string">&quot;b&quot;</span>:i[<span class="number">1</span>]&#125;)</span><br><span class="line">       <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file_obj:</span><br><span class="line">            json.dump(topo, file_obj)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>Json</code>对于前端操作更加方便，此处改用<code>Json</code>存储</p>
 </blockquote>
 </li>
 </ul>
 <h3 id="Java调用Python脚本"><a href="#Java调用Python脚本" class="headerlink" title="Java调用Python脚本"></a>Java调用Python脚本</h3><ul>
 <li><p>导入<code>Jython</code>包</p>
-<p>(虽然没用上，但是也学会了怎么导入jar包)</p>
+<p>(虽然没用上，<del>万一以后有用呢</del>)</p>
 <ol>
 <li><p>在<a target="_blank" rel="noopener" href="https://www.jython.org/download">Jython官网</a>下载，得到安装包，使用口令进行安装</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jython_installer-&#123;VERSION&#125;.jar</span><br></pre></td></tr></table></figure>
@@ -132,7 +142,7 @@
 <li><p><code>Java</code>调用<code>get_topo.py</code></p>
 <ul>
 <li><p>启用<code>Runtime.getRuntime().exec()</code>函数，由于是在<code>Linux</code>系统下进行，需要修改参数</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String cmd = <span class="string">&quot;python3 /home/cheuhxg/PycharmProjects/sdn/get_topo.py&quot;</span>;</span><br><span class="line">Runtime.getRuntime().exec(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;/bin/sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, cmd&#125;);</span><br></pre></td></tr></table></figure>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String cmd = <span class="string">&quot;python3 &#123;YOUR PATH&#125;/get_topo.py&quot;</span>;</span><br><span class="line">Runtime.getRuntime().exec(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;/bin/sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, cmd&#125;);</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>这里的命令行如果含有空格或<code>|</code>需要组合成<code>String</code>形式导入，否则命令不运行</p>
