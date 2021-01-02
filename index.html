@@ -51,16 +51,163 @@
       
         <li><a href="/archives">Archives</a></li>
       
-        <li><a href="/categories">Categories</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
     </ul>
   </nav>
 </header>
 
     <main class="site-main posts-loop">
     
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/12/31/信息安全导论笔记/"><span>信息安全导论笔记</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/31/信息安全导论笔记/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-30T16:30:11.320Z">
+          2020-12-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="第1讲-初始信息安全"><a href="#第1讲-初始信息安全" class="headerlink" title="第1讲 初始信息安全"></a>第1讲 初始信息安全</h1><h2 id="1-1-测试点-1-1"><a href="#1-1-测试点-1-1" class="headerlink" title="1.1 测试点 1-1"></a>1.1 测试点 1-1</h2><p>信息的特性：<strong>普遍性、价值性、共享性、传递性、时效性、载体依附性、真伪性、可处理性</strong></p>
+<p>（1）以下描述中体现了信息的何种特性</p>
+<ul>
+<li>书中自有黄金屋，书中自有颜如玉 <strong>价值性</strong></li>
+<li>一传十，十传百 <strong>传递性</strong></li>
+<li>没事别翻老黄历 <strong>时效性</strong></li>
+<li>一个人不能两次踏入同一条河流 <strong>时效性</strong></li>
+<li>古有飞鸽传书，今有网络通信 <strong>载体依附性</strong></li>
+<li>兵者诡道也，实则虚之，虚则实之 <strong>真伪性</strong></li>
+<li>世间万物皆有运行规律，掌握规律才能使人类与自然和谐共生 <strong>可处理性</strong></li>
+</ul>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/public/categories/blog/">blog</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/public/tags/writeup/">writeup</a><a href="/public/tags/课程/">课程</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/12/19/ONOS实现组表下发/"><span>ONOS实现组表下发</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/19/ONOS实现组表下发/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-19T07:45:00.724Z">
+          2020-12-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="组表效果实现"><a href="#组表效果实现" class="headerlink" title="组表效果实现"></a>组表效果实现</h1><h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
+<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
+<li><p>组表号<code>groupId</code>:标识组表，用于组表区分</p>
+</li>
+<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
+<ul>
+<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
+</li>
+<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
+</li>
+<li><p><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</p>
+</li>
+<li><p><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</p>
+</li>
+</ul>
+</li>
+<li><p>计数器<code>counters</code>:记录处理过的报文数</p>
+</li>
+<li><p>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</p>
+</li>
+</ul>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt="group table"></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/public/categories/blog/">blog</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/public/tags/sdn/">sdn</a><a href="/public/tags/python/">python</a><a href="/public/tags/onos/">onos</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
   <article>
 
   
@@ -98,60 +245,7 @@
 <blockquote>
 <p>此处利用了<code>networkx</code>的<code>Graph</code>图结构；<code>json</code>用于将数据转化为字典集；sdn_net是之前写的流表下发和拓扑抽象的脚本，此处引用其中的函数<del>其实就是懒</del></p>
 </blockquote>
-</li>
-<li><p>调用北向接口获取链路信息</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">G = nx.Graph()</span><br><span class="line">status,resp = sn.get_links(ip)</span><br><span class="line">resp = json.loads(resp)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> resp[<span class="string">&quot;links&quot;</span>]:</span><br><span class="line">     G.add_edge(i[<span class="string">&quot;src&quot;</span>][<span class="string">&quot;device&quot;</span>],i[<span class="string">&quot;dst&quot;</span>][<span class="string">&quot;device&quot;</span>])</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里使用了<code>Graph</code>做无向图，解决了链路双向的处理问题</p>
-</blockquote>
-</li>
-<li><p>写入本地文件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清空文件</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;topo.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">f.write(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">f.close()</span><br><span class="line"><span class="comment"># 写入文件</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;topo.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>)     </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> G.edges():</span><br><span class="line">          f.write(i[<span class="number">0</span>]+<span class="string">&#x27; &#x27;</span>+i[<span class="number">1</span>]+<span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>因为每次获取链路的状态应更新原来的状态，所以需要每次清空文件再进行写入</p>
-<p>此处如果不写明topo.txt的绝对路径，在之后的<code>Java</code>调用中会默认保存到<code>Java</code>项目目录下</p>
-</blockquote>
-</li>
-<li><p>文件形式改为<code>Json</code></p>
-<p>和前端兄弟商定后，要达到如下效果</p>
-<p><img src="https://i.bmp.ovh/imgs/2020/12/63e684ff26e0de1e.png" alt="效果图"></p>
-<p>故改装代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  filename = <span class="string">&quot;&#123;YOUR PATH&#125;/topo.json&quot;</span></span><br><span class="line">ttopo = []</span><br><span class="line">       <span class="keyword">for</span> i <span class="keyword">in</span> G.edges():</span><br><span class="line">            topo.append(&#123;<span class="string">&quot;a&quot;</span>:i[<span class="number">0</span>],<span class="string">&quot;b&quot;</span>:i[<span class="number">1</span>]&#125;)</span><br><span class="line">       <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file_obj:</span><br><span class="line">            json.dump(topo, file_obj)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>Json</code>对于前端操作更加方便，此处改用<code>Json</code>存储</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="Java调用Python脚本"><a href="#Java调用Python脚本" class="headerlink" title="Java调用Python脚本"></a>Java调用Python脚本</h3><ul>
-<li><p>导入<code>Jython</code>包</p>
-<p>(虽然没用上，<del>万一以后有用呢</del>)</p>
-<ol>
-<li><p>在<a target="_blank" rel="noopener" href="https://www.jython.org/download">Jython官网</a>下载，得到安装包，使用口令进行安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jython_installer-&#123;VERSION&#125;.jar</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>到安装位置找到<code>jython.jar</code>复制放入<code>src-&gt;lib</code></p>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/c342f93cc9cea6da.png" alt="Jython"></p>
-</li>
-<li><p>右键<code>lib</code>，选择<code>add as library</code>即可完成载入</p>
-</li>
-</ol>
-</li>
-<li><p><code>Java</code>调用<code>get_topo.py</code></p>
-<ul>
-<li><p>启用<code>Runtime.getRuntime().exec()</code>函数，由于是在<code>Linux</code>系统下进行，需要修改参数</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String cmd = <span class="string">&quot;python3 &#123;YOUR PATH&#125;/get_topo.py&quot;</span>;</span><br><span class="line">Runtime.getRuntime().exec(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;/bin/sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, cmd&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里的命令行如果含有空格或<code>|</code>需要组合成<code>String</code>形式导入，否则命令不运行</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-
+        
       
     </div>
 
@@ -165,7 +259,7 @@
 
     <span class="post-categories">
       <i class="icon-categories"></i>
-        <a href="/categories/categories/">blog</a>
+        <a href="/public/categories/blog/">blog</a>
     </span>
     
 
@@ -174,79 +268,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/tags/sdn/">sdn</a><a href="/tags/java/">java</a><a href="/tags/python/">python</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/12/17/hello-world/"><span>Hexo command</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/17/hello-world/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-17T05:47:44.672Z">
-          2020-12-17
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://cheuhxg.github.io/">my blog</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/CheUhxg">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/categories/">blog</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/tags/">hexo</a><a href="/tags/command/">command</a>
+        <a href="/public/tags/sdn/">sdn</a><a href="/public/tags/java/">java</a><a href="/public/tags/python/">python</a>
     </span>
     
 
@@ -271,7 +293,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 CHEUHXG
+    &copy; 2021 CHEUHXG
     
   </p>
 </footer>

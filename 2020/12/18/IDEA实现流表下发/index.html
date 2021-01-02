@@ -54,10 +54,6 @@
       
         <li><a href="/archives">Archives</a></li>
       
-        <li><a href="/categories">Categories</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
     </ul>
   </nav>
 </header>
@@ -100,6 +96,7 @@
 <blockquote>
 <p>此处利用了<code>networkx</code>的<code>Graph</code>图结构；<code>json</code>用于将数据转化为字典集；sdn_net是之前写的流表下发和拓扑抽象的脚本，此处引用其中的函数<del>其实就是懒</del></p>
 </blockquote>
+<a id="more"></a>
 </li>
 <li><p>调用北向接口获取链路信息</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">G = nx.Graph()</span><br><span class="line">status,resp = sn.get_links(ip)</span><br><span class="line">resp = json.loads(resp)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> resp[<span class="string">&quot;links&quot;</span>]:</span><br><span class="line">     G.add_edge(i[<span class="string">&quot;src&quot;</span>][<span class="string">&quot;device&quot;</span>],i[<span class="string">&quot;dst&quot;</span>][<span class="string">&quot;device&quot;</span>])</span><br></pre></td></tr></table></figure>
@@ -167,7 +164,7 @@
 
     <span class="post-categories">
       <i class="icon-categories"></i>
-        <a href="/categories/categories/">blog</a>
+        <a href="/public/categories/blog/">blog</a>
     </span>
     
 
@@ -176,7 +173,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/tags/sdn/">sdn</a><a href="/tags/java/">java</a><a href="/tags/python/">python</a>
+        <a href="/public/tags/sdn/">sdn</a><a href="/public/tags/java/">java</a><a href="/public/tags/python/">python</a>
     </span>
     
 
@@ -201,7 +198,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 CHEUHXG
+    &copy; 2021 CHEUHXG
     
   </p>
 </footer>
