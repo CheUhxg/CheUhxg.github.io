@@ -15,7 +15,7 @@
 
   
   
-  <meta name="keywords" content="writeup,课程">
+  <meta name="keywords" content="课程,writeup">
   
 
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
@@ -95,7 +95,6 @@
 <li>世间万物皆有运行规律，掌握规律才能使人类与自然和谐共生 <strong>可处理性</strong></li>
 </ul>
 <a id="more"></a>
-
 <h2 id="1-2-测试点-1-2"><a href="#1-2-测试点-1-2" class="headerlink" title="1.2 测试点 1-2"></a>1.2 测试点 1-2</h2><p>信息安全CIA三要素：<strong>保密性、完整性、可用性</strong>。</p>
 <p>其他安全属性：<strong>真实性、抗抵赖、可靠性、可控性</strong>。</p>
 <p>安全威胁：<strong>人为威胁</strong>(黑客、内部人员)、<strong>非人为威胁</strong>(自然灾害、突发事件)</p>
@@ -170,7 +169,7 @@
 <li><p>信息安全是<strong>国家安全</strong>不可分割的一部分。</p>
 </li>
 </ol>
-<h2 id="1-5-测试点-1-5"><a href="#1-5-测试点-1-5" class="headerlink" title="1.5 测试点 1-5"></a>1.5 测试点 1-5</h2><p>安全层次：**物理安全(基础设施)、运行安全(应用环境)、数据安全(处理对象)、内容安全(语义内容)、管理安全(使用主体)**。</p>
+<h2 id="1-5-测试点-1-5"><a href="#1-5-测试点-1-5" class="headerlink" title="1.5 测试点 1-5"></a>1.5 测试点 1-5</h2><p>安全层次：<strong>物理安全(基础设施)、运行安全(应用环境)、数据安全(处理对象)、内容安全(语义内容)、管理安全(使用主体)</strong>。</p>
 <ul>
 <li>物理安全：指对网络及信息系统<strong>物理装备</strong>的保护。<strong>（基础设施）</strong></li>
 <li>运行安全：指对网络及信息系统的<strong>运行过程</strong>和<strong>运行状态</strong>的保护。<strong>（应用环境）</strong></li>
@@ -192,12 +191,12 @@
 <p>（2） <strong>Politics强、业务精、作风好</strong>（坚定的Politics立场，过硬的职业技能，优秀的职业道德，严谨的工作作风）。</p>
 <h1 id="第2讲-信息安全技术概述"><a href="#第2讲-信息安全技术概述" class="headerlink" title="第2讲 信息安全技术概述"></a>第2讲 信息安全技术概述</h1><h2 id="2-1-测试点-2-1"><a href="#2-1-测试点-2-1" class="headerlink" title="2.1 测试点 2-1"></a>2.1 测试点 2-1</h2><blockquote>
 <p>密码学 = 隐藏 + 信息</p>
-</blockquote>
 <ul>
 <li>对称加密：<code>DES</code>、<code>AES</code>、<code>RC5</code>、<code>SM4</code></li>
 <li>公钥加密：<code>RSA</code>、<code>ECC</code>、<code>ElGamal</code>、背包算法、<code>Rabin</code></li>
 <li>哈希加密：<code>MD5</code>、<code>SHA</code>、<code>SHA-1</code></li>
 </ul>
+</blockquote>
 <p>（1） 密码学是什么？其研究工作分为哪两个方向？</p>
 <p>（2） 密码学发展经历了那几个阶段？每个阶段的特点是什么？</p>
 <p>（3） 依据密码体制的定义，给出对凯撒密码体制的明文空间、密文空间、加密方法、解密方法、密钥空间的描述。</p>
@@ -227,11 +226,11 @@
 <li>古典密码<ul>
 <li>基于<strong>变换</strong>的思想。<ul>
 <li>能有针对性地设计算法。</li>
-<li>安全性依赖**变换参数(密钥)**的保密。</li>
+<li>安全性依赖<strong>变换参数</strong>(密钥)的保密。</li>
 </ul>
 </li>
 <li>安全性较古代加密有所提高。<ul>
-<li>可以**更换变换参数(密钥)**。</li>
+<li>可以<strong>更换变换参数</strong>(密钥)。</li>
 </ul>
 </li>
 </ul>
@@ -265,11 +264,13 @@
 </ul>
 <p>（4） 对称加密需要<strong>n(n-1)/2</strong>个，公钥加密需要<strong>n</strong>对密钥。</p>
 <p>（5）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt; #include &lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> passwd[<span class="number">100</span>], encrypted[<span class="number">100</span>]; <span class="keyword">int</span> i, j, k, t, move;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;Enter message to be encrypted:&quot;</span>);</span><br><span class="line">    	gets(passwd);</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;Enter shift amount(1-25):&quot;</span>); 						<span class="built_in">scanf</span>(<span class="string">&quot;%d%*c&quot;</span>,&amp;move);</span><br><span class="line">    	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="built_in">strlen</span>(passwd); i++)&#123;</span><br><span class="line">    		<span class="keyword">if</span>(passwd[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; passwd[i] &lt;= <span class="string">&#x27;Z&#x27;</span>)&#123;</span><br><span class="line">    			passwd[i] = ((passwd[i]-<span class="string">&#x27;A&#x27;</span>)+move)%<span class="number">26</span>+<span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    		&#125;</span><br><span class="line">    		<span class="keyword">else</span> <span class="keyword">if</span>(passwd[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; passwd[i] &lt;= <span class="string">&#x27;z&#x27;</span>)&#123;</span><br><span class="line">    			passwd[i] = ((passwd[i]-<span class="string">&#x27;a&#x27;</span>)+move)%<span class="number">26</span>+<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    		&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>,passwd); <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> passwd[<span class="number">100</span>], encrypted[<span class="number">100</span>]; <span class="keyword">int</span> i, j, k, t, move;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;Enter message to be encrypted:&quot;</span>);</span><br><span class="line">    	gets(passwd);</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;Enter shift amount(1-25):&quot;</span>);</span><br><span class="line">    	<span class="built_in">scanf</span>(<span class="string">&quot;%d%*c&quot;</span>,&amp;move);</span><br><span class="line">    	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="built_in">strlen</span>(passwd); i++)&#123;</span><br><span class="line">    		<span class="keyword">if</span>(passwd[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; passwd[i] &lt;= <span class="string">&#x27;Z&#x27;</span>)&#123;</span><br><span class="line">    			passwd[i] = ((passwd[i]-<span class="string">&#x27;A&#x27;</span>)+move)%<span class="number">26</span>+<span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    		&#125;</span><br><span class="line">    		<span class="keyword">else</span> <span class="keyword">if</span>(passwd[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; passwd[i] &lt;= <span class="string">&#x27;z&#x27;</span>)&#123;</span><br><span class="line">    			passwd[i] = ((passwd[i]-<span class="string">&#x27;a&#x27;</span>)+move)%<span class="number">26</span>+<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    		&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>,passwd); <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="2-2-测试点-2-2"><a href="#2-2-测试点-2-2" class="headerlink" title="2.2 测试点 2-2"></a>2.2 测试点 2-2</h2><p><strong>容错和容灾</strong>可提高系统的<strong>可靠性</strong>。</p>
 <ul>
-<li>容错：应对系统中普遍存在的<strong>一般性故障</strong>（包括设备故障，人为操作失误等）采取的技术手段，如双机热备系统，分布式处理系统。</li>
+<li>容错：应对系统中普遍存在的<strong>一般性故障</strong>（包括设备故障，人为操作失误等）采取的技术手段，如双机热备系统，分布式处理系统。<ul>
 <li>容灾：针对<strong>突发性灾难事故</strong>（ 包括地震、飓风等严重自然灾害，恐怖袭击等人为灾难）的预防和恢复采取的技术手段，如建立异地的灾难备份中心。</li>
+</ul>
+</li>
 </ul>
 <p>（1） 物理安全包括那些方面？解决物理安全的技术途径有哪些？</p>
 <p>（2） 手机是当前社会环境下重要的个人信息设备，为保护手机的物理安全，谈谈你是如何做的？</p>
@@ -293,8 +294,9 @@
 <p>（2）提示物理安全包括<strong>实体、环境和管理安全</strong>，手机有没有对本身的保护措施，防摔、防盗、防水等？对使用环境有没有注意，高湿、高腐蚀环境等？管理上有没有随意放置等行为？</p>
 <p>（3）电磁屏蔽，此外还有电磁抑制和电磁干扰手段。</p>
 <p>（4）<strong>避错、纠错、容错和容灾</strong>。异地主要是最大限度提高系统的可靠性，在空间上规避灾难带来的风险。</p>
-<p>（5）<br>$$<br>P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}<br>$$</p>
-<h2 id="2-3-测试点-2-3"><a href="#2-3-测试点-2-3" class="headerlink" title="2.3 测试点 2-3"></a>2.3 测试点 2-3</h2><p>身份认证技术应用与实例：</p>
+<p>（5） </p>
+<script type="math/tex; mode=display">
+P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><a href="#2-3-测试点-2-3" class="headerlink" title="2.3 测试点 2-3"></a>2.3 测试点 2-3</h2><p>身份认证技术应用与实例：</p>
 <ul>
 <li>静态认证：登录系统的口令是用户自己设定的特殊字符串。<ul>
 <li>优点：技术实现<strong>简单</strong></li>
@@ -314,10 +316,11 @@
 <li>多因子认证(<code>U盾</code>)：利用<code>USBKey</code>内置的密码算法实现对用户身份的认证。<ul>
 <li>认证因子：<code>U盾</code>及其<code>PIN</code>码</li>
 <li>优点：<strong>安全性</strong>高</li>
-<li>缺点：需要<strong>硬件支持</strong>，实现较为<strong>复杂</strong><br>（1） 常见的身份认证方法有哪几种？分别列举出你具体使用过认证方法实例？</li>
+<li>缺点：需要<strong>硬件支持</strong>，实现较为<strong>复杂</strong></li>
 </ul>
 </li>
 </ul>
+<p>（1） 常见的身份认证方法有哪几种？分别列举出你具体使用过认证方法实例？</p>
 <p>（2） 身份认证技术是如何划分的？手机网银支付的认证属于哪一类认证技术，需要提供哪些认证凭据？</p>
 <p>（3） 有人说“刷脸认证”是最安全的认证方式，你认为这种说法是否正确？为什么？（提示：可以“图像对抗攻击”为关键词进行查询）</p>
 <p>答：</p>
@@ -329,14 +332,14 @@
 </ul>
 <p>（2）</p>
 <ol>
-<li>身份认证技术分类</li>
-</ol>
+<li><p>身份认证技术分类</p>
 <ul>
 <li>数目：<strong>单因子、双因子、多因子</strong></li>
 <li>状态：<strong>静态认证、动态认证</strong></li>
 </ul>
-<ol start="2">
-<li>多因子动态认证，手机网银登录口令、支付口令和验证码。</li>
+</li>
+<li><p>多因子动态认证，手机网银登录口令、支付口令和验证码。</p>
+</li>
 </ol>
 <p>（3） 不正确，第一生物特征认证同样<strong>存在泄露风险</strong>，且泄露后很难修改。目前，对刷脸等生物特征认证也有针对性的攻击手段，如通过图像对抗攻击绕过认证过程。</p>
 <h2 id="2-4-测试点-2-4"><a href="#2-4-测试点-2-4" class="headerlink" title="2.4 测试点 2-4"></a>2.4 测试点 2-4</h2><p>访问控制三要素</p>
@@ -360,6 +363,7 @@
 </ul>
 </li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -369,7 +373,8 @@
 <th>适用场景</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>自主访问控制</td>
 <td>灵活性强</td>
 <td>无法控制权限传递</td>
@@ -387,11 +392,12 @@
 <td>实现复杂</td>
 <td>对用户有明确职能划分的业务应用系统</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>访问控制机制</p>
 <ul>
-<li><p>访问控制矩阵(<code>ACM</code>)</p>
-<ul>
+<li>访问控制矩阵(<code>ACM</code>)<ul>
 <li>通过<strong>二维矩阵</strong>形式表示访问控制规则和授权用户权限的方法。</li>
 </ul>
 </li>
@@ -406,6 +412,7 @@
 </ul>
 </li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -415,7 +422,8 @@
 <th>适用场景</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>ACM</td>
 <td>完整体现访问控制策略</td>
 <td>矩阵的大小随主体客体数量成几何级数增长，冗余大，管理困难</td>
@@ -433,9 +441,12 @@
 <td>权限回收困难</td>
 <td>适用于分布式系统，用户量大且不稳定；</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>（1） <code>ACL</code> 和 <code>ACCL</code> 各自有什么优缺点？请举例进行说明。</p>
-<p>（2） 系统中有三个用户 <code>Usr1</code>，<code>Usr2</code> 和 <code>Usr3</code>。<br><code>Usr1</code> 创建了日志文件 <code>File1</code>，允许<code>Usr2</code> 向文件中写入操作记录，允许 <code>Usr3</code> 打开文件查看 <code>Usr2</code> 的操作记录；<br><code>Usr2</code> 创建了一个通信进程，该通信进程允许 <code>Usr1</code> 收发消息，但只允许 <code>Usr3</code> 接收消息；<br><code>Usr3</code> 创建了一个共享存储区，允许 <code>Usr1</code> 读存储区内容，<code>Usr2</code> 读写存储区内容。根据上述描述，画出对应的 <code>ACL</code> 和 <code>ACCL</code>。</p>
+<p>（2） 系统中有三个用户 <code>Usr1</code>，<code>Usr2</code> 和 <code>Usr3</code>。<br><code>Usr1</code> 创建了日志文件 <code>File1</code>，允许<code>Usr2</code> 向文件中写入操作记录，允许 <code>Usr3</code> 打开文件查看 <code>Usr2</code> 的操作记录；<br><code>Usr2</code> 创建了一个通信进程，该通信进程允许 <code>Usr1</code> 收发消息，但只允许 <code>Usr3</code> 接收消息；<br><code>Usr3</code> 创建了一个共享存储区，允许 <code>Usr1</code> 读存储区内容，<code>Usr2</code> 读写存储区内容。</p>
+<p>根据上述描述，画出对应的 <code>ACL</code> 和 <code>ACCL</code>。</p>
 <p>（3） 能否使用 <code>ACL</code> 或 <code>ACCL</code> 机制来实现基于角色的访问控制？如果不能，你能否给出实现 <code>RBAC</code> 的技术思路？</p>
 <p>（4） 在 <code>Windows</code> 操作系统中建立一个文件，并对文件的访问权限进行管理，判断<code>Windows</code> 操作系统采用的访问控制模型，说明自己的判断理由。</p>
 <p>答：</p>
@@ -452,7 +463,7 @@
 </ul>
 </li>
 </ul>
-<p>（2） 答：<code>ACL</code> 是以<strong>客体为中心</strong>建立的访问控制列表，<code>ACCL</code> 是以<strong>主体为中心</strong>建立的访问控制列表，具体如下。<br><img src="https://img-blog.csdnimg.cn/20201231000915266.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="a"><br>（3） 不能够直接使用 <code>ACL</code> 或 <code>ACCL</code> 来实现 <code>RBAC</code>，因为在 <code>RBAC</code> 中采用了<strong>角色</strong>作为权限分配的桥梁，需要在 <code>ACL</code> 或 <code>ACCL </code>的基础上增加用于建立角色—权限许可，主体—角色关联的数据结构。主要包括：用户表、角色表、权限表、角色权限表和用户角色表。</p>
+<p>（2） 答：<code>ACL</code> 是以<strong>客体为中心</strong>建立的访问控制列表，<code>ACCL</code> 是以<strong>主体为中心</strong>建立的访问控制列表，具体如下。<br><img src="https://img-blog.csdnimg.cn/20201231000915266.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="a"><br>（3） 不能够直接使用 <code>ACL</code> 或 <code>ACCL</code> 来实现 <code>RBAC</code>，因为在 <code>RBAC</code> 中采用了<strong>角色</strong>作为权限分配的桥梁，需要在 <code>ACL</code> 或 <code>ACCL</code>的基础上增加用于建立角色—权限许可，主体—角色关联的数据结构。主要包括：用户表、角色表、权限表、角色权限表和用户角色表。</p>
 <p>（4） 自主访问控制，因为<strong>权限直接和用户关联</strong>，且可以有创建者（拥有者）管理。</p>
 <h1 id="第3讲-信息安全的攻与防"><a href="#第3讲-信息安全的攻与防" class="headerlink" title="第3讲 信息安全的攻与防"></a>第3讲 信息安全的攻与防</h1><h2 id="3-1-测试点-3-1"><a href="#3-1-测试点-3-1" class="headerlink" title="3.1 测试点 3-1"></a>3.1 测试点 3-1</h2><p>攻击者角度的攻击</p>
 <ul>
@@ -502,6 +513,7 @@
 <p>答：</p>
 <p>（1）有可能被植入<strong>恶意代码</strong>，对计算机系统的<strong>保密性、完整性和可用性</strong>都可能造成破坏，<strong>信息泄露、信息伪造、完整性破坏</strong>等威胁都会存在。（可举例说明）</p>
 <p>（2）</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -511,10 +523,11 @@
 <th>专属特征</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>传统型病毒</td>
 <td>寄生性、传染性、潜伏性、触发性和破坏性</td>
-<td>良性（干扰计算机执行）、恶性（破坏文件系统，删除数  据……）</td>
+<td>良性（干扰计算机执行）、恶性（破坏文件系统，删除数据……）</td>
 <td>寄生性</td>
 </tr>
 <tr>
@@ -529,7 +542,9 @@
 <td>信息窃取、远程控制</td>
 <td>远程控制</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h2 id="3-2-测试点-3-2"><a href="#3-2-测试点-3-2" class="headerlink" title="3.2 测试点 3-2"></a>3.2 测试点 3-2</h2><ul>
 <li><p>拒绝服务攻击(<code>DOS</code>)</p>
 <ul>
@@ -686,7 +701,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/public/tags/writeup/">writeup</a><a href="/public/tags/课程/">课程</a>
+        <a href="/public/tags/课程/">课程</a><a href="/public/tags/writeup/">writeup</a>
     </span>
     
 

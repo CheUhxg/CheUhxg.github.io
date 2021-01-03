@@ -85,28 +85,22 @@
       
         <h1 id="组表效果实现"><a href="#组表效果实现" class="headerlink" title="组表效果实现"></a>组表效果实现</h1><h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
 <h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
-<li><p>组表号<code>groupId</code>:标识组表，用于组表区分</p>
-</li>
+<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
 <li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
 <ul>
 <li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
 </li>
 <li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
 </li>
-<li><p><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</p>
-</li>
-<li><p><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</p>
-</li>
+<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
+<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
 </ul>
 </li>
-<li><p>计数器<code>counters</code>:记录处理过的报文数</p>
-</li>
-<li><p>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</p>
-</li>
+<li>计数器<code>counters</code>:记录处理过的报文数</li>
+<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
 </ul>
 <p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt="group table"></p>
 <a id="more"></a>
-
 <h2 id="0x01-实验拓扑"><a href="#0x01-实验拓扑" class="headerlink" title="0x01 实验拓扑"></a>0x01 实验拓扑</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>组播组外的主机向任一组播主机发送的数据包，能够被组播组所有主机接收。</p>
 <h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><ul>
 <li><code>h0</code>为非组播主机，负责发送数据包到组播段。</li>
@@ -120,7 +114,6 @@
 </li>
 <li><p>找到组播交换机对应端口</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># get ports</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> resp_port[<span class="string">&quot;hosts&quot;</span>]:</span><br><span class="line">    <span class="keyword">if</span> i[<span class="string">&quot;locations&quot;</span>][<span class="number">0</span>][<span class="string">&quot;elementId&quot;</span>] == group_deviceId:</span><br><span class="line">        <span class="comment"># get multicast host</span></span><br><span class="line">        group_ports.append(i[<span class="string">&quot;locations&quot;</span>][<span class="number">0</span>][<span class="string">&quot;port&quot;</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># get link port</span></span><br><span class="line">        link_port = i[<span class="string">&quot;locations&quot;</span>][<span class="number">0</span>][<span class="string">&quot;port&quot;</span>]</span><br><span class="line"><span class="keyword">return</span> group_deviceId, group_ports, link_port</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h3 id="流表组表内容"><a href="#流表组表内容" class="headerlink" title="流表组表内容"></a>流表组表内容</h3><ul>
@@ -129,7 +122,6 @@
 </li>
 <li><p>流表项</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">params = &#123;<span class="string">&quot;appId&quot;</span>: <span class="string">&quot;myApp&quot;</span>&#125;</span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;priority&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="string">&quot;timeout&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">&quot;isPermanent&quot;</span>: <span class="literal">True</span>,</span><br><span class="line">    <span class="string">&quot;deviceId&quot;</span>: deviceId,</span><br><span class="line">    <span class="string">&quot;treatment&quot;</span>: &#123;</span><br><span class="line">         <span class="string">&quot;instructions&quot;</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;GROUP&quot;</span>,</span><br><span class="line">                <span class="string">&quot;groupId&quot;</span>: <span class="number">1</span></span><br><span class="line">            &#125;</span><br><span class="line">         ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;selector&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;criteria&quot;</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;ETH_TYPE&quot;</span>,</span><br><span class="line">                <span class="string">&quot;ethType&quot;</span>: <span class="string">&quot;0x800&quot;</span></span><br><span class="line">             &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;IN_PORT&quot;</span>,</span><br><span class="line">                <span class="string">&quot;port&quot;</span>: link_port</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h2 id="0x03-存在问题"><a href="#0x03-存在问题" class="headerlink" title="0x03 存在问题"></a>0x03 存在问题</h2><h3 id="和组播实现有一定距离"><a href="#和组播实现有一定距离" class="headerlink" title="和组播实现有一定距离"></a>和组播实现有一定距离</h3><ul>
