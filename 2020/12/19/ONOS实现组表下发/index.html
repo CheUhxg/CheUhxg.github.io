@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ONOS实现组表下发 | CHEUHXG | TEND TO BE A HACKER</title>
+  <title>ONOS实现SDN网络组播 | CHEUHXG | TEND TO BE A HACKER</title>
 
   
   <meta name="author" content="CHEUHXG">
@@ -22,7 +22,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <meta property="og:title" content="ONOS实现组表下发"/>
+  <meta property="og:title" content="ONOS实现SDN网络组播"/>
 
   <meta property="og:site_name" content="CHEUHXG"/>
 
@@ -63,7 +63,7 @@
 
   
     
-    <h3 class="article-title"><span>ONOS实现组表下发</span></h3>
+    <h3 class="article-title"><span>ONOS实现SDN网络组播</span></h3>
     
   
 
@@ -156,6 +156,42 @@
 <h3 id="修改组表">修改组表</h3>
 <ul>
 <li>将转发命令精确到每个组播主机。</li>
+</ul>
+<h2 id="x05-方案实践">0x05 方案实践</h2>
+<h3 id="添加组播组">添加组播组</h3>
+<ul>
+<li><p>将组播组按照规定格式存入<code>GROUPS</code>组</p>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GROUPS = [&#123;<span class="string">&quot;deviceId&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;port&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;vlan&quot;</span>:<span class="string">&quot;192.168.0.1&quot;</span>,<span class="string">&quot;ip&quot;</span>:[<span class="string">&quot;10.0.1.1&quot;</span>,<span class="string">&quot;10.0.1.2&quot;</span>],<span class="string">&quot;HostPort&quot;</span>:[],<span class="string">&quot;mac&quot;</span>: &#123;&#125;&#125;]</span><br></pre></td></tr></table></figure></p></li>
+<li><p>在获取拓扑过程中完善<code>GROUPS</code>中信息</p></li>
+</ul>
+<h3 id="修改数据目的信息">修改数据目的信息</h3>
+<ul>
+<li><p>通过组表的动作桶修改数据包目的<code>IP</code>和<code>MAC</code>，使得转发后目的主机能够接收响应</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">instruction = [&#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;L2MODIFICATION&quot;</span>,<span class="string">&quot;subtype&quot;</span>: <span class="string">&quot;ETH_DST&quot;</span>,<span class="string">&quot;mac&quot;</span>: GROUPS[groupId][<span class="string">&quot;mac&quot;</span>][GROUPS[groupId][<span class="string">&quot;ip&quot;</span>][i]]&#125;,</span><br><span class="line">               &#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;L3MODIFICATION&quot;</span>,<span class="string">&quot;subtype&quot;</span>:<span class="string">&quot;IPV4_DST&quot;</span>,<span class="string">&quot;ip&quot;</span>:GROUPS[groupId][<span class="string">&quot;ip&quot;</span>][i]&#125;,</span><br><span class="line">               &#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;OUTPUT&quot;</span>,<span class="string">&quot;port&quot;</span>:GROUPS[groupId][<span class="string">&quot;HostPort&quot;</span>][i]&#125;,]</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="设置vlan">设置vlan</h3>
+<ul>
+<li><p>要<code>ping</code>的组播段<code>IP</code>与<code>GROUPS</code>中组播段匹配</p>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vlanIp = <span class="string">&quot;192.168.0.1&quot;</span></span><br></pre></td></tr></table></figure></p></li>
+<li><p><code>vlan</code>默认挂载在组播组第一个主机直连的<code>SDN</code>交换机端口，组播的信息需要经过该端口进行复制转发</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Source to vlan</span></span><br><span class="line">dstPort = GROUPS[groupId][<span class="string">&quot;deviceId&quot;</span>]+<span class="string">&quot; &quot;</span>+GROUPS[groupId][<span class="string">&quot;port&quot;</span>]</span><br><span class="line">path = sn.get_path(srcIp, dstPort)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="x06-改进效果展示">0x06 改进效果展示</h2>
+<h3 id="ping组播段内主机">ping组播段内主机</h3>
+<ul>
+<li><p>得到重复回复</p>
+<figure>
+<img src="https://ftp.bmp.ovh/imgs/2021/01/53fc0bc9351b0de2.png" alt="1" /><figcaption>1</figcaption>
+</figure></li>
+<li><p>说明<code>10.0.1.2</code>能够接收<code>10.0.0.1</code>发送给<code>10.0.1.1</code>的报文</p></li>
+</ul>
+<h3 id="基于vlc实现视频流转发">基于VLC实现视频流转发</h3>
+<ul>
+<li><p>源(<code>10.0.0.1</code>)发送视频流至目的(<code>10.0.1.1</code>)</p>
+<figure>
+<img src="https://ftp.bmp.ovh/imgs/2021/01/799fdfb13a4f6375.png" alt="2" /><figcaption>2</figcaption>
+</figure></li>
+<li><p>组播段其余主机(<code>10.0.1.2</code>)也收到视频流，效果实现</p></li>
 </ul>
 
       
