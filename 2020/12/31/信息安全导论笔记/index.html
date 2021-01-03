@@ -83,7 +83,9 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="第1讲-初始信息安全"><a href="#第1讲-初始信息安全" class="headerlink" title="第1讲 初始信息安全"></a>第1讲 初始信息安全</h1><h2 id="1-1-测试点-1-1"><a href="#1-1-测试点-1-1" class="headerlink" title="1.1 测试点 1-1"></a>1.1 测试点 1-1</h2><p>信息的特性：<strong>普遍性、价值性、共享性、传递性、时效性、载体依附性、真伪性、可处理性</strong></p>
+        <h1 id="第1讲-初始信息安全">第1讲 初始信息安全</h1>
+<h2 id="测试点-1-1">1.1 测试点 1-1</h2>
+<p>信息的特性：<strong>普遍性、价值性、共享性、传递性、时效性、载体依附性、真伪性、可处理性</strong></p>
 <p>（1）以下描述中体现了信息的何种特性</p>
 <ul>
 <li>书中自有黄金屋，书中自有颜如玉 <strong>价值性</strong></li>
@@ -95,7 +97,8 @@
 <li>世间万物皆有运行规律，掌握规律才能使人类与自然和谐共生 <strong>可处理性</strong></li>
 </ul>
 <a id="more"></a>
-<h2 id="1-2-测试点-1-2"><a href="#1-2-测试点-1-2" class="headerlink" title="1.2 测试点 1-2"></a>1.2 测试点 1-2</h2><p>信息安全CIA三要素：<strong>保密性、完整性、可用性</strong>。</p>
+<h2 id="测试点-1-2">1.2 测试点 1-2</h2>
+<p>信息安全CIA三要素：<strong>保密性、完整性、可用性</strong>。</p>
 <p>其他安全属性：<strong>真实性、抗抵赖、可靠性、可控性</strong>。</p>
 <p>安全威胁：<strong>人为威胁</strong>(黑客、内部人员)、<strong>非人为威胁</strong>(自然灾害、突发事件)</p>
 <p>安全攻击：<strong>被动攻击</strong>(网络监听)、<strong>主动攻击</strong>(改写)</p>
@@ -103,15 +106,17 @@
 <li><p>信息的安全属性在不同应用环境下的重要性（优先级）是不一样的，思考以下应用场景，给出你自己对系统中保密性、完整性和可用性的优先级判断并说明理由。</p>
 <p><strong>（A）</strong> 学校的门户网站，包括院系介绍，教师社区，课程资源等服务内容；</p>
 <p><strong>（B）</strong> 电力部门的输送电控制系统，包括电力终端设备状态监控、电力配送调度管理等服务内容；</p>
-<p><strong>（C）</strong> 某研究所的科研成果管理系统，包括产品设计方案管理，实验测试参数管理等服务内容。</p>
-</li>
+<p><strong>（C）</strong> 某研究所的科研成果管理系统，包括产品设计方案管理，实验测试参数管理等服务内容。</p></li>
 </ul>
-<p>答：<br><strong>（A）</strong>中<strong>完整性&gt;可用性&gt;保密性</strong>，因为门户网站主要功能是发布信息，首先要保障信息的真实有效，不能被非授权修改，其实需要较高的可用性以方便访问， 不存在涉密信息因此保密性要求最低；</p>
+<p>答： <strong>（A）</strong>中<strong>完整性&gt;可用性&gt;保密性</strong>，因为门户网站主要功能是发布信息，首先要保障信息的真实有效，不能被非授权修改，其实需要较高的可用性以方便访问， 不存在涉密信息因此保密性要求最低；</p>
 <p><strong>（B）</strong>中<strong>可用性&gt;完整性&gt;保密性</strong>，输送电控制系统为实时控制系统，因此具有高可用性要求，系统完整性是高可用性的必要保障，同时系统中不存储特殊的敏感信息；</p>
 <p><strong>（C）</strong>中<strong>保密性&gt;完整性&gt;可用性</strong>，系统中数据具有敏感性，不能泄露，对数据的修改也需要在授权条件下，非实时控制系统相对而言可用性要求不高。</p>
-<h2 id="1-3-测试点-1-3"><a href="#1-3-测试点-1-3" class="headerlink" title="1.3 测试点 1-3"></a>1.3 测试点 1-3</h2><p>安全威胁的基本类型：<strong>信息泄露、信息伪造、完整性破坏、业务否决或拒绝服务、未授权访问</strong>。</p>
-<p>(1) 场景一：用户 A 发送文件给用户 B。文件中包含需要保护的敏感信息，没有被授权阅读文件的用户 C 可以监听到文件发送的过程，并在文件传输过程中获得了一份文件的副本。</p>
-<p>(2) 场景二：网络管理员 D 发送包含用户授权信息的消息给计算机 E，计算机 E 接收后会自动更新本地的授权文件。用户 F 截取了消息，修改后发送给计算机 E， 后者接收后认为来自于管理员 D，之后相应地更新了授权文件。</p>
+<h2 id="测试点-1-3">1.3 测试点 1-3</h2>
+<p>安全威胁的基本类型：<strong>信息泄露、信息伪造、完整性破坏、业务否决或拒绝服务、未授权访问</strong>。</p>
+<ol type="1">
+<li><p>场景一：用户 A 发送文件给用户 B。文件中包含需要保护的敏感信息，没有被授权阅读文件的用户 C 可以监听到文件发送的过程，并在文件传输过程中获得了一份文件的副本。</p></li>
+<li><p>场景二：网络管理员 D 发送包含用户授权信息的消息给计算机 E，计算机 E 接收后会自动更新本地的授权文件。用户 F 截取了消息，修改后发送给计算机 E， 后者接收后认为来自于管理员 D，之后相应地更新了授权文件。</p></li>
+</ol>
 <p><strong>（A）</strong> 上述场景中何种信息安全属性受到了破坏？</p>
 <p><strong>（B）</strong> 上述场景中存在的安全威胁是什么？属于哪种威胁？</p>
 <p><strong>（C）</strong> 实施的攻击行为属于哪种类型？</p>
@@ -119,57 +124,50 @@
 <p><strong>（A）</strong>:(1)中保密性受到破坏，(2)中完整性受到破坏；</p>
 <p><strong>（B）</strong>:(1)信息泄露，(2)完整性破坏，均属于人为威胁；</p>
 <p><strong>（C）</strong>:(1)属于被动攻击；(2)属于主动攻击。</p>
-<h2 id="1-4-测试点-1-4"><a href="#1-4-测试点-1-4" class="headerlink" title="1.4 测试点 1-4"></a>1.4 测试点 1-4</h2><p>(1) 信息安全发展主要经历了哪些阶段，每一阶段的特征和标志性成果是什么？</p>
-<p>(2) 对信息安全有哪些基本认识？请举例进行说明。</p>
-<p>答：<br>(1)</p>
-<ol>
-<li><p>通信安全</p>
+<h2 id="测试点-1-4">1.4 测试点 1-4</h2>
+<ol type="1">
+<li><p>信息安全发展主要经历了哪些阶段，每一阶段的特征和标志性成果是什么？</p></li>
+<li><p>对信息安全有哪些基本认识？请举例进行说明。</p></li>
+</ol>
+<p>答： (1) 1. 通信安全</p>
 <ul>
-<li><p>特征：主要保障<strong>通信信息</strong>的保密。</p>
-</li>
-<li><p>标志：1949年香农发表的《<strong>保密通信的信息理论</strong>》</p>
-</li>
+<li><p>特征：主要保障<strong>通信信息</strong>的保密。</p></li>
+<li><p>标志：1949年香农发表的《<strong>保密通信的信息理论</strong>》</p></li>
 </ul>
-</li>
+<ol start="2" type="1">
 <li><p>主机安全</p>
 <ul>
 <li>特征：以<strong>保密性、完整性和可用性</strong>为目标的信息安全阶段。</li>
 <li>标志：1983年美国国防部发布的《<strong>可信计算机评估准则</strong>》</li>
-</ul>
-</li>
-<li><p>网络安全</p>
+</ul></li>
+<li>网络安全
 <ul>
 <li>特征：描述了<strong>开放系统互联安全</strong>的体系结构。</li>
 <li>标志：<strong>《ISO7498-2-1989标准》</strong></li>
-</ul>
-</li>
-<li><p>安全保障</p>
+</ul></li>
+<li>安全保障
 <ul>
 <li>特征：由<strong>被动走向主动，从局部发展为全局</strong>。</li>
 <li>标志：1998年制定的《<strong>信息保障技术框架</strong>》</li>
-</ul>
-</li>
-<li><p>网络空间安全</p>
+</ul></li>
+<li>网络空间安全
 <ul>
 <li>特征：是对信息安全重要性认识的成果，不是技术发展的阶段。</li>
 <li>标志：习近平总书记提出“<strong>没有网络安全，就没有国家安全</strong>。”</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<p>(2)</p>
-<ol>
-<li><p>信息安全是<strong>相对的</strong>，没有绝对的安全；</p>
-</li>
-<li><p>信息安全是一个<strong>动态过程</strong>，而不是一个产品(或技术)以及多个产品(或技术)的简单堆叠，<strong>具有生命周期</strong>；</p>
-</li>
-<li><p>信息安全防护是个全面保护的过程，遵循“<strong>木桶原理</strong>”，即一个木桶的容积决定于组成它的最短的一块木板，一个系统的安全强度等于它最薄弱环节的安全强度；</p>
-</li>
-<li><p>信息安全包括<strong>外部和内部的安全</strong>，<strong>人</strong>是安全机制中<strong>最薄弱环节</strong>；</p>
-</li>
-<li><p>信息安全是<strong>国家安全</strong>不可分割的一部分。</p>
-</li>
+<ol start="2" type="1">
+<li></li>
 </ol>
-<h2 id="1-5-测试点-1-5"><a href="#1-5-测试点-1-5" class="headerlink" title="1.5 测试点 1-5"></a>1.5 测试点 1-5</h2><p>安全层次：<strong>物理安全(基础设施)、运行安全(应用环境)、数据安全(处理对象)、内容安全(语义内容)、管理安全(使用主体)</strong>。</p>
+<ol type="1">
+<li><p>信息安全是<strong>相对的</strong>，没有绝对的安全；</p></li>
+<li><p>信息安全是一个<strong>动态过程</strong>，而不是一个产品(或技术)以及多个产品(或技术)的简单堆叠，<strong>具有生命周期</strong>；</p></li>
+<li><p>信息安全防护是个全面保护的过程，遵循“<strong>木桶原理</strong>”，即一个木桶的容积决定于组成它的最短的一块木板，一个系统的安全强度等于它最薄弱环节的安全强度；</p></li>
+<li><p>信息安全包括<strong>外部和内部的安全</strong>，<strong>人</strong>是安全机制中<strong>最薄弱环节</strong>；</p></li>
+<li><p>信息安全是<strong>国家安全</strong>不可分割的一部分。</p></li>
+</ol>
+<h2 id="测试点-1-5">1.5 测试点 1-5</h2>
+<p>安全层次：<strong>物理安全(基础设施)、运行安全(应用环境)、数据安全(处理对象)、内容安全(语义内容)、管理安全(使用主体)</strong>。</p>
 <ul>
 <li>物理安全：指对网络及信息系统<strong>物理装备</strong>的保护。<strong>（基础设施）</strong></li>
 <li>运行安全：指对网络及信息系统的<strong>运行过程</strong>和<strong>运行状态</strong>的保护。<strong>（应用环境）</strong></li>
@@ -181,21 +179,19 @@
 <p>安全机制：用来<strong>实施安全服务</strong>的机制(<strong>技术防范</strong>)。</p>
 <p>（1） 数据安全与内容安全有什么区别？</p>
 <p>（2） 举例说明安全服务与安全机制的关系。</p>
-<p>（3） 移动支付是目前应用最广泛的网络服务之一，以下为消费者在支付过程中的各个环节，请分析在各环节中移动支付系统必须提供的安全服务。请分析在各环节中移动支付系统必须提供的安全服务。<br><img src="https://img-blog.csdnimg.cn/20201231000504829.png" alt="img"></p>
-<p>答：<br>（1）数据安全指对<strong>数据收集、存储、检索、传输</strong>等过程提供的保护，不被非法冒充、窃取、篡改、抵赖。内容安全指依据<strong>信息内涵</strong>判断是否违反特定安全策略，采取相应的安全措施。</p>
+<p>（3） 移动支付是目前应用最广泛的网络服务之一，以下为消费者在支付过程中的各个环节，请分析在各环节中移动支付系统必须提供的安全服务。请分析在各环节中移动支付系统必须提供的安全服务。 <img src="https://img-blog.csdnimg.cn/20201231000504829.png" alt="img" /></p>
+<p>答： （1）数据安全指对<strong>数据收集、存储、检索、传输</strong>等过程提供的保护，不被非法冒充、窃取、篡改、抵赖。内容安全指依据<strong>信息内涵</strong>判断是否违反特定安全策略，采取相应的安全措施。</p>
 <p>（2）安全服务是指系统提供的<strong>安全防护措施</strong>，安全机制用来<strong>实施安全服务</strong>的机制，<strong>服务是需求，机制是手段</strong>，安全服务和安全机制是<strong>多对多</strong>的关系，例如密码技术是一种可以实现数据机密性又能实现数据完整性的机制，反之数据机密性除了用密码技术也可使用业务流填充，路由控制等机制来实现。</p>
 <p>（3）打开支付终端需要提供<strong>身份鉴别服务</strong>，扫描二维码需要提供<strong>访问控制服务</strong>（授权使用摄像头），输入金额并确认需要提供<strong>数据完整性服务</strong>，输入口令并支付需要提供<strong>数据机密性服务</strong>，收到确认结果需要提供<strong>不可否认性服务</strong>。</p>
-<h2 id="1-6-测试点-1-7"><a href="#1-6-测试点-1-7" class="headerlink" title="1.6 测试点 1-7"></a>1.6 测试点 1-7</h2><p>（1）   结合“棱镜门事件”，谈谈对“没有网络安全就没有国家安全”的理解。</p>
-<p>（2）   思考：一名合格的信息安全人才应该具备什么样的素质？</p>
-<p>答：<br>（1）网络安全上升到<strong>国家战略高度</strong>，与<strong>Politics、经济、社会、文化、军事安全</strong>密切相关。棱镜门事件是<strong>利用网络霸权</strong>，威胁国家安全的典型案例。<strong>外部威胁和内部的脆弱性</strong>并存，因此国家安全与网络安全存在密切关联。（<strong>重要性+风险分析= 安全形势</strong>）</p>
+<h2 id="测试点-1-7">1.6 测试点 1-7</h2>
+<p>（1） 结合“棱镜门事件”，谈谈对“没有网络安全就没有国家安全”的理解。</p>
+<p>（2） 思考：一名合格的信息安全人才应该具备什么样的素质？</p>
+<p>答： （1）网络安全上升到<strong>国家战略高度</strong>，与<strong>Politics、经济、社会、文化、军事安全</strong>密切相关。棱镜门事件是<strong>利用网络霸权</strong>，威胁国家安全的典型案例。<strong>外部威胁和内部的脆弱性</strong>并存，因此国家安全与网络安全存在密切关联。（<strong>重要性+风险分析= 安全形势</strong>）</p>
 <p>（2） <strong>Politics强、业务精、作风好</strong>（坚定的Politics立场，过硬的职业技能，优秀的职业道德，严谨的工作作风）。</p>
-<h1 id="第2讲-信息安全技术概述"><a href="#第2讲-信息安全技术概述" class="headerlink" title="第2讲 信息安全技术概述"></a>第2讲 信息安全技术概述</h1><h2 id="2-1-测试点-2-1"><a href="#2-1-测试点-2-1" class="headerlink" title="2.1 测试点 2-1"></a>2.1 测试点 2-1</h2><blockquote>
-<p>密码学 = 隐藏 + 信息</p>
-<ul>
-<li>对称加密：<code>DES</code>、<code>AES</code>、<code>RC5</code>、<code>SM4</code></li>
-<li>公钥加密：<code>RSA</code>、<code>ECC</code>、<code>ElGamal</code>、背包算法、<code>Rabin</code></li>
-<li>哈希加密：<code>MD5</code>、<code>SHA</code>、<code>SHA-1</code></li>
-</ul>
+<h1 id="第2讲-信息安全技术概述">第2讲 信息安全技术概述</h1>
+<h2 id="测试点-2-1">2.1 测试点 2-1</h2>
+<blockquote>
+<p>密码学 = 隐藏 + 信息 * 对称加密：<code>DES</code>、<code>AES</code>、<code>RC5</code>、<code>SM4</code> * 公钥加密：<code>RSA</code>、<code>ECC</code>、<code>ElGamal</code>、背包算法、<code>Rabin</code> * 哈希加密：<code>MD5</code>、<code>SHA</code>、<code>SHA-1</code></p>
 </blockquote>
 <p>（1） 密码学是什么？其研究工作分为哪两个方向？</p>
 <p>（2） 密码学发展经历了那几个阶段？每个阶段的特点是什么？</p>
@@ -203,170 +199,44 @@
 <p>（4） 对称加密和公钥加密在密钥使用上存在差异，试考虑这样的场景：如果有一个单位有 N 名员工，员工间的网络通信需要保密，采用对称加密需要分配多少个密钥？采用公钥加密需要多少个密钥？</p>
 <p>（5） 依据凯撒密码体制的工作原理，编制一个可以实现对英文语句进行加解密转换的 <code>C</code> 语言程序。</p>
 <p>答：</p>
-<p>（1）密码学是研究<strong>编制密码</strong>和<strong>破译密码</strong>的技术科学。</p>
-<ul>
-<li>编码学：研究<strong>密码变化的客观规律</strong>，应用于<strong>编制密码</strong>以保守通信秘密。</li>
-<li>分析学/破译学：应用于<strong>破译密码</strong>以获取通信情报。</li>
-</ul>
-<p>（2） 密码学发展经历了<strong>古代加密、古典密码、近代密码、现代密码</strong>四个阶段。</p>
-<ul>
-<li>古代加密<ul>
-<li>源自对自然的<strong>直接感受</strong>。<ul>
-<li>加密<strong>思想简单</strong>，直观。</li>
-<li><strong>技巧性强</strong>。</li>
-</ul>
-</li>
-<li>安全性依赖<strong>算法本身</strong>保密性。<ul>
-<li><strong>依赖于实物</strong>，不便传输。</li>
-<li>仍有一定安全性。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>古典密码<ul>
-<li>基于<strong>变换</strong>的思想。<ul>
-<li>能有针对性地设计算法。</li>
-<li>安全性依赖<strong>变换参数</strong>(密钥)的保密。</li>
-</ul>
-</li>
-<li>安全性较古代加密有所提高。<ul>
-<li>可以<strong>更换变换参数</strong>(密钥)。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>近代密码<ul>
-<li><strong>数学主导</strong>密码学。</li>
-<li>对<strong>密码安全</strong>有了更深刻的理解。<ul>
-<li>保证密码安全的不是算法，而是<strong>密钥</strong>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>现代密码<ul>
-<li>基于<strong>计算机科学</strong>的发展。<ul>
-<li>不再依赖技巧，以<strong>数学理论</strong>为基础。</li>
-<li>安全性完全依赖于严密的<strong>数学证明</strong>。</li>
-<li>允许引入大量<strong>复杂运算</strong>。</li>
-<li><strong>破解代价极高</strong>，且极度依赖数学的发展。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>（3） </p>
-<ul>
-<li>明文空间：<strong>未加密</strong>信息的集合<code>M</code>。</li>
-<li>密文空间：<strong>加密后</strong>信息的集合<code>C</code>。</li>
-<li>加密方法：处理信息以<strong>隐藏原始内容的过程</strong><code>E</code>。</li>
-<li>解密方法：处理信息以<strong>恢复原始内容的过程</strong><code>D</code>。</li>
-<li>密钥空间：加解密过程中需要<strong>提供的特殊输入</strong>的集合<code>K</code>。</li>
-</ul>
+<p>（1）密码学是研究<strong>编制密码</strong>和<strong>破译密码</strong>的技术科学。 * 编码学：研究<strong>密码变化的客观规律</strong>，应用于<strong>编制密码</strong>以保守通信秘密。 * 分析学/破译学：应用于<strong>破译密码</strong>以获取通信情报。</p>
+<p>（2） 密码学发展经历了<strong>古代加密、古典密码、近代密码、现代密码</strong>四个阶段。 * 古代加密 * 源自对自然的<strong>直接感受</strong>。 * 加密<strong>思想简单</strong>，直观。 * <strong>技巧性强</strong>。 * 安全性依赖<strong>算法本身</strong>保密性。 * <strong>依赖于实物</strong>，不便传输。 * 仍有一定安全性。 * 古典密码 * 基于<strong>变换</strong>的思想。 * 能有针对性地设计算法。 * 安全性依赖<strong>变换参数</strong>(密钥)的保密。 * 安全性较古代加密有所提高。 * 可以<strong>更换变换参数</strong>(密钥)。 * 近代密码 * <strong>数学主导</strong>密码学。 * 对<strong>密码安全</strong>有了更深刻的理解。 * 保证密码安全的不是算法，而是<strong>密钥</strong>。 * 现代密码 * 基于<strong>计算机科学</strong>的发展。 * 不再依赖技巧，以<strong>数学理论</strong>为基础。 * 安全性完全依赖于严密的<strong>数学证明</strong>。 * 允许引入大量<strong>复杂运算</strong>。 * <strong>破解代价极高</strong>，且极度依赖数学的发展。</p>
+<p>（3） * 明文空间：<strong>未加密</strong>信息的集合<code>M</code>。 * 密文空间：<strong>加密后</strong>信息的集合<code>C</code>。 * 加密方法：处理信息以<strong>隐藏原始内容的过程</strong><code>E</code>。 * 解密方法：处理信息以<strong>恢复原始内容的过程</strong><code>D</code>。 * 密钥空间：加解密过程中需要<strong>提供的特殊输入</strong>的集合<code>K</code>。</p>
 <p>（4） 对称加密需要<strong>n(n-1)/2</strong>个，公钥加密需要<strong>n</strong>对密钥。</p>
 <p>（5）</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> passwd[<span class="number">100</span>], encrypted[<span class="number">100</span>]; <span class="keyword">int</span> i, j, k, t, move;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;Enter message to be encrypted:&quot;</span>);</span><br><span class="line">    	gets(passwd);</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;Enter shift amount(1-25):&quot;</span>);</span><br><span class="line">    	<span class="built_in">scanf</span>(<span class="string">&quot;%d%*c&quot;</span>,&amp;move);</span><br><span class="line">    	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="built_in">strlen</span>(passwd); i++)&#123;</span><br><span class="line">    		<span class="keyword">if</span>(passwd[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; passwd[i] &lt;= <span class="string">&#x27;Z&#x27;</span>)&#123;</span><br><span class="line">    			passwd[i] = ((passwd[i]-<span class="string">&#x27;A&#x27;</span>)+move)%<span class="number">26</span>+<span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    		&#125;</span><br><span class="line">    		<span class="keyword">else</span> <span class="keyword">if</span>(passwd[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; passwd[i] &lt;= <span class="string">&#x27;z&#x27;</span>)&#123;</span><br><span class="line">    			passwd[i] = ((passwd[i]-<span class="string">&#x27;a&#x27;</span>)+move)%<span class="number">26</span>+<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    		&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>,passwd); <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="2-2-测试点-2-2"><a href="#2-2-测试点-2-2" class="headerlink" title="2.2 测试点 2-2"></a>2.2 测试点 2-2</h2><p><strong>容错和容灾</strong>可提高系统的<strong>可靠性</strong>。</p>
-<ul>
-<li>容错：应对系统中普遍存在的<strong>一般性故障</strong>（包括设备故障，人为操作失误等）采取的技术手段，如双机热备系统，分布式处理系统。<ul>
-<li>容灾：针对<strong>突发性灾难事故</strong>（ 包括地震、飓风等严重自然灾害，恐怖袭击等人为灾难）的预防和恢复采取的技术手段，如建立异地的灾难备份中心。</li>
-</ul>
-</li>
-</ul>
+<h2 id="测试点-2-2">2.2 测试点 2-2</h2>
+<p><strong>容错和容灾</strong>可提高系统的<strong>可靠性</strong>。 * 容错：应对系统中普遍存在的<strong>一般性故障</strong>（包括设备故障，人为操作失误等）采取的技术手段，如双机热备系统，分布式处理系统。 * 容灾：针对<strong>突发性灾难事故</strong>（ 包括地震、飓风等严重自然灾害，恐怖袭击等人为灾难）的预防和恢复采取的技术手段，如建立异地的灾难备份中心。</p>
 <p>（1） 物理安全包括那些方面？解决物理安全的技术途径有哪些？</p>
 <p>（2） 手机是当前社会环境下重要的个人信息设备，为保护手机的物理安全，谈谈你是如何做的？</p>
 <p>（3） 某单位对机房环境有严格的安全要求，在机房墙体内设置了金属网，请问该措施的目的是什么？除了该措施，还有哪些措施可以用于同样的目的？</p>
 <p>（4） 提高系统可靠性的技术手段主要包括哪些？灾备系统往往被称为异地灾备系统，为什么要强调“异地”？</p>
 <p>（5） 使用分布式系统的主要目的是什么？在分布式系统中通常将任务进行分解， 由统一的任务调度和负载均衡机制将子任务分配到不同的主机上执行，如果一套分布式系统包括 <code>N</code> 台主机，需要至少 <code>T</code>台主机正常工作才能保证任务的基本执行， 每台主机的出现故障的概率为 <code>p</code>，试问该分布式系统正常工作的概率 <code>P</code> 是多少？</p>
-<p>答：<br>（1）物理安全是<strong>保护计算机设备、设施</strong>（网络及通信线路）免遭地震、恐袭、火灾等环境事故和人为操作失误或错误及各种计算机犯罪行为破坏的措施和过程。</p>
-<ul>
-<li>物理安全需求<ul>
-<li>设备安全</li>
-<li>环境安全</li>
-</ul>
-</li>
-<li>解决途径<ul>
-<li>提供防护措施</li>
-<li>提高可靠性</li>
-<li>隔绝危险</li>
-</ul>
-</li>
-</ul>
+<p>答： （1）物理安全是<strong>保护计算机设备、设施</strong>（网络及通信线路）免遭地震、恐袭、火灾等环境事故和人为操作失误或错误及各种计算机犯罪行为破坏的措施和过程。 * 物理安全需求 * 设备安全 * 环境安全 * 解决途径 * 提供防护措施 * 提高可靠性 * 隔绝危险</p>
 <p>（2）提示物理安全包括<strong>实体、环境和管理安全</strong>，手机有没有对本身的保护措施，防摔、防盗、防水等？对使用环境有没有注意，高湿、高腐蚀环境等？管理上有没有随意放置等行为？</p>
 <p>（3）电磁屏蔽，此外还有电磁抑制和电磁干扰手段。</p>
 <p>（4）<strong>避错、纠错、容错和容灾</strong>。异地主要是最大限度提高系统的可靠性，在空间上规避灾难带来的风险。</p>
-<p>（5） </p>
-<script type="math/tex; mode=display">
-P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><a href="#2-3-测试点-2-3" class="headerlink" title="2.3 测试点 2-3"></a>2.3 测试点 2-3</h2><p>身份认证技术应用与实例：</p>
-<ul>
-<li>静态认证：登录系统的口令是用户自己设定的特殊字符串。<ul>
-<li>优点：技术实现<strong>简单</strong></li>
-<li>缺点：安全性<strong>较差</strong></li>
-</ul>
-</li>
-<li>动态认证：客户手持用来生成动态密码的终端。<ul>
-<li>优点：<strong>安全性好</strong></li>
-<li>缺点：需要<strong>硬件支持</strong></li>
-</ul>
-</li>
-<li>指纹认证：依据识别对象的指纹特征进行身份认证。<ul>
-<li>优点：<strong>安全性高</strong></li>
-<li>缺点：一旦特征泄露，难以替换</li>
-</ul>
-</li>
-<li>多因子认证(<code>U盾</code>)：利用<code>USBKey</code>内置的密码算法实现对用户身份的认证。<ul>
-<li>认证因子：<code>U盾</code>及其<code>PIN</code>码</li>
-<li>优点：<strong>安全性</strong>高</li>
-<li>缺点：需要<strong>硬件支持</strong>，实现较为<strong>复杂</strong></li>
-</ul>
-</li>
-</ul>
+<p>（5） <span class="math display">\[
+P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}
+\]</span></p>
+<h2 id="测试点-2-3">2.3 测试点 2-3</h2>
+<p>身份认证技术应用与实例： * 静态认证：登录系统的口令是用户自己设定的特殊字符串。 * 优点：技术实现<strong>简单</strong> * 缺点：安全性<strong>较差</strong> * 动态认证：客户手持用来生成动态密码的终端。 * 优点：<strong>安全性好</strong> * 缺点：需要<strong>硬件支持</strong> * 指纹认证：依据识别对象的指纹特征进行身份认证。 * 优点：<strong>安全性高</strong> * 缺点：一旦特征泄露，难以替换 * 多因子认证(<code>U盾</code>)：利用<code>USBKey</code>内置的密码算法实现对用户身份的认证。 * 认证因子：<code>U盾</code>及其<code>PIN</code>码 * 优点：<strong>安全性</strong>高 * 缺点：需要<strong>硬件支持</strong>，实现较为<strong>复杂</strong></p>
 <p>（1） 常见的身份认证方法有哪几种？分别列举出你具体使用过认证方法实例？</p>
 <p>（2） 身份认证技术是如何划分的？手机网银支付的认证属于哪一类认证技术，需要提供哪些认证凭据？</p>
 <p>（3） 有人说“刷脸认证”是最安全的认证方式，你认为这种说法是否正确？为什么？（提示：可以“图像对抗攻击”为关键词进行查询）</p>
 <p>答：</p>
-<p>（1） 身份认证的方法：提供与身份关联的<strong>验证凭据</strong>。</p>
-<ul>
-<li>口令</li>
-<li>IC卡、密钥</li>
-<li>声纹、指纹</li>
-</ul>
-<p>（2）</p>
-<ol>
-<li><p>身份认证技术分类</p>
-<ul>
-<li>数目：<strong>单因子、双因子、多因子</strong></li>
-<li>状态：<strong>静态认证、动态认证</strong></li>
-</ul>
-</li>
-<li><p>多因子动态认证，手机网银登录口令、支付口令和验证码。</p>
-</li>
+<p>（1） 身份认证的方法：提供与身份关联的<strong>验证凭据</strong>。 * 口令 * IC卡、密钥 * 声纹、指纹</p>
+<p>（2） 1. 身份认证技术分类 * 数目：<strong>单因子、双因子、多因子</strong> * 状态：<strong>静态认证、动态认证</strong></p>
+<ol start="2" type="1">
+<li>多因子动态认证，手机网银登录口令、支付口令和验证码。</li>
 </ol>
 <p>（3） 不正确，第一生物特征认证同样<strong>存在泄露风险</strong>，且泄露后很难修改。目前，对刷脸等生物特征认证也有针对性的攻击手段，如通过图像对抗攻击绕过认证过程。</p>
-<h2 id="2-4-测试点-2-4"><a href="#2-4-测试点-2-4" class="headerlink" title="2.4 测试点 2-4"></a>2.4 测试点 2-4</h2><p>访问控制三要素</p>
-<ul>
-<li>主体：规定可以<strong>访问该资源的实体</strong></li>
-<li>客体：规定需要<strong>保护的资源</strong></li>
-<li>授权：准许某个主体访问某个客体的<strong>权利</strong></li>
-</ul>
-<p>访问控制的模型</p>
-<ul>
-<li>自主访问控制模型(<code>DAC</code>)<ul>
-<li>授权的<strong>实施主体</strong>自主负责<strong>赋予和回收</strong>其他主体对客体资源的<strong>访问权限</strong>。</li>
-</ul>
-</li>
-<li>强制访问控制(<code>MAC</code>)<ul>
-<li>由<strong>系统管理员</strong>统一给出主体和客体的<strong>安全级别</strong>，访问权限取决于主体和客体的安全级别而非主体的身份。</li>
-</ul>
-</li>
-<li>基于角色的访问控制(<code>RBAC</code>)<ul>
-<li><strong>管理员</strong>将访问权限分配给系统定义的<strong>工作角色</strong>，用户通过<strong>角色关联</strong>获得角色所拥有的访问许可权。</li>
-</ul>
-</li>
-</ul>
-<div class="table-container">
+<h2 id="测试点-2-4">2.4 测试点 2-4</h2>
+<p>访问控制三要素 * 主体：规定可以<strong>访问该资源的实体</strong> * 客体：规定需要<strong>保护的资源</strong> * 授权：准许某个主体访问某个客体的<strong>权利</strong></p>
+<p>访问控制的模型 * 自主访问控制模型(<code>DAC</code>) * 授权的<strong>实施主体</strong>自主负责<strong>赋予和回收</strong>其他主体对客体资源的<strong>访问权限</strong>。 * 强制访问控制(<code>MAC</code>) * 由<strong>系统管理员</strong>统一给出主体和客体的<strong>安全级别</strong>，访问权限取决于主体和客体的安全级别而非主体的身份。 * 基于角色的访问控制(<code>RBAC</code>) * <strong>管理员</strong>将访问权限分配给系统定义的<strong>工作角色</strong>，用户通过<strong>角色关联</strong>获得角色所拥有的访问许可权。</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>控制模型类别</th>
 <th>优点</th>
 <th>缺点</th>
@@ -374,19 +244,19 @@ P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>自主访问控制</td>
 <td>灵活性强</td>
 <td>无法控制权限传递</td>
 <td>操作系统等通用基础系统</td>
 </tr>
-<tr>
+<tr class="even">
 <td>强制访问控制</td>
 <td>安全性强</td>
 <td>适用性差</td>
 <td>军队、政府等有安全分级要求的应用系统</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>基于角色访问控制</td>
 <td>适用性广</td>
 <td>实现复杂</td>
@@ -394,28 +264,16 @@ P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><
 </tr>
 </tbody>
 </table>
-</div>
-<p>访问控制机制</p>
+<p>访问控制机制 * 访问控制矩阵(<code>ACM</code>) * 通过<strong>二维矩阵</strong>形式表示访问控制规则和授权用户权限的方法。 * 访问控制列表(<code>ACL</code>) * 以<strong>客体为中心</strong>建立访问权限表。</p>
 <ul>
-<li>访问控制矩阵(<code>ACM</code>)<ul>
-<li>通过<strong>二维矩阵</strong>形式表示访问控制规则和授权用户权限的方法。</li>
-</ul>
-</li>
-<li><p>访问控制列表(<code>ACL</code>)</p>
-<ul>
-<li>以<strong>客体为中心</strong>建立访问权限表。</li>
-</ul>
-</li>
-<li><p>访问控制能力表(<code>ACCL</code>)</p>
+<li>访问控制能力表(<code>ACCL</code>)
 <ul>
 <li>以<strong>主体为中心</strong>建立访问权限表。</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<div class="table-container">
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>机制类别</th>
 <th>优点</th>
 <th>缺点</th>
@@ -423,19 +281,19 @@ P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>ACM</td>
 <td>完整体现访问控制策略</td>
 <td>矩阵的大小随主体客体数量成几何级数增长，冗余大，管理困难</td>
 <td>用户和资源单一的专用系统</td>
 </tr>
-<tr>
+<tr class="even">
 <td>ACL</td>
 <td>权限回收容易</td>
 <td>权限传递困难</td>
 <td>系统需要区分的用户相对较少，并且这些用户大都比较稳定。</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>ACCL</td>
 <td>权限传递简单</td>
 <td>权限回收困难</td>
@@ -443,80 +301,40 @@ P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><
 </tr>
 </tbody>
 </table>
-</div>
 <p>（1） <code>ACL</code> 和 <code>ACCL</code> 各自有什么优缺点？请举例进行说明。</p>
-<p>（2） 系统中有三个用户 <code>Usr1</code>，<code>Usr2</code> 和 <code>Usr3</code>。<br><code>Usr1</code> 创建了日志文件 <code>File1</code>，允许<code>Usr2</code> 向文件中写入操作记录，允许 <code>Usr3</code> 打开文件查看 <code>Usr2</code> 的操作记录；<br><code>Usr2</code> 创建了一个通信进程，该通信进程允许 <code>Usr1</code> 收发消息，但只允许 <code>Usr3</code> 接收消息；<br><code>Usr3</code> 创建了一个共享存储区，允许 <code>Usr1</code> 读存储区内容，<code>Usr2</code> 读写存储区内容。</p>
+<p>（2） 系统中有三个用户 <code>Usr1</code>，<code>Usr2</code> 和 <code>Usr3</code>。 <code>Usr1</code> 创建了日志文件 <code>File1</code>，允许<code>Usr2</code> 向文件中写入操作记录，允许 <code>Usr3</code> 打开文件查看 <code>Usr2</code> 的操作记录； <code>Usr2</code> 创建了一个通信进程，该通信进程允许 <code>Usr1</code> 收发消息，但只允许 <code>Usr3</code> 接收消息； <code>Usr3</code> 创建了一个共享存储区，允许 <code>Usr1</code> 读存储区内容，<code>Usr2</code> 读写存储区内容。</p>
 <p>根据上述描述，画出对应的 <code>ACL</code> 和 <code>ACCL</code>。</p>
 <p>（3） 能否使用 <code>ACL</code> 或 <code>ACCL</code> 机制来实现基于角色的访问控制？如果不能，你能否给出实现 <code>RBAC</code> 的技术思路？</p>
 <p>（4） 在 <code>Windows</code> 操作系统中建立一个文件，并对文件的访问权限进行管理，判断<code>Windows</code> 操作系统采用的访问控制模型，说明自己的判断理由。</p>
 <p>答：</p>
 <p>（1）</p>
 <ul>
-<li><p>访问控制列表(<code>ACL</code>)</p>
+<li>访问控制列表(<code>ACL</code>)
 <ul>
 <li>以客体为中心建立访问权限表的方法。</li>
-</ul>
-</li>
-<li><p>访问控制能力表(<code>ACCL</code>)</p>
+</ul></li>
+<li>访问控制能力表(<code>ACCL</code>)
 <ul>
 <li>以主体为中心建立访问权限表。</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<p>（2） 答：<code>ACL</code> 是以<strong>客体为中心</strong>建立的访问控制列表，<code>ACCL</code> 是以<strong>主体为中心</strong>建立的访问控制列表，具体如下。<br><img src="https://img-blog.csdnimg.cn/20201231000915266.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="a"><br>（3） 不能够直接使用 <code>ACL</code> 或 <code>ACCL</code> 来实现 <code>RBAC</code>，因为在 <code>RBAC</code> 中采用了<strong>角色</strong>作为权限分配的桥梁，需要在 <code>ACL</code> 或 <code>ACCL</code>的基础上增加用于建立角色—权限许可，主体—角色关联的数据结构。主要包括：用户表、角色表、权限表、角色权限表和用户角色表。</p>
+<p>（2） 答：<code>ACL</code> 是以<strong>客体为中心</strong>建立的访问控制列表，<code>ACCL</code> 是以<strong>主体为中心</strong>建立的访问控制列表，具体如下。 <img src="https://img-blog.csdnimg.cn/20201231000915266.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="a" /> （3） 不能够直接使用 <code>ACL</code> 或 <code>ACCL</code> 来实现 <code>RBAC</code>，因为在 <code>RBAC</code> 中采用了<strong>角色</strong>作为权限分配的桥梁，需要在 <code>ACL</code> 或 <code>ACCL</code>的基础上增加用于建立角色—权限许可，主体—角色关联的数据结构。主要包括：用户表、角色表、权限表、角色权限表和用户角色表。</p>
 <p>（4） 自主访问控制，因为<strong>权限直接和用户关联</strong>，且可以有创建者（拥有者）管理。</p>
-<h1 id="第3讲-信息安全的攻与防"><a href="#第3讲-信息安全的攻与防" class="headerlink" title="第3讲 信息安全的攻与防"></a>第3讲 信息安全的攻与防</h1><h2 id="3-1-测试点-3-1"><a href="#3-1-测试点-3-1" class="headerlink" title="3.1 测试点 3-1"></a>3.1 测试点 3-1</h2><p>攻击者角度的攻击</p>
-<ul>
-<li>主动型攻击：如<strong>网络监听</strong>和<strong>黑客攻击</strong>等，这些威胁都是对方人为通过网络通信连接进行的。</li>
-<li>被动型攻击：一般是用户通过某种途径<strong>访问了不当的信息</strong>而受到的攻击。</li>
-</ul>
-<p>攻击手段及破坏方式</p>
-<ul>
-<li>第一类是以传统病毒、蠕虫、木马等为代表的<strong>计算机病毒</strong>；</li>
-<li>第二类是以黑客攻击为代表的<strong>网络入侵</strong>；</li>
-<li>第三类以间谍软件、广告软件、网络钓鱼软件为代表的<strong>欺骗类威胁</strong>。</li>
-</ul>
-<p>计算机病毒的定义</p>
-<ul>
-<li>狭义：指编制或者在计算机程序中插入的破坏计算机功能或者毁坏数据且能<strong>自我复制</strong>的一组<strong>计算机指令或者程序代码</strong>。</li>
-<li>广义：任何能够引起计算机故障，<strong>破坏计算机数据，影响计算机系统的正常使用</strong>的<strong>程序代码</strong>。</li>
-</ul>
-<p>计算机病毒特点</p>
-<ul>
-<li>传统病毒(<code>CIH</code>)<ul>
-<li>有一个宿主程序</li>
-<li>具有<strong>寄生性、传染性、潜伏性、触发性和破坏性</strong></li>
-</ul>
-</li>
-<li>蠕虫病毒(<code>WannaCry</code>)<ul>
-<li>不需要宿主文件</li>
-<li>无需人为干预</li>
-<li>具有<strong>自传播性、隐蔽性和破坏性</strong>等特性</li>
-</ul>
-</li>
-<li>特洛伊木马(<code>灰鸽子</code>)<ul>
-<li>远程控制</li>
-<li>具有<strong>隐蔽性和非授权性</strong></li>
-</ul>
-</li>
-</ul>
-<p>防范计算机病毒</p>
-<ul>
-<li>加强安全防御<ul>
-<li>备份重要数据</li>
-</ul>
-</li>
-<li>提高安全意识</li>
-</ul>
-<p>（1）  假设你在网站上观看视频时，你看到一个弹出窗口要求你安装定制的解码器，才能正常观看视频。如果同意安装，你的计算机有可能会面临什么威胁？</p>
-<p>（2）  以表格方式对比传统型病毒、蠕虫和木马的特点，指出各自专属的特征。</p>
+<h1 id="第3讲-信息安全的攻与防">第3讲 信息安全的攻与防</h1>
+<h2 id="测试点-3-1">3.1 测试点 3-1</h2>
+<p>攻击者角度的攻击 * 主动型攻击：如<strong>网络监听</strong>和<strong>黑客攻击</strong>等，这些威胁都是对方人为通过网络通信连接进行的。 * 被动型攻击：一般是用户通过某种途径<strong>访问了不当的信息</strong>而受到的攻击。</p>
+<p>攻击手段及破坏方式 * 第一类是以传统病毒、蠕虫、木马等为代表的<strong>计算机病毒</strong>； * 第二类是以黑客攻击为代表的<strong>网络入侵</strong>； * 第三类以间谍软件、广告软件、网络钓鱼软件为代表的<strong>欺骗类威胁</strong>。</p>
+<p>计算机病毒的定义 * 狭义：指编制或者在计算机程序中插入的破坏计算机功能或者毁坏数据且能<strong>自我复制</strong>的一组<strong>计算机指令或者程序代码</strong>。 * 广义：任何能够引起计算机故障，<strong>破坏计算机数据，影响计算机系统的正常使用</strong>的<strong>程序代码</strong>。</p>
+<p>计算机病毒特点 * 传统病毒(<code>CIH</code>) * 有一个宿主程序 * 具有<strong>寄生性、传染性、潜伏性、触发性和破坏性</strong> * 蠕虫病毒(<code>WannaCry</code>) * 不需要宿主文件 * 无需人为干预 * 具有<strong>自传播性、隐蔽性和破坏性</strong>等特性 * 特洛伊木马(<code>灰鸽子</code>) * 远程控制 * 具有<strong>隐蔽性和非授权性</strong></p>
+<p>防范计算机病毒 * 加强安全防御 * 备份重要数据 * 提高安全意识</p>
+<p>（1） 假设你在网站上观看视频时，你看到一个弹出窗口要求你安装定制的解码器，才能正常观看视频。如果同意安装，你的计算机有可能会面临什么威胁？</p>
+<p>（2） 以表格方式对比传统型病毒、蠕虫和木马的特点，指出各自专属的特征。</p>
 <p>答：</p>
 <p>（1）有可能被植入<strong>恶意代码</strong>，对计算机系统的<strong>保密性、完整性和可用性</strong>都可能造成破坏，<strong>信息泄露、信息伪造、完整性破坏</strong>等威胁都会存在。（可举例说明）</p>
 <p>（2）</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>恶意代码类型</th>
 <th>主要特征</th>
 <th>破坏行为</th>
@@ -524,19 +342,19 @@ P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>传统型病毒</td>
 <td>寄生性、传染性、潜伏性、触发性和破坏性</td>
-<td>良性（干扰计算机执行）、恶性（破坏文件系统，删除数据……）</td>
+<td>良性（干扰计算机执行）、恶性（破坏文件系统，删除数 据……）</td>
 <td>寄生性</td>
 </tr>
-<tr>
+<tr class="even">
 <td>蠕虫</td>
 <td>自传播性、隐蔽性、破坏性</td>
 <td>拥塞网络、破坏系统</td>
 <td>自传播性</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>木马</td>
 <td>隐蔽性、非授权性/ 远程控制</td>
 <td>信息窃取、远程控制</td>
@@ -544,139 +362,124 @@ P=\sum_{i=T}^{N}C^{i}_{N}*(1-p)^{i}*p^{n-i}</script><h2 id="2-3-测试点-2-3"><
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="3-2-测试点-3-2"><a href="#3-2-测试点-3-2" class="headerlink" title="3.2 测试点 3-2"></a>3.2 测试点 3-2</h2><ul>
-<li><p>拒绝服务攻击(<code>DOS</code>)</p>
+<h2 id="测试点-3-2">3.2 测试点 3-2</h2>
+<ul>
+<li>拒绝服务攻击(<code>DOS</code>)
 <ul>
 <li>攻击者<strong>利用网络通信协议的缺陷或产生大量的网络流量</strong>，导致服务器崩溃或迫使服务器停止提供服务或网络阻塞。</li>
 <li>分布式<code>DDoS</code>是指<strong>不同位置</strong>的多个攻击者同时向一个或数个目标发动DoS攻击，或者一个攻击者控制了位于不同位置的多台机器并利用这些机器对受害者同时实施DoS攻击</li>
-</ul>
-</li>
-<li><p>口令攻击(<code>Password</code>)</p>
+</ul></li>
+<li>口令攻击(<code>Password</code>)
 <ul>
 <li>通过<strong>获取系统管理员或其他殊用户的口令</strong>，获得访问系统的权限。</li>
-</ul>
-</li>
-<li><p>嗅探攻击(<code>Sniffer</code>)</p>
+</ul></li>
+<li>嗅探攻击(<code>Sniffer</code>)
 <ul>
 <li>利用嗅探器获取<strong>网络传输</strong>中的重要数据。网络嗅探也被形象地称为<strong>网络窃听</strong>。</li>
-</ul>
-</li>
-<li><p>欺骗类攻击</p>
+</ul></li>
+<li>欺骗类攻击
 <ul>
 <li>构造虚假的网络消息，发送给网络主机或网络设备，企图用假消息<strong>替代真实信息</strong>，实现对网络及主机正常工作的干扰破坏。</li>
-</ul>
-</li>
-<li><p>利用型攻击</p>
+</ul></li>
+<li>利用型攻击
 <ul>
 <li>通过非法技术手段，<strong>获得某网络计算机的控制权或使用权</strong>，达到利用该机从事非法行为的一类攻击行为的总称。</li>
-</ul>
-</li>
-<li><p>诈骗类攻击(社工)</p>
+</ul></li>
+<li>诈骗类攻击(社工)
 <ul>
 <li>利用社会工程学的思想，利用<strong>人的弱点</strong>通过网络散布虚假信息，诱使受害者上当受骗。</li>
-</ul>
-</li>
-<li><p><code>APT</code>攻击</p>
+</ul></li>
+<li><code>APT</code>攻击
 <ul>
 <li>结合企业或机构网络中<strong>受信的应用程序漏洞</strong>和<strong>社会工程学</strong>。</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>（1）通过查阅资料，进一步对 <code>APT</code> 攻击进行了解，并以一种 <code>APT</code> 攻击的流程为例，对 <code>APT</code> 攻击的特点进行阐述。</p>
 <p>（2）<code>Ping</code> 是系统提供的用于检测网络连通性的程序，有人认为这样的程序不会对计算机系统的安全造成损害，因此没有危害性，谈谈你自己的观点，并加以说明。</p>
 <p>答：</p>
 <p>（1）例如韩国平昌冬奥会 <code>APT</code> 攻击，流程（略）。特点：攻击特征难以提取；攻击行为隐蔽性强；攻击渠道复杂；攻击手段多样；攻击时间持续。</p>
 <p>（2）观点错误，<code>Ping</code> 可以用于网络探测，因此也存在使用上的风险。</p>
-<h2 id="3-3-测试点-3-3"><a href="#3-3-测试点-3-3" class="headerlink" title="3.3 测试点 3-3"></a>3.3 测试点 3-3</h2><ul>
-<li><p>防火墙(静态防范)</p>
+<h2 id="测试点-3-3">3.3 测试点 3-3</h2>
+<ul>
+<li>防火墙(静态防范)
 <ul>
 <li>意义：一个由软件和硬件设备组合而成、在<strong>内部网络</strong>和<strong>外部网络</strong>之间构造的安全保护屏障，从而保护内部网络免受外部非法用户的侵入。</li>
-<li>作用：<ul>
+<li>作用：
+<ul>
 <li><strong>网络流量过滤</strong>：通过在防火墙上进行安全规则配置，可以对流经防火墙的网络流量进行过滤。</li>
 <li><strong>网络监控审计</strong>：防火墙记录访问并生成网络访问日志，提供网络使用情况的统计数据。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>入侵检测系统(动态防范)</p>
+</ul></li>
+</ul></li>
+<li>入侵检测系统(动态防范)
 <ul>
 <li>意义：是一种对网络传输进行<strong>即时监视</strong>，在发现可疑传输时发出警报或者采取主动反应措施的网络安全系统。</li>
 <li>特点：具有综合性、多领域性的特点，技术种类繁多，涉及到许多相关学科。</li>
 <li>误用检测技术：主要<strong>基于规则</strong>进行检测，包括：专家系统、特征分析、状态转换分析、模型推理、完整性校验等。</li>
 <li>异常检测技术：异常检测是一种<strong>与系统相对无关、通用性较强</strong>的入侵检测技术。异常检测主要<strong>针对用户行为数据、系统资源使用情况</strong>进行分析判断。包括：统计分析、预测模型、系统调用监测以及基于人工智能的异常检测技术等。</li>
-</ul>
-</li>
-<li><p>入侵诱骗系统</p>
+</ul></li>
+<li>入侵诱骗系统
 <ul>
 <li>意义：指用通过伪装成具有吸引力的网络主机来<strong>吸引攻击者</strong>，同时对攻击者的各种攻击行为进行分析，进而找到有效的应对方法。</li>
-</ul>
-</li>
-<li><p>入侵相应系统</p>
+</ul></li>
+<li>入侵相应系统
 <ul>
 <li>意义：指发现或检测到入侵后，为确保被保护目标的<strong>机密性、完整性、可用性</strong>等安全目标，针对入侵所采取的措施和行动。</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>（1） 防火墙和网闸都能提供在网络边界上的安全防护作用，请分析两者在功能上的相同与不同之处。</p>
 <p>（2） 漏报率和误报率是入侵检测系统（<code>IDS</code>）重要的性能指标，有人认为采用异常检测技术的 <code>IDS</code> 误报率很高，没有实用价值，请给出你的判断并说明判断理由。</p>
 <p>答：</p>
 <p>（1）都是隔离技术，网闸属于<strong>物理隔离</strong>，防火墙属于<strong>逻辑隔离</strong>，实现原理和功能都要显著区别。</p>
 <p>（2）观点错误，异常检测能检测到未知入侵，因此有重要的应用价值。</p>
-<h1 id="第4讲-信息安全管理概述"><a href="#第4讲-信息安全管理概述" class="headerlink" title="第4讲 信息安全管理概述"></a>第4讲 信息安全管理概述</h1><h2 id="4-1-测试点-4-1"><a href="#4-1-测试点-4-1" class="headerlink" title="4.1 测试点 4-1"></a>4.1 测试点 4-1</h2><p>（1）什么是信息安全管理中的 <code>PDCA</code> 模型？</p>
+<h1 id="第4讲-信息安全管理概述">第4讲 信息安全管理概述</h1>
+<h2 id="测试点-4-1">4.1 测试点 4-1</h2>
+<p>（1）什么是信息安全管理中的 <code>PDCA</code> 模型？</p>
 <p>（2）我国的信息安全法律法规体系是如何构成的？</p>
 <p>（3）有人说西方的网络环境是开放自由的，公民在网络空间中的行为不会受到管理和监控，这种观点是正确的吗？请查阅相关资料，谈谈自己的看法。</p>
 <p>答：</p>
 <p>（1）</p>
 <ul>
-<li>信息安全管理体系(<code>ISMS</code>)是从管理学惯用的过程模型<code>PDCA</code>(<code>PLAN</code>、<code>DO</code>、<code>CHECK</code>、<code>ACT</code>)发展演化而来。<ul>
+<li>信息安全管理体系(<code>ISMS</code>)是从管理学惯用的过程模型<code>PDCA</code>(<code>PLAN</code>、<code>DO</code>、<code>CHECK</code>、<code>ACT</code>)发展演化而来。
+<ul>
 <li>规划(<code>PLAN</code>)：通过风险评估，了解安全需求，制订解决方案；</li>
 <li>实施(<code>DO</code>)：将解决方案付诸实施；</li>
 <li>检查(<code>CHECK</code>)：监视评审方案的有效性；</li>
 <li>处置(<code>ACT</code>)：对发现的问题予以解决，产生新的需求则再次进入规划阶段。</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<p>（2） </p>
+<p>（2）</p>
 <ul>
-<li><p>通用性法律法规</p>
+<li>通用性法律法规
 <ul>
 <li>包括《宪法》、《国家安全法》、《国家秘密法》等，这些法律没有专门针对信息安全的规定，但约束的对象包括危害信息安全行为。</li>
-</ul>
-</li>
-<li><p>惩戒信息犯罪的法律</p>
+</ul></li>
+<li>惩戒信息犯罪的法律
 <ul>
 <li>包括《中华人民共和国刑法》、《中华人民共和国网络安全法》等，这类法律中的有关法律条文可以作为规范和惩罚网络犯罪的法律规定。</li>
-</ul>
-</li>
-<li><p>针对信息网络安全的特别规定</p>
+</ul></li>
+<li>针对信息网络安全的特别规定
 <ul>
 <li>《中华人民共和国计算机信息系统安全保护条例》、《中华人民共和国计算机信息网络国际联网管理暂行规定》、《中华人民共和国计算机软件保护条例》，这些法规指定的目的是明确哪些行为构成违反法律法规，并可能被追究相关民事或刑事责任。</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>（3）错误，例如美国的《爱国者法案》规定了政府可以行使严格的管理和监控权，对网络空间进行监管是各国的惯例。</p>
-<h2 id="4-2-测试点-4-2"><a href="#4-2-测试点-4-2" class="headerlink" title="4.2 测试点 4-2"></a>4.2 测试点 4-2</h2><p>（1）   请查阅《中华人民共和国网络安全法》，回答以下问题：</p>
+<h2 id="测试点-4-2">4.2 测试点 4-2</h2>
+<p>（1） 请查阅《中华人民共和国网络安全法》，回答以下问题：</p>
 <p>（A） 网络安全法是如何规范个人信息收集行为的？</p>
 <p>（B） 网络安全法是如何斩断信息买卖利益链的？</p>
 <p>（C） 网络安全法是如何防范个人信息泄露的？</p>
 <p>（D） 网络安全法是如何对网络诈骗溯源追责？</p>
 <p>答：</p>
-<p> 略<del>建议放弃</del></p>
-<h2 id="4-3-测试点-4-3"><a href="#4-3-测试点-4-3" class="headerlink" title="4.3 测试点 4-3"></a>4.3 测试点 4-3</h2><p>（1）  GB17895-1999《计算机信息系统安全保护等级划分准则》中划分了哪几种 安全等级？</p>
-<p>（2）  GB/T 22239-2019 《网络安全等级保护基本要求》中分别对哪几类信息系统做出了专门规定？</p>
-<p>（3）  概述等级保护的工作流程。</p>
-<p>（4）  假定有一个由银行提供代水电代收费服务的信息系统，如果该系统受到破坏，将导致个人或企业无法通过银行网点缴纳相关费用，水电公司的收费业务只能在其处理能力有限营业厅进行，导致业务能力大幅度下降，依据等级保护的定级规则，思考该系统应属于几级保护的对象？</p>
-<p>答：<br>（1） </p>
-<ul>
-<li>第一级 用户自主保护级：提供用户和数据隔离功能。</li>
-<li>第二级系统审计保护级:实施粒度更细的自主访问控制，它通过登录规程、审计安全性相关事件和隔离资源，使用户对自己的行为负责。</li>
-<li>第三级 安全标记保护级:具有系统审计保护的功能。</li>
-<li>第四级 结构化保护级︰建立在一个明确定义的形式化安全策略模型之上，要求将第三级系统中的访问控制扩展到所有主体与客体。</li>
-<li>第五级 访问验证保护级︰满足访问监控器需求，由访问监控器仲裁主体对客体的全部访问。</li>
-</ul>
-<p>（2）<img src="https://img-blog.csdnimg.cn/2020123100101942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="2"><br>（3）<br><img src="https://img-blog.csdnimg.cn/20201231001031525.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="3"><br>（4） 答：依据受侵害客体和侵害程度进行判断，客体为水电公司为企业法人，收费业务能力大幅下降没有丧失，属于严重损害，综合上述分析，系统属于网络安全二级保护对象。</p>
-<h2 id="4-4-测试点-4-4"><a href="#4-4-测试点-4-4" class="headerlink" title="4.4 测试点 4-4"></a>4.4 测试点 4-4</h2><p>作为一名从事信息安全专业的人员，应该如何从自身做起，共同营造清朗的网络环境？</p>
+<p>略<del>建议放弃</del></p>
+<h2 id="测试点-4-3">4.3 测试点 4-3</h2>
+<p>（1） GB17895-1999《计算机信息系统安全保护等级划分准则》中划分了哪几种 安全等级？</p>
+<p>（2） GB/T 22239-2019 《网络安全等级保护基本要求》中分别对哪几类信息系统做出了专门规定？</p>
+<p>（3） 概述等级保护的工作流程。</p>
+<p>（4） 假定有一个由银行提供代水电代收费服务的信息系统，如果该系统受到破坏，将导致个人或企业无法通过银行网点缴纳相关费用，水电公司的收费业务只能在其处理能力有限营业厅进行，导致业务能力大幅度下降，依据等级保护的定级规则，思考该系统应属于几级保护的对象？</p>
+<p>答： （1） * 第一级 用户自主保护级：提供用户和数据隔离功能。 * 第二级系统审计保护级:实施粒度更细的自主访问控制，它通过登录规程、审计安全性相关事件和隔离资源，使用户对自己的行为负责。 * 第三级 安全标记保护级:具有系统审计保护的功能。 * 第四级 结构化保护级︰建立在一个明确定义的形式化安全策略模型之上，要求将第三级系统中的访问控制扩展到所有主体与客体。 * 第五级 访问验证保护级︰满足访问监控器需求，由访问监控器仲裁主体对客体的全部访问。</p>
+<p>（2）<img src="https://img-blog.csdnimg.cn/2020123100101942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="2" /> （3） <img src="https://img-blog.csdnimg.cn/20201231001031525.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="3" /> （4） 答：依据受侵害客体和侵害程度进行判断，客体为水电公司为企业法人，收费业务能力大幅下降没有丧失，属于严重损害，综合上述分析，系统属于网络安全二级保护对象。</p>
+<h2 id="测试点-4-4">4.4 测试点 4-4</h2>
+<p>作为一名从事信息安全专业的人员，应该如何从自身做起，共同营造清朗的网络环境？</p>
 <p>答：提示（两个方面，底线是遵纪守法，要求是严守网络行为道德规范）。</p>
 
       

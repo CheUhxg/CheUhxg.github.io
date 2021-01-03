@@ -81,7 +81,9 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="第1讲-初始信息安全"><a href="#第1讲-初始信息安全" class="headerlink" title="第1讲 初始信息安全"></a>第1讲 初始信息安全</h1><h2 id="1-1-测试点-1-1"><a href="#1-1-测试点-1-1" class="headerlink" title="1.1 测试点 1-1"></a>1.1 测试点 1-1</h2><p>信息的特性：<strong>普遍性、价值性、共享性、传递性、时效性、载体依附性、真伪性、可处理性</strong></p>
+        <h1 id="第1讲-初始信息安全">第1讲 初始信息安全</h1>
+<h2 id="测试点-1-1">1.1 测试点 1-1</h2>
+<p>信息的特性：<strong>普遍性、价值性、共享性、传递性、时效性、载体依附性、真伪性、可处理性</strong></p>
 <p>（1）以下描述中体现了信息的何种特性</p>
 <ul>
 <li>书中自有黄金屋，书中自有颜如玉 <strong>价值性</strong></li>
@@ -151,23 +153,26 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="组表效果实现"><a href="#组表效果实现" class="headerlink" title="组表效果实现"></a>组表效果实现</h1><h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
-<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
-<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
-<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
+        <h1 id="组表效果实现">组表效果实现</h1>
+<h2 id="x00-openflow组表">0x00 OpenFlow组表</h2>
+<h3 id="功能">功能</h3>
+<p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
+<h3 id="组表项">组表项</h3>
 <ul>
-<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
-</li>
-<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
-</li>
+<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
+<li>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code>
+<ul>
+<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p></li>
+<li><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</li>
 <li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
-<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
-</ul>
-</li>
+<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。 按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。 这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
+</ul></li>
 <li>计数器<code>counters</code>:记录处理过的报文数</li>
 <li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
 </ul>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt="group table"></p>
+<figure>
+<img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt="group table" /><figcaption>group table</figcaption>
+</figure>
         
       
     </div>
@@ -227,13 +232,17 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="Java实现SDN拓扑获取"><a href="#Java实现SDN拓扑获取" class="headerlink" title="Java实现SDN拓扑获取"></a>Java实现SDN拓扑获取</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+        <h1 id="java实现sdn拓扑获取">Java实现SDN拓扑获取</h1>
+<h2 id="思路">思路</h2>
+<ul>
 <li>由于<code>Java</code>调用北向接口过程复杂，故此处编写<code>Python</code>脚本获取拓扑</li>
 <li>使用<code>Jython</code>包完成<code>Pyhon</code>脚本的调用</li>
 <li>考虑到<code>Python</code>和<code>Java</code>的数据结构难以直接转换，这里选择将脚本获取的拓扑用无向图的形式保存本地文件<code>topo.txt</code></li>
 <li>通过<code>Java</code>读取本地文件，并进行处理分析，发送到前端</li>
 </ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="Python脚本编写"><a href="#Python脚本编写" class="headerlink" title="Python脚本编写"></a>Python脚本编写</h3><ul>
+<h2 id="实现">实现</h2>
+<h3 id="python脚本编写">Python脚本编写</h3>
+<ul>
 <li><p>引入相关包</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sdn_net <span class="keyword">as</span> sn</span><br><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
 <blockquote>
