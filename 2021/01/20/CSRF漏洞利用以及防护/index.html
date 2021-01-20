@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>CHEUHXG | TEND TO BE A HACKER</title>
+  <title>CSRF漏洞利用以及防御手段 | CHEUHXG | TEND TO BE A HACKER</title>
 
   
   <meta name="author" content="CHEUHXG">
@@ -14,12 +14,15 @@
   
 
   
+  
+  <meta name="keywords" content="DVWA,漏洞">
+  
 
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  
+  <meta property="og:title" content="CSRF漏洞利用以及防御手段"/>
 
   <meta property="og:site_name" content="CHEUHXG"/>
 
@@ -56,12 +59,11 @@
 </header>
 
     <main class="site-main posts-loop">
-    
-  <article>
+    <article>
 
   
     
-    <h3 class="article-title"><a href="/2021/01/20/CSRF漏洞利用以及防护/"><span>CSRF漏洞利用以及防御手段</span></a></h3>
+    <h3 class="article-title"><span>CSRF漏洞利用以及防御手段</span></h3>
     
   
 
@@ -209,165 +211,13 @@
   </div>
 </article>
 
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/12/19/ONOS实现组表下发/"><span>ONOS实现SDN网络组播</span></a></h3>
-    
   
 
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/19/ONOS实现组表下发/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-19T07:45:00.724Z">
-          2020-12-19
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="组表效果实现">组表效果实现</h1>
-<h2 id="x00-openflow组表">0x00 OpenFlow组表</h2>
-<h3 id="功能">功能</h3>
-<p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
-<h3 id="组表项">组表项</h3>
-<ul>
-<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
-<li>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code>
-<ul>
-<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p></li>
-<li><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</li>
-<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
-<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。 按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。 这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
-</ul></li>
-<li>计数器<code>counters</code>:记录处理过的报文数</li>
-<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
-</ul>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" /></p>
-        
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/public/categories/blog/">blog</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/public/tags/sdn/">sdn</a><a href="/public/tags/python/">python</a><a href="/public/tags/onos/">onos</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/12/18/IDEA实现流表下发/"><span>Java实现SDN拓扑获取</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/18/IDEA实现流表下发/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-18T02:32:16.079Z">
-          2020-12-18
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="java实现sdn拓扑获取">Java实现SDN拓扑获取</h1>
-<h2 id="思路">思路</h2>
-<ul>
-<li>由于<code>Java</code>调用北向接口过程复杂，故此处编写<code>Python</code>脚本获取拓扑</li>
-<li>使用<code>Jython</code>包完成<code>Pyhon</code>脚本的调用</li>
-<li>考虑到<code>Python</code>和<code>Java</code>的数据结构难以直接转换，这里选择将脚本获取的拓扑用无向图的形式保存本地文件<code>topo.txt</code></li>
-<li>通过<code>Java</code>读取本地文件，并进行处理分析，发送到前端</li>
-</ul>
-<h2 id="实现">实现</h2>
-<h3 id="python脚本编写">Python脚本编写</h3>
-<ul>
-<li><p>引入相关包</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sdn_net <span class="keyword">as</span> sn</span><br><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>此处利用了<code>networkx</code>的<code>Graph</code>图结构；<code>json</code>用于将数据转化为字典集；sdn_net是之前写的流表下发和拓扑抽象的脚本，此处引用其中的函数<del>其实就是懒</del></p>
-</blockquote>
-        
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/public/categories/blog/">blog</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/public/tags/sdn/">sdn</a><a href="/public/tags/java/">java</a><a href="/public/tags/python/">python</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
 
 
 
 
-<nav class="pagination">
-  
-  
-</nav>
+
     </main>
 
     <footer class="site-footer">
