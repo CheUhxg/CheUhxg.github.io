@@ -83,56 +83,137 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="burp-suite模块介绍">Burp Suite模块介绍</h1>
-<h2 id="target">Target</h2>
-<h3 id="主要功能">主要功能</h3>
+        <h1 id="target">Target</h1>
+<h2 id="主要功能">主要功能</h2>
 <ul>
 <li>显示信息。</li>
-<li>默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。 ### 使用流程</li>
+<li>默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。</li>
 </ul>
+<h2 id="使用流程">使用流程</h2>
 <ol type="1">
 <li>在<code>Site map</code>中，将目标站点发送到<code>Scope</code>。</li>
-<li>使用<code>Filter</code>过滤。 &gt; 任意的<code>URL/HTTP</code>请求都可以发送到其他模块。<br />
-## Spider ### 主要功能</li>
+<li>使用<code>Filter</code>过滤。 &gt; 任意的<code>URL/HTTP</code>请求都可以发送到其他模块。</li>
 </ol>
+<a id="more"></a>
+<h1 id="spider">Spider</h1>
+<h2 id="主要功能-1">主要功能</h2>
 <ul>
 <li>网络爬虫，枚举应用程序的内容和功能。</li>
-<li>在爬行时默认进行漏洞扫描，检测每个访问过的<code>URL</code>。 ### 使用流程</li>
+<li>在爬行时默认进行漏洞扫描，检测每个访问过的<code>URL</code>。</li>
 </ul>
+<h2 id="使用流程-1">使用流程</h2>
 <ol type="1">
 <li>在<code>Proxy</code>中的<code>Action</code>将请求发送到<code>Spider</code>。</li>
 <li>在<code>Target</code>&gt;<code>Site map</code>中即可看到爬行列表。</li>
-<li>在<code>Spider</code>&gt;<code>Control</code>中可以看到爬行状态，决定开始或者停止。 ## Scanner ### 主要功能</li>
+<li>在<code>Spider</code>&gt;<code>Control</code>中可以看到爬行状态，决定开始或者停止。</li>
 </ol>
+<h1 id="scanner">Scanner</h1>
+<h2 id="主要功能-2">主要功能</h2>
 <ul>
-<li>扫描<code>Web</code>应用程序的安全漏洞。 ### 使用流程 #### 单一URL</li>
-<li>在<code>Proxy</code>中的<code>Action</code>选择<code>Do an active scan</code>即可对该请求的单一<code>URL</code>进行扫描。 #### 全站扫描</li>
+<li>扫描<code>Web</code>应用程序的安全漏洞。</li>
 </ul>
+<h2 id="使用流程-2">使用流程</h2>
+<h3 id="单一url">单一URL</h3>
+<ul>
+<li>在<code>Proxy</code>中的<code>Action</code>选择<code>Do an active scan</code>即可对该请求的单一<code>URL</code>进行扫描。</li>
+</ul>
+<h3 id="全站扫描">全站扫描</h3>
 <ol type="1">
 <li>先爬行该网站所有链接。</li>
 <li>在<code>Target</code>中选择目的网站，右键转到<code>Actively Scan this Host</code>。</li>
 <li>跳出向导后，删除不需要扫描的页面，对需要扫描的页面进行确认。</li>
-<li>在<code>Scan queue</code>中可以查看扫描进度，在<code>Results</code>中查看扫描结果。 ## Intruder ### 主要功能</li>
+<li>在<code>Scan queue</code>中可以查看扫描进度，在<code>Results</code>中查看扫描结果。</li>
 </ol>
+<h1 id="intruder">Intruder</h1>
+<h2 id="主要功能-3">主要功能</h2>
 <ul>
-<li>对<code>Web</code>程序进行自动化攻击。 &gt; 高度可配置的工具，最重要的是配置<code>Attack Type</code>、程序变量以及字典的设置。<br />
-### 使用流程</li>
+<li>对<code>Web</code>程序进行自动化攻击。 &gt; 高度可配置的工具，最重要的是配置<code>Attack Type</code>、程序变量以及字典的设置。</li>
 </ul>
+<h2 id="使用流程-3">使用流程</h2>
 <ol type="1">
 <li>将拦截到的请求发送到<code>Intruder</code>，在<code>Intruder</code>&gt;<code>Target</code>中可看到目标网址和访问端口。</li>
 <li>在<code>Positions</code>中进行主要配置。</li>
-<li>配置后，点击<code>Start Attack</code>进行扫描。 ### 具体配置 #### Attack Type |Sniper|对变量依次进行破解| |Battering ram|对变量同时进行破解| |Pitch fork|每个变量将会对应一个字典| |Cluster bomb|每个变量将会对应一个字典，并且交叉破解，尝试每一个组合| #### 程序变量</li>
+<li>配置后，点击<code>Start Attack</code>进行扫描。</li>
 </ol>
+<h2 id="具体配置">具体配置</h2>
+<h3 id="attack-type">Attack Type</h3>
+<table>
+<thead>
+<tr class="header">
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sniper</td>
+<td>对变量依次进行破解</td>
+</tr>
+<tr class="even">
+<td>Battering ram</td>
+<td>对变量同时进行破解</td>
+</tr>
+<tr class="odd">
+<td>Pitch fork</td>
+<td>每个变量将会对应一个字典</td>
+</tr>
+<tr class="even">
+<td>Cluster bomb</td>
+<td>每个变量将会对应一个字典，并且交叉破解，尝试每一个组合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="程序变量">程序变量</h3>
 <ul>
 <li>使用<code>Clear</code>清除默认变量。</li>
-<li><code>Add</code>设置变量。 #### 字典 ##### Payload Sets</li>
-<li><code>Set</code>针对指定变量进行配置。</li>
-<li><code>Type</code>为<code>Payload</code>的类型。 |Simple list|简单列表| |Runtime file|运行时读取列表| |Numbers|数字列表| |Dates|日期列表| ##### Payload Options</li>
-<li>默认使用<code>Simple list</code>类型。 ##### Payload Processing</li>
-<li>对字符串进行处理。</li>
-<li>支持<code>MD5</code>加密、字符串截取、加入前缀/后缀等。 ##### Payload Encoding</li>
-<li>请求时对某些字符进行<code>URL</code>转码。 #### Option</li>
+<li><code>Add</code>设置变量。</li>
 </ul>
+<h3 id="字典">字典</h3>
+<h4 id="payload-sets">Payload Sets</h4>
+<ul>
+<li><p><code>Set</code>针对指定变量进行配置。</p></li>
+<li><p><code>Type</code>为<code>Payload</code>的类型。</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Simple list</td>
+<td>简单列表</td>
+</tr>
+<tr class="even">
+<td>Runtime file</td>
+<td>运行时读取列表</td>
+</tr>
+<tr class="odd">
+<td>Numbers</td>
+<td>数字列表</td>
+</tr>
+<tr class="even">
+<td>Dates</td>
+<td>日期列表</td>
+</tr>
+</tbody>
+</table>
+<h4 id="payload-options">Payload Options</h4>
+<ul>
+<li>默认使用<code>Simple list</code>类型。</li>
+</ul>
+<h4 id="payload-processing">Payload Processing</h4>
+<ul>
+<li>对字符串进行处理。</li>
+<li>支持<code>MD5</code>加密、字符串截取、加入前缀/后缀等。</li>
+</ul>
+<h4 id="payload-encoding">Payload Encoding</h4>
+<ul>
+<li>请求时对某些字符进行<code>URL</code>转码。</li>
+</ul>
+<h3 id="option">Option</h3>
 <table>
 <thead>
 <tr class="header">
@@ -159,25 +240,32 @@
 </tr>
 </tbody>
 </table>
-<h2 id="decoder">Decoder</h2>
-<h3 id="主要功能-1">主要功能</h3>
+<h1 id="decoder">Decoder</h1>
+<h2 id="主要功能-4">主要功能</h2>
 <ul>
-<li>支持对<code>URL</code>、<code>HEX</code>、<code>HTML</code>等格式字符串进行编码。 ### 使用流程</li>
+<li>支持对<code>URL</code>、<code>HEX</code>、<code>HTML</code>等格式字符串进行编码。</li>
 </ul>
+<h2 id="使用流程-4">使用流程</h2>
 <ol type="1">
 <li>在文本框中输入需要编/解码的文本。</li>
-<li>右侧选择操作模式。 ## Comparer ### 主要功能</li>
+<li>右侧选择操作模式。</li>
 </ol>
+<h1 id="comparer">Comparer</h1>
+<h2 id="主要功能-5">主要功能</h2>
 <ul>
-<li>比较两段字符串的差异。 ### 使用流程</li>
+<li>比较两段字符串的差异。</li>
 </ul>
+<h2 id="使用流程-5">使用流程</h2>
 <ol type="1">
 <li>选择直接加载文本或者将需要比对的文本发送到<code>Comparer</code>。</li>
-<li>通过<code>Select item 1</code>和<code>Select item 2</code>选择要比较的两段字符串，点击<code>words</code>开始比较。 ## Repeater ### 主要功能</li>
+<li>通过<code>Select item 1</code>和<code>Select item 2</code>选择要比较的两段字符串，点击<code>words</code>开始比较。</li>
 </ol>
+<h1 id="repeater">Repeater</h1>
+<h2 id="主要功能-6">主要功能</h2>
 <ul>
-<li>编辑<code>HTTP</code>请求。 ### 使用流程</li>
+<li>编辑<code>HTTP</code>请求。</li>
 </ul>
+<h2 id="使用流程-6">使用流程</h2>
 <ol type="1">
 <li>拦截到请求后发送到<code>Repeater</code>。</li>
 <li>直接在框中修改请求内容。</li>
