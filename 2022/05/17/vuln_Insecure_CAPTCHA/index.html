@@ -21,9 +21,9 @@
   </script>
 
   <meta name="description" content="漏洞介绍 CAPTCHA项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)的简称，是一种区分用户是计算机和人的公共全自动程序。 使用CAPTCHA可以防止计算机恶意破解密码、刷单等，保证用户是人类(无法快速反复发送请求)。 攻击者绕过CAPTCHA验证后，可">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CheUhxg&#39;s Blog">
-<meta property="og:url" content="http://example.com/vulns/vuln_Insecure_CAPTCHA.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Insecure CAPTCHA introduce and usage">
+<meta property="og:url" content="http://example.com/2022/05/17/vuln_Insecure_CAPTCHA/index.html">
 <meta property="og:site_name" content="CheUhxg&#39;s Blog">
 <meta property="og:description" content="漏洞介绍 CAPTCHA项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)的简称，是一种区分用户是计算机和人的公共全自动程序。 使用CAPTCHA可以防止计算机恶意破解密码、刷单等，保证用户是人类(无法快速反复发送请求)。 攻击者绕过CAPTCHA验证后，可">
 <meta property="og:locale" content="en_US">
@@ -31,14 +31,14 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210123120544319.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210123120622846.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2021012312065438.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70">
-<meta property="article:published_time" content="2022-05-17T10:22:37.244Z">
-<meta property="article:modified_time" content="2021-03-21T08:19:19.118Z">
+<meta property="article:published_time" content="2022-05-17T09:02:40.000Z">
+<meta property="article:modified_time" content="2022-05-17T11:18:46.302Z">
 <meta property="article:author" content="CheUhxg">
-<meta property="article:tag" content="SDN | Container | C&#x2F;C++ | Go | Distributed">
+<meta property="article:tag" content="vuln">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/a3b170d0ddcb6627ed51ab4634c0ae3f.png">
 
-<link rel="canonical" href="http://example.com/vulns/vuln_Insecure_CAPTCHA">
+<link rel="canonical" href="http://example.com/2022/05/17/vuln_Insecure_CAPTCHA/">
 
 
 <script id="page-configurations">
@@ -46,13 +46,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title> | CheUhxg's Blog
-</title>
+  <title>Insecure CAPTCHA introduce and usage | CheUhxg's Blog</title>
   
 
 
@@ -162,33 +161,62 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="en">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">
-</h1>
-
-<div class="post-meta">
   
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/vuln_Insecure_CAPTCHA/">
 
-</div>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
 
-</header>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Insecure CAPTCHA introduce and usage
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:18:46" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Insecure-CAPTCHA/" itemprop="url" rel="index"><span itemprop="name">Insecure_CAPTCHA</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-      
-      
-      <div class="post-body">
-          <h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul>
+        <h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Captcha/9630117?fr=aladdin"><code>CAPTCHA</code></a>项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/图灵测试/1701255">图灵测试</a>)的简称，是一种区分用户是计算机和人的公共全自动程序。</li>
 <li>使用<code>CAPTCHA</code>可以防止计算机恶意破解密码、刷单等，保证用户是人类(无法快速反复发送请求)。</li>
 <li>攻击者绕过<code>CAPTCHA</code>验证后，可以使用恶意脚本操控计算机反复发送请求或者在异地实现绕过验证的<code>CSRF</code>攻击。</li>
@@ -263,16 +291,38 @@
 <li>利用<code>PDO</code>技术输入内容过滤，防止了<code>sql</code>注入。</li>
 </ul>
 
-      </div>
-      
-      
-      
     </div>
-    
 
     
     
     
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vuln/" rel="tag"># vuln</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/17/vuln_SessionID/" rel="prev" title="SessionID introduce and usage">
+      <i class="fa fa-chevron-left"></i> SessionID introduce and usage
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/17/vuln_CSRF/" rel="next" title="CSRF introduce and usage">
+      CSRF introduce and usage <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
 
 
           </div>
@@ -340,9 +390,17 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span>
       </div>
   </nav>
 </div>
@@ -502,7 +560,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'CheUhxg.github.io',
       owner       : 'CheUhxg',
       admin       : ['CheUhxg'],
-      id          : '5acf136806c44f933ee7222c00503329',
+      id          : 'ad9591905c84029e91f634f0fe27be68',
         language: 'zh-CN',
       distractionFreeMode: true
     });
