@@ -115,17 +115,22 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tools/" rel="section"><i class="tools fa-fw"></i>Tags</a>
+    <a href="/tools/" rel="section"><i class="tools vulns exps notes fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
 
   </li>
   </ul>
@@ -152,6 +157,946 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_Java_SDN_topo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_Java_SDN_topo/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Java实现SDN拓扑获取"><a href="#Java实现SDN拓扑获取" class="headerlink" title="Java实现SDN拓扑获取"></a>Java实现SDN拓扑获取</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li>由于<code>Java</code>调用北向接口过程复杂，故此处编写<code>Python</code>脚本获取拓扑</li>
+<li>使用<code>Jython</code>包完成<code>Pyhon</code>脚本的调用</li>
+<li>考虑到<code>Python</code>和<code>Java</code>的数据结构难以直接转换，这里选择将脚本获取的拓扑用无向图的形式保存本地文件<code>topo.txt</code></li>
+<li>通过<code>Java</code>读取本地文件，并进行处理分析，发送到前端</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="Python脚本编写"><a href="#Python脚本编写" class="headerlink" title="Python脚本编写"></a>Python脚本编写</h3><ul>
+<li><p>引入相关包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sdn_net <span class="keyword">as</span> sn</span><br><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>此处利用了<code>networkx</code>的<code>Graph</code>图结构；<code>json</code>用于将数据转化为字典集；sdn_net是之前写的流表下发和拓扑抽象的脚本，此处引用其中的函数<del>其实就是懒</del></p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_Java_SDN_topo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ONOS_group/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_ONOS_group/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="组表效果实现"><a href="#组表效果实现" class="headerlink" title="组表效果实现"></a>组表效果实现</h1><h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
+<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
+<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
+<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
+<ul>
+<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
+</li>
+<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
+</li>
+<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
+<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
+</ul>
+</li>
+<li>计数器<code>counters</code>:记录处理过的报文数</li>
+<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
+</ul>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_XTerm_send/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_XTerm_send/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/xterm/8351521?fr=aladdin">XTerm</a>是一个<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/X%20Window/7249336?fromtitle=X%20Window%20System&amp;fromid=7096346">X Window System</a>上的终端模拟器，用来提供多个独立的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/SHELL">SHELL</a>输入输出。</li>
+<li><code>XTerm</code>使用<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E7%BB%88%E7%AB%AF/11044784?fr=aladdin">虚拟终端</a>技术将远程主机的终端模拟出来，实现了远程终端控制。</li>
+<li><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/iperf/11067694?fr=aladdin">Iperf</a> 是一个网络<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/性能测试">性能测试</a>工具，可以测试最大<code>TCP</code>和<code>UDP</code>带宽性能，具有多种参数和<code>UDP</code>特性，可以根据需要调整，可以报告带宽、延迟抖动和数据包丢失。</p>
+</li>
+<li><p><code>iperf</code>常用参数表。</p>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-b</td>
+<td><code>UDP</code>模式的带宽限制，单位<code>bps</code></td>
+</tr>
+<tr>
+<td>-e</td>
+<td>显示更多信息</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>设置带宽单位<code>bps</code>、<code>Kbps</code>、<code>Mbps</code>、<code>Gbps</code>以及对应的<code>Bps</code></td>
+</tr>
+<tr>
+<td>-i</td>
+<td>发包的间隔时间，单位<code>s</code></td>
+</tr>
+<tr>
+<td>-l</td>
+<td>缓冲区大小，默认<code>TCP</code>为<code>128K</code></td>
+</tr>
+<tr>
+<td>-m</td>
+<td>输出<code>TCP</code>的最大端长度（<code>MSS</code>=<code>MTU</code>-<code>TCP/IP header</code>）</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>将信息输出到文件<code>file</code>中</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>指定端口号</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>选择<code>UDP</code>模式，默认<code>TCP</code></td>
+</tr>
+<tr>
+<td>-w</td>
+<td>设置套接字缓冲区大小</td>
+</tr>
+<tr>
+<td>-B</td>
+<td>绑定到多个地址中的一个，<code>UDP</code>时用于组播分组</td>
+</tr>
+<tr>
+<td>-M</td>
+<td>设置<code>TCP</code>的最大端长度</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>服务器模式</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>设置传输的总时间，单位<code>s</code></td>
+</tr>
+<tr>
+<td>-c</td>
+<td>客户端模式</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>设置发包的大小，单位<code>Byte</code></td>
+</tr>
+<tr>
+<td>-P</td>
+<td>设置线程数，默认<code>1</code>线程，服务器端和客户端同时定义</td>
+</tr>
+<tr>
+<td>-T</td>
+<td>设置<code>TTL</code>值</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><ul>
+<li>在<code>mininet</code>中使用<code>XTerm</code>+<code>iperf</code>实现<code>TCP</code>和<code>UDP</code>发包模拟。</li>
+<li>对不同流量强度进行分析，模拟正常发包和攻击流量。</li>
+</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li><code>apt install mininet</code>安装<code>mininet</code>环境。</li>
+<li><code>apt install xterm</code>安装<code>XTerm</code>。</li>
+<li>使用<code>mn</code>打开<code>mininet</code>默认拓扑，输入<code>xterm  h1 h2</code>打开虚拟终端。</li>
+</ul>
+<h1 id="模拟"><a href="#模拟" class="headerlink" title="模拟"></a>模拟</h1><h2 id="正常TCP"><a href="#正常TCP" class="headerlink" title="正常TCP"></a>正常TCP</h2><ul>
+<li><code>TCP</code>的模拟发包需要建立连接，这里使用<code>h1</code>作为接收端（服务端），<code>h2</code>作为发送端（客户端）。</li>
+<li>设置服务端接收端口为<code>5566</code>，时间间隔为<code>1s</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iperf -s -p 5566 -i 1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>此时使用<code>ifstat</code>查看网络流量，发现并无大量流量生成。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/2021031221331331.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>设置客户端使用服务端套接字连接，发送<code>10s</code>的数据包。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iperf -c 10.0.0.1 -p 5566 -t 10</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>客户端启动到建立<code>TCP</code>连接后，服务端才能在该端口接收数据包。</p>
+</blockquote>
+<ul>
+<li>经过<code>10s</code>的传输后，客户端停止发送，服务端产生如下输出。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------</span><br><span class="line">Server listening on TCP port 5566</span><br><span class="line">TCP window size: 85.3 KByte (default)</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">[ 14] <span class="built_in">local</span> 10.0.0.1 port 5566 connected with 10.0.0.2 port 47854</span><br><span class="line">[ ID] Interval       Transfer     Bandwidth</span><br><span class="line">[ 14]  0.0- 1.0 sec  2.59 GBytes  22.3 Gbits/sec</span><br><span class="line">[ 14]  1.0- 2.0 sec  2.62 GBytes  22.5 Gbits/sec</span><br><span class="line">[ 14]  2.0- 3.0 sec  2.53 GBytes  21.7 Gbits/sec</span><br><span class="line">[ 14]  3.0- 4.0 sec  2.57 GBytes  22.1 Gbits/sec</span><br><span class="line">[ 14]  4.0- 5.0 sec  2.67 GBytes  22.9 Gbits/sec</span><br><span class="line">[ 14]  5.0- 6.0 sec  2.71 GBytes  23.3 Gbits/sec</span><br><span class="line">[ 14]  6.0- 7.0 sec  2.66 GBytes  22.8 Gbits/sec</span><br><span class="line">[ 14]  7.0- 8.0 sec  2.69 GBytes  23.1 Gbits/sec</span><br><span class="line">[ 14]  8.0- 9.0 sec  2.70 GBytes  23.2 Gbits/sec</span><br><span class="line">[ 14]  9.0-10.0 sec  2.73 GBytes  23.4 Gbits/sec</span><br><span class="line">[ 14]  0.0-10.0 sec  26.5 GBytes  22.7 Gbits/sec</span><br></pre></td></tr></table></figure>
+<ul>
+<li>正常<code>TCP</code>模拟发包成功。</li>
+</ul>
+<h2 id="正常UDP"><a href="#正常UDP" class="headerlink" title="正常UDP"></a>正常UDP</h2><ul>
+<li>相对于<code>TCP</code>的三次握手，<code>UDP</code>则简单粗暴，直接根据给定套接字就可以进行发包。</li>
+<li>仍然选择<code>h2</code>作为发送端，设置服务端套接字，选择<code>UDP</code>模式。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iperf -c 10.0.0.1 -p 5566 -i 1 -u</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>h1</code>作为服务端，如果不打开服务端口接收数据，通过<code>ifstat</code>仍然可以看到有流量发送出。</li>
+<li><img src="https://img-blog.csdnimg.cn/2021031221332418.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<blockquote>
+<p>与<code>TCP</code>模式不同，如果服务端未启动，客户端是无法发出数据包的。</p>
+</blockquote>
+<ul>
+<li>设置服务端接收端口，再次查看效果。</li>
+<li><img src="https://img-blog.csdnimg.cn/20210312213330243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+<li><p>发现服务端成功接收<code>UDP</code>数据包，正常<code>UDP</code>发包模拟完成。</p>
+<h2 id="DoS攻击"><a href="#DoS攻击" class="headerlink" title="DoS攻击"></a>DoS攻击</h2></li>
+<li><p>这里使用<code>scapy</code>模拟<code>DoS</code>攻击，<code>scapy</code>是用<code>python</code>编写的，所以使用<code>pip install</code>安装即可。</p>
+</li>
+<li><p>具体实现脚本参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cheuhxg/p/14534922.html">我的另一篇博客</a>。</p>
+<h3 id="Ping-DoS"><a href="#Ping-DoS" class="headerlink" title="Ping-DoS"></a>Ping-DoS</h3></li>
+<li><p>将每个攻击脚本进程设置为<code>20</code>，在<code>XTerm</code>中直接使用<code>python3</code>运行。</p>
+</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210316215718813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>可以很明显的看到目标机的端口流量激增。</p>
+</li>
+<li>使用<code>htop</code>查看本地进程，看到几乎全是脚本进程。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210316215728228.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p><code>Ping DoS</code>完成。</p>
+</li>
+</ul>
+<blockquote>
+<p>目标机带宽足够，<code>Ping DoS</code>无显著影响<del>但我物理机跑得呼呼响</del>。</p>
+</blockquote>
+<h3 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN-Flood"></a>SYN-Flood</h3><ul>
+<li>操作类似<code>Ping DoS</code>，这里只给出实现效果。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210316215738958.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>由于只发送<code>SYN</code>，而不完全建立连接，故没有发送其他数据包，目标机端口流量不会有变化。</p>
+</li>
+</ul>
+<blockquote>
+<p>这里只用了<code>5</code>个进程，但是效果很强烈，物理机出现卡顿。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_VSCode_C_pro/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
+<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+</ul>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
+<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
+<li>选好项目的文件路径，此路径即为项目的位置。</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
+<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
+</ul>
+<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
+</ul>
+<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_docker_profiles/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_docker_profiles/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li><code>Docker Image</code>（镜像）就是一个集装箱，可以看作是封装成了一个小型的操作系统。</li>
+<li><code>Docker</code>就是一个容器，<code>Image</code>可以在上面运行。</li>
+<li>这样的机制使得，我们只要有<code>Docker</code>，就能够在不同系统运行<code>Image</code>。</li>
+<li><code>Docker</code>和虚拟机有很大的相似之处，不过<code>Docker</code>更轻量级，每次不会运行出整个大的操作系统。</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/ca52036386a130f0cc2a669746578878.png" alt=""></li>
+<li>如图所示，<code>VMware</code>需要建立多个<code>Guest OS</code>，而<code>docker</code>直接利用<code>Host OS</code>。</li>
+</ul>
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">官方文档</a></p>
+<blockquote>
+<p>我这里用的是<code>Ubuntu</code>，其余操作系统参考其他文档。</p>
+</blockquote>
+<ul>
+<li>移除旧版本</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+<ul>
+<li>准备相关依赖</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用阿里源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<ul>
+<li>写入软件源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装社区版<code>docker</code></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试运行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有如下显示则安装成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"><span class="meta prompt_"> $ </span><span class="language-bash">docker run -it ubuntu bash</span></span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
+<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>我的系统是家庭版（懒），这里还是参考<a target="_blank" rel="noopener" href="https://docs.docker.com/docker-for-windows/install-windows-home/">官方文档</a></p>
+<ul>
+<li>下载<code>Docker Desktop</code>，直接安装。</li>
+<li>至少选中安装<code>WSL2</code>进行，装完后会要求重启。</li>
+<li>重启后可能报错，点击链接安装更新内核。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210307115408399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p><code>Restart</code>之后，我出现了如下情况。</p>
+</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210307115416976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>按照网上的<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34033853/article/details/110246866">方法</a>，以管理员身份打开<code>CMD</code>，输入命令。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重启之后，安装成功。</li>
+</ul>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/reference/">官方文档</a></p>
+<ul>
+<li>相关信息</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示版本</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示详细信息</span></span><br><span class="line">docker info</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示COMMAND帮助</span></span><br><span class="line">docker &#123;COMMAND&#125; --help</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其他命令<br><img src="https://img-blog.csdnimg.cn/20210307115432611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_postgresql_build/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_postgresql_build/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>这学期的<font color="blue">数据库课程</font>要求使用<code>PostgreSQL</code>作为学习使用的数据库工具。</li>
+<li>所以今天尝试着安装了一下<code>PostgreSQL</code>，出了一些问题，在此做一个记录。</li>
+</ul>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
+<li><code>Windows</code>是首选，不论安装还是后期使用都方便许多。</li>
+<li><code>PostgreSQL</code>自带<code>pgAdmin</code>也省去了很多步骤。</li>
+<li>这里参考一些<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_36226553/article/details/100750378">博客</a>和<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/6649548146">论坛</a>，提出一些问题并给出方法。</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>目前<code>Windows</code>版本已经更新到了<code>13</code>，不过老师要求的也就是<code>10</code>。</li>
+<li><p>这里我选择了<code>10.16</code>、<code>11.11</code>、<code>13.2</code>(<a target="_blank" rel="noopener" href="https://www.postgresql.org/download/">官网</a>提供的几个版本)分别尝试安装。</p>
+</li>
+<li><p>结果以上版本在安装时都出现了同一个问题。</p>
+</li>
+<li><img src="https://img-blog.csdnimg.cn/20210303103503673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<ul>
+<li><p>上网搜索过后，大致给出了三种可能：</p>
+<ol>
+<li>路径中包含中文<font color="red">（然而我并没有）</font>。</li>
+<li>权限不够<font color="red">（管理员打开也不行）</font>。</li>
+<li>之前安装过的<code>Temp</code>文件冲突。</li>
+</ol>
+</li>
+<li><p>结合以上的问题，总结了一下解决过程：</p>
+<ol>
+<li><p>先到对应路径下，把<code>Temp</code>文件夹中所有<code>postgresql_install</code>的文件夹删除<font color="red">（需要管理员权限）</font>。</p>
+</li>
+<li><p>删除后保证用户名不包含中文，即可正常安装。</p>
+</li>
+<li><p>安装到选择目录时，如果你曾尝试在此目录安装，可能出现</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the choosen installation directory exists and is non-empty.please choose a different directory</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把此目录删除后新建即可。</p>
+</li>
+</ol>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2></li>
+<li><p><code>Windows</code>安装虽然简便，但是一个简单的步骤出了很多莫名的问题。</p>
+</li>
+<li><p>与此同时我在<code>Ubuntu</code>安装了一个<code>Linux</code>版本的<code>PostgreSQL</code>。</p>
+</li>
+<li><p>在<code>Linux</code>中，<code>PostgreSQL</code>和<code>pgAdmin4</code>没有捆绑，需要后期建立连接。</p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3></li>
+<li><p>这里<a target="_blank" rel="noopener" href="https://www.tecmint.com/install-postgresql-and-pgadmin-in-ubuntu/">参考</a>了一下官方的方法，下面相当于对方法的翻译和总结吧。</p>
+</li>
+<li><p>更新系统软件包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接在库中安装最新的<code>PostgreSQL</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install postgresql</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>默认的<code>data</code>文件夹在<code>/var/lib/postgresql/12/main</code>下，配置文件在<code>/etc/postgresql/12/main</code>。</p>
+</blockquote>
+<ul>
+<li>添加存储库的公共密钥并创建存储库配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add</span><br><span class="line">sudo sh -c <span class="string">&#x27;echo &quot;deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main&quot; &gt; /etc/apt/sources.list.d/pgadmin4.list &amp;&amp; apt update&#x27;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>由于<code>Ubuntu</code>库中没有<code>pgAdmin4</code>，只能通过<code>pgAdmin4 APT</code>仓库安装。</p>
+</blockquote>
+<ul>
+<li>安装<code>pgAdmin4</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pgadmin4</span><br></pre></td></tr></table></figure>
+<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><ul>
+<li>安装完成后，检查<code>PostgreSQL</code>状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl is-active postgresql</span><br><span class="line">sudo systemctl is-enabled postgresql</span><br><span class="line">sudo systemctl status postgresql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>确认<code>PostgreSQL server</code>的状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pg_isready</span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li>切换用户到<code>postgres</code>进行登录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo su - postgres</span><br><span class="line">psql</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>出现了<code>postgres=#</code>即成功登入</p>
+</blockquote>
+<ul>
+<li>创建数据库用户和数据库并授权(<font color="pink">这里的参数需要自定义</font>)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#123;USER_NAME&#125; WITH PASSWORD &#123;USER_PASSWD&#125;;</span><br><span class="line">CREATE DATABASE &#123;DATABASE_NAME&#125;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE &#123;DATABASE_NAME&#125; to &#123;USER_NAME&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>远程控制配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/postgresql/12/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置完成后重启服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart postgresql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>运行<code>pgdmin4</code>二进制软件包附带的<code>Web</code>设置脚本，以配置系统以<code>Web</code>模式运行</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/pgadmin4/bin/setup-web.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>填入你的邮箱和设置的密码，方便以后登录。</li>
+<li>打开下列连接进入<code>pgAdmin4</code>（<font color="red"><code>SERVER_IP</code>需要换成你服务器的<code>ip</code></font>）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://SERVER_IP/pgadmin4</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用你刚刚设置的邮箱和密码登录。</li>
+<li>连接新的服务器，点击<code>Add New Server</code>。</li>
+<li><code>General</code>填写<code>Name</code>即可</li>
+<li><img src="https://img-blog.csdnimg.cn/20210303103651920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<ul>
+<li>在<code>Connection</code>填写<code>Host name/address</code>为你的服务器地址，<code>Username</code>改为你之前创建的数据库用户。</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/2261e9c329e204684505cc2c0636a085.png" alt=""></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ubuntu_deploy_gitlab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_ubuntu_deploy_gitlab/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="更新本地包-amp-安装相关依赖"><a href="#更新本地包-amp-安装相关依赖" class="headerlink" title="更新本地包&amp;安装相关依赖"></a>更新本地包&amp;安装相关依赖</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install ca-certificates curl openssh-server postfix</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>安装<code>postfix</code>(邮件服务器)时可能出现激活<code>gitlab</code>邮箱配置，选择<code>Internet站点</code>那个选项，输入发送邮件的<strong>目的邮箱</strong>。</p>
+</blockquote>
+<h2 id="设置存储库-amp-安装Gitlab"><a href="#设置存储库-amp-安装Gitlab" class="headerlink" title="设置存储库&amp;安装Gitlab"></a>设置存储库&amp;安装Gitlab</h2><ul>
+<li>下载配置存储库的脚本到<code>tmp</code>目录下。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp &amp;&amp; curl -LO https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>检查版本无误后，运行脚本开始设置<code>GitLab</code>的存储库。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash /tmp/script.deb.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>正式安装<code>GitLab</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gitlab-ce</span><br></pre></td></tr></table></figure>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="配置方式"><a href="#配置方式" class="headerlink" title="配置方式"></a>配置方式</h2><ul>
+<li>更改<code>GitLab</code>配置文件。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进入<code>VIM</code>之后，在<code>VIM</code>中输入下列命令，查找修改的位置。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/<span class="string">&quot;你要搜索的字符串&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>按下<strong>回车</strong>后锁定到第一个查询结果，使用<code>n</code>查找下一个，<code>N</code>查找上一个。</li>
+<li>找到修改位置后输入<code>i</code>进入修改状态(后为编辑状态，不详述)。</li>
+</ul>
+<h2 id="设置访问链接"><a href="#设置访问链接" class="headerlink" title="设置访问链接"></a>设置访问链接</h2><ul>
+<li>按照<strong>配置方式</strong>，搜索关键词<code>external_url</code>，修改<code>url</code>为你本地的<code>IP</code>。</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">&#x27;http://&#123;你的IP&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>IP</code>在终端中使用<code>ifconfig</code>查看，不直接使用<code>localhost</code>是因为可能从外部访问。</p>
+<p>若<code>url</code>中使用<code>https</code>，<code>GitLab</code>会自动重定向请求到<strong>加密站点</strong>。</p>
+</blockquote>
+<h2 id="设置发送邮箱"><a href="#设置发送邮箱" class="headerlink" title="设置发送邮箱"></a>设置发送邮箱</h2><ul>
+<li><p>在你负责发送邮件的邮箱(假设使用<code>QQ</code>邮箱)，选择<code>设置</code>&gt;<code>账户</code>，选择开启<code>POP3/SMTP</code>服务，<strong>获取授权码</strong>。</p>
+</li>
+<li><p>按照<strong>配置方式</strong>，搜索关键词<code>gitlab_rails</code>(仅作参考，怎么方便怎么来)，绑定邮箱并且配置<code>SMTP</code>。</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#绑定邮箱</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_email_enabled&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_email_from&#x27;</span>] = <span class="string">&#x27;QQ邮箱&#x27;</span>			<span class="comment">#xxx<span class="doctag">@qq</span>.com</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_email_display_name&#x27;</span>] = <span class="string">&#x27;邮箱名称&#x27;</span>	<span class="comment">#xxx</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#配置SMTP</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_enable&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_address&#x27;</span>] = <span class="string">&quot;smtp.qq.com&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_port&#x27;</span>] = <span class="number">465</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_user_name&#x27;</span>] = <span class="string">&quot;QQ邮箱&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_password&#x27;</span>] = <span class="string">&quot;邮箱授权码&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_domain&#x27;</span>] = <span class="string">&quot;smtp.qq.com&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_authentication&#x27;</span>] = <span class="string">&quot;login&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_enable_starttls_auto&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_tls&#x27;</span>] = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="修改端口"><a href="#修改端口" class="headerlink" title="修改端口"></a>修改端口</h2><ul>
+<li>由于<code>GitLab</code>默认在<code>80</code>端口，可能和本地服务冲突，可以选择其他端口号替代。</li>
+<li>按照<strong>配置方式</strong>，搜索关键词<code>nginx[&#39;listen_port&#39;]</code>，修改端口为指定端口(我使用<code>8099</code>)。</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx[<span class="string">&#x27;listen_port&#x27;</span>] = <span class="number">8099</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改端口后为了保持统一，需要将<strong>访问链接</strong>修改成加上端口号的<code>url</code>。</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">&#x27;http://&#123;你的IP&#125;:&#123;你的端口号&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gitlab-ctl reconfigure</td>
+<td>修改gitlab.rb文件之后重新加载配置</td>
+</tr>
+<tr>
+<td>gitlab-ctl status</td>
+<td>查看 GitLab 状态</td>
+</tr>
+<tr>
+<td>gitlab-ctl start</td>
+<td>启动 GitLab</td>
+</tr>
+<tr>
+<td>gitlab-ctl stop</td>
+<td>停止 GitLab</td>
+</tr>
+<tr>
+<td>gitlab-ctl restart</td>
+<td>重启 GitLab</td>
+</tr>
+<tr>
+<td>gitlab-ctl tail</td>
+<td>查看所有日志</td>
+</tr>
+<tr>
+<td>gitlab-ctl tail nginx/gitlab_acces.log</td>
+<td>查看 nginx 访问日志</td>
+</tr>
+<tr>
+<td>gitlab-ctl tail postgresql</td>
+<td>查看 postgresql 日志</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>若不是在<code>root</code>用户权限下，需要在命令前加上<code>sudo</code></p>
+</blockquote>
+<ul>
+<li>针对上述配置，执行完成后，需要重新配置。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure</span><br><span class="line">sudo gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><ul>
+<li>如果想访问<strong>配置链接</strong>登录，需要先对账号进行初始化。</li>
+<li>进入<code>GitLab</code>控制台。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-rails console</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输入以下命令，修改<code>root</code>用户密码。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user = User.<span class="built_in">where</span>(<span class="built_in">id</span>:1).first</span><br><span class="line">user.password = &#123;新密码&#125;</span><br><span class="line">user.password_confirmation = &#123;新密码&#125;</span><br><span class="line">user.save!</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用更改后的<code>root</code>用户登录，同时<strong>设置偏好</strong>。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210719134054847.png" alt=""></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://www.jb51.net/article/194092.htm">Ubuntu20.04安装配置GitLab的方法步骤</a><br><a target="_blank" rel="noopener" href="https://lightsail.blog.csdn.net/article/details/115254424">管理员账号初始化</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dqcer/p/9596813.html">ubuntu搭建、安装gitlab服务器以及初始化密码</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -219,8 +1164,275 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/man_burp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/man_burp/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Burp-Suite模块介绍"><a href="#Burp-Suite模块介绍" class="headerlink" title="Burp Suite模块介绍"></a>Burp Suite模块介绍</h1><h2 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h2><h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li>显示信息。</li>
+<li>默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在<code>Site map</code>中，将目标站点发送到<code>Scope</code>。</li>
+<li>使用<code>Filter</code>过滤。<blockquote>
+<p>任意的<code>URL/HTTP</code>请求都可以发送到其他模块。  </p>
+<h2 id="Spider"><a href="#Spider" class="headerlink" title="Spider"></a>Spider</h2><h3 id="主要功能-1"><a href="#主要功能-1" class="headerlink" title="主要功能"></a>主要功能</h3></blockquote>
+</li>
+</ol>
+<ul>
+<li>网络爬虫，枚举应用程序的内容和功能。</li>
+<li>在爬行时默认进行漏洞扫描，检测每个访问过的<code>URL</code>。<h3 id="使用流程-1"><a href="#使用流程-1" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在<code>Proxy</code>中的<code>Action</code>将请求发送到<code>Spider</code>。</li>
+<li>在<code>Target</code>&gt;<code>Site map</code>中即可看到爬行列表。</li>
+<li>在<code>Spider</code>&gt;<code>Control</code>中可以看到爬行状态，决定开始或者停止。<h2 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h2><h3 id="主要功能-2"><a href="#主要功能-2" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>扫描<code>Web</code>应用程序的安全漏洞。<h3 id="使用流程-2"><a href="#使用流程-2" class="headerlink" title="使用流程"></a>使用流程</h3><h4 id="单一URL"><a href="#单一URL" class="headerlink" title="单一URL"></a>单一URL</h4></li>
+<li>在<code>Proxy</code>中的<code>Action</code>选择<code>Do an active scan</code>即可对该请求的单一<code>URL</code>进行扫描。<h4 id="全站扫描"><a href="#全站扫描" class="headerlink" title="全站扫描"></a>全站扫描</h4></li>
+</ul>
+<ol>
+<li>先爬行该网站所有链接。</li>
+<li>在<code>Target</code>中选择目的网站，右键转到<code>Actively Scan this Host</code>。</li>
+<li>跳出向导后，删除不需要扫描的页面，对需要扫描的页面进行确认。</li>
+<li>在<code>Scan queue</code>中可以查看扫描进度，在<code>Results</code>中查看扫描结果。<h2 id="Intruder"><a href="#Intruder" class="headerlink" title="Intruder"></a>Intruder</h2><h3 id="主要功能-3"><a href="#主要功能-3" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>对<code>Web</code>程序进行自动化攻击。<blockquote>
+<p>高度可配置的工具，最重要的是配置<code>Attack Type</code>、程序变量以及字典的设置。  </p>
+<h3 id="使用流程-3"><a href="#使用流程-3" class="headerlink" title="使用流程"></a>使用流程</h3></blockquote>
+</li>
+</ul>
+<ol>
+<li>将拦截到的请求发送到<code>Intruder</code>，在<code>Intruder</code>&gt;<code>Target</code>中可看到目标网址和访问端口。</li>
+<li>在<code>Positions</code>中进行主要配置。</li>
+<li>配置后，点击<code>Start Attack</code>进行扫描。<h3 id="具体配置"><a href="#具体配置" class="headerlink" title="具体配置"></a>具体配置</h3><h4 id="Attack-Type"><a href="#Attack-Type" class="headerlink" title="Attack Type"></a>Attack Type</h4>|名称|功能|<br>|—|—|<br>|Sniper|对变量依次进行破解|<br>|Battering ram|对变量同时进行破解|<br>|Pitch fork|每个变量将会对应一个字典|<br>|Cluster bomb|每个变量将会对应一个字典，并且交叉破解，尝试每一个组合|<h4 id="程序变量"><a href="#程序变量" class="headerlink" title="程序变量"></a>程序变量</h4></li>
+</ol>
+<ul>
+<li>使用<code>Clear</code>清除默认变量。</li>
+<li><code>Add</code>设置变量。<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><h5 id="Payload-Sets"><a href="#Payload-Sets" class="headerlink" title="Payload Sets"></a>Payload Sets</h5></li>
+<li><code>Set</code>针对指定变量进行配置。</li>
+<li><code>Type</code>为<code>Payload</code>的类型。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple list</td>
+<td>简单列表</td>
+</tr>
+<tr>
+<td>Runtime file</td>
+<td>运行时读取列表</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td>数字列表</td>
+</tr>
+<tr>
+<td>Dates</td>
+<td>日期列表</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="Payload-Options"><a href="#Payload-Options" class="headerlink" title="Payload Options"></a>Payload Options</h5><ul>
+<li>默认使用<code>Simple list</code>类型。<h5 id="Payload-Processing"><a href="#Payload-Processing" class="headerlink" title="Payload Processing"></a>Payload Processing</h5></li>
+<li>对字符串进行处理。</li>
+<li>支持<code>MD5</code>加密、字符串截取、加入前缀/后缀等。<h5 id="Payload-Encoding"><a href="#Payload-Encoding" class="headerlink" title="Payload Encoding"></a>Payload Encoding</h5></li>
+<li>请求时对某些字符进行<code>URL</code>转码。<h4 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h4></li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Request Engine</td>
+<td>请求引擎设置，设置线程、超时等信息</td>
+</tr>
+<tr>
+<td>Attack Results</td>
+<td>攻击结果显示，设置<code>request</code>、<code>response</code></td>
+</tr>
+<tr>
+<td>Grep-Match</td>
+<td>识别    <code>response</code>中是否存在此表达式或简单字符串</td>
+</tr>
+<tr>
+<td>Grep-Extract</td>
+<td>通过正则截取<code>response</code>中的信息</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><h3 id="主要功能-4"><a href="#主要功能-4" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li>支持对<code>URL</code>、<code>HEX</code>、<code>HTML</code>等格式字符串进行编码。<h3 id="使用流程-4"><a href="#使用流程-4" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在文本框中输入需要编/解码的文本。</li>
+<li>右侧选择操作模式。<h2 id="Comparer"><a href="#Comparer" class="headerlink" title="Comparer"></a>Comparer</h2><h3 id="主要功能-5"><a href="#主要功能-5" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>比较两段字符串的差异。<h3 id="使用流程-5"><a href="#使用流程-5" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>选择直接加载文本或者将需要比对的文本发送到<code>Comparer</code>。</li>
+<li>通过<code>Select item 1</code>和<code>Select item 2</code>选择要比较的两段字符串，点击<code>words</code>开始比较。<h2 id="Repeater"><a href="#Repeater" class="headerlink" title="Repeater"></a>Repeater</h2><h3 id="主要功能-6"><a href="#主要功能-6" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>编辑<code>HTTP</code>请求。<h3 id="使用流程-6"><a href="#使用流程-6" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>拦截到请求后发送到<code>Repeater</code>。</li>
+<li>直接在框中修改请求内容。</li>
+<li>点击<code>Send</code>发送请求，得到的回复在<code>Response</code>显示。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/man_git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/man_git/" class="post-title-link" itemprop="url">Home</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p>title: tools</p>
+<h2 id="date-2022-05-17-17-02-40"><a href="#date-2022-05-17-17-02-40" class="headerlink" title="date: 2022-05-17 17:02:40"></a>date: 2022-05-17 17:02:40</h2><p>@<a href="Git操作笔记">TOC</a></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>在看了<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师</a>的课后，做了一些笔记，本文是对操作的归纳。</p>
+<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init<span class="comment">//初始化仓库</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加文件"><a href="#添加文件" class="headerlink" title="添加文件"></a>添加文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add &lt;file&gt;<span class="comment">//把文件放到暂存区</span></span><br><span class="line">git commit -m &lt;message&gt;<span class="comment">//提交暂存区的文件并备注</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20200704174531816.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git status<span class="comment">//查看工作区的状态</span></span><br><span class="line">git diff<span class="comment">//查看修改的内容</span></span><br></pre></td></tr></table></figure>
+<h2 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard commit_id<span class="comment">//返回到id对应的版本</span></span><br><span class="line">git log<span class="comment">//查看提交历史，回到过去</span></span><br><span class="line">git reflog<span class="comment">//查看命令历史，回到未来</span></span><br><span class="line">git checkout -- file<span class="comment">//放弃工作区的修改</span></span><br><span class="line">git reset HEAD &lt;file&gt;<span class="comment">//放弃暂存区的修改</span></span><br><span class="line">git rm<span class="comment">//删除一个文件</span></span><br></pre></td></tr></table></figure>
+<h2 id="SSH-Key"><a href="#SSH-Key" class="headerlink" title="SSH Key"></a>SSH Key</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span><span class="comment">//创建SSH Key</span></span><br></pre></td></tr></table></figure>
+<p>在用户主目录里找到.ssh文件，把当中的id_rsa.pub内容放到GitHub里面。<br><img src="https://img-blog.csdnimg.cn/20200704180004670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git<span class="comment">//关联远程库</span></span><br><span class="line">git push -u origin master<span class="comment">//第一次推送master分支的内容</span></span><br><span class="line">git push origin master<span class="comment">//推送最新修改</span></span><br><span class="line">git clone git@server-name:path/repo-name.git<span class="comment">//克隆一个仓库</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20200704180517734.png" alt="在这里插入图片描述"></p>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git branch<span class="comment">//查看分支</span></span><br><span class="line">git branch &lt;name&gt;<span class="comment">//创建分支</span></span><br><span class="line">git checkout &lt;name&gt;<span class="comment">//切换分支</span></span><br><span class="line">git <span class="keyword">switch</span> &lt;name&gt;<span class="comment">//切换分支</span></span><br><span class="line">git checkout -b &lt;name&gt;<span class="comment">//创建并且切换到新分支</span></span><br><span class="line">git <span class="keyword">switch</span> -c &lt;name&gt;<span class="comment">//创建并且切换到新分支</span></span><br><span class="line">git merge &lt;name&gt;<span class="comment">//合并到当前分支</span></span><br><span class="line">git branch -d &lt;name&gt;<span class="comment">//删除分支</span></span><br><span class="line">git log --graph --pretty=oneline --abbrev-commit<span class="comment">//合并情况可视化</span></span><br><span class="line">git merge --no-ff -m<span class="string">&quot;&lt;message&gt;&quot;</span> &lt;name&gt;<span class="comment">//有分支合并</span></span><br><span class="line">git branch -D &lt;name&gt;<span class="comment">//强行删除</span></span><br></pre></td></tr></table></figure>
+<h2 id="保存现场"><a href="#保存现场" class="headerlink" title="保存现场"></a>保存现场</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash<span class="comment">//把当前分支操作入栈</span></span><br><span class="line">git stash pop<span class="comment">//把工作栈内容取出</span></span><br><span class="line">git cherry-pick &lt;commit&gt;<span class="comment">//把某个操作复制到当前分支</span></span><br></pre></td></tr></table></figure>
+<h2 id="多人工作"><a href="#多人工作" class="headerlink" title="多人工作"></a>多人工作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git push origin &lt;branch-name&gt;<span class="comment">//推送工作分支</span></span><br><span class="line">git pull<span class="comment">//推送失败，抓下远程分支试图合并</span></span><br><span class="line">git branch --set-upstream-to &lt;branch-name&gt; origin<span class="comment">//和远程分支建立联系</span></span><br><span class="line">git rebase<span class="comment">//将提交的分叉整理成直线</span></span><br></pre></td></tr></table></figure>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git tag -a &lt;tagname&gt; -m<span class="string">&quot;&lt;message&gt;&quot;</span><span class="comment">//给分支命名并且备注</span></span><br><span class="line">git tag<span class="comment">//查看所有标签</span></span><br><span class="line">git push origin &lt;tagname&gt;<span class="comment">//推送本地标签</span></span><br><span class="line">git push origin --tags<span class="comment">//推送全部本地标签</span></span><br><span class="line">git tag -d &lt;tagname&gt;<span class="comment">//删除一个本地标签</span></span><br><span class="line">git push origin :refs/tags/&lt;tagname&gt;<span class="comment">//删除远程标签</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 
 
@@ -287,7 +1499,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

