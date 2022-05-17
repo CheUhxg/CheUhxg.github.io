@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Burp Suite模块介绍Target主要功能 显示信息。 默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。使用流程   在Site map中，将目标站点发送到Scope。 使用Filter过滤。 任意的URL&#x2F;HTTP请求都可以发送到其他模块。   Spider主要功能    网络爬虫，枚举应用程序的内容和功能。 在爬行时默认进行漏洞扫描，检测每个访问过的URL。使用流程   在Pro">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CheUhxg&#39;s Blog">
+<meta property="og:url" content="http://example.com/tools/man_burp.html">
+<meta property="og:site_name" content="CheUhxg&#39;s Blog">
+<meta property="og:description" content="Burp Suite模块介绍Target主要功能 显示信息。 默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。使用流程   在Site map中，将目标站点发送到Scope。 使用Filter过滤。 任意的URL&#x2F;HTTP请求都可以发送到其他模块。   Spider主要功能    网络爬虫，枚举应用程序的内容和功能。 在爬行时默认进行漏洞扫描，检测每个访问过的URL。使用流程   在Pro">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-17T10:16:39.413Z">
+<meta property="article:modified_time" content="2022-05-17T09:23:13.051Z">
+<meta property="article:author" content="CheUhxg">
+<meta property="article:tag" content="SDN | Container | C&#x2F;C++ | Go | Distributed">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/tools/man_burp">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title> | CheUhxg's Blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="CheUhxg's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CheUhxg's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Code Copyer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tools/" rel="section"><i class="tools fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="en">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="Burp-Suite模块介绍"><a href="#Burp-Suite模块介绍" class="headerlink" title="Burp Suite模块介绍"></a>Burp Suite模块介绍</h1><h2 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h2><h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li>显示信息。</li>
+<li>默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在<code>Site map</code>中，将目标站点发送到<code>Scope</code>。</li>
+<li>使用<code>Filter</code>过滤。<blockquote>
+<p>任意的<code>URL/HTTP</code>请求都可以发送到其他模块。  </p>
+<h2 id="Spider"><a href="#Spider" class="headerlink" title="Spider"></a>Spider</h2><h3 id="主要功能-1"><a href="#主要功能-1" class="headerlink" title="主要功能"></a>主要功能</h3></blockquote>
+</li>
+</ol>
+<ul>
+<li>网络爬虫，枚举应用程序的内容和功能。</li>
+<li>在爬行时默认进行漏洞扫描，检测每个访问过的<code>URL</code>。<h3 id="使用流程-1"><a href="#使用流程-1" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在<code>Proxy</code>中的<code>Action</code>将请求发送到<code>Spider</code>。</li>
+<li>在<code>Target</code>&gt;<code>Site map</code>中即可看到爬行列表。</li>
+<li>在<code>Spider</code>&gt;<code>Control</code>中可以看到爬行状态，决定开始或者停止。<h2 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h2><h3 id="主要功能-2"><a href="#主要功能-2" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>扫描<code>Web</code>应用程序的安全漏洞。<h3 id="使用流程-2"><a href="#使用流程-2" class="headerlink" title="使用流程"></a>使用流程</h3><h4 id="单一URL"><a href="#单一URL" class="headerlink" title="单一URL"></a>单一URL</h4></li>
+<li>在<code>Proxy</code>中的<code>Action</code>选择<code>Do an active scan</code>即可对该请求的单一<code>URL</code>进行扫描。<h4 id="全站扫描"><a href="#全站扫描" class="headerlink" title="全站扫描"></a>全站扫描</h4></li>
+</ul>
+<ol>
+<li>先爬行该网站所有链接。</li>
+<li>在<code>Target</code>中选择目的网站，右键转到<code>Actively Scan this Host</code>。</li>
+<li>跳出向导后，删除不需要扫描的页面，对需要扫描的页面进行确认。</li>
+<li>在<code>Scan queue</code>中可以查看扫描进度，在<code>Results</code>中查看扫描结果。<h2 id="Intruder"><a href="#Intruder" class="headerlink" title="Intruder"></a>Intruder</h2><h3 id="主要功能-3"><a href="#主要功能-3" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>对<code>Web</code>程序进行自动化攻击。<blockquote>
+<p>高度可配置的工具，最重要的是配置<code>Attack Type</code>、程序变量以及字典的设置。  </p>
+<h3 id="使用流程-3"><a href="#使用流程-3" class="headerlink" title="使用流程"></a>使用流程</h3></blockquote>
+</li>
+</ul>
+<ol>
+<li>将拦截到的请求发送到<code>Intruder</code>，在<code>Intruder</code>&gt;<code>Target</code>中可看到目标网址和访问端口。</li>
+<li>在<code>Positions</code>中进行主要配置。</li>
+<li>配置后，点击<code>Start Attack</code>进行扫描。<h3 id="具体配置"><a href="#具体配置" class="headerlink" title="具体配置"></a>具体配置</h3><h4 id="Attack-Type"><a href="#Attack-Type" class="headerlink" title="Attack Type"></a>Attack Type</h4>|名称|功能|<br>|—|—|<br>|Sniper|对变量依次进行破解|<br>|Battering ram|对变量同时进行破解|<br>|Pitch fork|每个变量将会对应一个字典|<br>|Cluster bomb|每个变量将会对应一个字典，并且交叉破解，尝试每一个组合|<h4 id="程序变量"><a href="#程序变量" class="headerlink" title="程序变量"></a>程序变量</h4></li>
+</ol>
+<ul>
+<li>使用<code>Clear</code>清除默认变量。</li>
+<li><code>Add</code>设置变量。<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><h5 id="Payload-Sets"><a href="#Payload-Sets" class="headerlink" title="Payload Sets"></a>Payload Sets</h5></li>
+<li><code>Set</code>针对指定变量进行配置。</li>
+<li><code>Type</code>为<code>Payload</code>的类型。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple list</td>
+<td>简单列表</td>
+</tr>
+<tr>
+<td>Runtime file</td>
+<td>运行时读取列表</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td>数字列表</td>
+</tr>
+<tr>
+<td>Dates</td>
+<td>日期列表</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="Payload-Options"><a href="#Payload-Options" class="headerlink" title="Payload Options"></a>Payload Options</h5><ul>
+<li>默认使用<code>Simple list</code>类型。<h5 id="Payload-Processing"><a href="#Payload-Processing" class="headerlink" title="Payload Processing"></a>Payload Processing</h5></li>
+<li>对字符串进行处理。</li>
+<li>支持<code>MD5</code>加密、字符串截取、加入前缀/后缀等。<h5 id="Payload-Encoding"><a href="#Payload-Encoding" class="headerlink" title="Payload Encoding"></a>Payload Encoding</h5></li>
+<li>请求时对某些字符进行<code>URL</code>转码。<h4 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h4></li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Request Engine</td>
+<td>请求引擎设置，设置线程、超时等信息</td>
+</tr>
+<tr>
+<td>Attack Results</td>
+<td>攻击结果显示，设置<code>request</code>、<code>response</code></td>
+</tr>
+<tr>
+<td>Grep-Match</td>
+<td>识别    <code>response</code>中是否存在此表达式或简单字符串</td>
+</tr>
+<tr>
+<td>Grep-Extract</td>
+<td>通过正则截取<code>response</code>中的信息</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><h3 id="主要功能-4"><a href="#主要功能-4" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li>支持对<code>URL</code>、<code>HEX</code>、<code>HTML</code>等格式字符串进行编码。<h3 id="使用流程-4"><a href="#使用流程-4" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在文本框中输入需要编/解码的文本。</li>
+<li>右侧选择操作模式。<h2 id="Comparer"><a href="#Comparer" class="headerlink" title="Comparer"></a>Comparer</h2><h3 id="主要功能-5"><a href="#主要功能-5" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>比较两段字符串的差异。<h3 id="使用流程-5"><a href="#使用流程-5" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>选择直接加载文本或者将需要比对的文本发送到<code>Comparer</code>。</li>
+<li>通过<code>Select item 1</code>和<code>Select item 2</code>选择要比较的两段字符串，点击<code>words</code>开始比较。<h2 id="Repeater"><a href="#Repeater" class="headerlink" title="Repeater"></a>Repeater</h2><h3 id="主要功能-6"><a href="#主要功能-6" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>编辑<code>HTTP</code>请求。<h3 id="使用流程-6"><a href="#使用流程-6" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>拦截到请求后发送到<code>Repeater</code>。</li>
+<li>直接在框中修改请求内容。</li>
+<li>点击<code>Send</code>发送请求，得到的回复在<code>Response</code>显示。</li>
+</ol>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Burp-Suite%E6%A8%A1%E5%9D%97%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">Burp Suite模块介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Target"><span class="nav-number">1.1.</span> <span class="nav-text">Target</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.1.</span> <span class="nav-text">主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spider"><span class="nav-number">1.2.</span> <span class="nav-text">Spider</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scanner"><span class="nav-number">1.3.</span> <span class="nav-text">Scanner</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">使用流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E4%B8%80URL"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">单一URL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E7%AB%99%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">全站扫描</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intruder"><span class="nav-number">1.4.</span> <span class="nav-text">Intruder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B-3"><span class="nav-number">1.4.2.</span> <span class="nav-text">使用流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.3.</span> <span class="nav-text">具体配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Attack-Type"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">Attack Type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E5%8F%98%E9%87%8F"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">程序变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E5%85%B8"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Payload-Sets"><span class="nav-number">1.4.3.3.1.</span> <span class="nav-text">Payload Sets</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Payload-Options"><span class="nav-number">1.4.3.3.2.</span> <span class="nav-text">Payload Options</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Payload-Processing"><span class="nav-number">1.4.3.3.3.</span> <span class="nav-text">Payload Processing</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Payload-Encoding"><span class="nav-number">1.4.3.3.4.</span> <span class="nav-text">Payload Encoding</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Option"><span class="nav-number">1.4.3.4.</span> <span class="nav-text">Option</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Decoder"><span class="nav-number">1.5.</span> <span class="nav-text">Decoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD-4"><span class="nav-number">1.5.1.</span> <span class="nav-text">主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B-4"><span class="nav-number">1.5.2.</span> <span class="nav-text">使用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparer"><span class="nav-number">1.6.</span> <span class="nav-text">Comparer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD-5"><span class="nav-number">1.6.1.</span> <span class="nav-text">主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B-5"><span class="nav-number">1.6.2.</span> <span class="nav-text">使用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Repeater"><span class="nav-number">1.7.</span> <span class="nav-text">Repeater</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD-6"><span class="nav-number">1.7.1.</span> <span class="nav-text">主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B-6"><span class="nav-number">1.7.2.</span> <span class="nav-text">使用流程</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CheUhxg"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">CheUhxg</p>
+  <div class="site-description" itemprop="description">C0py for Coding</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CheUhxg</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'e2aed8eaf159652bc070',
+      clientSecret: '2482369803759b5bd152eee592d8b933706a1de2',
+      repo        : 'CheUhxg.github.io',
+      owner       : 'CheUhxg',
+      admin       : ['CheUhxg'],
+      id          : 'd1f5fffc5cbf1e25cf507865fe570556',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
