@@ -343,8 +343,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/05/17/note_DVWA/" rel="prev" title="DVWA note">
-      <i class="fa fa-chevron-left"></i> DVWA note
+    <a href="/2022/05/17/vuln_Insecure_CAPTCHA/" rel="prev" title="Insecure CAPTCHA introduce and usage">
+      <i class="fa fa-chevron-left"></i> Insecure CAPTCHA introduce and usage
     </a></div>
       <div class="post-nav-item">
     <a href="/2022/05/17/note_scapy/" rel="next" title="Scapy note">
@@ -432,13 +432,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -581,6 +581,26 @@ window.addEventListener('pjax:success', () => {
 
 
 
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 

@@ -205,6 +205,26 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
+              datetime="2022-05-17T20:29:20+08:00"
+              content="2022-05-17">
+          05-17
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2022/05/17/lab-mit-6858/" itemprop="url">
+            <span itemprop="name">Mit 6.858 Lab</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
               datetime="2022-05-17T17:02:40+08:00"
               content="2022-05-17">
           05-17
@@ -252,8 +272,8 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2022/05/17/exp_VSCode_C_pro/" itemprop="url">
-            <span itemprop="name">VSCode with C/C++ projection's profile</span>
+          <a class="post-title-link" href="/2022/05/17/exp_XTerm_send/" itemprop="url">
+            <span itemprop="name">XTerm send package</span>
           </a>
       </div>
 
@@ -312,8 +332,8 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2022/05/17/exp_XTerm_send/" itemprop="url">
-            <span itemprop="name">XTerm send package</span>
+          <a class="post-title-link" href="/2022/05/17/exp_VSCode_C_pro/" itemprop="url">
+            <span itemprop="name">VSCode with C/C++ projection's profile</span>
           </a>
       </div>
 
@@ -334,26 +354,6 @@
       <div class="post-title">
           <a class="post-title-link" href="/2022/05/17/exp_ubuntu_deploy_gitlab/" itemprop="url">
             <span itemprop="name">Ubuntu20 deploy Gitlab</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-05-17T17:02:40+08:00"
-              content="2022-05-17">
-          05-17
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/05/17/introduce/" itemprop="url">
-            <span itemprop="name">Home</span>
           </a>
       </div>
 
@@ -484,13 +484,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -633,6 +633,26 @@ window.addEventListener('pjax:success', () => {
 
 
 
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 
