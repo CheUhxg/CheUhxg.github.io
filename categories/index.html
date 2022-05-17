@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.font.im/css?family=Monoca:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="C0py for Coding">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-17T11:25:54.000Z">
-<meta property="article:modified_time" content="2022-05-17T11:25:54.048Z">
+<meta property="article:modified_time" content="2022-05-17T11:35:35.670Z">
 <meta property="article:author" content="CheUhxg">
 <meta property="article:tag" content="SDN | Container | C&#x2F;C++ | Go | Distributed">
 <meta name="twitter:card" content="summary">
@@ -183,7 +183,15 @@
       
       
       <div class="post-body">
-          
+          <div class="category-all-page">
+            <div class="category-all-title">
+              4 categories in total
+            </div>
+            <div class="category-all">
+              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/exp/">exp</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">tool</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vuln/">vuln</a><span class="category-list-count">4</span></li></ul>
+            </div>
+          </div>
+        
       </div>
       
       
@@ -198,7 +206,6 @@
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -265,12 +272,16 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">18</span>
-        <span class="site-state-item-name">categories</span>
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">tags</span>
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
@@ -419,25 +430,6 @@ window.addEventListener('pjax:success', () => {
 
   
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'e2aed8eaf159652bc070',
-      clientSecret: '2482369803759b5bd152eee592d8b933706a1de2',
-      repo        : 'CheUhxg.github.io',
-      owner       : 'CheUhxg',
-      admin       : ['CheUhxg'],
-      id          : 'a676607444a8bc8b150c9a3aff884e61',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
 
     </div>
 </body>
