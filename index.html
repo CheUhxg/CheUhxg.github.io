@@ -120,7 +120,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tools/" rel="section"><i class="tools vulns exps notes fa-fw"></i>Tags</a>
+    <a href="/tags/" rel="section"><i class="tools vulns exps notes fa-fw"></i>Tags</a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -247,6 +247,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ONOS_group/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_ONOS_group/" class="post-title-link" itemprop="url">ONOS group multicast in SDN</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:22:57" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ONOS-SDN/" itemprop="url" rel="index"><span itemprop="name">ONOS SDN</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
+<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
+<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
+<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
+<ul>
+<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
+</li>
+<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
+</li>
+<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
+<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
+</ul>
+</li>
+<li>计数器<code>counters</code>:记录处理过的报文数</li>
+<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
+</ul>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -321,97 +412,6 @@
 <li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
 </ul>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ONOS_group/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/exp_ONOS_group/" class="post-title-link" itemprop="url">ONOS group multicast in SDN</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:22:57" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ONOS-SDN/" itemprop="url" rel="index"><span itemprop="name">ONOS SDN</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
-<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
-<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
-<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
-<ul>
-<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
-</li>
-<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
-</li>
-<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
-<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
-</ul>
-</li>
-<li>计数器<code>counters</code>:记录处理过的报文数</li>
-<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
-</ul>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1222,6 +1222,204 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/man_burp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/man_burp/" class="post-title-link" itemprop="url">Burp Suite modules</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:23:10" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Burp/" itemprop="url" rel="index"><span itemprop="name">Burp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h2><h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li>显示信息。</li>
+<li>默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在<code>Site map</code>中，将目标站点发送到<code>Scope</code>。</li>
+<li>使用<code>Filter</code>过滤。<blockquote>
+<p>任意的<code>URL/HTTP</code>请求都可以发送到其他模块。  </p>
+<h2 id="Spider"><a href="#Spider" class="headerlink" title="Spider"></a>Spider</h2><h3 id="主要功能-1"><a href="#主要功能-1" class="headerlink" title="主要功能"></a>主要功能</h3></blockquote>
+</li>
+</ol>
+<ul>
+<li>网络爬虫，枚举应用程序的内容和功能。</li>
+<li>在爬行时默认进行漏洞扫描，检测每个访问过的<code>URL</code>。<h3 id="使用流程-1"><a href="#使用流程-1" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在<code>Proxy</code>中的<code>Action</code>将请求发送到<code>Spider</code>。</li>
+<li>在<code>Target</code>&gt;<code>Site map</code>中即可看到爬行列表。</li>
+<li>在<code>Spider</code>&gt;<code>Control</code>中可以看到爬行状态，决定开始或者停止。<h2 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h2><h3 id="主要功能-2"><a href="#主要功能-2" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>扫描<code>Web</code>应用程序的安全漏洞。<h3 id="使用流程-2"><a href="#使用流程-2" class="headerlink" title="使用流程"></a>使用流程</h3><h4 id="单一URL"><a href="#单一URL" class="headerlink" title="单一URL"></a>单一URL</h4></li>
+<li>在<code>Proxy</code>中的<code>Action</code>选择<code>Do an active scan</code>即可对该请求的单一<code>URL</code>进行扫描。<h4 id="全站扫描"><a href="#全站扫描" class="headerlink" title="全站扫描"></a>全站扫描</h4></li>
+</ul>
+<ol>
+<li>先爬行该网站所有链接。</li>
+<li>在<code>Target</code>中选择目的网站，右键转到<code>Actively Scan this Host</code>。</li>
+<li>跳出向导后，删除不需要扫描的页面，对需要扫描的页面进行确认。</li>
+<li>在<code>Scan queue</code>中可以查看扫描进度，在<code>Results</code>中查看扫描结果。<h2 id="Intruder"><a href="#Intruder" class="headerlink" title="Intruder"></a>Intruder</h2><h3 id="主要功能-3"><a href="#主要功能-3" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>对<code>Web</code>程序进行自动化攻击。<blockquote>
+<p>高度可配置的工具，最重要的是配置<code>Attack Type</code>、程序变量以及字典的设置。  </p>
+<h3 id="使用流程-3"><a href="#使用流程-3" class="headerlink" title="使用流程"></a>使用流程</h3></blockquote>
+</li>
+</ul>
+<ol>
+<li>将拦截到的请求发送到<code>Intruder</code>，在<code>Intruder</code>&gt;<code>Target</code>中可看到目标网址和访问端口。</li>
+<li>在<code>Positions</code>中进行主要配置。</li>
+<li>配置后，点击<code>Start Attack</code>进行扫描。<h3 id="具体配置"><a href="#具体配置" class="headerlink" title="具体配置"></a>具体配置</h3><h4 id="Attack-Type"><a href="#Attack-Type" class="headerlink" title="Attack Type"></a>Attack Type</h4>|名称|功能|<br>|—|—|<br>|Sniper|对变量依次进行破解|<br>|Battering ram|对变量同时进行破解|<br>|Pitch fork|每个变量将会对应一个字典|<br>|Cluster bomb|每个变量将会对应一个字典，并且交叉破解，尝试每一个组合|<h4 id="程序变量"><a href="#程序变量" class="headerlink" title="程序变量"></a>程序变量</h4></li>
+</ol>
+<ul>
+<li>使用<code>Clear</code>清除默认变量。</li>
+<li><code>Add</code>设置变量。<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><h5 id="Payload-Sets"><a href="#Payload-Sets" class="headerlink" title="Payload Sets"></a>Payload Sets</h5></li>
+<li><code>Set</code>针对指定变量进行配置。</li>
+<li><code>Type</code>为<code>Payload</code>的类型。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple list</td>
+<td>简单列表</td>
+</tr>
+<tr>
+<td>Runtime file</td>
+<td>运行时读取列表</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td>数字列表</td>
+</tr>
+<tr>
+<td>Dates</td>
+<td>日期列表</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="Payload-Options"><a href="#Payload-Options" class="headerlink" title="Payload Options"></a>Payload Options</h5><ul>
+<li>默认使用<code>Simple list</code>类型。<h5 id="Payload-Processing"><a href="#Payload-Processing" class="headerlink" title="Payload Processing"></a>Payload Processing</h5></li>
+<li>对字符串进行处理。</li>
+<li>支持<code>MD5</code>加密、字符串截取、加入前缀/后缀等。<h5 id="Payload-Encoding"><a href="#Payload-Encoding" class="headerlink" title="Payload Encoding"></a>Payload Encoding</h5></li>
+<li>请求时对某些字符进行<code>URL</code>转码。<h4 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h4></li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Request Engine</td>
+<td>请求引擎设置，设置线程、超时等信息</td>
+</tr>
+<tr>
+<td>Attack Results</td>
+<td>攻击结果显示，设置<code>request</code>、<code>response</code></td>
+</tr>
+<tr>
+<td>Grep-Match</td>
+<td>识别    <code>response</code>中是否存在此表达式或简单字符串</td>
+</tr>
+<tr>
+<td>Grep-Extract</td>
+<td>通过正则截取<code>response</code>中的信息</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><h3 id="主要功能-4"><a href="#主要功能-4" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li>支持对<code>URL</code>、<code>HEX</code>、<code>HTML</code>等格式字符串进行编码。<h3 id="使用流程-4"><a href="#使用流程-4" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>在文本框中输入需要编/解码的文本。</li>
+<li>右侧选择操作模式。<h2 id="Comparer"><a href="#Comparer" class="headerlink" title="Comparer"></a>Comparer</h2><h3 id="主要功能-5"><a href="#主要功能-5" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>比较两段字符串的差异。<h3 id="使用流程-5"><a href="#使用流程-5" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>选择直接加载文本或者将需要比对的文本发送到<code>Comparer</code>。</li>
+<li>通过<code>Select item 1</code>和<code>Select item 2</code>选择要比较的两段字符串，点击<code>words</code>开始比较。<h2 id="Repeater"><a href="#Repeater" class="headerlink" title="Repeater"></a>Repeater</h2><h3 id="主要功能-6"><a href="#主要功能-6" class="headerlink" title="主要功能"></a>主要功能</h3></li>
+</ol>
+<ul>
+<li>编辑<code>HTTP</code>请求。<h3 id="使用流程-6"><a href="#使用流程-6" class="headerlink" title="使用流程"></a>使用流程</h3></li>
+</ul>
+<ol>
+<li>拦截到请求后发送到<code>Repeater</code>。</li>
+<li>直接在框中修改请求内容。</li>
+<li>点击<code>Send</code>发送请求，得到的回复在<code>Response</code>显示。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/man_git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1285,94 +1483,6 @@
 <h2 id="保存现场"><a href="#保存现场" class="headerlink" title="保存现场"></a>保存现场</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash<span class="comment">//把当前分支操作入栈</span></span><br><span class="line">git stash pop<span class="comment">//把工作栈内容取出</span></span><br><span class="line">git cherry-pick &lt;commit&gt;<span class="comment">//把某个操作复制到当前分支</span></span><br></pre></td></tr></table></figure>
 <h2 id="多人工作"><a href="#多人工作" class="headerlink" title="多人工作"></a>多人工作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git push origin &lt;branch-name&gt;<span class="comment">//推送工作分支</span></span><br><span class="line">git pull<span class="comment">//推送失败，抓下远程分支试图合并</span></span><br><span class="line">git branch --set-upstream-to &lt;branch-name&gt; origin<span class="comment">//和远程分支建立联系</span></span><br><span class="line">git rebase<span class="comment">//将提交的分叉整理成直线</span></span><br></pre></td></tr></table></figure>
 <h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git tag -a &lt;tagname&gt; -m<span class="string">&quot;&lt;message&gt;&quot;</span><span class="comment">//给分支命名并且备注</span></span><br><span class="line">git tag<span class="comment">//查看所有标签</span></span><br><span class="line">git push origin &lt;tagname&gt;<span class="comment">//推送本地标签</span></span><br><span class="line">git push origin --tags<span class="comment">//推送全部本地标签</span></span><br><span class="line">git tag -d &lt;tagname&gt;<span class="comment">//删除一个本地标签</span></span><br><span class="line">git push origin :refs/tags/&lt;tagname&gt;<span class="comment">//删除远程标签</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/man_mysql/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/man_mysql/" class="post-title-link" itemprop="url">Mysql Manual</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:22:18" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mysql/" itemprop="url" rel="index"><span itemprop="name">Mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建数据库</span></span><br><span class="line">create database DATABASE_NAME;        </span><br><span class="line"><span class="comment">#查看数据库</span></span><br><span class="line">show databases;  </span><br><span class="line"><span class="comment">#查看数据库信息    </span></span><br><span class="line">show create database DATABASE_NAME;   </span><br><span class="line"><span class="comment">#删除数据库</span></span><br><span class="line">drop database DATABASE_NAME;</span><br><span class="line"><span class="comment">#直接创建数据库且设置编码方式</span></span><br><span class="line">create database DATABASE_NAME DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br></pre></td></tr></table></figure>
-<h3 id="数据表"><a href="#数据表" class="headerlink" title="数据表"></a>数据表</h3><ul>
-<li>创建</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先选定操作的数据库</span></span><br><span class="line">use DATABASE_NAME;</span><br><span class="line"><span class="comment">#创建表student</span></span><br><span class="line">create table student(</span><br><span class="line">  <span class="built_in">id</span>  int(11),</span><br><span class="line">  name  varchar(20),</span><br><span class="line">  age int(11)</span><br><span class="line">);</span><br><span class="line"><span class="comment">#查看数据表</span></span><br><span class="line">show tables;</span><br><span class="line"><span class="comment">#查看数据表信息，后面加上参数/G可使结果更加美观</span></span><br><span class="line">show create table TABLE_NAME;</span><br><span class="line"><span class="comment">#查看表的字段信息</span></span><br><span class="line">desc TABLE_NAME;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#修改表名</span></span><br><span class="line">alter table student rename to DATABASE_NAME;</span><br><span class="line"><span class="comment">#修改字段名</span></span><br><span class="line">alter table TABLE_NAME change FIELD_NAME_1 FIELD_NAME_2 varchar(20);</span><br><span class="line"><span class="comment">#修改字段的数据类型</span></span><br><span class="line">alter table TABLE_NAME modify FIELD_NAME int(20);</span><br><span class="line"><span class="comment">#添加字段</span></span><br><span class="line">alter table TABLE_NAME add FIELD_NAME FIELD_DATA_TYPE;</span><br><span class="line"><span class="comment">#删除字段</span></span><br><span class="line">alter table TABLE_NAME drop FIELD_NAME;</span><br><span class="line"><span class="comment">#修改字段的位置</span></span><br><span class="line">alter table TABLE_NAME modify FIELD_NAME varchar(20) first;</span><br><span class="line">alter table TABLE_NAME modify FIELD_NAME_1 int(11) after FIELD_NAME_2;</span><br><span class="line"><span class="comment">#删除数据表</span></span><br><span class="line">drop table TABLE_NAME;</span><br></pre></td></tr></table></figure>
-<h3 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h3><ul>
-<li>创建</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#例子</span></span><br><span class="line">create table student(</span><br><span class="line">  <span class="built_in">id</span> int,</span><br><span class="line">  name varchar(20) not null,</span><br><span class="line">  grade <span class="built_in">float</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">#插入数据</span></span><br><span class="line">insert into student(<span class="built_in">id</span>,name,grade) values(1,<span class="string">&#x27;howie&#x27;</span>,70);</span><br><span class="line"><span class="comment">#不指定字段名</span></span><br><span class="line">insert into student values(2,<span class="string">&#x27;howie&#x27;</span>,80);</span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line">insert into student <span class="built_in">set</span> <span class="built_in">id</span>=3,name=<span class="string">&quot;howie&quot;</span>,grade=90;</span><br><span class="line"><span class="comment">#同时添加多条数据</span></span><br><span class="line">insert into student values</span><br><span class="line">(4,<span class="string">&#x27;howie&#x27;</span>,80),</span><br><span class="line">(5,<span class="string">&#x27;howie&#x27;</span>,80),</span><br><span class="line">(6,<span class="string">&#x27;howie&#x27;</span>,80);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#更新id=1的数据</span></span><br><span class="line">update student <span class="built_in">set</span> name=<span class="string">&quot;howie1&quot;</span>,grade=60 <span class="built_in">where</span> <span class="built_in">id</span>=1;</span><br><span class="line"><span class="comment">#批量更新,如果没有where条件，会更新表中所有对应数据</span></span><br><span class="line">update TABLE_NAME <span class="built_in">set</span> grade=100 <span class="built_in">where</span> <span class="built_in">id</span>&lt;4;</span><br><span class="line"><span class="comment">#删除id=6的数据</span></span><br><span class="line">delete from TABLE_NAME <span class="built_in">where</span> <span class="built_in">id</span>=6;</span><br><span class="line"><span class="comment">#批量删除数据</span></span><br><span class="line">delete from TABLE_NAME <span class="built_in">where</span> <span class="built_in">id</span>&gt;3;</span><br><span class="line"><span class="comment">#删除所有数据</span></span><br><span class="line"><span class="built_in">truncate</span> table TABLE_NAME;</span><br><span class="line">delete from TABLE_NAME;</span><br></pre></td></tr></table></figure>
-<h2 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h2><h3 id="单表"><a href="#单表" class="headerlink" title="单表"></a>单表</h3><ul>
-<li>查询</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查询全部</span></span><br><span class="line">select * from TABLE_NAME;</span><br><span class="line"><span class="comment">#查询某个字段</span></span><br><span class="line">select FIELD_NAME from TABLE_NAME;</span><br><span class="line"><span class="comment">#条件查询</span></span><br><span class="line">select * from TABLE_NAME <span class="built_in">where</span> <span class="built_in">id</span>=2;</span><br><span class="line"><span class="comment">#in关键字查询,排除法使用not in</span></span><br><span class="line">select * from TABLE_NAME <span class="built_in">where</span> <span class="built_in">id</span> IN(1,2,3);</span><br><span class="line"><span class="comment">#between and关键字查询</span></span><br><span class="line">select * from TABLE_NAME <span class="built_in">where</span> <span class="built_in">id</span> between 2 and 5;</span><br><span class="line"><span class="comment">#空值(NULL)查询，使用IS NULL来判断</span></span><br><span class="line">select * from TABLE_NAME <span class="built_in">where</span> grade is null;</span><br><span class="line"><span class="comment">#distinct关键字查询</span></span><br><span class="line">select distinct name from TABLE_NAME;</span><br><span class="line"><span class="comment">#like关键字查询,查询以h开头，e结尾的数据</span></span><br><span class="line">select * from TABLE_NAME <span class="built_in">where</span> name like <span class="string">&quot;h%e&quot;</span>;</span><br><span class="line"><span class="comment">#and关键字多条件查询,or关键字的使用也是类似</span></span><br><span class="line">select * from TABLE_NAME <span class="built_in">where</span> <span class="built_in">id</span>&gt;5 and grade&gt;60;</span><br><span class="line"></span><br><span class="line"><span class="comment">#聚合函数:count()函数,sum()函数,avg()函数,max()函数,min()函数</span></span><br><span class="line">select count(*) from student;</span><br><span class="line">select <span class="built_in">sum</span>(grade) from student;</span><br><span class="line">select avg(grade) from student;</span><br><span class="line">select max(grade) from student;</span><br><span class="line">select min(grade) from student;</span><br><span class="line"><span class="comment">#对查询结果进行排序</span></span><br><span class="line">select * from student order by grade;</span><br><span class="line"></span><br><span class="line"><span class="comment">#分组查询</span></span><br><span class="line"><span class="comment">#1.单独使用group by分组</span></span><br><span class="line">select * from TABLE_NAME group by grade;</span><br><span class="line"><span class="comment">#2.和聚合函数一起使用</span></span><br><span class="line">select count(*),grade from TABLE_NAME group by grade;</span><br><span class="line"><span class="comment">#3.和having关键字一起使用</span></span><br><span class="line">select <span class="built_in">sum</span>(grade),name from TABLE_NAME group by grade having <span class="built_in">sum</span>(grade) &gt;100;</span><br><span class="line"><span class="comment">#使用limit限制查询结果的数量</span></span><br><span class="line">select * from TABLE_NAME <span class="built_in">limit</span> 5;</span><br><span class="line">select * from TABLE_NAME <span class="built_in">limit</span> 2,2;</span><br><span class="line">select * from TABLE_NAME order by grade desc <span class="built_in">limit</span> 2,2;</span><br><span class="line"><span class="comment">#函数</span></span><br><span class="line">select concat(<span class="built_in">id</span>,<span class="string">&#x27;:&#x27;</span>,name,<span class="string">&#x27;:&#x27;</span>,grade) from TABLE_NAME;</span><br><span class="line"><span class="comment">#为表取别名</span></span><br><span class="line">select * from TABLE_NAME as stu <span class="built_in">where</span> stu.name=<span class="string">&quot;howie&quot;</span>;</span><br><span class="line"><span class="comment">#为字段取别名,as关键字也可以不写</span></span><br><span class="line">select name as stu_name,grade stu_grade from TABLE_NAME;</span><br></pre></td></tr></table></figure>
 
       
     </div>
