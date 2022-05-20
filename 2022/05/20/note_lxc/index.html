@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前提 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  介绍 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cgroup)) Capabil">
+  <meta name="description" content="前提 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  介绍 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cgroup) Capabili">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LXC note">
+<meta property="og:title" content="lxc note">
 <meta property="og:url" content="http://example.com/2022/05/20/note_lxc/index.html">
 <meta property="og:site_name" content="CheUhxg&#39;s Blog">
-<meta property="og:description" content="前提 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  介绍 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cgroup)) Capabil">
+<meta property="og:description" content="前提 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  介绍 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cgroup) Capabili">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-20T05:54:40.000Z">
-<meta property="article:modified_time" content="2022-05-20T06:08:00.108Z">
+<meta property="article:modified_time" content="2022-05-20T06:10:01.722Z">
 <meta property="article:author" content="CheUhxg">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Container">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>LXC note | CheUhxg's Blog</title>
+  <title>lxc note | CheUhxg's Blog</title>
   
 
 
@@ -206,7 +206,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LXC note
+          lxc note
         </h1>
 
         <div class="post-meta">
@@ -217,7 +217,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-05-20 13:54:40 / Modified: 14:08:00" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
+              <time title="Created: 2022-05-20 13:54:40 / Modified: 14:10:01" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,10 +251,10 @@
 </blockquote>
 <h1 id="Containers-VMs"><a href="#Containers-VMs" class="headerlink" title="Containers != VMs"></a>Containers != VMs</h1><ul>
 <li>lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限)<ul>
-<li><a href="#Control groups(cgroup">Control groups(cgroup)</a>)</li>
+<li><a href="#cgroup">Control groups(cgroup)</a></li>
 <li><a href="#Capabilities">Capabilities</a></li>
 <li><a href="#seccomp">seccomp</a></li>
-<li><a href="#Mandatory Access Control">Mandatory Access Control</a> (via AppArmor, SELinux)</li>
+<li><a href="#MAC">Mandatory Access Control</a> (via AppArmor, SELinux)</li>
 <li><a href="#Namespaces">Namespaces</a></li>
 <li><a href="#chroot">chroot jails</a></li>
 </ul>
@@ -360,7 +360,7 @@
 <li>如果没有cap_net_raw这个capability，生成的ping进程就无法打开RAW套接字。一旦我们恢复了这种capability，ping功能就会恢复正常。</li>
 <li>Capabilities似乎是一个好主意，但CAP_SYS_ADMIN仍然有太多特权，这只是lxc用于加强隔离的另一种机制。</li>
 </ul>
-<h1 id="Control-groups-cgroup"><a href="#Control-groups-cgroup" class="headerlink" title="Control groups(cgroup)"></a>Control groups(cgroup)</h1><h2 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<h1 id="cgroup"><a href="#cgroup" class="headerlink" title="cgroup"></a>cgroup</h1><h2 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h2><ul>
 <li>Control groups (cgroups)<strong>用于根据用户定义的进程组<u>限制系统资源的使用</u></strong>。</li>
 <li>假设您正在运行一个非常密集的数据分析例程，它使用了大量的算力和内存，以致于您的系统没有很好的响应。cgroups是一个<strong>内核特性</strong>，它允许您<strong>定义一组进程</strong>，这些进程运行分析作业并<strong>限制、解释和隔离分配的资源</strong>，这样您就可以在资源有限的情况下执行多任务分析作业。特别地，cgroup特性包括：<ul>
 <li>Limits：可以在处理器使用、内存使用、设备使用等方面指定最大限制。</li>
@@ -463,7 +463,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h1><h1 id="Mandatory-Access-Control"><a href="#Mandatory-Access-Control" class="headerlink" title="Mandatory Access Control"></a>Mandatory Access Control</h1>
+<h1 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h1><h1 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h1>
     </div>
 
     
@@ -545,7 +545,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">3.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chroot"><span class="nav-number">4.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">4.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">4.2.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Capabilities"><span class="nav-number">5.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="nav-number">5.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">5.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Control-groups-cgroup"><span class="nav-number">6.</span> <span class="nav-text">Control groups(cgroup)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="nav-number">6.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-1"><span class="nav-number">6.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Namespaces"><span class="nav-number">7.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-4"><span class="nav-number">7.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-2"><span class="nav-number">7.2.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8Ecgroups%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.3.</span> <span class="nav-text">与cgroups的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#seccomp"><span class="nav-number">8.</span> <span class="nav-text">seccomp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mandatory-Access-Control"><span class="nav-number">9.</span> <span class="nav-text">Mandatory Access Control</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">3.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chroot"><span class="nav-number">4.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">4.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">4.2.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Capabilities"><span class="nav-number">5.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="nav-number">5.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">5.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cgroup"><span class="nav-number">6.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="nav-number">6.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-1"><span class="nav-number">6.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Namespaces"><span class="nav-number">7.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-4"><span class="nav-number">7.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-2"><span class="nav-number">7.2.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8Ecgroups%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.3.</span> <span class="nav-text">与cgroups的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#seccomp"><span class="nav-number">8.</span> <span class="nav-text">seccomp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MAC"><span class="nav-number">9.</span> <span class="nav-text">MAC</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
