@@ -214,7 +214,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-05-20 13:54:40 / Modified: 15:19:38" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
+              <time title="Created: 2022-05-20 13:54:40 / Modified: 15:28:25" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,16 +237,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h1><ul>
+          <h1 id="remise"><a href="#remise" class="headerlink" title="remise"></a>remise</h1><ul>
 <li>本文翻译(有道翻译)自<a target="_blank" rel="noopener" href="https://raydenchia.com/linux-containers-lxc/#seccomp">linux-container-lxc</a>，根据重点摘录学习。</li>
 </ul>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><ul>
 <li>最好将<strong>容器化</strong>定义为：通过操作系统中的特性启用的<strong>进程隔离机制</strong>。</li>
 </ul>
 <blockquote>
 <p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
 </blockquote>
-<h1 id="Containers-VMs"><a href="#Containers-VMs" class="headerlink" title="Containers != VMs"></a>Containers != VMs</h1><ul>
+<h2 id="Containers-VMs"><a href="#Containers-VMs" class="headerlink" title="Containers != VMs"></a>Containers != VMs</h2><ul>
 <li>lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限)<ul>
 <li><a href="#cgroup">Control groups(cgroup)</a></li>
 <li><a href="#Capabilities">Capabilities</a></li>
@@ -296,17 +296,17 @@
 </tbody>
 </table>
 </div>
-<h1 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h1><h2 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<h2 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h2><h3 id="Introduction-1"><a href="#Introduction-1" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
 <li>默认情况下，操作系统的根目录为<code>/</code>，进程将其视为所有文件绝对路径的根目录。</li>
 <li>这个“视图”可以通过<strong>调用chroot()系统调用来更改</strong>，这样我们就可以创建一个独立的独立环境来运行。</li>
 <li><strong>chroot更改当前运行进程及其子进程的表面上的根目录。</strong></li>
 </ul>
-<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ul>
+<h3 id="Defect"><a href="#Defect" class="headerlink" title="Defect"></a>Defect</h3><ul>
 <li>但是，chroot本身并<strong>不能提供强隔离</strong>。</li>
 <li>似乎阻止对父目录的访问就足够了，但是chroot只是<strong>修改进程(通过pivot_root)及其子进程的路径名查找</strong>，将新的chroot-ed目录路径放在任何绝对路径(以<code>/</code>开头的路径)前面。</li>
 <li>在其他原因中，如果进程能够<strong>访问chroot监狱之外的句柄</strong>，那么也<strong>允许访问chroot-ed目录的父目录</strong>——因此这本身不是强隔离。</li>
 </ul>
-<h1 id="Capabilities"><a href="#Capabilities" class="headerlink" title="Capabilities"></a>Capabilities</h1><h2 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<h2 id="Capabilities"><a href="#Capabilities" class="headerlink" title="Capabilities"></a>Capabilities</h2><h3 id="Introduction-2"><a href="#Introduction-2" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
 <li>传统的UNIX自由访问控制分为两个部分<ul>
 <li>root/超级用户/特权;</li>
 <li>用户/非特权。</li>
@@ -327,7 +327,7 @@
 <ul>
 <li>getcap和setcap命令用于获取/设置文件的Capabilities。</li>
 </ul>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><ul>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
 <li>让我们看看ping实用程序，它需要创建一个RAW套接字来发送ICMP数据包：</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">ls</span> -al /bin/ping</span><br><span class="line">-rwsr-xr-x 1 root root 64424 Jun 28  2019 /bin/ping</span><br></pre></td></tr></table></figure>
@@ -357,7 +357,7 @@
 <li>如果没有cap_net_raw这个capability，生成的ping进程就无法打开RAW套接字。一旦我们恢复了这种capability，ping功能就会恢复正常。</li>
 <li>Capabilities似乎是一个好主意，但CAP_SYS_ADMIN仍然有太多特权，这只是lxc用于加强隔离的另一种机制。</li>
 </ul>
-<h1 id="cgroup"><a href="#cgroup" class="headerlink" title="cgroup"></a>cgroup</h1><h2 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<h2 id="cgroup"><a href="#cgroup" class="headerlink" title="cgroup"></a>cgroup</h2><h3 id="Introduction-3"><a href="#Introduction-3" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
 <li>Control groups (cgroups)<strong>用于根据用户定义的进程组<u>限制系统资源的使用</u></strong>。</li>
 <li>假设您正在运行一个非常密集的数据分析例程，它使用了大量的算力和内存，以致于您的系统没有很好的响应。cgroups是一个<strong>内核特性</strong>，它允许您<strong>定义一组进程</strong>，这些进程运行分析作业并<strong>限制、解释和隔离分配的资源</strong>，这样您就可以在资源有限的情况下执行多任务分析作业。特别地，cgroup特性包括：<ul>
 <li>Limits：可以在处理器使用、内存使用、设备使用等方面指定最大限制。</li>
@@ -387,7 +387,7 @@
 </li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cgroup-tools libcgroup1</span><br></pre></td></tr></table></figure>
-<h2 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h2><ul>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><ul>
 <li>假设我们有一个称为memes的内存密集型进程，我们希望在工作站上运行它。我们可以使用cgroups来限制内存使用，方法是在内存子系统中创建一个名为memegroup的cgroup(使用cgcreate)，设置它的限制(使用cgset)，并在该cgroup下执行进程(使用cgexec)：</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo cgcreate -g memory:memegroup</span><br><span class="line">student@6858-v20:~$ sudo cgset -r memory.limit_in_bytes=1500K memegroup</span><br><span class="line">student@6858-v20:~$ cgget -r memory.limit_in_bytes memegroup </span><br><span class="line">primes: </span><br><span class="line">memory.limit_in_bytes: 1536000</span><br><span class="line">student@6858-v20:~$ <span class="built_in">cat</span> /sys/fs/cgroup/memory/memegroup/memory.limit_in_bytes</span><br><span class="line">1536000</span><br><span class="line">student@6858-v20:~$ sudo cgexec -g memory:memegroup ./memes </span><br></pre></td></tr></table></figure>
@@ -410,7 +410,7 @@
 <p>这是一个如何通过cgroup执行限制和过程控制的例子。</p>
 <p>大多数子系统都有计数功能，比如memory.usage_in_bytes、cpuacct.usage_sys等等。优先级的一个例子是cpu.shares(每个cgroup中每个进程可用的CPU资源份额)。</p>
 </blockquote>
-<h1 id="Namespaces"><a href="#Namespaces" class="headerlink" title="Namespaces"></a>Namespaces</h1><h2 id="介绍-4"><a href="#介绍-4" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<h2 id="Namespaces"><a href="#Namespaces" class="headerlink" title="Namespaces"></a>Namespaces</h2><h3 id="Introduction-4"><a href="#Introduction-4" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
 <li>命名空间是一个抽象对象，它<strong>封装了资源</strong>，以便<strong>资源具有限制于同一命名空间中的其他资源的视图</strong>。</li>
 <li>例如，Linux进程形成了一个单进程树，根在init (PID 1)。一般情况下，特权进程可以跟踪或杀死其他进程。随着PID名称空间的引入，我们可以有多个不相交的进程树(它们不知道另一个名称空间中的进程)。如果我们创建一个新的PID名称空间并在其中运行一个进程，那么<strong>第一个进程就成为该名称空间中的PID 1</strong>。<u>创建命名空间的进程仍然位于父命名空间中，但使其子进程成为新进程树的根</u>。</li>
 <li><p>Linux内核定义了7个命名空间</p>
@@ -439,7 +439,7 @@
 </li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#procfs下的文件描述符</span></span><br><span class="line">student@6858-v20:~/cgroup$ sudo <span class="built_in">ls</span> -al /proc/1/ns</span><br><span class="line">total 0</span><br><span class="line">dr-x--x--x 2 root root 0 May 20 01:28 .</span><br><span class="line">dr-xr-xr-x 9 root root 0 May 19 22:29 ..</span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 cgroup -&gt; <span class="string">&#x27;cgroup:[4026531835]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 ipc -&gt; <span class="string">&#x27;ipc:[4026531839]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 mnt -&gt; <span class="string">&#x27;mnt:[4026531840]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 net -&gt; <span class="string">&#x27;net:[4026531993]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid_for_children -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 user -&gt; <span class="string">&#x27;user:[4026531837]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 uts -&gt; <span class="string">&#x27;uts:[4026531838]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="例子-2"><a href="#例子-2" class="headerlink" title="例子"></a>例子</h2><ul>
+<h3 id="Example-2"><a href="#Example-2" class="headerlink" title="Example"></a>Example</h3><ul>
 <li>在新的UTS名称空间中创建新的bash</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br><span class="line">student@6858-v20:~$ sudo unshare -u /bin/bash</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname lmao</span></span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname</span></span><br><span class="line">lmao</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br></pre></td></tr></table></figure>
@@ -454,13 +454,13 @@
 <li>在父进程中查看fork出来的进程id不为1</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root       4446  0.0  0.0   7912   780 pts/1    S    01:40   0:00 unshare --fork --pid --mount-proc /bin/bash</span><br></pre></td></tr></table></figure>
-<h2 id="与cgroups的区别"><a href="#与cgroups的区别" class="headerlink" title="与cgroups的区别"></a>与cgroups的区别</h2><ul>
+<h3 id="Difference"><a href="#Difference" class="headerlink" title="Difference"></a>Difference</h3><ul>
 <li><strong>cgroups定义了一个名称空间子系统</strong>(因此可以通过名称空间控制资源)，但是注意不要混淆这两者:<ul>
 <li><strong>cgroups限制资源利用率</strong>，而<strong>名称空间限制资源视图</strong>(资源在系统上可能看到的内容)。</li>
 </ul>
 </li>
 </ul>
-<h1 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h1><h2 id="介绍-5"><a href="#介绍-5" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<h2 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h2><h3 id="Introduction-5"><a href="#Introduction-5" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
 <li>在有些情况下，通过chroot、capabilities、cgroup和namespaces进行隔离是<strong>不够的</strong>。</li>
 <li>假设某个运行在容器中的web服务器遭到破坏，攻击者生成了一个远程shell。宿主进程和容器可以调用同一组系统调用，并且可能存在一些调用序列，使容器逃逸成为可能。</li>
 <li>seccomp通过<strong>限制进程允许执行的系统调用的数量</strong>来防止恶意进程通过系统调用造成的破坏。<ul>
@@ -474,7 +474,7 @@
 <blockquote>
 <p><code>/usr/share/lxc/config/common.seccomp</code>是<strong>默认拒绝</strong>的系统调用列表。</p>
 </blockquote>
-<h1 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h1><ul>
+<h2 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h2><ul>
 <li>假设在上一节的小型web服务器的例子中，攻击者无视chroot, capabilities, cgroups, namespaces和seccomp成功地逃出了容器。现在会发生什么?<ul>
 <li>如果容器是有特权的(使用UID 0运行)，它几乎是完胜。</li>
 <li>如果它是无特权的，攻击者仍然可以尝试升级特权，或者如果当前用户的特权足够大，就会造成足够大的破坏。</li>
@@ -482,12 +482,12 @@
 </li>
 <li>在这种情况下，只有自由访问控制(DAC)(通过UNIX权限)站在攻击者和完全受损的系统之间。在老式的纵深防御模式中，我们使用另一种控制来降低这种风险:强制访问控制(Mandatory Access Control)。</li>
 <li>MAC是一种<strong>集中的授权机制</strong>，其运作原理是<strong>信息属于组织(而不是个体成员)</strong>。安全策略被定义并保存在内核中，内核根据定义的策略授权访问。像SELinux这样的现代MAC实现是基于角色访问控制(RBAC)和两个概念的结合:<ul>
-<li><a href="#类型执行(TE">类型执行(TE)</a>)</li>
-<li><a href="#多级安全(MLS">多级安全(MLS)</a>)</li>
+<li><a href="#TE">类型执行(TE)</a></li>
+<li><a href="#MLS">多级安全(MLS)</a></li>
 </ul>
 </li>
 </ul>
-<h2 id="类型执行-TE"><a href="#类型执行-TE" class="headerlink" title="类型执行(TE)"></a>类型执行(TE)</h2><ul>
+<h3 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h3><ul>
 <li><strong>TE将类型标记引入到每个文件系统对象中</strong>，这是<strong>MAC的先决条件</strong>。<ul>
 <li>对象被标记一个类型，并且<strong>在内核中定义了一个策略来指定哪些类型允许过渡到其他类型</strong>；</li>
 <li>然后，每次访问带标签的文件系统对象时，内核都会检查指定的策略。如果不存在特定的类型转换，则默认拒绝访问。</li>
@@ -501,9 +501,13 @@
 </li>
 <li>类似地，如果我们为容器主机启用了像SELinux这样的MAC机制，那么<strong>所有容器都将被标记为默认的lxc_t类型标签</strong>(由用于lxc的默认SELinux TE策略定义)。任何绕过其他隔离机制的恶意进程都将受到TE策略的限制。</li>
 </ul>
-<h2 id="多级安全-MLS"><a href="#多级安全-MLS" class="headerlink" title="多级安全(MLS)"></a>多级安全(MLS)</h2><blockquote>
+<h3 id="MLS"><a href="#MLS" class="headerlink" title="MLS"></a>MLS</h3><blockquote>
 <p>MLS超纲了，此处省略。</p>
 </blockquote>
+<h1 id="Demo-working-with-lxc"><a href="#Demo-working-with-lxc" class="headerlink" title="Demo: working with lxc"></a>Demo: working with lxc</h1><ul>
+<li>在Ubuntu上安装lxc:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install lxc</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -684,97 +688,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ONOS_group/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/exp_ONOS_group/" class="post-title-link" itemprop="url">ONOS group multicast in SDN</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
-<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
-<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
-<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
-<ul>
-<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
-</li>
-<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
-</li>
-<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
-<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
-</ul>
-</li>
-<li>计数器<code>counters</code>:记录处理过的报文数</li>
-<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
-</ul>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -849,6 +762,97 @@
 <li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
 </ul>
 
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ONOS_group/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_ONOS_group/" class="post-title-link" itemprop="url">ONOS group multicast in SDN</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
+<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
+<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
+<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
+<ul>
+<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
+</li>
+<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
+</li>
+<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
+<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
+</ul>
+</li>
+<li>计数器<code>counters</code>:记录处理过的报文数</li>
+<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
+</ul>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
