@@ -214,7 +214,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-05-20 13:54:40 / Modified: 14:29:46" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
+              <time title="Created: 2022-05-20 13:54:40 / Modified: 15:19:38" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -474,19 +474,36 @@
 <blockquote>
 <p><code>/usr/share/lxc/config/common.seccomp</code>是<strong>默认拒绝</strong>的系统调用列表。</p>
 </blockquote>
-<h1 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h1><h2 id="介绍-6"><a href="#介绍-6" class="headerlink" title="介绍"></a>介绍</h2><ul>
-<li>假设在上一节的web服务器玩具的例子中，攻击者无视chroot, capabilities, cgroups, namespaces和seccomp成功地逃出了容器。现在会发生什么?<ul>
+<h1 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h1><ul>
+<li>假设在上一节的小型web服务器的例子中，攻击者无视chroot, capabilities, cgroups, namespaces和seccomp成功地逃出了容器。现在会发生什么?<ul>
 <li>如果容器是有特权的(使用UID 0运行)，它几乎是完胜。</li>
 <li>如果它是无特权的，攻击者仍然可以尝试升级特权，或者如果当前用户的特权足够大，就会造成足够大的破坏。</li>
 </ul>
 </li>
 <li>在这种情况下，只有自由访问控制(DAC)(通过UNIX权限)站在攻击者和完全受损的系统之间。在老式的纵深防御模式中，我们使用另一种控制来降低这种风险:强制访问控制(Mandatory Access Control)。</li>
 <li>MAC是一种<strong>集中的授权机制</strong>，其运作原理是<strong>信息属于组织(而不是个体成员)</strong>。安全策略被定义并保存在内核中，内核根据定义的策略授权访问。像SELinux这样的现代MAC实现是基于角色访问控制(RBAC)和两个概念的结合:<ul>
-<li>类型执行(TE)</li>
-<li>多级安全(MLS)</li>
+<li><a href="#类型执行(TE">类型执行(TE)</a>)</li>
+<li><a href="#多级安全(MLS">多级安全(MLS)</a>)</li>
 </ul>
 </li>
 </ul>
+<h2 id="类型执行-TE"><a href="#类型执行-TE" class="headerlink" title="类型执行(TE)"></a>类型执行(TE)</h2><ul>
+<li><strong>TE将类型标记引入到每个文件系统对象中</strong>，这是<strong>MAC的先决条件</strong>。<ul>
+<li>对象被标记一个类型，并且<strong>在内核中定义了一个策略来指定哪些类型允许过渡到其他类型</strong>；</li>
+<li>然后，每次访问带标签的文件系统对象时，内核都会检查指定的策略。如果不存在特定的类型转换，则默认拒绝访问。</li>
+<li>例如，在 Security-Enhanced Linux (SELinux)中，适用于Apache提供的web服务器内容的标准标签httpd_sys_content_t不允许访问标记为bin_t的文件，它适用于/usr/bin中的二进制文件。</li>
+</ul>
+</li>
+<li>假设，在同一个小型web服务器示例中，攻击者设法获得了root访问权。<ul>
+<li>在DAC下，任何用户都可以任意控制自己拥有的任何东西，因此攻击者拥有完全的控制权。</li>
+<li>如果TE是通过SELinux实现的，则攻击者会受到严重阻碍：web服务器exploit给了一个UID 0的进程，但exploit继承自被exploit的网页的类型标签(httpd_sys_content_t)，其只允许访问相同标签的其他文件系统对象(由web服务器提供的内容应该只需要访问其他web内容，而不需要访问其他东西)。</li>
+</ul>
+</li>
+<li>类似地，如果我们为容器主机启用了像SELinux这样的MAC机制，那么<strong>所有容器都将被标记为默认的lxc_t类型标签</strong>(由用于lxc的默认SELinux TE策略定义)。任何绕过其他隔离机制的恶意进程都将受到TE策略的限制。</li>
+</ul>
+<h2 id="多级安全-MLS"><a href="#多级安全-MLS" class="headerlink" title="多级安全(MLS)"></a>多级安全(MLS)</h2><blockquote>
+<p>MLS超纲了，此处省略。</p>
+</blockquote>
 
       
     </div>
@@ -758,6 +775,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_VSCode_C_pro/" class="post-title-link" itemprop="url">VSCode with C/C++ projection's profile</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
+<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+</ul>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
+<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
+<li>选好项目的文件路径，此路径即为项目的位置。</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
+<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
+</ul>
+<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
+</ul>
+<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_XTerm_send/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -995,7 +1104,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_postgresql_build/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -1009,7 +1118,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/05/17/exp_VSCode_C_pro/" class="post-title-link" itemprop="url">VSCode with C/C++ projection's profile</a>
+            <a href="/2022/05/17/exp_postgresql_build/" class="post-title-link" itemprop="url">PostgreSQL build</a>
         </h2>
 
         <div class="post-meta">
@@ -1044,29 +1153,117 @@
 
       
           <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
-<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+<li>这学期的<font color="blue">数据库课程</font>要求使用<code>PostgreSQL</code>作为学习使用的数据库工具。</li>
+<li>所以今天尝试着安装了一下<code>PostgreSQL</code>，出了一些问题，在此做一个记录。</li>
 </ul>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
-<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
-<li>选好项目的文件路径，此路径即为项目的位置。</li>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
+<li><code>Windows</code>是首选，不论安装还是后期使用都方便许多。</li>
+<li><code>PostgreSQL</code>自带<code>pgAdmin</code>也省去了很多步骤。</li>
+<li>这里参考一些<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_36226553/article/details/100750378">博客</a>和<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/6649548146">论坛</a>，提出一些问题并给出方法。</li>
 </ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
-<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>目前<code>Windows</code>版本已经更新到了<code>13</code>，不过老师要求的也就是<code>10</code>。</li>
+<li><p>这里我选择了<code>10.16</code>、<code>11.11</code>、<code>13.2</code>(<a target="_blank" rel="noopener" href="https://www.postgresql.org/download/">官网</a>提供的几个版本)分别尝试安装。</p>
+</li>
+<li><p>结果以上版本在安装时都出现了同一个问题。</p>
+</li>
+<li><img src="https://img-blog.csdnimg.cn/20210303103503673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
 </ul>
-<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
+<li><p>上网搜索过后，大致给出了三种可能：</p>
+<ol>
+<li>路径中包含中文<font color="red">（然而我并没有）</font>。</li>
+<li>权限不够<font color="red">（管理员打开也不行）</font>。</li>
+<li>之前安装过的<code>Temp</code>文件冲突。</li>
+</ol>
+</li>
+<li><p>结合以上的问题，总结了一下解决过程：</p>
+<ol>
+<li><p>先到对应路径下，把<code>Temp</code>文件夹中所有<code>postgresql_install</code>的文件夹删除<font color="red">（需要管理员权限）</font>。</p>
+</li>
+<li><p>删除后保证用户名不包含中文，即可正常安装。</p>
+</li>
+<li><p>安装到选择目录时，如果你曾尝试在此目录安装，可能出现</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the choosen installation directory exists and is non-empty.please choose a different directory</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把此目录删除后新建即可。</p>
+</li>
+</ol>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2></li>
+<li><p><code>Windows</code>安装虽然简便，但是一个简单的步骤出了很多莫名的问题。</p>
+</li>
+<li><p>与此同时我在<code>Ubuntu</code>安装了一个<code>Linux</code>版本的<code>PostgreSQL</code>。</p>
+</li>
+<li><p>在<code>Linux</code>中，<code>PostgreSQL</code>和<code>pgAdmin4</code>没有捆绑，需要后期建立连接。</p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3></li>
+<li><p>这里<a target="_blank" rel="noopener" href="https://www.tecmint.com/install-postgresql-and-pgadmin-in-ubuntu/">参考</a>了一下官方的方法，下面相当于对方法的翻译和总结吧。</p>
+</li>
+<li><p>更新系统软件包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接在库中安装最新的<code>PostgreSQL</code></p>
+</li>
 </ul>
-<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install postgresql</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>默认的<code>data</code>文件夹在<code>/var/lib/postgresql/12/main</code>下，配置文件在<code>/etc/postgresql/12/main</code>。</p>
+</blockquote>
 <ul>
-<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
+<li>添加存储库的公共密钥并创建存储库配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add</span><br><span class="line">sudo sh -c <span class="string">&#x27;echo &quot;deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main&quot; &gt; /etc/apt/sources.list.d/pgadmin4.list &amp;&amp; apt update&#x27;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>由于<code>Ubuntu</code>库中没有<code>pgAdmin4</code>，只能通过<code>pgAdmin4 APT</code>仓库安装。</p>
+</blockquote>
+<ul>
+<li>安装<code>pgAdmin4</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pgadmin4</span><br></pre></td></tr></table></figure>
+<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><ul>
+<li>安装完成后，检查<code>PostgreSQL</code>状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl is-active postgresql</span><br><span class="line">sudo systemctl is-enabled postgresql</span><br><span class="line">sudo systemctl status postgresql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>确认<code>PostgreSQL server</code>的状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pg_isready</span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li>切换用户到<code>postgres</code>进行登录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo su - postgres</span><br><span class="line">psql</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>出现了<code>postgres=#</code>即成功登入</p>
+</blockquote>
+<ul>
+<li>创建数据库用户和数据库并授权(<font color="pink">这里的参数需要自定义</font>)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#123;USER_NAME&#125; WITH PASSWORD &#123;USER_PASSWD&#125;;</span><br><span class="line">CREATE DATABASE &#123;DATABASE_NAME&#125;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE &#123;DATABASE_NAME&#125; to &#123;USER_NAME&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>远程控制配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/postgresql/12/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置完成后重启服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart postgresql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>运行<code>pgdmin4</code>二进制软件包附带的<code>Web</code>设置脚本，以配置系统以<code>Web</code>模式运行</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/pgadmin4/bin/setup-web.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>填入你的邮箱和设置的密码，方便以后登录。</li>
+<li>打开下列连接进入<code>pgAdmin4</code>（<font color="red"><code>SERVER_IP</code>需要换成你服务器的<code>ip</code></font>）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://SERVER_IP/pgadmin4</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用你刚刚设置的邮箱和密码登录。</li>
+<li>连接新的服务器，点击<code>Add New Server</code>。</li>
+<li><code>General</code>填写<code>Name</code>即可</li>
+<li><img src="https://img-blog.csdnimg.cn/20210303103651920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<ul>
+<li>在<code>Connection</code>填写<code>Host name/address</code>为你的服务器地址，<code>Username</code>改为你之前创建的数据库用户。</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/2261e9c329e204684505cc2c0636a085.png" alt=""></li>
 </ul>
 
       
@@ -1385,186 +1582,6 @@
 </ul>
 <p><img src="https://img-blog.csdnimg.cn/20210719134054847.png" alt=""></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://www.jb51.net/article/194092.htm">Ubuntu20.04安装配置GitLab的方法步骤</a><br><a target="_blank" rel="noopener" href="https://lightsail.blog.csdn.net/article/details/115254424">管理员账号初始化</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dqcer/p/9596813.html">ubuntu搭建、安装gitlab服务器以及初始化密码</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_postgresql_build/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/exp_postgresql_build/" class="post-title-link" itemprop="url">PostgreSQL build</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>这学期的<font color="blue">数据库课程</font>要求使用<code>PostgreSQL</code>作为学习使用的数据库工具。</li>
-<li>所以今天尝试着安装了一下<code>PostgreSQL</code>，出了一些问题，在此做一个记录。</li>
-</ul>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
-<li><code>Windows</code>是首选，不论安装还是后期使用都方便许多。</li>
-<li><code>PostgreSQL</code>自带<code>pgAdmin</code>也省去了很多步骤。</li>
-<li>这里参考一些<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_36226553/article/details/100750378">博客</a>和<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/6649548146">论坛</a>，提出一些问题并给出方法。</li>
-</ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
-<li>目前<code>Windows</code>版本已经更新到了<code>13</code>，不过老师要求的也就是<code>10</code>。</li>
-<li><p>这里我选择了<code>10.16</code>、<code>11.11</code>、<code>13.2</code>(<a target="_blank" rel="noopener" href="https://www.postgresql.org/download/">官网</a>提供的几个版本)分别尝试安装。</p>
-</li>
-<li><p>结果以上版本在安装时都出现了同一个问题。</p>
-</li>
-<li><img src="https://img-blog.csdnimg.cn/20210303103503673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<ul>
-<li><p>上网搜索过后，大致给出了三种可能：</p>
-<ol>
-<li>路径中包含中文<font color="red">（然而我并没有）</font>。</li>
-<li>权限不够<font color="red">（管理员打开也不行）</font>。</li>
-<li>之前安装过的<code>Temp</code>文件冲突。</li>
-</ol>
-</li>
-<li><p>结合以上的问题，总结了一下解决过程：</p>
-<ol>
-<li><p>先到对应路径下，把<code>Temp</code>文件夹中所有<code>postgresql_install</code>的文件夹删除<font color="red">（需要管理员权限）</font>。</p>
-</li>
-<li><p>删除后保证用户名不包含中文，即可正常安装。</p>
-</li>
-<li><p>安装到选择目录时，如果你曾尝试在此目录安装，可能出现</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the choosen installation directory exists and is non-empty.please choose a different directory</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>把此目录删除后新建即可。</p>
-</li>
-</ol>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2></li>
-<li><p><code>Windows</code>安装虽然简便，但是一个简单的步骤出了很多莫名的问题。</p>
-</li>
-<li><p>与此同时我在<code>Ubuntu</code>安装了一个<code>Linux</code>版本的<code>PostgreSQL</code>。</p>
-</li>
-<li><p>在<code>Linux</code>中，<code>PostgreSQL</code>和<code>pgAdmin4</code>没有捆绑，需要后期建立连接。</p>
-<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3></li>
-<li><p>这里<a target="_blank" rel="noopener" href="https://www.tecmint.com/install-postgresql-and-pgadmin-in-ubuntu/">参考</a>了一下官方的方法，下面相当于对方法的翻译和总结吧。</p>
-</li>
-<li><p>更新系统软件包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>直接在库中安装最新的<code>PostgreSQL</code></p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install postgresql</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>默认的<code>data</code>文件夹在<code>/var/lib/postgresql/12/main</code>下，配置文件在<code>/etc/postgresql/12/main</code>。</p>
-</blockquote>
-<ul>
-<li>添加存储库的公共密钥并创建存储库配置文件</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add</span><br><span class="line">sudo sh -c <span class="string">&#x27;echo &quot;deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main&quot; &gt; /etc/apt/sources.list.d/pgadmin4.list &amp;&amp; apt update&#x27;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>由于<code>Ubuntu</code>库中没有<code>pgAdmin4</code>，只能通过<code>pgAdmin4 APT</code>仓库安装。</p>
-</blockquote>
-<ul>
-<li>安装<code>pgAdmin4</code></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pgadmin4</span><br></pre></td></tr></table></figure>
-<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><ul>
-<li>安装完成后，检查<code>PostgreSQL</code>状态</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl is-active postgresql</span><br><span class="line">sudo systemctl is-enabled postgresql</span><br><span class="line">sudo systemctl status postgresql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>确认<code>PostgreSQL server</code>的状态</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pg_isready</span><br></pre></td></tr></table></figure>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
-<li>切换用户到<code>postgres</code>进行登录</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo su - postgres</span><br><span class="line">psql</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>出现了<code>postgres=#</code>即成功登入</p>
-</blockquote>
-<ul>
-<li>创建数据库用户和数据库并授权(<font color="pink">这里的参数需要自定义</font>)</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#123;USER_NAME&#125; WITH PASSWORD &#123;USER_PASSWD&#125;;</span><br><span class="line">CREATE DATABASE &#123;DATABASE_NAME&#125;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE &#123;DATABASE_NAME&#125; to &#123;USER_NAME&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>远程控制配置</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/postgresql/12/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
-<ul>
-<li>配置完成后重启服务</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart postgresql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>运行<code>pgdmin4</code>二进制软件包附带的<code>Web</code>设置脚本，以配置系统以<code>Web</code>模式运行</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/pgadmin4/bin/setup-web.sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li>填入你的邮箱和设置的密码，方便以后登录。</li>
-<li>打开下列连接进入<code>pgAdmin4</code>（<font color="red"><code>SERVER_IP</code>需要换成你服务器的<code>ip</code></font>）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://SERVER_IP/pgadmin4</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用你刚刚设置的邮箱和密码登录。</li>
-<li>连接新的服务器，点击<code>Add New Server</code>。</li>
-<li><code>General</code>填写<code>Name</code>即可</li>
-<li><img src="https://img-blog.csdnimg.cn/20210303103651920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<ul>
-<li>在<code>Connection</code>填写<code>Host name/address</code>为你的服务器地址，<code>Username</code>改为你之前创建的数据库用户。</li>
-<li><img src="https://img-blog.csdnimg.cn/img_convert/2261e9c329e204684505cc2c0636a085.png" alt=""></li>
-</ul>
 
       
     </div>
