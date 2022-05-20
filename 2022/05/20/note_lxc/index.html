@@ -28,7 +28,7 @@
 <meta property="og:description" content="前提 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  介绍 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cgroup) Capabili">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-20T05:54:40.000Z">
-<meta property="article:modified_time" content="2022-05-20T06:10:01.722Z">
+<meta property="article:modified_time" content="2022-05-20T06:29:46.249Z">
 <meta property="article:author" content="CheUhxg">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Container">
@@ -217,7 +217,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-05-20 13:54:40 / Modified: 14:10:01" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
+              <time title="Created: 2022-05-20 13:54:40 / Modified: 14:29:46" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -463,7 +463,34 @@
 </ul>
 </li>
 </ul>
-<h1 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h1><h1 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h1>
+<h1 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h1><h2 id="介绍-5"><a href="#介绍-5" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>在有些情况下，通过chroot、capabilities、cgroup和namespaces进行隔离是<strong>不够的</strong>。</li>
+<li>假设某个运行在容器中的web服务器遭到破坏，攻击者生成了一个远程shell。宿主进程和容器可以调用同一组系统调用，并且可能存在一些调用序列，使容器逃逸成为可能。</li>
+<li>seccomp通过<strong>限制进程允许执行的系统调用的数量</strong>来防止恶意进程通过系统调用造成的破坏。<ul>
+<li>像Chrome和Firefox这样的现代浏览器使用seccomp来更严格地限制它们的应用程序。</li>
+<li>通过将系统调用接口限制为<u>只允许容器化应用程序执行其功能所需的系统调用</u>，可以很容易地阻止许多容器逃逸漏洞。</li>
+</ul>
+</li>
+<li>在lxc中，可以通过容器配置文件指定seccomp过滤器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim ~/.local/share/lxc/&lt;container_name&gt;/config</span></span><br><span class="line">lxc.seccomp = /usr/share/lxc/config/common.seccomp</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>/usr/share/lxc/config/common.seccomp</code>是<strong>默认拒绝</strong>的系统调用列表。</p>
+</blockquote>
+<h1 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h1><h2 id="介绍-6"><a href="#介绍-6" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>假设在上一节的web服务器玩具的例子中，攻击者无视chroot, capabilities, cgroups, namespaces和seccomp成功地逃出了容器。现在会发生什么?<ul>
+<li>如果容器是有特权的(使用UID 0运行)，它几乎是完胜。</li>
+<li>如果它是无特权的，攻击者仍然可以尝试升级特权，或者如果当前用户的特权足够大，就会造成足够大的破坏。</li>
+</ul>
+</li>
+<li>在这种情况下，只有自由访问控制(DAC)(通过UNIX权限)站在攻击者和完全受损的系统之间。在老式的纵深防御模式中，我们使用另一种控制来降低这种风险:强制访问控制(Mandatory Access Control)。</li>
+<li>MAC是一种<strong>集中的授权机制</strong>，其运作原理是<strong>信息属于组织(而不是个体成员)</strong>。安全策略被定义并保存在内核中，内核根据定义的策略授权访问。像SELinux这样的现代MAC实现是基于角色访问控制(RBAC)和两个概念的结合:<ul>
+<li>类型执行(TE)</li>
+<li>多级安全(MLS)</li>
+</ul>
+</li>
+</ul>
+
     </div>
 
     
@@ -545,7 +572,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">3.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chroot"><span class="nav-number">4.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">4.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">4.2.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Capabilities"><span class="nav-number">5.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="nav-number">5.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">5.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cgroup"><span class="nav-number">6.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="nav-number">6.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-1"><span class="nav-number">6.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Namespaces"><span class="nav-number">7.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-4"><span class="nav-number">7.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-2"><span class="nav-number">7.2.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8Ecgroups%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.3.</span> <span class="nav-text">与cgroups的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#seccomp"><span class="nav-number">8.</span> <span class="nav-text">seccomp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MAC"><span class="nav-number">9.</span> <span class="nav-text">MAC</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">3.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chroot"><span class="nav-number">4.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">4.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">4.2.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Capabilities"><span class="nav-number">5.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="nav-number">5.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">5.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cgroup"><span class="nav-number">6.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="nav-number">6.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-1"><span class="nav-number">6.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Namespaces"><span class="nav-number">7.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-4"><span class="nav-number">7.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-2"><span class="nav-number">7.2.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8Ecgroups%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.3.</span> <span class="nav-text">与cgroups的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#seccomp"><span class="nav-number">8.</span> <span class="nav-text">seccomp</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-5"><span class="nav-number">8.1.</span> <span class="nav-text">介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MAC"><span class="nav-number">9.</span> <span class="nav-text">MAC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-6"><span class="nav-number">9.1.</span> <span class="nav-text">介绍</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
