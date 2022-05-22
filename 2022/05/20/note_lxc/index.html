@@ -28,7 +28,7 @@
 <meta property="og:description" content="remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cg">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-20T05:54:40.000Z">
-<meta property="article:modified_time" content="2022-05-20T07:28:25.818Z">
+<meta property="article:modified_time" content="2022-05-22T10:47:10.689Z">
 <meta property="article:author" content="CheUhxg">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Container">
@@ -215,10 +215,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-05-20 13:54:40 / Modified: 15:28:25" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
+              <time title="Created: 2022-05-20 13:54:40" itemprop="dateCreated datePublished" datetime="2022-05-20T13:54:40+08:00">2022-05-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-05-22 18:47:10" itemprop="dateModified" datetime="2022-05-22T18:47:10+08:00">2022-05-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -511,6 +517,127 @@
 <li>在Ubuntu上安装lxc:</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install lxc</span><br></pre></td></tr></table></figure>
+<h2 id="Subordinate-UID-GID-ranges"><a href="#Subordinate-UID-GID-ranges" class="headerlink" title="Subordinate UID/GID ranges"></a>Subordinate UID/GID ranges</h2><ul>
+<li>通过定义以下文件，我们可以确保当前用户可以拥有从属的uid和gid:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subuid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subgid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这允许用户student拥有从165536开始的65536个从属uid /gid。</li>
+<li>我们还需要为lxc创建用户配置目录，如果它不存在，并创建默认配置文件:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/lxc</span><br><span class="line"><span class="built_in">touch</span> ~/.config/lxc/default.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>应该修改<code>~/.config/lxc/default.conf</code>文件，使其看起来像这样(使用正确的id_map值):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> ~/.config/lxc/default.conf </span><br><span class="line">lxc.idmap = u 0 165536 65536</span><br><span class="line">lxc.idmap = g 0 165536 65536</span><br></pre></td></tr></table></figure>
+<h2 id="Virtual-network-interfaces"><a href="#Virtual-network-interfaces" class="headerlink" title="Virtual network interfaces"></a>Virtual network interfaces</h2><ul>
+<li>在安装lxc时，应该已经创建了一个默认网桥:lxcbr0。通过命令验证网桥是否存在</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ brctl show</span><br><span class="line">bridge name     bridge <span class="built_in">id</span>               STP enabled    interfaces</span><br><span class="line">lxcbr0          8000.00163e000000       no</span><br><span class="line">lxcbr1          8000.00163e000000       no</span><br><span class="line">lxcbr2          8000.00163e000000       no</span><br><span class="line">lxcbr3          8000.00163e000000       no</span><br><span class="line">lxcbr4          8000.00163e000000       no</span><br><span class="line">lxcbr5          8000.00163e000000       no</span><br><span class="line">lxcbr6          8000.00163e000000       no</span><br><span class="line">lxcbr7          8000.00163e000000       no</span><br><span class="line">lxcbr8          8000.00163e000000       no</span><br><span class="line">lxcbr9          8000.00163e000000       no</span><br></pre></td></tr></table></figure>
+<ul>
+<li>确保<code>/etc/lxc/lxc-usernet</code>文件定义为:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/lxc/lxc-usernet</span><br><span class="line"><span class="comment"># USERNAME TYPE BRIDGE COUNT</span></span><br><span class="line">student veth lxcbr0 10</span><br><span class="line">student veth lxcbr1 10</span><br><span class="line">student veth lxcbr2 10</span><br><span class="line">student veth lxcbr3 10</span><br><span class="line">student veth lxcbr4 10</span><br><span class="line">student veth lxcbr5 10</span><br><span class="line">student veth lxcbr6 10</span><br><span class="line">student veth lxcbr7 10</span><br><span class="line">student veth lxcbr8 10</span><br><span class="line">student veth lxcbr9 10</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这告诉lxc它可以将多少虚拟网络接口作为用户student连接到指定的网桥(或组，每行一个)。</p>
+<p>应用更改的最快方法是<strong>重新启动节点或注销并重新登录</strong>。</p>
+<ul>
+<li>这将重启dbus、正确设置cgroup并打开用户名称空间(kernel.unprivileged_userns_clone=1)。</li>
+</ul>
+</blockquote>
+<ul>
+<li>验证以太网网络模块</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep veth</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果veth模块没有加载，加载它并使其在重启后持续存在:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> veth | sudo <span class="built_in">tee</span> -a /etc/modules</span><br></pre></td></tr></table></figure>
+<h2 id="Creating-a-container"><a href="#Creating-a-container" class="headerlink" title="Creating a container"></a>Creating a container</h2><ul>
+<li>运行lxc-create来创建一个容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ lxc-create -t download -n example</span><br><span class="line">Setting up the GPG keyring</span><br><span class="line">Downloading the image index</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">DIST    RELEASE ARCH    VARIANT BUILD</span><br><span class="line">---</span><br><span class="line">almalinux       8       amd64   default 20220519_23:08</span><br><span class="line">almalinux       8       arm64   default 20220519_23:08</span><br><span class="line">almalinux       8       ppc64el default 20220519_23:08</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>这是一个交互式命令，使用download模板创建一个名为example的容器。lxc install中指定了4个默认模板，基本上都是在/usr/share/lxc/templates/目录下的脚本：</p>
+<ul>
+<li>download：下载预构建的映像并解压缩它们</li>
+<li>local：使用distrobuilder build-lxc命令构建的本地映像</li>
+<li>busybox：包含在单个可执行文件中的通用UNIX实用程序</li>
+<li>oci：从开放容器图像(oci)格式的图像创建应用程序容器</li>
+</ul>
+</li>
+<li><p>download模板提示您从给定的列表中选择发行版/发行版作为容器的基本映像，我们将使用该映像创建示例容器。</p>
+<ul>
+<li>我们可以直接在命令行中指定所需的映像，例如Ubuntu 19.10 (Eoan) amd64映像(注意名称后的双破折号):</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-create -t download -n example -- --dist ubuntu --release focalx --<span class="built_in">arch</span> amd64</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将在<code>~/.local/share/lxc/example/</code>处创建一个容器目录，带有一个特定于容器的配置文件config，在这里你可以指定更多的过滤和控制，如MAC、seccomp拒绝列表、网络等。你会看到<strong>新创建的容器的root文件系统被解压到rootfs/中</strong>，它看起来像一个标准的Linux根文件系统:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/.local/share/lxc/example$ <span class="built_in">ls</span> rootfs/</span><br><span class="line">bin   dev  home lib32  libx32  mnt  proc  run   srv  tmp  var</span><br><span class="line">boot  etc  lib  lib64  media   opt  root  sbin  sys  usr</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以通过在rootfs目录上使用chroot进行离线更改(无需启动和附加到容器)。</li>
+</ul>
+<h2 id="Running-a-container"><a href="#Running-a-container" class="headerlink" title="Running a container"></a>Running a container</h2><ul>
+<li>后台运行example容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-start example</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果在启动容器时遇到错误，使用-F选项在前台启动容器将提供更详细的输出。</p>
+</blockquote>
+<ul>
+<li>验证我们的容器正在运行：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-info example</span><br><span class="line">Name:           example</span><br><span class="line">State:          RUNNING</span><br><span class="line">PID:            21372</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看所有的容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-ls --fancy</span><br><span class="line">NAME    STATE   AUTOSTART GROUPS IPV4 IPV6 UNPRIVILEGED </span><br><span class="line">example RUNNING 0         -      -    -    <span class="literal">true</span>         </span><br></pre></td></tr></table></figure>
+<ul>
+<li>连接到正在运行的容器实例：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-attach example</span><br><span class="line">root@example:/<span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">root@example:/<span class="comment"># passwd</span></span><br><span class="line">New password: </span><br><span class="line">Retype new password: </span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>一旦我们添加了用户并更改了他们的密码，我们就可以<strong>通过命令lxc-console使用交互式登录连接到容器</strong>。</p>
+<p>不同之处在于，lxc-attach的行为更像是<strong>基于密钥的ssh设置</strong>(在没有任何提示的情况下直接获得一个root会话)，而lxc-console为您提供了一个虚拟控制台，它模拟了一个真实服务器上的交互式控制台，如serial、DRAC、ILO等。</p>
+</blockquote>
+<ul>
+<li><strong>注意：我们是容器中的root，尽管我们创建的是一个非特权容器。</strong><ul>
+<li>此行为是UID名称空间的结果。我们可以看到，通过在容器中运行一个进程，容器中的任何进程都被映射到主机上一个无特权的UID：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@example:/<span class="comment"># while [ 1 ]; do sleep 5; done &amp;</span></span><br><span class="line">[1] 130</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在主机上可以看到，进程以UID 165536运行：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep <span class="built_in">sleep</span></span><br><span class="line">165536    22060  0.0  0.0   9832   580 pts/5    S    03:55   0:00 <span class="built_in">sleep</span> 5</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果从ps aux输出查看其他进程，可以注意到容器的init进程也是通过uid映射的：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep init</span><br><span class="line">165536    21372  0.0  0.5 103876 10656 ?        Ss   03:49   0:00 /sbin/init</span><br></pre></td></tr></table></figure>
+<ul>
+<li>我们可以在里面运行大多数系统管理任务，比如安装包。<ul>
+<li>安装nginx web服务器和net-tools二进制包：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@example:/<span class="comment"># apt update</span></span><br><span class="line">[output truncated]</span><br><span class="line">root@example:/<span class="comment"># apt install nginx net-tools</span></span><br><span class="line">[output truncated]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>验证nginx在80端口运行：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@example:/<span class="comment"># netstat -atunp | grep LISTEN</span></span><br><span class="line">tcp  0 0 127.0.0.53:53 0.0.0.0:* LISTEN 88/systemd-resolved</span><br><span class="line">tcp  0 0 0.0.0.0:80    0.0.0.0:* LISTEN 881/nginx: master p</span><br><span class="line">tcp6 0 0 :::80         :::*      LISTEN 881/nginx: master p</span><br></pre></td></tr></table></figure>
+<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><ul>
+<li>LXC默认情况下创建一个独立的网桥，它对所有到主接口的流量使用<strong>masquerading(伪装)</strong>。<ul>
+<li>网桥是凭空创建的(lxcbr0)，容器连接到这个网桥。</li>
+<li>如果主接口也可以访问Internet(通过转发和伪装)，则允许容器访问Internet。</li>
+<li>快速查看主机上的接口，可以看到带有Internet连接ens33的主接口、默认桥接器lxcbr0和容器示例中的虚拟接口veth1000_XXXX。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -593,7 +720,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#remise"><span class="nav-number">1.</span> <span class="nav-text">remise</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">2.1.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chroot"><span class="nav-number">2.2.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Defect"><span class="nav-number">2.2.2.</span> <span class="nav-text">Defect</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Capabilities"><span class="nav-number">2.3.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">2.3.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgroup"><span class="nav-number">2.4.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-3"><span class="nav-number">2.4.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-1"><span class="nav-number">2.4.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Namespaces"><span class="nav-number">2.5.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-4"><span class="nav-number">2.5.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-2"><span class="nav-number">2.5.2.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Difference"><span class="nav-number">2.5.3.</span> <span class="nav-text">Difference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#seccomp"><span class="nav-number">2.6.</span> <span class="nav-text">seccomp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-5"><span class="nav-number">2.6.1.</span> <span class="nav-text">Introduction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MAC"><span class="nav-number">2.7.</span> <span class="nav-text">MAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TE"><span class="nav-number">2.7.1.</span> <span class="nav-text">TE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MLS"><span class="nav-number">2.7.2.</span> <span class="nav-text">MLS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo-working-with-lxc"><span class="nav-number">3.</span> <span class="nav-text">Demo: working with lxc</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#remise"><span class="nav-number">1.</span> <span class="nav-text">remise</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">2.1.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chroot"><span class="nav-number">2.2.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Defect"><span class="nav-number">2.2.2.</span> <span class="nav-text">Defect</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Capabilities"><span class="nav-number">2.3.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">2.3.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgroup"><span class="nav-number">2.4.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-3"><span class="nav-number">2.4.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-1"><span class="nav-number">2.4.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Namespaces"><span class="nav-number">2.5.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-4"><span class="nav-number">2.5.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-2"><span class="nav-number">2.5.2.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Difference"><span class="nav-number">2.5.3.</span> <span class="nav-text">Difference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#seccomp"><span class="nav-number">2.6.</span> <span class="nav-text">seccomp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-5"><span class="nav-number">2.6.1.</span> <span class="nav-text">Introduction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MAC"><span class="nav-number">2.7.</span> <span class="nav-text">MAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TE"><span class="nav-number">2.7.1.</span> <span class="nav-text">TE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MLS"><span class="nav-number">2.7.2.</span> <span class="nav-text">MLS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo-working-with-lxc"><span class="nav-number">3.</span> <span class="nav-text">Demo: working with lxc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Subordinate-UID-GID-ranges"><span class="nav-number">3.1.</span> <span class="nav-text">Subordinate UID&#x2F;GID ranges</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-network-interfaces"><span class="nav-number">3.2.</span> <span class="nav-text">Virtual network interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-a-container"><span class="nav-number">3.3.</span> <span class="nav-text">Creating a container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-a-container"><span class="nav-number">3.4.</span> <span class="nav-text">Running a container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Networking"><span class="nav-number">3.5.</span> <span class="nav-text">Networking</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
