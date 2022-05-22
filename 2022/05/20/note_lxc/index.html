@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cg">
+  <meta name="description" content="remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cg">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lxc note">
 <meta property="og:url" content="http://example.com/2022/05/20/note_lxc/index.html">
 <meta property="og:site_name" content="CheUhxg&#39;s Blog">
-<meta property="og:description" content="Remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cg">
+<meta property="og:description" content="remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cg">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-20T05:54:40.000Z">
-<meta property="article:modified_time" content="2022-05-22T10:48:40.525Z">
+<meta property="article:modified_time" content="2022-05-22T11:50:49.278Z">
 <meta property="article:author" content="CheUhxg">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Container">
@@ -223,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-05-22 18:48:40" itemprop="dateModified" datetime="2022-05-22T18:48:40+08:00">2022-05-22</time>
+                <time title="Modified: 2022-05-22 19:50:49" itemprop="dateModified" datetime="2022-05-22T19:50:49+08:00">2022-05-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,7 +246,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Remise"><a href="#Remise" class="headerlink" title="Remise"></a>Remise</h1><ul>
+        <h1 id="remise"><a href="#remise" class="headerlink" title="remise"></a>remise</h1><ul>
 <li>本文翻译(有道翻译)自<a target="_blank" rel="noopener" href="https://raydenchia.com/linux-containers-lxc/#seccomp">linux-container-lxc</a>，根据重点摘录学习。</li>
 </ul>
 <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><ul>
@@ -638,6 +638,72 @@
 </li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Stopping-a-container"><a href="#Stopping-a-container" class="headerlink" title="Stopping a container"></a>Stopping a container</h2><ul>
+<li>要停止创建的示例容器，只需发出以下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-stop example</span><br></pre></td></tr></table></figure>
+<ul>
+<li>从文件系统中清除(删除)容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-destroy example</span><br></pre></td></tr></table></figure>
+<h1 id="What’s-the-difference-between-lxc-and-Docker"><a href="#What’s-the-difference-between-lxc-and-Docker" class="headerlink" title="What’s the difference between lxc and Docker?"></a>What’s the difference between lxc and Docker?</h1><blockquote>
+<p>这两种解决方案<strong>适用于不同的用例</strong>。</p>
+</blockquote>
+<ul>
+<li><p>lxc：出现的<strong>时间更长</strong>(Docker过去使用lxc)。</p>
+<ul>
+<li>感觉更像是虚拟机中的一个完整的操作系统，必须以类似的方式处理：<strong>软件必须手动安装和更新</strong>，要么手工安装，要么<strong>通过配置管理工具，如Ansible</strong>。</li>
+</ul>
+</li>
+<li><p>Docker：用于运行<strong>单个应用程序</strong>。</p>
+<ul>
+<li><strong>没有完整的系统进程堆栈</strong>，如lxc。一个容器的<strong>应用程序及其依赖是使用Dockerfile构建和部署</strong>的。</li>
+</ul>
+</li>
+<li><p>在容器编排方面，两者都有相当新的工具：</p>
+<ul>
+<li>lxc有lxd, Docker有Docker Swarm和Kubernetes。</li>
+<li>有一个名为lxe的新项目，旨在将lxc/lxd与Kubernetes集成。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Docker不使用lxc</strong>；Docker曾经使用lxc来运行容器，但在几年前就停止了。</p>
+<p>Docker和lxc都<strong>使用相同的内核特性</strong>来实现容器化，但它们是独立的解决方案。</p>
+</blockquote>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><ul>
+<li><p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
+</li>
+<li><p>lxc通过使用Linux内核特性来抽象操作系统，并隔离容器来实现容器化，例如:</p>
+<ul>
+<li><p>Control Groups (cgroups)</p>
+</li>
+<li><p>Capabilities</p>
+</li>
+<li>seccomp</li>
+<li>Mandatory Access Control(通过AppArmor, SELinux)</li>
+<li>Namespaces</li>
+<li>chroot jails</li>
+</ul>
+</li>
+<li><p>lxc配置位置</p>
+<ul>
+<li>lxc特定于容器的配置位于<code>~/.local/share/lxc/&lt;container name&gt;/config</code></li>
+<li>针对lxc的用户特定配置位于<code>~/.config/lxc/default.conf</code></li>
+<li>lxc的全局配置位于<code>/etc/lxc/default.conf</code></li>
+<li>容器rootfs位于<code>~/.local/share/lxc/&lt;container name&gt;/rootfs</code></li>
+</ul>
+</li>
+<li><p>lxc用法</p>
+<ul>
+<li>使用lxc-attach创建容器</li>
+<li>使用lxc-start启动容器</li>
+<li>使用lxc-stop停止容器</li>
+<li>使用lxc-info列出容器</li>
+<li>使用lxc-destroy销毁容器</li>
+</ul>
+</li>
+</ul>
 
     </div>
 
@@ -720,7 +786,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Remise"><span class="nav-number">1.</span> <span class="nav-text">Remise</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">2.1.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chroot"><span class="nav-number">2.2.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Defect"><span class="nav-number">2.2.2.</span> <span class="nav-text">Defect</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Capabilities"><span class="nav-number">2.3.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">2.3.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgroup"><span class="nav-number">2.4.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-3"><span class="nav-number">2.4.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-1"><span class="nav-number">2.4.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Namespaces"><span class="nav-number">2.5.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-4"><span class="nav-number">2.5.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-2"><span class="nav-number">2.5.2.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Difference"><span class="nav-number">2.5.3.</span> <span class="nav-text">Difference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#seccomp"><span class="nav-number">2.6.</span> <span class="nav-text">seccomp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-5"><span class="nav-number">2.6.1.</span> <span class="nav-text">Introduction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MAC"><span class="nav-number">2.7.</span> <span class="nav-text">MAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TE"><span class="nav-number">2.7.1.</span> <span class="nav-text">TE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MLS"><span class="nav-number">2.7.2.</span> <span class="nav-text">MLS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo-working-with-lxc"><span class="nav-number">3.</span> <span class="nav-text">Demo: working with lxc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Subordinate-UID-GID-ranges"><span class="nav-number">3.1.</span> <span class="nav-text">Subordinate UID&#x2F;GID ranges</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-network-interfaces"><span class="nav-number">3.2.</span> <span class="nav-text">Virtual network interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-a-container"><span class="nav-number">3.3.</span> <span class="nav-text">Creating a container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-a-container"><span class="nav-number">3.4.</span> <span class="nav-text">Running a container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Networking"><span class="nav-number">3.5.</span> <span class="nav-text">Networking</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#remise"><span class="nav-number">1.</span> <span class="nav-text">remise</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Containers-VMs"><span class="nav-number">2.1.</span> <span class="nav-text">Containers !&#x3D; VMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chroot"><span class="nav-number">2.2.</span> <span class="nav-text">chroot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Defect"><span class="nav-number">2.2.2.</span> <span class="nav-text">Defect</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Capabilities"><span class="nav-number">2.3.</span> <span class="nav-text">Capabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">2.3.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgroup"><span class="nav-number">2.4.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-3"><span class="nav-number">2.4.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-1"><span class="nav-number">2.4.2.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Namespaces"><span class="nav-number">2.5.</span> <span class="nav-text">Namespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-4"><span class="nav-number">2.5.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-2"><span class="nav-number">2.5.2.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Difference"><span class="nav-number">2.5.3.</span> <span class="nav-text">Difference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#seccomp"><span class="nav-number">2.6.</span> <span class="nav-text">seccomp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-5"><span class="nav-number">2.6.1.</span> <span class="nav-text">Introduction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MAC"><span class="nav-number">2.7.</span> <span class="nav-text">MAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TE"><span class="nav-number">2.7.1.</span> <span class="nav-text">TE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MLS"><span class="nav-number">2.7.2.</span> <span class="nav-text">MLS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo-working-with-lxc"><span class="nav-number">3.</span> <span class="nav-text">Demo: working with lxc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Subordinate-UID-GID-ranges"><span class="nav-number">3.1.</span> <span class="nav-text">Subordinate UID&#x2F;GID ranges</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-network-interfaces"><span class="nav-number">3.2.</span> <span class="nav-text">Virtual network interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-a-container"><span class="nav-number">3.3.</span> <span class="nav-text">Creating a container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-a-container"><span class="nav-number">3.4.</span> <span class="nav-text">Running a container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Networking"><span class="nav-number">3.5.</span> <span class="nav-text">Networking</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stopping-a-container"><span class="nav-number">3.6.</span> <span class="nav-text">Stopping a container</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#What%E2%80%99s-the-difference-between-lxc-and-Docker"><span class="nav-number">4.</span> <span class="nav-text">What’s the difference between lxc and Docker?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Summary"><span class="nav-number">5.</span> <span class="nav-text">Summary</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
