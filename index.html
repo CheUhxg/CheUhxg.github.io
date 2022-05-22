@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-05-22 18:47:10" itemprop="dateModified" datetime="2022-05-22T18:47:10+08:00">2022-05-22</time>
+                <time title="Modified: 2022-05-22 18:48:40" itemprop="dateModified" datetime="2022-05-22T18:48:40+08:00">2022-05-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,7 +243,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="remise"><a href="#remise" class="headerlink" title="remise"></a>remise</h1><ul>
+          <h1 id="Remise"><a href="#Remise" class="headerlink" title="Remise"></a>Remise</h1><ul>
 <li>本文翻译(有道翻译)自<a target="_blank" rel="noopener" href="https://raydenchia.com/linux-containers-lxc/#seccomp">linux-container-lxc</a>，根据重点摘录学习。</li>
 </ul>
 <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><ul>
@@ -815,6 +815,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ONOS_group/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_ONOS_group/" class="post-title-link" itemprop="url">ONOS group multicast in SDN</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
+<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
+<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
+<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
+<ul>
+<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
+</li>
+<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
+</li>
+<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
+<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
+</ul>
+</li>
+<li>计数器<code>counters</code>:记录处理过的报文数</li>
+<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
+</ul>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -889,97 +980,6 @@
 <li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
 </ul>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_ONOS_group/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/exp_ONOS_group/" class="post-title-link" itemprop="url">ONOS group multicast in SDN</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
-<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
-<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
-<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
-<ul>
-<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
-</li>
-<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
-</li>
-<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
-<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
-</ul>
-</li>
-<li>计数器<code>counters</code>:记录处理过的报文数</li>
-<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
-</ul>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
