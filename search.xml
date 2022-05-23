@@ -728,29 +728,23 @@
       </tags>
   </entry>
   <entry>
-    <title>Git Manual</title>
-    <url>/2022/05/17/man_git/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>在看了<a href="https://www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师</a>的课后，做了一些笔记，本文是对操作的归纳。<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git init<span class="comment">//初始化仓库</span></span><br></pre></td></tr></table></figure>
-<h2 id="添加文件"><a href="#添加文件" class="headerlink" title="添加文件"></a>添加文件</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git add &lt;file&gt;<span class="comment">//把文件放到暂存区</span></span><br><span class="line">git commit -m &lt;message&gt;<span class="comment">//提交暂存区的文件并备注</span></span><br></pre></td></tr></table></figure>
-<img src="https://img-blog.csdnimg.cn/20200704174531816.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h2 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git status<span class="comment">//查看工作区的状态</span></span><br><span class="line">git diff<span class="comment">//查看修改的内容</span></span><br></pre></td></tr></table></figure>
-<h2 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h2></li>
+    <title>Mit 6.858 Lab</title>
+    <url>/2022/05/17/lab-mit-6858/</url>
+    <content><![CDATA[<h2 id="Paper"><a href="#Paper" class="headerlink" title="Paper"></a>Paper</h2><ul>
+<li>baggy.pdf</li>
 </ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git reset --hard commit_id<span class="comment">//返回到id对应的版本</span></span><br><span class="line">git log<span class="comment">//查看提交历史，回到过去</span></span><br><span class="line">git reflog<span class="comment">//查看命令历史，回到未来</span></span><br><span class="line">git checkout -- file<span class="comment">//放弃工作区的修改</span></span><br><span class="line">git reset HEAD &lt;file&gt;<span class="comment">//放弃暂存区的修改</span></span><br><span class="line">git rm<span class="comment">//删除一个文件</span></span><br></pre></td></tr></table></figure>
-<h2 id="SSH-Key"><a href="#SSH-Key" class="headerlink" title="SSH Key"></a>SSH Key</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span><span class="comment">//创建SSH Key</span></span><br></pre></td></tr></table></figure>
-<p>在用户主目录里找到.ssh文件，把当中的id_rsa.pub内容放到GitHub里面。<br><img src="https://img-blog.csdnimg.cn/20200704180004670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git<span class="comment">//关联远程库</span></span><br><span class="line">git push -u origin master<span class="comment">//第一次推送master分支的内容</span></span><br><span class="line">git push origin master<span class="comment">//推送最新修改</span></span><br><span class="line">git clone git@server-name:path/repo-name.git<span class="comment">//克隆一个仓库</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20200704180517734.png" alt="在这里插入图片描述"></p>
-<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git branch<span class="comment">//查看分支</span></span><br><span class="line">git branch &lt;name&gt;<span class="comment">//创建分支</span></span><br><span class="line">git checkout &lt;name&gt;<span class="comment">//切换分支</span></span><br><span class="line">git <span class="keyword">switch</span> &lt;name&gt;<span class="comment">//切换分支</span></span><br><span class="line">git checkout -b &lt;name&gt;<span class="comment">//创建并且切换到新分支</span></span><br><span class="line">git <span class="keyword">switch</span> -c &lt;name&gt;<span class="comment">//创建并且切换到新分支</span></span><br><span class="line">git merge &lt;name&gt;<span class="comment">//合并到当前分支</span></span><br><span class="line">git branch -d &lt;name&gt;<span class="comment">//删除分支</span></span><br><span class="line">git log --graph --pretty=oneline --abbrev-commit<span class="comment">//合并情况可视化</span></span><br><span class="line">git merge --no-ff -m<span class="string">&quot;&lt;message&gt;&quot;</span> &lt;name&gt;<span class="comment">//有分支合并</span></span><br><span class="line">git branch -D &lt;name&gt;<span class="comment">//强行删除</span></span><br></pre></td></tr></table></figure>
-<h2 id="保存现场"><a href="#保存现场" class="headerlink" title="保存现场"></a>保存现场</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git stash<span class="comment">//把当前分支操作入栈</span></span><br><span class="line">git stash pop<span class="comment">//把工作栈内容取出</span></span><br><span class="line">git cherry-pick &lt;commit&gt;<span class="comment">//把某个操作复制到当前分支</span></span><br></pre></td></tr></table></figure>
-<h2 id="多人工作"><a href="#多人工作" class="headerlink" title="多人工作"></a>多人工作</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git push origin &lt;branch-name&gt;<span class="comment">//推送工作分支</span></span><br><span class="line">git pull<span class="comment">//推送失败，抓下远程分支试图合并</span></span><br><span class="line">git branch --set-upstream-to &lt;branch-name&gt; origin<span class="comment">//和远程分支建立联系</span></span><br><span class="line">git rebase<span class="comment">//将提交的分叉整理成直线</span></span><br></pre></td></tr></table></figure>
-<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git tag -a &lt;tagname&gt; -m<span class="string">&quot;&lt;message&gt;&quot;</span><span class="comment">//给分支命名并且备注</span></span><br><span class="line">git tag<span class="comment">//查看所有标签</span></span><br><span class="line">git push origin &lt;tagname&gt;<span class="comment">//推送本地标签</span></span><br><span class="line">git push origin --tags<span class="comment">//推送全部本地标签</span></span><br><span class="line">git tag -d &lt;tagname&gt;<span class="comment">//删除一个本地标签</span></span><br><span class="line">git push origin :refs/tags/&lt;tagname&gt;<span class="comment">//删除远程标签</span></span><br></pre></td></tr></table></figure>
+<div class="pdfobject-container" data-target="./pdf/baggy.pdf" data-height="500px"></div>
+<ul>
+<li>okwa.pdf</li>
+</ul>
+<div class="pdfobject-container" data-target="./pdf/okws.pdf" data-height="500px"></div>
 ]]></content>
       <categories>
-        <category>tool</category>
+        <category>lab</category>
       </categories>
       <tags>
-        <tag>Git</tag>
+        <tag>MIT</tag>
+        <tag>System Security</tag>
       </tags>
   </entry>
   <entry>
@@ -896,23 +890,29 @@
       </tags>
   </entry>
   <entry>
-    <title>Mit 6.858 Lab</title>
-    <url>/2022/05/17/lab-mit-6858/</url>
-    <content><![CDATA[<h2 id="Paper"><a href="#Paper" class="headerlink" title="Paper"></a>Paper</h2><ul>
-<li>baggy.pdf</li>
+    <title>Git Manual</title>
+    <url>/2022/05/17/man_git/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>在看了<a href="https://www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师</a>的课后，做了一些笔记，本文是对操作的归纳。<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git init<span class="comment">//初始化仓库</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加文件"><a href="#添加文件" class="headerlink" title="添加文件"></a>添加文件</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git add &lt;file&gt;<span class="comment">//把文件放到暂存区</span></span><br><span class="line">git commit -m &lt;message&gt;<span class="comment">//提交暂存区的文件并备注</span></span><br></pre></td></tr></table></figure>
+<img src="https://img-blog.csdnimg.cn/20200704174531816.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h2 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git status<span class="comment">//查看工作区的状态</span></span><br><span class="line">git diff<span class="comment">//查看修改的内容</span></span><br></pre></td></tr></table></figure>
+<h2 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h2></li>
 </ul>
-<div class="pdfobject-container" data-target="./pdf/baggy.pdf" data-height="500px"></div>
-<ul>
-<li>okwa.pdf</li>
-</ul>
-<div class="pdfobject-container" data-target="./pdf/okws.pdf" data-height="500px"></div>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git reset --hard commit_id<span class="comment">//返回到id对应的版本</span></span><br><span class="line">git log<span class="comment">//查看提交历史，回到过去</span></span><br><span class="line">git reflog<span class="comment">//查看命令历史，回到未来</span></span><br><span class="line">git checkout -- file<span class="comment">//放弃工作区的修改</span></span><br><span class="line">git reset HEAD &lt;file&gt;<span class="comment">//放弃暂存区的修改</span></span><br><span class="line">git rm<span class="comment">//删除一个文件</span></span><br></pre></td></tr></table></figure>
+<h2 id="SSH-Key"><a href="#SSH-Key" class="headerlink" title="SSH Key"></a>SSH Key</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span><span class="comment">//创建SSH Key</span></span><br></pre></td></tr></table></figure>
+<p>在用户主目录里找到.ssh文件，把当中的id_rsa.pub内容放到GitHub里面。<br><img src="https://img-blog.csdnimg.cn/20200704180004670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git<span class="comment">//关联远程库</span></span><br><span class="line">git push -u origin master<span class="comment">//第一次推送master分支的内容</span></span><br><span class="line">git push origin master<span class="comment">//推送最新修改</span></span><br><span class="line">git clone git@server-name:path/repo-name.git<span class="comment">//克隆一个仓库</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20200704180517734.png" alt="在这里插入图片描述"></p>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git branch<span class="comment">//查看分支</span></span><br><span class="line">git branch &lt;name&gt;<span class="comment">//创建分支</span></span><br><span class="line">git checkout &lt;name&gt;<span class="comment">//切换分支</span></span><br><span class="line">git <span class="keyword">switch</span> &lt;name&gt;<span class="comment">//切换分支</span></span><br><span class="line">git checkout -b &lt;name&gt;<span class="comment">//创建并且切换到新分支</span></span><br><span class="line">git <span class="keyword">switch</span> -c &lt;name&gt;<span class="comment">//创建并且切换到新分支</span></span><br><span class="line">git merge &lt;name&gt;<span class="comment">//合并到当前分支</span></span><br><span class="line">git branch -d &lt;name&gt;<span class="comment">//删除分支</span></span><br><span class="line">git log --graph --pretty=oneline --abbrev-commit<span class="comment">//合并情况可视化</span></span><br><span class="line">git merge --no-ff -m<span class="string">&quot;&lt;message&gt;&quot;</span> &lt;name&gt;<span class="comment">//有分支合并</span></span><br><span class="line">git branch -D &lt;name&gt;<span class="comment">//强行删除</span></span><br></pre></td></tr></table></figure>
+<h2 id="保存现场"><a href="#保存现场" class="headerlink" title="保存现场"></a>保存现场</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git stash<span class="comment">//把当前分支操作入栈</span></span><br><span class="line">git stash pop<span class="comment">//把工作栈内容取出</span></span><br><span class="line">git cherry-pick &lt;commit&gt;<span class="comment">//把某个操作复制到当前分支</span></span><br></pre></td></tr></table></figure>
+<h2 id="多人工作"><a href="#多人工作" class="headerlink" title="多人工作"></a>多人工作</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git push origin &lt;branch-name&gt;<span class="comment">//推送工作分支</span></span><br><span class="line">git pull<span class="comment">//推送失败，抓下远程分支试图合并</span></span><br><span class="line">git branch --set-upstream-to &lt;branch-name&gt; origin<span class="comment">//和远程分支建立联系</span></span><br><span class="line">git rebase<span class="comment">//将提交的分叉整理成直线</span></span><br></pre></td></tr></table></figure>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">git tag -a &lt;tagname&gt; -m<span class="string">&quot;&lt;message&gt;&quot;</span><span class="comment">//给分支命名并且备注</span></span><br><span class="line">git tag<span class="comment">//查看所有标签</span></span><br><span class="line">git push origin &lt;tagname&gt;<span class="comment">//推送本地标签</span></span><br><span class="line">git push origin --tags<span class="comment">//推送全部本地标签</span></span><br><span class="line">git tag -d &lt;tagname&gt;<span class="comment">//删除一个本地标签</span></span><br><span class="line">git push origin :refs/tags/&lt;tagname&gt;<span class="comment">//删除远程标签</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>lab</category>
+        <category>tool</category>
       </categories>
       <tags>
-        <tag>MIT</tag>
-        <tag>System Security</tag>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -945,151 +945,6 @@
       </categories>
       <tags>
         <tag>Mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CTF note</title>
-    <url>/2022/05/17/note_CTF/</url>
-    <content><![CDATA[<h1 id="WarmUp"><a href="#WarmUp" class="headerlink" title="WarmUp"></a>WarmUp</h1><h2 id="题目介绍"><a href="#题目介绍" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
-<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第一题。</li>
-<li>设计的知识点包括：<ul>
-<li><code>PHP</code>代码审计</li>
-<li>远程文件包含</li>
-</ul>
-</li>
-</ul>
-<h2 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="函数解析"><a href="#函数解析" class="headerlink" title="函数解析"></a>函数解析</h2><ul>
-<li><a href="https://www.php.net/manual/zh/function.isset.php">isset</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> , <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$...</code> = ? ) : bool<ul>
-<li>判断变量<code>var</code>是否被设置并且非<code>NULL</code>。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.is-string.php">is_string</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> ) : bool<ul>
-<li>检测变量<code>var</code>是否是字符串。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.in-array.php">in_array</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$needle</code> , array <code>$haystack</code> , bool <code>$strict</code> = <strong><code>false</code></strong> ) : bool<ul>
-<li>检查数组<code>haystack</code>中是否存在某个值<code>needle</code>。</li>
-<li>若数组为键值数组，则匹配值。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.mb-substr.php">mb_substr</a> ( string <code>$str</code> , int <code>$start</code> , int <code>$length</code> = NULL , string <code>$encoding</code> = mb_internal_encoding() ) : string<ul>
-<li>根据字符数执行一个多字节安全的 <a href="https://www.php.net/manual/zh/function.substr.php">substr()</a> 操作。</li>
-<li>取字符串<code>str</code>从<code>start</code>开始<code>length</code>长度的子串。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.mb-strpos.php">mb_strpos</a> ( string <code>$haystack</code> , string <code>$needle</code> , int <code>$offset</code> = 0 , string <code>$encoding</code> = mb_internal_encoding() ) : int<ul>
-<li>查找字符串<code>needle</code>在字符串<code>haystack</code>中首次出现的位置。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.urldecode.php">urldecode</a> ( string <code>$str</code> ) : string<ul>
-<li>解码已编码的 <code>URL</code> 字符串<code>str</code>。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.include.php">include</a><ul>
-<li>后跟要被包含的文件名，表示引入该文件。</li>
-</ul>
-</li>
-</ul>
-<h2 id="代码逻辑"><a href="#代码逻辑" class="headerlink" title="代码逻辑"></a>代码逻辑</h2><h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><ul>
-<li>第<code>40</code>行的<code>if</code>语句判断了<ul>
-<li>提交的参数<code>file</code>是否为空；</li>
-<li>参数<code>file</code>是否为字符串；</li>
-<li>函数<code>checkFile</code>是否返回<code>true</code>。</li>
-</ul>
-</li>
-<li>上述条件满足就将<code>file</code>对应的文件打开，不满足则显示<font color="orange">滑稽</font>。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/057e48ad7fa2e521926b5f00b48169d0.png" alt=""></p>
-<h3 id="checkFile函数"><a href="#checkFile函数" class="headerlink" title="checkFile函数"></a>checkFile函数</h3><ul>
-<li>在第<code>5</code>行中将参数<code>file</code>赋值给变量<code>page</code>。</li>
-<li>第<code>7</code>行给出白名单，分别是<code>source.php</code>、<code>hint.php</code>。</li>
-<li>第<code>8</code>行判断变量<code>page</code>是否已设置为字符串，若没有，则<font color="orange">滑稽</font>伺候。</li>
-<li>第<code>13</code>行<font color="red">第一次</font>判断<code>page</code>是否属于白名单，若是则包含文件。</li>
-<li>第<code>17</code>行裁剪原始变量<code>page</code>，<code>_page</code>留下第一个<code>?</code>之前的字符串。</li>
-<li>第<code>22</code>行<font color="red">第二次</font>判断<code>page</code>是否属于白名单。</li>
-<li>第<code>26</code>行对变量<code>page</code>进行<code>URL</code>编码的解码，赋值给<code>_page</code>。</li>
-</ul>
-<blockquote>
-<p>注意：<code>page</code>取自<code>URL</code>，作为参数传入会先进行一次解码。</p>
-</blockquote>
-<ul>
-<li>第<code>27</code>行裁剪解码后的变量<code>_page</code>。</li>
-<li>第<code>32</code>行<font color="red">第三次</font>判断<code>_page</code>是否属于白名单。</li>
-</ul>
-<h3 id="hint-php"><a href="#hint-php" class="headerlink" title="hint.php"></a>hint.php</h3><ul>
-<li>提示给出了<code>flag</code>所在文件夹。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">flag not here, and flag in ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<h1 id="EazySQL"><a href="#EazySQL" class="headerlink" title="EazySQL"></a>EazySQL</h1><h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
-<li>在上述我<font color="red">标红</font>的三次判断中，可以设置不同状态的<code>page</code>得到文件包含。</li>
-<li><font color="red">第一次</font>判断时，对变量<code>page</code>没有做任何改变，满足条件只有参数<code>file</code>（原始传入的<code>page</code>）为<code>source.php</code>或<code>hint.php</code>，很明显无法包含文件<code>ffffllllaaaagggg</code>。</li>
-<li><font color="red">第二次</font>判断时，考虑到裁剪之后需要满足<code>?</code>前包含<code>source.php</code>或<code>hint.php</code>，之后的部分可以任意修改。</li>
-</ul>
-<blockquote>
-<p>包含<code>？</code>后就已经绕过了第一个判断。</p>
-</blockquote>
-<ul>
-<li>尝试包含到文件<code>ffffllllaaaagggg</code>，在<code>?</code>之后不断添加访问上级目录符号<code>../</code>，例如。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php?../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<ul>
-<li>当<code>../</code>达到<code>8</code>个时，出现<code>flag</code>。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20210310211409843.png" alt=""></p>
-<ul>
-<li><p>这里出现了多解，使用<font color="red">第三次</font>判断仍然可以实现。</p>
-</li>
-<li><p>由于<code>URL</code>会对特殊字符进行编码，故利用代码中的<font color="red">二次解码</font>，将<code>?</code>设计为经过两次编码的码值。</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">? =&gt; %3f =&gt; %253f</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用<code>%253f</code>替换<code>?</code>位置之后，传入服务器时变成<code>%3f</code>，此时即可绕过前两次判断。</li>
-<li>在<font color="red">第三次</font>判断前，<code>urldecode()</code>将<code>%3f</code>转化为<code>?</code>，完成判断。</li>
-<li>给出<font color="red">第三次</font>判断的<code>Payload</code>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php%253f../../../../../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<h2 id="题目介绍-1"><a href="#题目介绍-1" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
-<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第二题。</li>
-<li>涉及的知识点包括：<ul>
-<li><code>SQL</code>注入</li>
-</ul>
-</li>
-</ul>
-<h2 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h2><ul>
-<li>很单纯的登录界面，需要输入用户名和密码。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20210310213340786.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-<ul>
-<li>此时你输入的字符串将被用于数据库查询对应的用户，通过这样的机制，即可构造<code>SQL</code>注入攻击。</li>
-</ul>
-<blockquote>
-<p><code>SQL</code>注入具体知识参考我的一篇<a href="https://cheuhxg.github.io/2021/01/31/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">博客</a>。</p>
-</blockquote>
-<h2 id="解题过程-1"><a href="#解题过程-1" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
-<li>观察攻击场景，通常来说用户名和密码都为字符串输入，故此处猜测为字符型注入。</li>
-<li>假设查询语句模型。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> user_id<span class="operator">=</span><span class="string">&#x27;$&#123;User-Name&#125;&#x27;</span> <span class="keyword">and</span> passwd<span class="operator">=</span><span class="string">&#x27;$&#123;User-Passwd&#125;&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>尝试使用注释<code>#</code>屏蔽后面代码，下面给出用户名和密码的<code>Payload</code>。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or 1=1#</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>得到<code>flag</code>。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/2021031021335315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-<ul>
-<li>若注释符被屏蔽，使用<code>&#39;</code>构造查询字符串闭合，给出<code>Payload</code>。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>note</category>
-      </categories>
-      <tags>
-        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -1826,6 +1681,151 @@
       </categories>
       <tags>
         <tag>SQLMap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CTF note</title>
+    <url>/2022/05/17/note_CTF/</url>
+    <content><![CDATA[<h1 id="WarmUp"><a href="#WarmUp" class="headerlink" title="WarmUp"></a>WarmUp</h1><h2 id="题目介绍"><a href="#题目介绍" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
+<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第一题。</li>
+<li>设计的知识点包括：<ul>
+<li><code>PHP</code>代码审计</li>
+<li>远程文件包含</li>
+</ul>
+</li>
+</ul>
+<h2 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="函数解析"><a href="#函数解析" class="headerlink" title="函数解析"></a>函数解析</h2><ul>
+<li><a href="https://www.php.net/manual/zh/function.isset.php">isset</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> , <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$...</code> = ? ) : bool<ul>
+<li>判断变量<code>var</code>是否被设置并且非<code>NULL</code>。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.is-string.php">is_string</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> ) : bool<ul>
+<li>检测变量<code>var</code>是否是字符串。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.in-array.php">in_array</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$needle</code> , array <code>$haystack</code> , bool <code>$strict</code> = <strong><code>false</code></strong> ) : bool<ul>
+<li>检查数组<code>haystack</code>中是否存在某个值<code>needle</code>。</li>
+<li>若数组为键值数组，则匹配值。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.mb-substr.php">mb_substr</a> ( string <code>$str</code> , int <code>$start</code> , int <code>$length</code> = NULL , string <code>$encoding</code> = mb_internal_encoding() ) : string<ul>
+<li>根据字符数执行一个多字节安全的 <a href="https://www.php.net/manual/zh/function.substr.php">substr()</a> 操作。</li>
+<li>取字符串<code>str</code>从<code>start</code>开始<code>length</code>长度的子串。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.mb-strpos.php">mb_strpos</a> ( string <code>$haystack</code> , string <code>$needle</code> , int <code>$offset</code> = 0 , string <code>$encoding</code> = mb_internal_encoding() ) : int<ul>
+<li>查找字符串<code>needle</code>在字符串<code>haystack</code>中首次出现的位置。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.urldecode.php">urldecode</a> ( string <code>$str</code> ) : string<ul>
+<li>解码已编码的 <code>URL</code> 字符串<code>str</code>。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.include.php">include</a><ul>
+<li>后跟要被包含的文件名，表示引入该文件。</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码逻辑"><a href="#代码逻辑" class="headerlink" title="代码逻辑"></a>代码逻辑</h2><h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><ul>
+<li>第<code>40</code>行的<code>if</code>语句判断了<ul>
+<li>提交的参数<code>file</code>是否为空；</li>
+<li>参数<code>file</code>是否为字符串；</li>
+<li>函数<code>checkFile</code>是否返回<code>true</code>。</li>
+</ul>
+</li>
+<li>上述条件满足就将<code>file</code>对应的文件打开，不满足则显示<font color="orange">滑稽</font>。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/057e48ad7fa2e521926b5f00b48169d0.png" alt=""></p>
+<h3 id="checkFile函数"><a href="#checkFile函数" class="headerlink" title="checkFile函数"></a>checkFile函数</h3><ul>
+<li>在第<code>5</code>行中将参数<code>file</code>赋值给变量<code>page</code>。</li>
+<li>第<code>7</code>行给出白名单，分别是<code>source.php</code>、<code>hint.php</code>。</li>
+<li>第<code>8</code>行判断变量<code>page</code>是否已设置为字符串，若没有，则<font color="orange">滑稽</font>伺候。</li>
+<li>第<code>13</code>行<font color="red">第一次</font>判断<code>page</code>是否属于白名单，若是则包含文件。</li>
+<li>第<code>17</code>行裁剪原始变量<code>page</code>，<code>_page</code>留下第一个<code>?</code>之前的字符串。</li>
+<li>第<code>22</code>行<font color="red">第二次</font>判断<code>page</code>是否属于白名单。</li>
+<li>第<code>26</code>行对变量<code>page</code>进行<code>URL</code>编码的解码，赋值给<code>_page</code>。</li>
+</ul>
+<blockquote>
+<p>注意：<code>page</code>取自<code>URL</code>，作为参数传入会先进行一次解码。</p>
+</blockquote>
+<ul>
+<li>第<code>27</code>行裁剪解码后的变量<code>_page</code>。</li>
+<li>第<code>32</code>行<font color="red">第三次</font>判断<code>_page</code>是否属于白名单。</li>
+</ul>
+<h3 id="hint-php"><a href="#hint-php" class="headerlink" title="hint.php"></a>hint.php</h3><ul>
+<li>提示给出了<code>flag</code>所在文件夹。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">flag not here, and flag in ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<h1 id="EazySQL"><a href="#EazySQL" class="headerlink" title="EazySQL"></a>EazySQL</h1><h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
+<li>在上述我<font color="red">标红</font>的三次判断中，可以设置不同状态的<code>page</code>得到文件包含。</li>
+<li><font color="red">第一次</font>判断时，对变量<code>page</code>没有做任何改变，满足条件只有参数<code>file</code>（原始传入的<code>page</code>）为<code>source.php</code>或<code>hint.php</code>，很明显无法包含文件<code>ffffllllaaaagggg</code>。</li>
+<li><font color="red">第二次</font>判断时，考虑到裁剪之后需要满足<code>?</code>前包含<code>source.php</code>或<code>hint.php</code>，之后的部分可以任意修改。</li>
+</ul>
+<blockquote>
+<p>包含<code>？</code>后就已经绕过了第一个判断。</p>
+</blockquote>
+<ul>
+<li>尝试包含到文件<code>ffffllllaaaagggg</code>，在<code>?</code>之后不断添加访问上级目录符号<code>../</code>，例如。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php?../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当<code>../</code>达到<code>8</code>个时，出现<code>flag</code>。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210310211409843.png" alt=""></p>
+<ul>
+<li><p>这里出现了多解，使用<font color="red">第三次</font>判断仍然可以实现。</p>
+</li>
+<li><p>由于<code>URL</code>会对特殊字符进行编码，故利用代码中的<font color="red">二次解码</font>，将<code>?</code>设计为经过两次编码的码值。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">? =&gt; %3f =&gt; %253f</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>%253f</code>替换<code>?</code>位置之后，传入服务器时变成<code>%3f</code>，此时即可绕过前两次判断。</li>
+<li>在<font color="red">第三次</font>判断前，<code>urldecode()</code>将<code>%3f</code>转化为<code>?</code>，完成判断。</li>
+<li>给出<font color="red">第三次</font>判断的<code>Payload</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php%253f../../../../../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<h2 id="题目介绍-1"><a href="#题目介绍-1" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
+<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第二题。</li>
+<li>涉及的知识点包括：<ul>
+<li><code>SQL</code>注入</li>
+</ul>
+</li>
+</ul>
+<h2 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h2><ul>
+<li>很单纯的登录界面，需要输入用户名和密码。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210310213340786.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+<ul>
+<li>此时你输入的字符串将被用于数据库查询对应的用户，通过这样的机制，即可构造<code>SQL</code>注入攻击。</li>
+</ul>
+<blockquote>
+<p><code>SQL</code>注入具体知识参考我的一篇<a href="https://cheuhxg.github.io/2021/01/31/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">博客</a>。</p>
+</blockquote>
+<h2 id="解题过程-1"><a href="#解题过程-1" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
+<li>观察攻击场景，通常来说用户名和密码都为字符串输入，故此处猜测为字符型注入。</li>
+<li>假设查询语句模型。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> user_id<span class="operator">=</span><span class="string">&#x27;$&#123;User-Name&#125;&#x27;</span> <span class="keyword">and</span> passwd<span class="operator">=</span><span class="string">&#x27;$&#123;User-Passwd&#125;&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>尝试使用注释<code>#</code>屏蔽后面代码，下面给出用户名和密码的<code>Payload</code>。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or 1=1#</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>得到<code>flag</code>。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/2021031021335315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+<ul>
+<li>若注释符被屏蔽，使用<code>&#39;</code>构造查询字符串闭合，给出<code>Payload</code>。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>note</category>
+      </categories>
+      <tags>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
