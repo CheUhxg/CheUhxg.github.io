@@ -213,7 +213,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-05-23 20:42:40 / 修改时间：20:42:12" itemprop="dateCreated datePublished" datetime="2022-05-23T20:42:40+08:00">2022-05-23</time>
+              <time title="创建时间：2022-05-23 20:42:40 / 修改时间：21:36:20" itemprop="dateCreated datePublished" datetime="2022-05-23T20:42:40+08:00">2022-05-23</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,265 +252,14 @@
 <blockquote>
 <p>iptables允许用户使用这些链和规则</p>
 </blockquote>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
-<li>iptables工作原理</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
-<blockquote>
-<p>小写是表，大写是链。</p>
-<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
-</blockquote>
-<ul>
-<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
-</ul>
-<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
-<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
-<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
-<p>iptables在用户空间，可以控制安全框架。</p>
-</blockquote>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
-<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
-<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
-<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
-<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
-<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
-<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
-<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
-<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
-<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
-<li>iptables 包含五个表：<ol>
-<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
-<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
-<li>nat用于网络地址转换（例如端口转发）。</li>
-<li>mangle用于专门的数据包更改。</li>
-<li>security用于强制访问控制网络规则。</li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<p><strong>常用的表为filter和nat</strong>。</p>
-</blockquote>
-<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
-<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
-<ul>
-<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
-<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
-</ul>
-</li>
-<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
-</li>
-<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
-<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
-<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
-</ul>
-</li>
-</ul>
-<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
-<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
-<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>使用-j或—jump选项指定目标。</p>
-</blockquote>
-<ul>
-<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
-<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
-<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
-<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
-</ul>
-</li>
-</ul>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
-<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
-<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
-</ul>
-</li>
-</ul>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
-<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
-<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
-</blockquote>
-<ul>
-<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
-<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
-<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
-<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
-<p>可以使用-t选项指定其他表。</p>
-</blockquote>
-<ul>
-<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
-</ul>
-<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
-<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
-<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
-<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
-</ul>
-</li>
-</ul>
-<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
-<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
-<li>下面举例说明了前三个命令。</li>
-</ul>
-</li>
-<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a target="_blank" rel="noopener" href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
-</blockquote>
-<ul>
-<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
-<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
-</blockquote>
-<ul>
-<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
-<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<ul>
-<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
-<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
-<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
-</ul>
-</li>
-<li>首先，创建一个ipset散列容器。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>timeout是接受客户端响应的时间窗口。</p>
-</blockquote>
-<ul>
-<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
-</ul>
-<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
-<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
-<ul>
-<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
-<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
-</ul>
-</li>
-<li><p>创建链</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
-<ul>
-<li>并将以下规则添加到新创建的链:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
-</blockquote>
-<ul>
-<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
-<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
-<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
-<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
-</ul>
-</li>
-<li>limit模块<strong>使用-m limit调用</strong>。<ul>
-<li>使用—limit来<strong>设置平均速率</strong>；</li>
-<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
-<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
-<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
-</ul>
-</li>
-</ul>
-<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
-<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
-<li>要查看自计算机最后一次启动以来记录的所有包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
-<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
-</blockquote>
-<ul>
-<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
-<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
-<li>ulogd包可以在[community]存储库中找到。</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/23/note_iptables/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -560,7 +309,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-22 19:52:30" itemprop="dateModified" datetime="2022-05-22T19:52:30+08:00">2022-05-22</time>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -592,456 +341,14 @@
 <blockquote>
 <p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
 </blockquote>
-<h2 id="Containers-VMs"><a href="#Containers-VMs" class="headerlink" title="Containers != VMs"></a>Containers != VMs</h2><ul>
-<li>lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限)<ul>
-<li><a href="#cgroup">Control groups(cgroup)</a></li>
-<li><a href="#Capabilities">Capabilities</a></li>
-<li><a href="#seccomp">seccomp</a></li>
-<li><a href="#MAC">Mandatory Access Control</a> (via AppArmor, SELinux)</li>
-<li><a href="#Namespaces">Namespaces</a></li>
-<li><a href="#chroot">chroot jails</a></li>
-</ul>
-</li>
-<li>VM和LXC的区别</li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Virtual Machine</th>
-<th>Linux LXC Container</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>操作系统</td>
-<td>在VM中运行隔离的客户OS</td>
-<td>在主机OS上运行(共享内核)</td>
-</tr>
-<tr>
-<td>网络</td>
-<td>通过虚拟网络设备</td>
-<td>通过虚拟网络适配器隔离的视图</td>
-</tr>
-<tr>
-<td>隔离性</td>
-<td>OS之间完全隔离</td>
-<td>基于命名空间和cgroup的隔离</td>
-</tr>
-<tr>
-<td>大小</td>
-<td>通常是GB级别</td>
-<td>通常是MB级别</td>
-</tr>
-<tr>
-<td>启动时间</td>
-<td>以秒、分钟数量级，取决于存储介质</td>
-<td>以秒数量级</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h2><h3 id="Introduction-1"><a href="#Introduction-1" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>默认情况下，操作系统的根目录为<code>/</code>，进程将其视为所有文件绝对路径的根目录。</li>
-<li>这个“视图”可以通过<strong>调用chroot()系统调用来更改</strong>，这样我们就可以创建一个独立的独立环境来运行。</li>
-<li><strong>chroot更改当前运行进程及其子进程的表面上的根目录。</strong></li>
-</ul>
-<h3 id="Defect"><a href="#Defect" class="headerlink" title="Defect"></a>Defect</h3><ul>
-<li>但是，chroot本身并<strong>不能提供强隔离</strong>。</li>
-<li>似乎阻止对父目录的访问就足够了，但是chroot只是<strong>修改进程(通过pivot_root)及其子进程的路径名查找</strong>，将新的chroot-ed目录路径放在任何绝对路径(以<code>/</code>开头的路径)前面。</li>
-<li>在其他原因中，如果进程能够<strong>访问chroot监狱之外的句柄</strong>，那么也<strong>允许访问chroot-ed目录的父目录</strong>——因此这本身不是强隔离。</li>
-</ul>
-<h2 id="Capabilities"><a href="#Capabilities" class="headerlink" title="Capabilities"></a>Capabilities</h2><h3 id="Introduction-2"><a href="#Introduction-2" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>传统的UNIX自由访问控制分为两个部分<ul>
-<li>root/超级用户/特权;</li>
-<li>用户/非特权。</li>
-</ul>
-</li>
-<li>假设一个系统用户需要生成一个<u>需要一些root权限的</u>服务器进程。同时，假设服务器代码具有远程代码执行漏洞。如果脆弱的服务器进程被破坏，整个系统就会被破坏(因为进程的UID是0)。有没有一种方法只给进程它需要的权限(最小权限)?</li>
-<li>为了<strong><u>分割通常完全提供给root用户的特权</u></strong>，Linux Capabilities从2.2版开始被引入到Linux内核中。每个Capability代表一个不同的特权单位，前缀为CAP_。一些功能包括：<ul>
-<li>CAP_CHOWN：更改文件的用户和组所有权的能力</li>
-<li>CAP_NET_ADMIN：在系统上执行与网络相关的管理的能力</li>
-<li>CAP_NET_RAW：创建RAW和PACKET套接字以及任意地址绑定的能力</li>
-<li>CAP_SYS_ADMIN：能够做很多事情，以至于很多人把它当作新的根。未来肯定需要进一步的特权分片。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>总共29种Capability</p>
-</blockquote>
-<ul>
-<li>getcap和setcap命令用于获取/设置文件的Capabilities。</li>
-</ul>
-<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
-<li>让我们看看ping实用程序，它需要创建一个RAW套接字来发送ICMP数据包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">ls</span> -al /bin/ping</span><br><span class="line">-rwsr-xr-x 1 root root 64424 Jun 28  2019 /bin/ping</span><br></pre></td></tr></table></figure>
-<ul>
-<li>它属于root:root，但任何用户都可读和执行。如果我们尝试ping google.com，我们可以验证UID是当前用户的(因为没有setuid位设置)：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">student    2090  0.0  0.1  21044  2476 pts/2    S+   23:17   0:00 /bin/ping google.com</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这里的非特权用户能够ping，因为在/bin/ping二进制文件上设置了一个功能：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">getcap</span> /bin/ping</span><br><span class="line">/bin/ping = cap_net_raw+ep</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>有3个capability标志可以设置：</p>
-<ul>
-<li>Effective：该capability是否激活</li>
-<li>Inheritable：该capability是否被子进程继承</li>
-<li>allowed：该capability是否被允许，与父进程capability集无关</li>
-</ul>
-</li>
-<li>如果我们清空了ping的capability</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">cp</span> /bin/ping .</span><br><span class="line">student@6858-v20:~$ <span class="built_in">getcap</span> ./ping </span><br><span class="line">student@6858-v20:~$ ./ping google.com</span><br><span class="line">ping: socket: Operation not permitted</span><br><span class="line">student@6858-v20:~$ sudo <span class="built_in">setcap</span> cap_net_raw=ep ./ping</span><br><span class="line">student@6858-v20:~$ ./ping google.com</span><br><span class="line">PING google.com (172.217.163.46) 56(84) bytes of data.</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>通过<strong>复制</strong>ping二进制文件到一个新的目的地，任何扩展的属性(setuid，capabilities等)都会被清除。</p>
-</blockquote>
-<ul>
-<li>如果没有cap_net_raw这个capability，生成的ping进程就无法打开RAW套接字。一旦我们恢复了这种capability，ping功能就会恢复正常。</li>
-<li>Capabilities似乎是一个好主意，但CAP_SYS_ADMIN仍然有太多特权，这只是lxc用于加强隔离的另一种机制。</li>
-</ul>
-<h2 id="cgroup"><a href="#cgroup" class="headerlink" title="cgroup"></a>cgroup</h2><h3 id="Introduction-3"><a href="#Introduction-3" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>Control groups (cgroups)<strong>用于根据用户定义的进程组<u>限制系统资源的使用</u></strong>。</li>
-<li>假设您正在运行一个非常密集的数据分析例程，它使用了大量的算力和内存，以致于您的系统没有很好的响应。cgroups是一个<strong>内核特性</strong>，它允许您<strong>定义一组进程</strong>，这些进程运行分析作业并<strong>限制、解释和隔离分配的资源</strong>，这样您就可以在资源有限的情况下执行多任务分析作业。特别地，cgroup特性包括：<ul>
-<li>Limits：可以在处理器使用、内存使用、设备使用等方面指定最大限制。</li>
-<li>Accounting：监控资源使用情况。</li>
-<li>Prioritization：资源使用可以优先于其他cgroup。</li>
-<li>Control：可以控制进程的状态(如停止、重启、挂起)。</li>
-</ul>
-</li>
-<li><p>一个cgroup是<strong>一个或多个进程的集合</strong>，它们被绑定到为cgroup定义的同一组限制上。cgroup还可以以<strong>分层</strong>的方式继承另一个cgroup的属性。</p>
-</li>
-<li><p>cgroups通常在大多数现代版本的Linux发行版中可用，大多数定义了大约10个子系统(也称为控制器)。</p>
-<ul>
-<li>blkio：这个子系统设置对块设备，如物理驱动器(磁盘、固态或USB)的输入/输出访问的限制。</li>
-<li>cpu：这个子系统使用调度器提供cgroup任务对cpu的访问。</li>
-<li>cpuacct：该子系统自动生成cgroup中任务使用CPU资源的报告。</li>
-<li>cpuset：这个子系统为cgroup中的任务分配单独的cpu(在多核系统上)和内存节点。</li>
-<li>devices：这个子系统允许或拒绝cgroup中的任务访问设备。</li>
-<li>freezer：这个子系统挂起或恢复cgroup中的任务。</li>
-<li>memory：这个子系统对cgroup中的任务使用内存进行限制，并自动生成关于这些任务使用内存资源的报告。</li>
-<li>net_cls：这个子系统用一个类标识符(classid)标记网络数据包，这个类标识符允许Linux流量控制器(tc)识别来自特定cgroup任务的数据包。</li>
-<li>net_prio：这个子系统提供了一种动态设置每个网络接口的网络流量优先级的方法。</li>
-<li>ns：命名空间子系统。</li>
-<li>perf_event：这个子系统标识任务的cgroup成员，可以用于性能分析。</li>
-</ul>
-</li>
-<li><p>管理它们需要cgroup-tools和libcgroup1包，它们可以通过以下方式安装到Ubuntu中：</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cgroup-tools libcgroup1</span><br></pre></td></tr></table></figure>
-<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><ul>
-<li>假设我们有一个称为memes的内存密集型进程，我们希望在工作站上运行它。我们可以使用cgroups来限制内存使用，方法是在内存子系统中创建一个名为memegroup的cgroup(使用cgcreate)，设置它的限制(使用cgset)，并在该cgroup下执行进程(使用cgexec)：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo cgcreate -g memory:memegroup</span><br><span class="line">student@6858-v20:~$ sudo cgset -r memory.limit_in_bytes=1500K memegroup</span><br><span class="line">student@6858-v20:~$ cgget -r memory.limit_in_bytes memegroup </span><br><span class="line">primes: </span><br><span class="line">memory.limit_in_bytes: 1536000</span><br><span class="line">student@6858-v20:~$ <span class="built_in">cat</span> /sys/fs/cgroup/memory/memegroup/memory.limit_in_bytes</span><br><span class="line">1536000</span><br><span class="line">student@6858-v20:~$ sudo cgexec -g memory:memegroup ./memes </span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>cgcreate命令帮助在sysfs下创建目录(sysfs几乎总是挂载在/sys上，可以直接从命令行进行操作)，并且cgset适当地设置值。注意，系统总是将其更正为<strong>最接近的4096B对齐</strong>(从1500 KB到1536 KB)，这是<strong>内核页面</strong>大小。最后，我们在内存子系统下的memegroup中执行meme。</p>
-<ul>
-<li>过了一段时间，你会在终端上看到消息，说进程已经被终止了。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /sys/fs/cgroup/memory/memegroup/memory.oom_control</span><br><span class="line">oom_kill_disable 0</span><br><span class="line">under_oom 0</span><br><span class="line">oom_kill 1</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>我们看到oom_kill被设置为1，这意味着”内核内存不足杀手”(OOM Killer)已经终止了memegroup中的进程。</p>
-</blockquote>
-<ul>
-<li>memes程序源码如下;</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> *ptr;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">        ptr = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">4096</span>);</span><br><span class="line">        <span class="built_in">memset</span>(ptr, <span class="number">0</span>, <span class="number">4096</span>);</span><br><span class="line">        cnt += <span class="number">4096</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d bytes have been in use\n&quot;</span>, cnt);</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这是一个如何通过cgroup执行限制和过程控制的例子。</p>
-<p>大多数子系统都有计数功能，比如memory.usage_in_bytes、cpuacct.usage_sys等等。优先级的一个例子是cpu.shares(每个cgroup中每个进程可用的CPU资源份额)。</p>
-</blockquote>
-<h2 id="Namespaces"><a href="#Namespaces" class="headerlink" title="Namespaces"></a>Namespaces</h2><h3 id="Introduction-4"><a href="#Introduction-4" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>命名空间是一个抽象对象，它<strong>封装了资源</strong>，以便<strong>资源具有限制于同一命名空间中的其他资源的视图</strong>。</li>
-<li>例如，Linux进程形成了一个单进程树，根在init (PID 1)。一般情况下，特权进程可以跟踪或杀死其他进程。随着PID名称空间的引入，我们可以有多个不相交的进程树(它们不知道另一个名称空间中的进程)。如果我们创建一个新的PID名称空间并在其中运行一个进程，那么<strong>第一个进程就成为该名称空间中的PID 1</strong>。<u>创建命名空间的进程仍然位于父命名空间中，但使其子进程成为新进程树的根</u>。</li>
-<li><p>Linux内核定义了7个命名空间</p>
-<ul>
-<li>PID：隔离进程</li>
-<li>Network：隔离网络</li>
-<li>User：隔离用户/组id</li>
-<li>UTS：隔离主机名和完全限定域名(FQDN)</li>
-<li>Mount：隔离挂载点</li>
-<li>cgroup：隔离Cgroup的sysfs根目录</li>
-<li>IPC：隔离IPC/消息队列</li>
-</ul>
-</li>
-<li>通过procfs查看系统中定义的名称空间</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ sudo <span class="built_in">ls</span> /proc/1/ns</span><br><span class="line">cgroup  mnt  pid               user</span><br><span class="line">ipc     net  pid_for_children  uts</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>这种级别的隔离在容器化中很有用</strong>。如果没有名称空间，在容器中运行的进程可以更改另一个容器的主机名、卸载文件系统、删除网络接口、更改限制等。</li>
-<li>通过<strong>使用名称空间来封装这些资源</strong>，<u>容器X中的进程不知道另一个容器Y中的资源</u>。</li>
-<li><p>随着名称空间的引入，Linux内核提供了3个新的系统调用：</p>
-<ul>
-<li>clone()：使用指定的名称空间创建一个新进程。如果传递了CLONE_NEW标志，则为每个指定的名称空间创建新的名称空间。</li>
-<li>setns()：允许进程加入一个现有的命名空间。命名空间由procfs中的文件描述符引用指定。</li>
-<li>unshare()：将调用进程移动到一个新的命名空间。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#procfs下的文件描述符</span></span><br><span class="line">student@6858-v20:~/cgroup$ sudo <span class="built_in">ls</span> -al /proc/1/ns</span><br><span class="line">total 0</span><br><span class="line">dr-x--x--x 2 root root 0 May 20 01:28 .</span><br><span class="line">dr-xr-xr-x 9 root root 0 May 19 22:29 ..</span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 cgroup -&gt; <span class="string">&#x27;cgroup:[4026531835]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 ipc -&gt; <span class="string">&#x27;ipc:[4026531839]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 mnt -&gt; <span class="string">&#x27;mnt:[4026531840]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 net -&gt; <span class="string">&#x27;net:[4026531993]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid_for_children -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 user -&gt; <span class="string">&#x27;user:[4026531837]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 uts -&gt; <span class="string">&#x27;uts:[4026531838]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h3 id="Example-2"><a href="#Example-2" class="headerlink" title="Example"></a>Example</h3><ul>
-<li>在新的UTS名称空间中创建新的bash</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br><span class="line">student@6858-v20:~$ sudo unshare -u /bin/bash</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname lmao</span></span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname</span></span><br><span class="line">lmao</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：主机名在父进程中不变</p>
-</blockquote>
-<ul>
-<li>进程id可以做到相同的事</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ sudo unshare --fork --pid --mount-proc /bin/bash</span><br><span class="line">root@6858-v20:~/cgroup<span class="comment"># pidof /bin/bash</span></span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在父进程中查看fork出来的进程id不为1</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root       4446  0.0  0.0   7912   780 pts/1    S    01:40   0:00 unshare --fork --pid --mount-proc /bin/bash</span><br></pre></td></tr></table></figure>
-<h3 id="Difference"><a href="#Difference" class="headerlink" title="Difference"></a>Difference</h3><ul>
-<li><strong>cgroups定义了一个名称空间子系统</strong>(因此可以通过名称空间控制资源)，但是注意不要混淆这两者:<ul>
-<li><strong>cgroups限制资源利用率</strong>，而<strong>名称空间限制资源视图</strong>(资源在系统上可能看到的内容)。</li>
-</ul>
-</li>
-</ul>
-<h2 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h2><h3 id="Introduction-5"><a href="#Introduction-5" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>在有些情况下，通过chroot、capabilities、cgroup和namespaces进行隔离是<strong>不够的</strong>。</li>
-<li>假设某个运行在容器中的web服务器遭到破坏，攻击者生成了一个远程shell。宿主进程和容器可以调用同一组系统调用，并且可能存在一些调用序列，使容器逃逸成为可能。</li>
-<li>seccomp通过<strong>限制进程允许执行的系统调用的数量</strong>来防止恶意进程通过系统调用造成的破坏。<ul>
-<li>像Chrome和Firefox这样的现代浏览器使用seccomp来更严格地限制它们的应用程序。</li>
-<li>通过将系统调用接口限制为<u>只允许容器化应用程序执行其功能所需的系统调用</u>，可以很容易地阻止许多容器逃逸漏洞。</li>
-</ul>
-</li>
-<li>在lxc中，可以通过容器配置文件指定seccomp过滤器</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim ~/.local/share/lxc/&lt;container_name&gt;/config</span></span><br><span class="line">lxc.seccomp = /usr/share/lxc/config/common.seccomp</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>/usr/share/lxc/config/common.seccomp</code>是<strong>默认拒绝</strong>的系统调用列表。</p>
-</blockquote>
-<h2 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h2><ul>
-<li>假设在上一节的小型web服务器的例子中，攻击者无视chroot, capabilities, cgroups, namespaces和seccomp成功地逃出了容器。现在会发生什么?<ul>
-<li>如果容器是有特权的(使用UID 0运行)，它几乎是完胜。</li>
-<li>如果它是无特权的，攻击者仍然可以尝试升级特权，或者如果当前用户的特权足够大，就会造成足够大的破坏。</li>
-</ul>
-</li>
-<li>在这种情况下，只有自由访问控制(DAC)(通过UNIX权限)站在攻击者和完全受损的系统之间。在老式的纵深防御模式中，我们使用另一种控制来降低这种风险:强制访问控制(Mandatory Access Control)。</li>
-<li>MAC是一种<strong>集中的授权机制</strong>，其运作原理是<strong>信息属于组织(而不是个体成员)</strong>。安全策略被定义并保存在内核中，内核根据定义的策略授权访问。像SELinux这样的现代MAC实现是基于角色访问控制(RBAC)和两个概念的结合:<ul>
-<li><a href="#TE">类型执行(TE)</a></li>
-<li><a href="#MLS">多级安全(MLS)</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h3><ul>
-<li><strong>TE将类型标记引入到每个文件系统对象中</strong>，这是<strong>MAC的先决条件</strong>。<ul>
-<li>对象被标记一个类型，并且<strong>在内核中定义了一个策略来指定哪些类型允许过渡到其他类型</strong>；</li>
-<li>然后，每次访问带标签的文件系统对象时，内核都会检查指定的策略。如果不存在特定的类型转换，则默认拒绝访问。</li>
-<li>例如，在 Security-Enhanced Linux (SELinux)中，适用于Apache提供的web服务器内容的标准标签httpd_sys_content_t不允许访问标记为bin_t的文件，它适用于/usr/bin中的二进制文件。</li>
-</ul>
-</li>
-<li>假设，在同一个小型web服务器示例中，攻击者设法获得了root访问权。<ul>
-<li>在DAC下，任何用户都可以任意控制自己拥有的任何东西，因此攻击者拥有完全的控制权。</li>
-<li>如果TE是通过SELinux实现的，则攻击者会受到严重阻碍：web服务器exploit给了一个UID 0的进程，但exploit继承自被exploit的网页的类型标签(httpd_sys_content_t)，其只允许访问相同标签的其他文件系统对象(由web服务器提供的内容应该只需要访问其他web内容，而不需要访问其他东西)。</li>
-</ul>
-</li>
-<li>类似地，如果我们为容器主机启用了像SELinux这样的MAC机制，那么<strong>所有容器都将被标记为默认的lxc_t类型标签</strong>(由用于lxc的默认SELinux TE策略定义)。任何绕过其他隔离机制的恶意进程都将受到TE策略的限制。</li>
-</ul>
-<h3 id="MLS"><a href="#MLS" class="headerlink" title="MLS"></a>MLS</h3><blockquote>
-<p>MLS超纲了，此处省略。</p>
-</blockquote>
-<h1 id="Demo-working-with-lxc"><a href="#Demo-working-with-lxc" class="headerlink" title="Demo: working with lxc"></a>Demo: working with lxc</h1><ul>
-<li>在Ubuntu上安装lxc:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install lxc</span><br></pre></td></tr></table></figure>
-<h2 id="Subordinate-UID-GID-ranges"><a href="#Subordinate-UID-GID-ranges" class="headerlink" title="Subordinate UID/GID ranges"></a>Subordinate UID/GID ranges</h2><ul>
-<li>通过定义以下文件，我们可以确保当前用户可以拥有从属的uid和gid:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subuid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subgid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这允许用户student拥有从165536开始的65536个从属uid /gid。</li>
-<li>我们还需要为lxc创建用户配置目录，如果它不存在，并创建默认配置文件:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/lxc</span><br><span class="line"><span class="built_in">touch</span> ~/.config/lxc/default.conf</span><br></pre></td></tr></table></figure>
-<ul>
-<li>应该修改<code>~/.config/lxc/default.conf</code>文件，使其看起来像这样(使用正确的id_map值):</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> ~/.config/lxc/default.conf </span><br><span class="line">lxc.idmap = u 0 165536 65536</span><br><span class="line">lxc.idmap = g 0 165536 65536</span><br></pre></td></tr></table></figure>
-<h2 id="Virtual-network-interfaces"><a href="#Virtual-network-interfaces" class="headerlink" title="Virtual network interfaces"></a>Virtual network interfaces</h2><ul>
-<li>在安装lxc时，应该已经创建了一个默认网桥:lxcbr0。通过命令验证网桥是否存在</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ brctl show</span><br><span class="line">bridge name     bridge <span class="built_in">id</span>               STP enabled    interfaces</span><br><span class="line">lxcbr0          8000.00163e000000       no</span><br><span class="line">lxcbr1          8000.00163e000000       no</span><br><span class="line">lxcbr2          8000.00163e000000       no</span><br><span class="line">lxcbr3          8000.00163e000000       no</span><br><span class="line">lxcbr4          8000.00163e000000       no</span><br><span class="line">lxcbr5          8000.00163e000000       no</span><br><span class="line">lxcbr6          8000.00163e000000       no</span><br><span class="line">lxcbr7          8000.00163e000000       no</span><br><span class="line">lxcbr8          8000.00163e000000       no</span><br><span class="line">lxcbr9          8000.00163e000000       no</span><br></pre></td></tr></table></figure>
-<ul>
-<li>确保<code>/etc/lxc/lxc-usernet</code>文件定义为:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/lxc/lxc-usernet</span><br><span class="line"><span class="comment"># USERNAME TYPE BRIDGE COUNT</span></span><br><span class="line">student veth lxcbr0 10</span><br><span class="line">student veth lxcbr1 10</span><br><span class="line">student veth lxcbr2 10</span><br><span class="line">student veth lxcbr3 10</span><br><span class="line">student veth lxcbr4 10</span><br><span class="line">student veth lxcbr5 10</span><br><span class="line">student veth lxcbr6 10</span><br><span class="line">student veth lxcbr7 10</span><br><span class="line">student veth lxcbr8 10</span><br><span class="line">student veth lxcbr9 10</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这告诉lxc它可以将多少虚拟网络接口作为用户student连接到指定的网桥(或组，每行一个)。</p>
-<p>应用更改的最快方法是<strong>重新启动节点或注销并重新登录</strong>。</p>
-<ul>
-<li>这将重启dbus、正确设置cgroup并打开用户名称空间(kernel.unprivileged_userns_clone=1)。</li>
-</ul>
-</blockquote>
-<ul>
-<li>验证以太网网络模块</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep veth</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果veth模块没有加载，加载它并使其在重启后持续存在:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> veth | sudo <span class="built_in">tee</span> -a /etc/modules</span><br></pre></td></tr></table></figure>
-<h2 id="Creating-a-container"><a href="#Creating-a-container" class="headerlink" title="Creating a container"></a>Creating a container</h2><ul>
-<li>运行lxc-create来创建一个容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ lxc-create -t download -n example</span><br><span class="line">Setting up the GPG keyring</span><br><span class="line">Downloading the image index</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">DIST    RELEASE ARCH    VARIANT BUILD</span><br><span class="line">---</span><br><span class="line">almalinux       8       amd64   default 20220519_23:08</span><br><span class="line">almalinux       8       arm64   default 20220519_23:08</span><br><span class="line">almalinux       8       ppc64el default 20220519_23:08</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>这是一个交互式命令，使用download模板创建一个名为example的容器。lxc install中指定了4个默认模板，基本上都是在/usr/share/lxc/templates/目录下的脚本：</p>
-<ul>
-<li>download：下载预构建的映像并解压缩它们</li>
-<li>local：使用distrobuilder build-lxc命令构建的本地映像</li>
-<li>busybox：包含在单个可执行文件中的通用UNIX实用程序</li>
-<li>oci：从开放容器图像(oci)格式的图像创建应用程序容器</li>
-</ul>
-</li>
-<li><p>download模板提示您从给定的列表中选择发行版/发行版作为容器的基本映像，我们将使用该映像创建示例容器。</p>
-<ul>
-<li>我们可以直接在命令行中指定所需的映像，例如Ubuntu 19.10 (Eoan) amd64映像(注意名称后的双破折号):</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-create -t download -n example -- --dist ubuntu --release focalx --<span class="built_in">arch</span> amd64</span><br></pre></td></tr></table></figure>
-<ul>
-<li>将在<code>~/.local/share/lxc/example/</code>处创建一个容器目录，带有一个特定于容器的配置文件config，在这里你可以指定更多的过滤和控制，如MAC、seccomp拒绝列表、网络等。你会看到<strong>新创建的容器的root文件系统被解压到rootfs/中</strong>，它看起来像一个标准的Linux根文件系统:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/.local/share/lxc/example$ <span class="built_in">ls</span> rootfs/</span><br><span class="line">bin   dev  home lib32  libx32  mnt  proc  run   srv  tmp  var</span><br><span class="line">boot  etc  lib  lib64  media   opt  root  sbin  sys  usr</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以通过在rootfs目录上使用chroot进行离线更改(无需启动和附加到容器)。</li>
-</ul>
-<h2 id="Running-a-container"><a href="#Running-a-container" class="headerlink" title="Running a container"></a>Running a container</h2><ul>
-<li>后台运行example容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-start example</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果在启动容器时遇到错误，使用-F选项在前台启动容器将提供更详细的输出。</p>
-</blockquote>
-<ul>
-<li>验证我们的容器正在运行：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-info example</span><br><span class="line">Name:           example</span><br><span class="line">State:          RUNNING</span><br><span class="line">PID:            21372</span><br></pre></td></tr></table></figure>
-<ul>
-<li>查看所有的容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-ls --fancy</span><br><span class="line">NAME    STATE   AUTOSTART GROUPS IPV4 IPV6 UNPRIVILEGED </span><br><span class="line">example RUNNING 0         -      -    -    <span class="literal">true</span>         </span><br></pre></td></tr></table></figure>
-<ul>
-<li>连接到正在运行的容器实例：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-attach example</span><br><span class="line">root@example:/<span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">root@example:/<span class="comment"># passwd</span></span><br><span class="line">New password: </span><br><span class="line">Retype new password: </span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>一旦我们添加了用户并更改了他们的密码，我们就可以<strong>通过命令lxc-console使用交互式登录连接到容器</strong>。</p>
-<p>不同之处在于，lxc-attach的行为更像是<strong>基于密钥的ssh设置</strong>(在没有任何提示的情况下直接获得一个root会话)，而lxc-console为您提供了一个虚拟控制台，它模拟了一个真实服务器上的交互式控制台，如serial、DRAC、ILO等。</p>
-</blockquote>
-<ul>
-<li><strong>注意：我们是容器中的root，尽管我们创建的是一个非特权容器。</strong><ul>
-<li>此行为是UID名称空间的结果。我们可以看到，通过在容器中运行一个进程，容器中的任何进程都被映射到主机上一个无特权的UID：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@example:/<span class="comment"># while [ 1 ]; do sleep 5; done &amp;</span></span><br><span class="line">[1] 130</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在主机上可以看到，进程以UID 165536运行：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep <span class="built_in">sleep</span></span><br><span class="line">165536    22060  0.0  0.0   9832   580 pts/5    S    03:55   0:00 <span class="built_in">sleep</span> 5</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果从ps aux输出查看其他进程，可以注意到容器的init进程也是通过uid映射的：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep init</span><br><span class="line">165536    21372  0.0  0.5 103876 10656 ?        Ss   03:49   0:00 /sbin/init</span><br></pre></td></tr></table></figure>
-<ul>
-<li>我们可以在里面运行大多数系统管理任务，比如安装包。<ul>
-<li>安装nginx web服务器和net-tools二进制包：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@example:/<span class="comment"># apt update</span></span><br><span class="line">[output truncated]</span><br><span class="line">root@example:/<span class="comment"># apt install nginx net-tools</span></span><br><span class="line">[output truncated]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>验证nginx在80端口运行：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@example:/<span class="comment"># netstat -atunp | grep LISTEN</span></span><br><span class="line">tcp  0 0 127.0.0.53:53 0.0.0.0:* LISTEN 88/systemd-resolved</span><br><span class="line">tcp  0 0 0.0.0.0:80    0.0.0.0:* LISTEN 881/nginx: master p</span><br><span class="line">tcp6 0 0 :::80         :::*      LISTEN 881/nginx: master p</span><br></pre></td></tr></table></figure>
-<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><ul>
-<li>LXC默认情况下创建一个独立的网桥，它对所有到主接口的流量使用<strong>masquerading(伪装)</strong>。<ul>
-<li>网桥是凭空创建的(lxcbr0)，容器连接到这个网桥。</li>
-<li>如果主接口也可以访问Internet(通过转发和伪装)，则允许容器访问Internet。</li>
-<li>快速查看主机上的接口，可以看到带有Internet连接ens33的主接口、默认桥接器lxcbr0和容器示例中的虚拟接口veth1000_XXXX。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="Stopping-a-container"><a href="#Stopping-a-container" class="headerlink" title="Stopping a container"></a>Stopping a container</h2><ul>
-<li>要停止创建的示例容器，只需发出以下命令：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-stop example</span><br></pre></td></tr></table></figure>
-<ul>
-<li>从文件系统中清除(删除)容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc-destroy example</span><br></pre></td></tr></table></figure>
-<h1 id="What’s-the-difference-between-lxc-and-Docker"><a href="#What’s-the-difference-between-lxc-and-Docker" class="headerlink" title="What’s the difference between lxc and Docker?"></a>What’s the difference between lxc and Docker?</h1><blockquote>
-<p>这两种解决方案<strong>适用于不同的用例</strong>。</p>
-</blockquote>
-<ul>
-<li><p>lxc：出现的<strong>时间更长</strong>(Docker过去使用lxc)。</p>
-<ul>
-<li>感觉更像是虚拟机中的一个完整的操作系统，必须以类似的方式处理：<strong>软件必须手动安装和更新</strong>，要么手工安装，要么<strong>通过配置管理工具，如Ansible</strong>。</li>
-</ul>
-</li>
-<li><p>Docker：用于运行<strong>单个应用程序</strong>。</p>
-<ul>
-<li><strong>没有完整的系统进程堆栈</strong>，如lxc。一个容器的<strong>应用程序及其依赖是使用Dockerfile构建和部署</strong>的。</li>
-</ul>
-</li>
-<li><p>在容器编排方面，两者都有相当新的工具：</p>
-<ul>
-<li>lxc有lxd, Docker有Docker Swarm和Kubernetes。</li>
-<li>有一个名为lxe的新项目，旨在将lxc/lxd与Kubernetes集成。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>Docker不使用lxc</strong>；Docker曾经使用lxc来运行容器，但在几年前就停止了。</p>
-<p>Docker和lxc都<strong>使用相同的内核特性</strong>来实现容器化，但它们是独立的解决方案。</p>
-</blockquote>
-<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><ul>
-<li><p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
-</li>
-<li><p>lxc通过使用Linux内核特性来抽象操作系统，并隔离容器来实现容器化，例如:</p>
-<ul>
-<li><p>Control Groups (cgroups)</p>
-</li>
-<li><p>Capabilities</p>
-</li>
-<li>seccomp</li>
-<li>Mandatory Access Control(通过AppArmor, SELinux)</li>
-<li>Namespaces</li>
-<li>chroot jails</li>
-</ul>
-</li>
-<li><p>lxc配置位置</p>
-<ul>
-<li>lxc特定于容器的配置位于<code>~/.local/share/lxc/&lt;container name&gt;/config</code></li>
-<li>针对lxc的用户特定配置位于<code>~/.config/lxc/default.conf</code></li>
-<li>lxc的全局配置位于<code>/etc/lxc/default.conf</code></li>
-<li>容器rootfs位于<code>~/.local/share/lxc/&lt;container name&gt;/rootfs</code></li>
-</ul>
-</li>
-<li><p>lxc用法</p>
-<ul>
-<li>使用lxc-attach创建容器</li>
-<li>使用lxc-start启动容器</li>
-<li>使用lxc-stop停止容器</li>
-<li>使用lxc-info列出容器</li>
-<li>使用lxc-destroy销毁容器</li>
-</ul>
-</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/20/note_lxc/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1083,10 +390,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-17 20:29:20 / 修改时间：20:44:41" itemprop="dateCreated datePublished" datetime="2022-05-17T20:29:20+08:00">2022-05-17</time>
+              <time title="创建时间：2022-05-17 20:29:20" itemprop="dateCreated datePublished" datetime="2022-05-17T20:29:20+08:00">2022-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1112,11 +425,14 @@
 <li>baggy.pdf</li>
 </ul>
 <div class="pdfobject-container" data-target="./pdf/baggy.pdf" data-height="500px"></div>
-<ul>
-<li>okwa.pdf</li>
-</ul>
-<div class="pdfobject-container" data-target="./pdf/okws.pdf" data-height="500px"></div>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/lab-mit-6858/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1158,10 +474,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-17 17:02:40 / 修改时间：19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1189,15 +511,93 @@
 <li>考虑到<code>Python</code>和<code>Java</code>的数据结构难以直接转换，这里选择将脚本获取的拓扑用无向图的形式保存本地文件<code>topo.txt</code></li>
 <li>通过<code>Java</code>读取本地文件，并进行处理分析，发送到前端</li>
 </ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="Python脚本编写"><a href="#Python脚本编写" class="headerlink" title="Python脚本编写"></a>Python脚本编写</h3><ul>
-<li><p>引入相关包</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sdn_net <span class="keyword">as</span> sn</span><br><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>此处利用了<code>networkx</code>的<code>Graph</code>图结构；<code>json</code>用于将数据转化为字典集；sdn_net是之前写的流表下发和拓扑抽象的脚本，此处引用其中的函数<del>其实就是懒</del></p>
-</blockquote>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/05/17/exp_Java_SDN_topo/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_VSCode_C_pro/" class="post-title-link" itemprop="url">VSCode with C/C++ projection's profile</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
+<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_VSCode_C_pro/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1244,10 +644,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-17 17:02:40 / 修改时间：19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1270,22 +676,6 @@
 
       
           <h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
-<h3 id="组表项"><a href="#组表项" class="headerlink" title="组表项"></a>组表项</h3><ul>
-<li>组表号<code>groupId</code>:标识组表，用于组表区分</li>
-<li><p>组表类型<code>type</code>:与流表转发类型相似，表示对应的动作(<code>action</code>)：<code>Indirect</code>、<code>All</code>、<code>Select</code>、<code>Indirect</code>、<code>Fast failover</code></p>
-<ul>
-<li><p><code>Inidirct</code>:执行该<code>group</code>中一个已定义的<code>bucket</code>， 该组仅支持一个<code>bucket</code>。 允许多个流表项或组表项指向一个公共的组（例如<code>IP</code>转发的下一跳）。 这是最简单的<code>group</code>类型，交换机通常比较支持这种类型的<code>group</code>。</p>
-</li>
-<li><p><code>All</code>:执行该<code>group</code>中所有的<code>bucket</code>。这种类型的<code>group</code>用来进行<code>multicast</code>和<code>broadcast</code>。为每个<code>bucket</code>克隆一份数据包，然后分别执行每个<code>bucket</code>中的<code>actions</code>。</p>
-</li>
-<li><code>Select</code>:执行该<code>group</code>中的一个<code>bucket</code>。基于一种选择算法（用户定义的哈希算法或者轮询算法）选择<code>group</code>中的一个<code>bucket</code>对数据包执行<code>actions</code>。这种选择算法应该尽量支持负载均衡并且为每个<code>bucket</code>提供一个权重用于分配。当一个<code>bucket</code>指定的端口<code>down</code>掉，交换机应该将选择限制在剩下的正常的<code>bucket</code>中而不是丢掉，这是为了减少链路中断。</li>
-<li><code>Fast failover</code>：执行第一个活动的<code>bucket</code>。 每个<code>action bucket</code>都与控制其活动性的特定端口和/或组相关联。  按照<code>group</code>定义的顺序评估<code>bucket</code>，并选择与活动端口/组关联的第一个<code>bucket</code>。  这个<code>group</code>类型使交换机可以更改转发行为而无需往返于控制器。 如果没有<code>bucket</code>，则丢弃数据包。</li>
-</ul>
-</li>
-<li>计数器<code>counters</code>:记录处理过的报文数</li>
-<li>动作桶<code>action buckets</code>:动作桶(<code>action bucket</code>)列表，每个动作桶包含相关动作和参数</li>
-</ul>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/f968a9da863be1a2.png" alt=""></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/05/17/exp_ONOS_group/#more" rel="contents">
@@ -1335,10 +725,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-17 17:02:40 / 修改时间：19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1363,266 +759,15 @@
           <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/xterm/8351521?fr=aladdin">XTerm</a>是一个<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/X%20Window/7249336?fromtitle=X%20Window%20System&amp;fromid=7096346">X Window System</a>上的终端模拟器，用来提供多个独立的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/SHELL">SHELL</a>输入输出。</li>
 <li><code>XTerm</code>使用<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E7%BB%88%E7%AB%AF/11044784?fr=aladdin">虚拟终端</a>技术将远程主机的终端模拟出来，实现了远程终端控制。</li>
-<li><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/iperf/11067694?fr=aladdin">Iperf</a> 是一个网络<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/性能测试">性能测试</a>工具，可以测试最大<code>TCP</code>和<code>UDP</code>带宽性能，具有多种参数和<code>UDP</code>特性，可以根据需要调整，可以报告带宽、延迟抖动和数据包丢失。</p>
-</li>
-<li><p><code>iperf</code>常用参数表。</p>
-</li>
 </ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-b</td>
-<td><code>UDP</code>模式的带宽限制，单位<code>bps</code></td>
-</tr>
-<tr>
-<td>-e</td>
-<td>显示更多信息</td>
-</tr>
-<tr>
-<td>-f</td>
-<td>设置带宽单位<code>bps</code>、<code>Kbps</code>、<code>Mbps</code>、<code>Gbps</code>以及对应的<code>Bps</code></td>
-</tr>
-<tr>
-<td>-i</td>
-<td>发包的间隔时间，单位<code>s</code></td>
-</tr>
-<tr>
-<td>-l</td>
-<td>缓冲区大小，默认<code>TCP</code>为<code>128K</code></td>
-</tr>
-<tr>
-<td>-m</td>
-<td>输出<code>TCP</code>的最大端长度（<code>MSS</code>=<code>MTU</code>-<code>TCP/IP header</code>）</td>
-</tr>
-<tr>
-<td>-o</td>
-<td>将信息输出到文件<code>file</code>中</td>
-</tr>
-<tr>
-<td>-p</td>
-<td>指定端口号</td>
-</tr>
-<tr>
-<td>-u</td>
-<td>选择<code>UDP</code>模式，默认<code>TCP</code></td>
-</tr>
-<tr>
-<td>-w</td>
-<td>设置套接字缓冲区大小</td>
-</tr>
-<tr>
-<td>-B</td>
-<td>绑定到多个地址中的一个，<code>UDP</code>时用于组播分组</td>
-</tr>
-<tr>
-<td>-M</td>
-<td>设置<code>TCP</code>的最大端长度</td>
-</tr>
-<tr>
-<td>-s</td>
-<td>服务器模式</td>
-</tr>
-<tr>
-<td>-t</td>
-<td>设置传输的总时间，单位<code>s</code></td>
-</tr>
-<tr>
-<td>-c</td>
-<td>客户端模式</td>
-</tr>
-<tr>
-<td>-n</td>
-<td>设置发包的大小，单位<code>Byte</code></td>
-</tr>
-<tr>
-<td>-P</td>
-<td>设置线程数，默认<code>1</code>线程，服务器端和客户端同时定义</td>
-</tr>
-<tr>
-<td>-T</td>
-<td>设置<code>TTL</code>值</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><ul>
-<li>在<code>mininet</code>中使用<code>XTerm</code>+<code>iperf</code>实现<code>TCP</code>和<code>UDP</code>发包模拟。</li>
-<li>对不同流量强度进行分析，模拟正常发包和攻击流量。</li>
-</ul>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li><code>apt install mininet</code>安装<code>mininet</code>环境。</li>
-<li><code>apt install xterm</code>安装<code>XTerm</code>。</li>
-<li>使用<code>mn</code>打开<code>mininet</code>默认拓扑，输入<code>xterm  h1 h2</code>打开虚拟终端。</li>
-</ul>
-<h1 id="模拟"><a href="#模拟" class="headerlink" title="模拟"></a>模拟</h1><h2 id="正常TCP"><a href="#正常TCP" class="headerlink" title="正常TCP"></a>正常TCP</h2><ul>
-<li><code>TCP</code>的模拟发包需要建立连接，这里使用<code>h1</code>作为接收端（服务端），<code>h2</code>作为发送端（客户端）。</li>
-<li>设置服务端接收端口为<code>5566</code>，时间间隔为<code>1s</code>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iperf -s -p 5566 -i 1</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>此时使用<code>ifstat</code>查看网络流量，发现并无大量流量生成。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/2021031221331331.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>设置客户端使用服务端套接字连接，发送<code>10s</code>的数据包。</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iperf -c 10.0.0.1 -p 5566 -t 10</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>客户端启动到建立<code>TCP</code>连接后，服务端才能在该端口接收数据包。</p>
-</blockquote>
-<ul>
-<li>经过<code>10s</code>的传输后，客户端停止发送，服务端产生如下输出。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------</span><br><span class="line">Server listening on TCP port 5566</span><br><span class="line">TCP window size: 85.3 KByte (default)</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">[ 14] <span class="built_in">local</span> 10.0.0.1 port 5566 connected with 10.0.0.2 port 47854</span><br><span class="line">[ ID] Interval       Transfer     Bandwidth</span><br><span class="line">[ 14]  0.0- 1.0 sec  2.59 GBytes  22.3 Gbits/sec</span><br><span class="line">[ 14]  1.0- 2.0 sec  2.62 GBytes  22.5 Gbits/sec</span><br><span class="line">[ 14]  2.0- 3.0 sec  2.53 GBytes  21.7 Gbits/sec</span><br><span class="line">[ 14]  3.0- 4.0 sec  2.57 GBytes  22.1 Gbits/sec</span><br><span class="line">[ 14]  4.0- 5.0 sec  2.67 GBytes  22.9 Gbits/sec</span><br><span class="line">[ 14]  5.0- 6.0 sec  2.71 GBytes  23.3 Gbits/sec</span><br><span class="line">[ 14]  6.0- 7.0 sec  2.66 GBytes  22.8 Gbits/sec</span><br><span class="line">[ 14]  7.0- 8.0 sec  2.69 GBytes  23.1 Gbits/sec</span><br><span class="line">[ 14]  8.0- 9.0 sec  2.70 GBytes  23.2 Gbits/sec</span><br><span class="line">[ 14]  9.0-10.0 sec  2.73 GBytes  23.4 Gbits/sec</span><br><span class="line">[ 14]  0.0-10.0 sec  26.5 GBytes  22.7 Gbits/sec</span><br></pre></td></tr></table></figure>
-<ul>
-<li>正常<code>TCP</code>模拟发包成功。</li>
-</ul>
-<h2 id="正常UDP"><a href="#正常UDP" class="headerlink" title="正常UDP"></a>正常UDP</h2><ul>
-<li>相对于<code>TCP</code>的三次握手，<code>UDP</code>则简单粗暴，直接根据给定套接字就可以进行发包。</li>
-<li>仍然选择<code>h2</code>作为发送端，设置服务端套接字，选择<code>UDP</code>模式。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iperf -c 10.0.0.1 -p 5566 -i 1 -u</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>h1</code>作为服务端，如果不打开服务端口接收数据，通过<code>ifstat</code>仍然可以看到有流量发送出。</li>
-<li><img src="https://img-blog.csdnimg.cn/2021031221332418.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<blockquote>
-<p>与<code>TCP</code>模式不同，如果服务端未启动，客户端是无法发出数据包的。</p>
-</blockquote>
-<ul>
-<li>设置服务端接收端口，再次查看效果。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210312213330243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-<li><p>发现服务端成功接收<code>UDP</code>数据包，正常<code>UDP</code>发包模拟完成。</p>
-<h2 id="DoS攻击"><a href="#DoS攻击" class="headerlink" title="DoS攻击"></a>DoS攻击</h2></li>
-<li><p>这里使用<code>scapy</code>模拟<code>DoS</code>攻击，<code>scapy</code>是用<code>python</code>编写的，所以使用<code>pip install</code>安装即可。</p>
-</li>
-<li><p>具体实现脚本参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cheuhxg/p/14534922.html">我的另一篇博客</a>。</p>
-<h3 id="Ping-DoS"><a href="#Ping-DoS" class="headerlink" title="Ping-DoS"></a>Ping-DoS</h3></li>
-<li><p>将每个攻击脚本进程设置为<code>20</code>，在<code>XTerm</code>中直接使用<code>python3</code>运行。</p>
-</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210316215718813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>可以很明显的看到目标机的端口流量激增。</p>
-</li>
-<li>使用<code>htop</code>查看本地进程，看到几乎全是脚本进程。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210316215728228.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p><code>Ping DoS</code>完成。</p>
-</li>
-</ul>
-<blockquote>
-<p>目标机带宽足够，<code>Ping DoS</code>无显著影响<del>但我物理机跑得呼呼响</del>。</p>
-</blockquote>
-<h3 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN-Flood"></a>SYN-Flood</h3><ul>
-<li>操作类似<code>Ping DoS</code>，这里只给出实现效果。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210316215738958.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>由于只发送<code>SYN</code>，而不完全建立连接，故没有发送其他数据包，目标机端口流量不会有变化。</p>
-</li>
-</ul>
-<blockquote>
-<p>这里只用了<code>5</code>个进程，但是效果很强烈，物理机出现卡顿。</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_VSCode_C_pro/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/exp_VSCode_C_pro/" class="post-title-link" itemprop="url">VSCode with C/C++ projection's profile</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-17 17:02:40 / 修改时间：19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
-<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
-</ul>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
-<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
-<li>选好项目的文件路径，此路径即为项目的位置。</li>
-</ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
-<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
-</ul>
-<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
-</ul>
-<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_XTerm_send/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1664,10 +809,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-17 17:02:40 / 修改时间：19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:15" itemprop="dateModified" datetime="2022-05-23T21:36:15+08:00">2022-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1697,65 +848,14 @@
 <li><img src="https://img-blog.csdnimg.cn/img_convert/ca52036386a130f0cc2a669746578878.png" alt=""></li>
 <li>如图所示，<code>VMware</code>需要建立多个<code>Guest OS</code>，而<code>docker</code>直接利用<code>Host OS</code>。</li>
 </ul>
-<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">官方文档</a></p>
-<blockquote>
-<p>我这里用的是<code>Ubuntu</code>，其余操作系统参考其他文档。</p>
-</blockquote>
-<ul>
-<li>移除旧版本</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
-<ul>
-<li>准备相关依赖</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用阿里源</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写入软件源</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装社区版<code>docker</code></li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
-<ul>
-<li>测试运行</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
-<ul>
-<li>有如下显示则安装成功</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"><span class="meta prompt_"> $ </span><span class="language-bash">docker run -it ubuntu bash</span></span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
-<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>我的系统是家庭版（懒），这里还是参考<a target="_blank" rel="noopener" href="https://docs.docker.com/docker-for-windows/install-windows-home/">官方文档</a></p>
-<ul>
-<li>下载<code>Docker Desktop</code>，直接安装。</li>
-<li>至少选中安装<code>WSL2</code>进行，装完后会要求重启。</li>
-<li>重启后可能报错，点击链接安装更新内核。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210307115408399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p><code>Restart</code>之后，我出现了如下情况。</p>
-</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210307115416976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>按照网上的<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34033853/article/details/110246866">方法</a>，以管理员身份打开<code>CMD</code>，输入命令。</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
-<ul>
-<li>重启之后，安装成功。</li>
-</ul>
-<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/reference/">官方文档</a></p>
-<ul>
-<li>相关信息</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示版本</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示详细信息</span></span><br><span class="line">docker info</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示COMMAND帮助</span></span><br><span class="line">docker &#123;COMMAND&#125; --help</span><br></pre></td></tr></table></figure>
-<ul>
-<li>其他命令<br><img src="https://img-blog.csdnimg.cn/20210307115432611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_docker_profiles/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1797,10 +897,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-17 17:02:40 / 修改时间：19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1826,116 +932,14 @@
 <li>这学期的<font color="blue">数据库课程</font>要求使用<code>PostgreSQL</code>作为学习使用的数据库工具。</li>
 <li>所以今天尝试着安装了一下<code>PostgreSQL</code>，出了一些问题，在此做一个记录。</li>
 </ul>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
-<li><code>Windows</code>是首选，不论安装还是后期使用都方便许多。</li>
-<li><code>PostgreSQL</code>自带<code>pgAdmin</code>也省去了很多步骤。</li>
-<li>这里参考一些<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_36226553/article/details/100750378">博客</a>和<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/6649548146">论坛</a>，提出一些问题并给出方法。</li>
-</ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
-<li>目前<code>Windows</code>版本已经更新到了<code>13</code>，不过老师要求的也就是<code>10</code>。</li>
-<li><p>这里我选择了<code>10.16</code>、<code>11.11</code>、<code>13.2</code>(<a target="_blank" rel="noopener" href="https://www.postgresql.org/download/">官网</a>提供的几个版本)分别尝试安装。</p>
-</li>
-<li><p>结果以上版本在安装时都出现了同一个问题。</p>
-</li>
-<li><img src="https://img-blog.csdnimg.cn/20210303103503673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<ul>
-<li><p>上网搜索过后，大致给出了三种可能：</p>
-<ol>
-<li>路径中包含中文<font color="red">（然而我并没有）</font>。</li>
-<li>权限不够<font color="red">（管理员打开也不行）</font>。</li>
-<li>之前安装过的<code>Temp</code>文件冲突。</li>
-</ol>
-</li>
-<li><p>结合以上的问题，总结了一下解决过程：</p>
-<ol>
-<li><p>先到对应路径下，把<code>Temp</code>文件夹中所有<code>postgresql_install</code>的文件夹删除<font color="red">（需要管理员权限）</font>。</p>
-</li>
-<li><p>删除后保证用户名不包含中文，即可正常安装。</p>
-</li>
-<li><p>安装到选择目录时，如果你曾尝试在此目录安装，可能出现</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the choosen installation directory exists and is non-empty.please choose a different directory</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>把此目录删除后新建即可。</p>
-</li>
-</ol>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2></li>
-<li><p><code>Windows</code>安装虽然简便，但是一个简单的步骤出了很多莫名的问题。</p>
-</li>
-<li><p>与此同时我在<code>Ubuntu</code>安装了一个<code>Linux</code>版本的<code>PostgreSQL</code>。</p>
-</li>
-<li><p>在<code>Linux</code>中，<code>PostgreSQL</code>和<code>pgAdmin4</code>没有捆绑，需要后期建立连接。</p>
-<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3></li>
-<li><p>这里<a target="_blank" rel="noopener" href="https://www.tecmint.com/install-postgresql-and-pgadmin-in-ubuntu/">参考</a>了一下官方的方法，下面相当于对方法的翻译和总结吧。</p>
-</li>
-<li><p>更新系统软件包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>直接在库中安装最新的<code>PostgreSQL</code></p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install postgresql</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>默认的<code>data</code>文件夹在<code>/var/lib/postgresql/12/main</code>下，配置文件在<code>/etc/postgresql/12/main</code>。</p>
-</blockquote>
-<ul>
-<li>添加存储库的公共密钥并创建存储库配置文件</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add</span><br><span class="line">sudo sh -c <span class="string">&#x27;echo &quot;deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main&quot; &gt; /etc/apt/sources.list.d/pgadmin4.list &amp;&amp; apt update&#x27;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>由于<code>Ubuntu</code>库中没有<code>pgAdmin4</code>，只能通过<code>pgAdmin4 APT</code>仓库安装。</p>
-</blockquote>
-<ul>
-<li>安装<code>pgAdmin4</code></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pgadmin4</span><br></pre></td></tr></table></figure>
-<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><ul>
-<li>安装完成后，检查<code>PostgreSQL</code>状态</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl is-active postgresql</span><br><span class="line">sudo systemctl is-enabled postgresql</span><br><span class="line">sudo systemctl status postgresql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>确认<code>PostgreSQL server</code>的状态</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pg_isready</span><br></pre></td></tr></table></figure>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
-<li>切换用户到<code>postgres</code>进行登录</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo su - postgres</span><br><span class="line">psql</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>出现了<code>postgres=#</code>即成功登入</p>
-</blockquote>
-<ul>
-<li>创建数据库用户和数据库并授权(<font color="pink">这里的参数需要自定义</font>)</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#123;USER_NAME&#125; WITH PASSWORD &#123;USER_PASSWD&#125;;</span><br><span class="line">CREATE DATABASE &#123;DATABASE_NAME&#125;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE &#123;DATABASE_NAME&#125; to &#123;USER_NAME&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>远程控制配置</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/postgresql/12/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
-<ul>
-<li>配置完成后重启服务</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart postgresql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>运行<code>pgdmin4</code>二进制软件包附带的<code>Web</code>设置脚本，以配置系统以<code>Web</code>模式运行</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/pgadmin4/bin/setup-web.sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li>填入你的邮箱和设置的密码，方便以后登录。</li>
-<li>打开下列连接进入<code>pgAdmin4</code>（<font color="red"><code>SERVER_IP</code>需要换成你服务器的<code>ip</code></font>）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://SERVER_IP/pgadmin4</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用你刚刚设置的邮箱和密码登录。</li>
-<li>连接新的服务器，点击<code>Add New Server</code>。</li>
-<li><code>General</code>填写<code>Name</code>即可</li>
-<li><img src="https://img-blog.csdnimg.cn/20210303103651920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<ul>
-<li>在<code>Connection</code>填写<code>Host name/address</code>为你的服务器地址，<code>Username</code>改为你之前创建的数据库用户。</li>
-<li><img src="https://img-blog.csdnimg.cn/img_convert/2261e9c329e204684505cc2c0636a085.png" alt=""></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_postgresql_build/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1977,10 +981,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-17 17:02:40 / 修改时间：19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -2006,120 +1016,14 @@
 <blockquote>
 <p>安装<code>postfix</code>(邮件服务器)时可能出现激活<code>gitlab</code>邮箱配置，选择<code>Internet站点</code>那个选项，输入发送邮件的<strong>目的邮箱</strong>。</p>
 </blockquote>
-<h2 id="设置存储库-amp-安装Gitlab"><a href="#设置存储库-amp-安装Gitlab" class="headerlink" title="设置存储库&amp;安装Gitlab"></a>设置存储库&amp;安装Gitlab</h2><ul>
-<li>下载配置存储库的脚本到<code>tmp</code>目录下。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp &amp;&amp; curl -LO https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li>检查版本无误后，运行脚本开始设置<code>GitLab</code>的存储库。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash /tmp/script.deb.sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li>正式安装<code>GitLab</code>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gitlab-ce</span><br></pre></td></tr></table></figure>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="配置方式"><a href="#配置方式" class="headerlink" title="配置方式"></a>配置方式</h2><ul>
-<li>更改<code>GitLab</code>配置文件。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure>
-<ul>
-<li>进入<code>VIM</code>之后，在<code>VIM</code>中输入下列命令，查找修改的位置。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/<span class="string">&quot;你要搜索的字符串&quot;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>按下<strong>回车</strong>后锁定到第一个查询结果，使用<code>n</code>查找下一个，<code>N</code>查找上一个。</li>
-<li>找到修改位置后输入<code>i</code>进入修改状态(后为编辑状态，不详述)。</li>
-</ul>
-<h2 id="设置访问链接"><a href="#设置访问链接" class="headerlink" title="设置访问链接"></a>设置访问链接</h2><ul>
-<li>按照<strong>配置方式</strong>，搜索关键词<code>external_url</code>，修改<code>url</code>为你本地的<code>IP</code>。</li>
-</ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">&#x27;http://&#123;你的IP&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>IP</code>在终端中使用<code>ifconfig</code>查看，不直接使用<code>localhost</code>是因为可能从外部访问。</p>
-<p>若<code>url</code>中使用<code>https</code>，<code>GitLab</code>会自动重定向请求到<strong>加密站点</strong>。</p>
-</blockquote>
-<h2 id="设置发送邮箱"><a href="#设置发送邮箱" class="headerlink" title="设置发送邮箱"></a>设置发送邮箱</h2><ul>
-<li><p>在你负责发送邮件的邮箱(假设使用<code>QQ</code>邮箱)，选择<code>设置</code>&gt;<code>账户</code>，选择开启<code>POP3/SMTP</code>服务，<strong>获取授权码</strong>。</p>
-</li>
-<li><p>按照<strong>配置方式</strong>，搜索关键词<code>gitlab_rails</code>(仅作参考，怎么方便怎么来)，绑定邮箱并且配置<code>SMTP</code>。</p>
-</li>
-</ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#绑定邮箱</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_email_enabled&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_email_from&#x27;</span>] = <span class="string">&#x27;QQ邮箱&#x27;</span>			<span class="comment">#xxx<span class="doctag">@qq</span>.com</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_email_display_name&#x27;</span>] = <span class="string">&#x27;邮箱名称&#x27;</span>	<span class="comment">#xxx</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#配置SMTP</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_enable&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_address&#x27;</span>] = <span class="string">&quot;smtp.qq.com&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_port&#x27;</span>] = <span class="number">465</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_user_name&#x27;</span>] = <span class="string">&quot;QQ邮箱&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_password&#x27;</span>] = <span class="string">&quot;邮箱授权码&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_domain&#x27;</span>] = <span class="string">&quot;smtp.qq.com&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_authentication&#x27;</span>] = <span class="string">&quot;login&quot;</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_enable_starttls_auto&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;smtp_tls&#x27;</span>] = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="修改端口"><a href="#修改端口" class="headerlink" title="修改端口"></a>修改端口</h2><ul>
-<li>由于<code>GitLab</code>默认在<code>80</code>端口，可能和本地服务冲突，可以选择其他端口号替代。</li>
-<li>按照<strong>配置方式</strong>，搜索关键词<code>nginx[&#39;listen_port&#39;]</code>，修改端口为指定端口(我使用<code>8099</code>)。</li>
-</ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx[<span class="string">&#x27;listen_port&#x27;</span>] = <span class="number">8099</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改端口后为了保持统一，需要将<strong>访问链接</strong>修改成加上端口号的<code>url</code>。</li>
-</ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">&#x27;http://&#123;你的IP&#125;:&#123;你的端口号&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>gitlab-ctl reconfigure</td>
-<td>修改gitlab.rb文件之后重新加载配置</td>
-</tr>
-<tr>
-<td>gitlab-ctl status</td>
-<td>查看 GitLab 状态</td>
-</tr>
-<tr>
-<td>gitlab-ctl start</td>
-<td>启动 GitLab</td>
-</tr>
-<tr>
-<td>gitlab-ctl stop</td>
-<td>停止 GitLab</td>
-</tr>
-<tr>
-<td>gitlab-ctl restart</td>
-<td>重启 GitLab</td>
-</tr>
-<tr>
-<td>gitlab-ctl tail</td>
-<td>查看所有日志</td>
-</tr>
-<tr>
-<td>gitlab-ctl tail nginx/gitlab_acces.log</td>
-<td>查看 nginx 访问日志</td>
-</tr>
-<tr>
-<td>gitlab-ctl tail postgresql</td>
-<td>查看 postgresql 日志</td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<p>若不是在<code>root</code>用户权限下，需要在命令前加上<code>sudo</code></p>
-</blockquote>
-<ul>
-<li>针对上述配置，执行完成后，需要重新配置。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure</span><br><span class="line">sudo gitlab-ctl restart</span><br></pre></td></tr></table></figure>
-<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><ul>
-<li>如果想访问<strong>配置链接</strong>登录，需要先对账号进行初始化。</li>
-<li>进入<code>GitLab</code>控制台。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-rails console</span><br></pre></td></tr></table></figure>
-<ul>
-<li>输入以下命令，修改<code>root</code>用户密码。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user = User.<span class="built_in">where</span>(<span class="built_in">id</span>:1).first</span><br><span class="line">user.password = &#123;新密码&#125;</span><br><span class="line">user.password_confirmation = &#123;新密码&#125;</span><br><span class="line">user.save!</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用更改后的<code>root</code>用户登录，同时<strong>设置偏好</strong>。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20210719134054847.png" alt=""></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://www.jb51.net/article/194092.htm">Ubuntu20.04安装配置GitLab的方法步骤</a><br><a target="_blank" rel="noopener" href="https://lightsail.blog.csdn.net/article/details/115254424">管理员账号初始化</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dqcer/p/9596813.html">ubuntu搭建、安装gitlab服务器以及初始化密码</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/17/exp_ubuntu_deploy_gitlab/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

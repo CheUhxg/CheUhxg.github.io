@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cg">
+  <meta name="description" content="Remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lxc note">
 <meta property="og:url" content="http://example.com/2022/05/20/note_lxc/index.html">
 <meta property="og:site_name" content="CheUhxg&#39;s Blog">
-<meta property="og:description" content="Remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。  Containers !&#x3D; VMs lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限) Control groups(cg">
+<meta property="og:description" content="Remise 本文翻译(有道翻译)自linux-container-lxc，根据重点摘录学习。  Introduction 最好将容器化定义为：通过操作系统中的特性启用的进程隔离机制。   容器是与系统其他部分隔离的一个或多个进程的集合。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-20T05:54:40.000Z">
-<meta property="article:modified_time" content="2022-05-22T11:52:30.106Z">
+<meta property="article:modified_time" content="2022-05-23T13:36:20.211Z">
 <meta property="article:author" content="CheUhxg">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Container">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-22 19:52:30" itemprop="dateModified" datetime="2022-05-22T19:52:30+08:00">2022-05-22</time>
+                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,6 +254,7 @@
 <blockquote>
 <p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
 </blockquote>
+<span id="more"></span>
 <h2 id="Containers-VMs"><a href="#Containers-VMs" class="headerlink" title="Containers != VMs"></a>Containers != VMs</h2><ul>
 <li>lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限)<ul>
 <li><a href="#cgroup">Control groups(cgroup)</a></li>
