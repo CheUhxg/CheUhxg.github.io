@@ -189,6 +189,337 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/23/note_iptables/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/23/note_iptables/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-05-23 20:39:59" itemprop="dateCreated datePublished" datetime="2022-05-23T20:39:59+08:00">2022-05-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>iptables 用于<strong>检查、修改、转发、重定向和丢弃</strong> IP 数据包。</li>
+<li><p>过滤 IP 数据包的代码已经内置在内核中，并被<strong>组织成一组表</strong>，每个表都有特定的用途。</p>
+<ul>
+<li>这些表由一组<strong>预定义的链</strong>组成，链包含按顺序遍历的规则。</li>
+</ul>
+</li>
+<li><p>每个规则由一个潜在匹配的<strong>谓词</strong>和一个对应的<strong>操作</strong>(称为目标)组成。</p>
+<ul>
+<li>如果谓词为真，则执行该动作；即条件匹配。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>iptables允许用户使用这些链和规则</p>
+</blockquote>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
+<li>iptables工作原理</li>
+</ul>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
+<blockquote>
+<p>小写是表，大写是链。</p>
+<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
+</blockquote>
+<ul>
+<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
+</ul>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
+<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
+<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
+<p>iptables在用户空间，可以控制安全框架。</p>
+</blockquote>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
+<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
+<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
+<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
+<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
+<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
+<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
+<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
+<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
+<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
+<li>iptables 包含五个表：<ol>
+<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
+<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
+<li>nat用于网络地址转换（例如端口转发）。</li>
+<li>mangle用于专门的数据包更改。</li>
+<li>security用于强制访问控制网络规则。</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p><strong>常用的表为filter和nat</strong>。</p>
+</blockquote>
+<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
+<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
+<ul>
+<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
+<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
+</ul>
+</li>
+<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
+</li>
+<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
+<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
+<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
+</ul>
+</li>
+</ul>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
+<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
+<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>使用-j或—jump选项指定目标。</p>
+</blockquote>
+<ul>
+<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
+<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
+<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
+<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
+<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
+<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
+</ul>
+</li>
+</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
+<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
+<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
+</blockquote>
+<ul>
+<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
+<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
+<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
+<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
+<p>可以使用-t选项指定其他表。</p>
+</blockquote>
+<ul>
+<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
+</ul>
+<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
+<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
+<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
+<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
+<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
+<li>下面举例说明了前三个命令。</li>
+</ul>
+</li>
+<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a target="_blank" rel="noopener" href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
+</blockquote>
+<ul>
+<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
+<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
+</blockquote>
+<ul>
+<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
+<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<ul>
+<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
+<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
+<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
+</ul>
+</li>
+<li>首先，创建一个ipset散列容器。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>timeout是接受客户端响应的时间窗口。</p>
+</blockquote>
+<ul>
+<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
+</ul>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
+<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
+<ul>
+<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
+<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
+</ul>
+</li>
+<li><p>创建链</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
+<ul>
+<li>并将以下规则添加到新创建的链:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
+</blockquote>
+<ul>
+<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
+<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
+<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
+<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
+</ul>
+</li>
+<li>limit模块<strong>使用-m limit调用</strong>。<ul>
+<li>使用—limit来<strong>设置平均速率</strong>；</li>
+<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
+<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
+<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
+</ul>
+</li>
+</ul>
+<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
+<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
+<li>要查看自计算机最后一次启动以来记录的所有包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
+<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
+</blockquote>
+<ul>
+<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
+<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
+<li>ulogd包可以在[community]存储库中找到。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/20/note_lxc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1301,6 +1632,139 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_docker_profiles/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/exp_docker_profiles/" class="post-title-link" itemprop="url">Basic configuration of Docker</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li><code>Docker Image</code>（镜像）就是一个集装箱，可以看作是封装成了一个小型的操作系统。</li>
+<li><code>Docker</code>就是一个容器，<code>Image</code>可以在上面运行。</li>
+<li>这样的机制使得，我们只要有<code>Docker</code>，就能够在不同系统运行<code>Image</code>。</li>
+<li><code>Docker</code>和虚拟机有很大的相似之处，不过<code>Docker</code>更轻量级，每次不会运行出整个大的操作系统。</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/ca52036386a130f0cc2a669746578878.png" alt=""></li>
+<li>如图所示，<code>VMware</code>需要建立多个<code>Guest OS</code>，而<code>docker</code>直接利用<code>Host OS</code>。</li>
+</ul>
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">官方文档</a></p>
+<blockquote>
+<p>我这里用的是<code>Ubuntu</code>，其余操作系统参考其他文档。</p>
+</blockquote>
+<ul>
+<li>移除旧版本</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+<ul>
+<li>准备相关依赖</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用阿里源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<ul>
+<li>写入软件源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装社区版<code>docker</code></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试运行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有如下显示则安装成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"><span class="meta prompt_"> $ </span><span class="language-bash">docker run -it ubuntu bash</span></span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
+<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>我的系统是家庭版（懒），这里还是参考<a target="_blank" rel="noopener" href="https://docs.docker.com/docker-for-windows/install-windows-home/">官方文档</a></p>
+<ul>
+<li>下载<code>Docker Desktop</code>，直接安装。</li>
+<li>至少选中安装<code>WSL2</code>进行，装完后会要求重启。</li>
+<li>重启后可能报错，点击链接安装更新内核。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210307115408399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p><code>Restart</code>之后，我出现了如下情况。</p>
+</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210307115416976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>按照网上的<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34033853/article/details/110246866">方法</a>，以管理员身份打开<code>CMD</code>，输入命令。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重启之后，安装成功。</li>
+</ul>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/reference/">官方文档</a></p>
+<ul>
+<li>相关信息</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示版本</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示详细信息</span></span><br><span class="line">docker info</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示COMMAND帮助</span></span><br><span class="line">docker &#123;COMMAND&#125; --help</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其他命令<br><img src="https://img-blog.csdnimg.cn/20210307115432611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_postgresql_build/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1461,139 +1925,6 @@
 <ul>
 <li>在<code>Connection</code>填写<code>Host name/address</code>为你的服务器地址，<code>Username</code>改为你之前创建的数据库用户。</li>
 <li><img src="https://img-blog.csdnimg.cn/img_convert/2261e9c329e204684505cc2c0636a085.png" alt=""></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_docker_profiles/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/exp_docker_profiles/" class="post-title-link" itemprop="url">Basic configuration of Docker</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li><code>Docker Image</code>（镜像）就是一个集装箱，可以看作是封装成了一个小型的操作系统。</li>
-<li><code>Docker</code>就是一个容器，<code>Image</code>可以在上面运行。</li>
-<li>这样的机制使得，我们只要有<code>Docker</code>，就能够在不同系统运行<code>Image</code>。</li>
-<li><code>Docker</code>和虚拟机有很大的相似之处，不过<code>Docker</code>更轻量级，每次不会运行出整个大的操作系统。</li>
-<li><img src="https://img-blog.csdnimg.cn/img_convert/ca52036386a130f0cc2a669746578878.png" alt=""></li>
-<li>如图所示，<code>VMware</code>需要建立多个<code>Guest OS</code>，而<code>docker</code>直接利用<code>Host OS</code>。</li>
-</ul>
-<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">官方文档</a></p>
-<blockquote>
-<p>我这里用的是<code>Ubuntu</code>，其余操作系统参考其他文档。</p>
-</blockquote>
-<ul>
-<li>移除旧版本</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
-<ul>
-<li>准备相关依赖</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用阿里源</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写入软件源</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装社区版<code>docker</code></li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
-<ul>
-<li>测试运行</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
-<ul>
-<li>有如下显示则安装成功</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"><span class="meta prompt_"> $ </span><span class="language-bash">docker run -it ubuntu bash</span></span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
-<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>我的系统是家庭版（懒），这里还是参考<a target="_blank" rel="noopener" href="https://docs.docker.com/docker-for-windows/install-windows-home/">官方文档</a></p>
-<ul>
-<li>下载<code>Docker Desktop</code>，直接安装。</li>
-<li>至少选中安装<code>WSL2</code>进行，装完后会要求重启。</li>
-<li>重启后可能报错，点击链接安装更新内核。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210307115408399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p><code>Restart</code>之后，我出现了如下情况。</p>
-</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210307115416976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>按照网上的<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34033853/article/details/110246866">方法</a>，以管理员身份打开<code>CMD</code>，输入命令。</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
-<ul>
-<li>重启之后，安装成功。</li>
-</ul>
-<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>参考<a target="_blank" rel="noopener" href="https://docs.docker.com/reference/">官方文档</a></p>
-<ul>
-<li>相关信息</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示版本</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示详细信息</span></span><br><span class="line">docker info</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示COMMAND帮助</span></span><br><span class="line">docker &#123;COMMAND&#125; --help</span><br></pre></td></tr></table></figure>
-<ul>
-<li>其他命令<br><img src="https://img-blog.csdnimg.cn/20210307115432611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
 </ul>
 
       
@@ -1794,204 +2125,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/man_burp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/man_burp/" class="post-title-link" itemprop="url">Burp Suite modules</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-05-17 17:02:40 / Modified: 19:40:43" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h2><h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
-<li>显示信息。</li>
-<li>默认记录爬虫所爬行的页面及每个页面的请求头以及相应信息。<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3></li>
-</ul>
-<ol>
-<li>在<code>Site map</code>中，将目标站点发送到<code>Scope</code>。</li>
-<li>使用<code>Filter</code>过滤。<blockquote>
-<p>任意的<code>URL/HTTP</code>请求都可以发送到其他模块。  </p>
-<h2 id="Spider"><a href="#Spider" class="headerlink" title="Spider"></a>Spider</h2><h3 id="主要功能-1"><a href="#主要功能-1" class="headerlink" title="主要功能"></a>主要功能</h3></blockquote>
-</li>
-</ol>
-<ul>
-<li>网络爬虫，枚举应用程序的内容和功能。</li>
-<li>在爬行时默认进行漏洞扫描，检测每个访问过的<code>URL</code>。<h3 id="使用流程-1"><a href="#使用流程-1" class="headerlink" title="使用流程"></a>使用流程</h3></li>
-</ul>
-<ol>
-<li>在<code>Proxy</code>中的<code>Action</code>将请求发送到<code>Spider</code>。</li>
-<li>在<code>Target</code>&gt;<code>Site map</code>中即可看到爬行列表。</li>
-<li>在<code>Spider</code>&gt;<code>Control</code>中可以看到爬行状态，决定开始或者停止。<h2 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h2><h3 id="主要功能-2"><a href="#主要功能-2" class="headerlink" title="主要功能"></a>主要功能</h3></li>
-</ol>
-<ul>
-<li>扫描<code>Web</code>应用程序的安全漏洞。<h3 id="使用流程-2"><a href="#使用流程-2" class="headerlink" title="使用流程"></a>使用流程</h3><h4 id="单一URL"><a href="#单一URL" class="headerlink" title="单一URL"></a>单一URL</h4></li>
-<li>在<code>Proxy</code>中的<code>Action</code>选择<code>Do an active scan</code>即可对该请求的单一<code>URL</code>进行扫描。<h4 id="全站扫描"><a href="#全站扫描" class="headerlink" title="全站扫描"></a>全站扫描</h4></li>
-</ul>
-<ol>
-<li>先爬行该网站所有链接。</li>
-<li>在<code>Target</code>中选择目的网站，右键转到<code>Actively Scan this Host</code>。</li>
-<li>跳出向导后，删除不需要扫描的页面，对需要扫描的页面进行确认。</li>
-<li>在<code>Scan queue</code>中可以查看扫描进度，在<code>Results</code>中查看扫描结果。<h2 id="Intruder"><a href="#Intruder" class="headerlink" title="Intruder"></a>Intruder</h2><h3 id="主要功能-3"><a href="#主要功能-3" class="headerlink" title="主要功能"></a>主要功能</h3></li>
-</ol>
-<ul>
-<li>对<code>Web</code>程序进行自动化攻击。<blockquote>
-<p>高度可配置的工具，最重要的是配置<code>Attack Type</code>、程序变量以及字典的设置。  </p>
-<h3 id="使用流程-3"><a href="#使用流程-3" class="headerlink" title="使用流程"></a>使用流程</h3></blockquote>
-</li>
-</ul>
-<ol>
-<li>将拦截到的请求发送到<code>Intruder</code>，在<code>Intruder</code>&gt;<code>Target</code>中可看到目标网址和访问端口。</li>
-<li>在<code>Positions</code>中进行主要配置。</li>
-<li>配置后，点击<code>Start Attack</code>进行扫描。<h3 id="具体配置"><a href="#具体配置" class="headerlink" title="具体配置"></a>具体配置</h3><h4 id="Attack-Type"><a href="#Attack-Type" class="headerlink" title="Attack Type"></a>Attack Type</h4>|名称|功能|<br>|—|—|<br>|Sniper|对变量依次进行破解|<br>|Battering ram|对变量同时进行破解|<br>|Pitch fork|每个变量将会对应一个字典|<br>|Cluster bomb|每个变量将会对应一个字典，并且交叉破解，尝试每一个组合|<h4 id="程序变量"><a href="#程序变量" class="headerlink" title="程序变量"></a>程序变量</h4></li>
-</ol>
-<ul>
-<li>使用<code>Clear</code>清除默认变量。</li>
-<li><code>Add</code>设置变量。<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><h5 id="Payload-Sets"><a href="#Payload-Sets" class="headerlink" title="Payload Sets"></a>Payload Sets</h5></li>
-<li><code>Set</code>针对指定变量进行配置。</li>
-<li><code>Type</code>为<code>Payload</code>的类型。</li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Simple list</td>
-<td>简单列表</td>
-</tr>
-<tr>
-<td>Runtime file</td>
-<td>运行时读取列表</td>
-</tr>
-<tr>
-<td>Numbers</td>
-<td>数字列表</td>
-</tr>
-<tr>
-<td>Dates</td>
-<td>日期列表</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="Payload-Options"><a href="#Payload-Options" class="headerlink" title="Payload Options"></a>Payload Options</h5><ul>
-<li>默认使用<code>Simple list</code>类型。<h5 id="Payload-Processing"><a href="#Payload-Processing" class="headerlink" title="Payload Processing"></a>Payload Processing</h5></li>
-<li>对字符串进行处理。</li>
-<li>支持<code>MD5</code>加密、字符串截取、加入前缀/后缀等。<h5 id="Payload-Encoding"><a href="#Payload-Encoding" class="headerlink" title="Payload Encoding"></a>Payload Encoding</h5></li>
-<li>请求时对某些字符进行<code>URL</code>转码。<h4 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h4></li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Request Engine</td>
-<td>请求引擎设置，设置线程、超时等信息</td>
-</tr>
-<tr>
-<td>Attack Results</td>
-<td>攻击结果显示，设置<code>request</code>、<code>response</code></td>
-</tr>
-<tr>
-<td>Grep-Match</td>
-<td>识别    <code>response</code>中是否存在此表达式或简单字符串</td>
-</tr>
-<tr>
-<td>Grep-Extract</td>
-<td>通过正则截取<code>response</code>中的信息</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><h3 id="主要功能-4"><a href="#主要功能-4" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
-<li>支持对<code>URL</code>、<code>HEX</code>、<code>HTML</code>等格式字符串进行编码。<h3 id="使用流程-4"><a href="#使用流程-4" class="headerlink" title="使用流程"></a>使用流程</h3></li>
-</ul>
-<ol>
-<li>在文本框中输入需要编/解码的文本。</li>
-<li>右侧选择操作模式。<h2 id="Comparer"><a href="#Comparer" class="headerlink" title="Comparer"></a>Comparer</h2><h3 id="主要功能-5"><a href="#主要功能-5" class="headerlink" title="主要功能"></a>主要功能</h3></li>
-</ol>
-<ul>
-<li>比较两段字符串的差异。<h3 id="使用流程-5"><a href="#使用流程-5" class="headerlink" title="使用流程"></a>使用流程</h3></li>
-</ul>
-<ol>
-<li>选择直接加载文本或者将需要比对的文本发送到<code>Comparer</code>。</li>
-<li>通过<code>Select item 1</code>和<code>Select item 2</code>选择要比较的两段字符串，点击<code>words</code>开始比较。<h2 id="Repeater"><a href="#Repeater" class="headerlink" title="Repeater"></a>Repeater</h2><h3 id="主要功能-6"><a href="#主要功能-6" class="headerlink" title="主要功能"></a>主要功能</h3></li>
-</ol>
-<ul>
-<li>编辑<code>HTTP</code>请求。<h3 id="使用流程-6"><a href="#使用流程-6" class="headerlink" title="使用流程"></a>使用流程</h3></li>
-</ul>
-<ol>
-<li>拦截到请求后发送到<code>Repeater</code>。</li>
-<li>直接在框中修改请求内容。</li>
-<li>点击<code>Send</code>发送请求，得到的回复在<code>Response</code>显示。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2063,7 +2196,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
