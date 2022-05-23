@@ -75,43 +75,6 @@
       </tags>
   </entry>
   <entry>
-    <title>VSCode with C/C++ projection&#39;s profile</title>
-    <url>/2022/05/17/exp_VSCode_C_pro/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
-<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
-</ul>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
-<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
-<li>选好项目的文件路径，此路径即为项目的位置。</li>
-</ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
-<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
-</ul>
-<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
-</ul>
-<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>exp</category>
-      </categories>
-      <tags>
-        <tag>VSCode</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ONOS group multicast in SDN</title>
     <url>/2022/05/17/exp_ONOS_group/</url>
     <content><![CDATA[<h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
@@ -214,6 +177,43 @@
       <tags>
         <tag>SDN</tag>
         <tag>ONOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VSCode with C/C++ projection&#39;s profile</title>
+    <url>/2022/05/17/exp_VSCode_C_pro/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
+<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+</ul>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
+<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
+<li>选好项目的文件路径，此路径即为项目的位置。</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
+<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
+</ul>
+<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
+</ul>
+<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>exp</category>
+      </categories>
+      <tags>
+        <tag>VSCode</tag>
+        <tag>C/C++</tag>
       </tags>
   </entry>
   <entry>
@@ -945,6 +945,151 @@
       </categories>
       <tags>
         <tag>Mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CTF note</title>
+    <url>/2022/05/17/note_CTF/</url>
+    <content><![CDATA[<h1 id="WarmUp"><a href="#WarmUp" class="headerlink" title="WarmUp"></a>WarmUp</h1><h2 id="题目介绍"><a href="#题目介绍" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
+<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第一题。</li>
+<li>设计的知识点包括：<ul>
+<li><code>PHP</code>代码审计</li>
+<li>远程文件包含</li>
+</ul>
+</li>
+</ul>
+<h2 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="函数解析"><a href="#函数解析" class="headerlink" title="函数解析"></a>函数解析</h2><ul>
+<li><a href="https://www.php.net/manual/zh/function.isset.php">isset</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> , <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$...</code> = ? ) : bool<ul>
+<li>判断变量<code>var</code>是否被设置并且非<code>NULL</code>。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.is-string.php">is_string</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> ) : bool<ul>
+<li>检测变量<code>var</code>是否是字符串。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.in-array.php">in_array</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$needle</code> , array <code>$haystack</code> , bool <code>$strict</code> = <strong><code>false</code></strong> ) : bool<ul>
+<li>检查数组<code>haystack</code>中是否存在某个值<code>needle</code>。</li>
+<li>若数组为键值数组，则匹配值。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.mb-substr.php">mb_substr</a> ( string <code>$str</code> , int <code>$start</code> , int <code>$length</code> = NULL , string <code>$encoding</code> = mb_internal_encoding() ) : string<ul>
+<li>根据字符数执行一个多字节安全的 <a href="https://www.php.net/manual/zh/function.substr.php">substr()</a> 操作。</li>
+<li>取字符串<code>str</code>从<code>start</code>开始<code>length</code>长度的子串。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.mb-strpos.php">mb_strpos</a> ( string <code>$haystack</code> , string <code>$needle</code> , int <code>$offset</code> = 0 , string <code>$encoding</code> = mb_internal_encoding() ) : int<ul>
+<li>查找字符串<code>needle</code>在字符串<code>haystack</code>中首次出现的位置。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.urldecode.php">urldecode</a> ( string <code>$str</code> ) : string<ul>
+<li>解码已编码的 <code>URL</code> 字符串<code>str</code>。</li>
+</ul>
+</li>
+<li><a href="https://www.php.net/manual/zh/function.include.php">include</a><ul>
+<li>后跟要被包含的文件名，表示引入该文件。</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码逻辑"><a href="#代码逻辑" class="headerlink" title="代码逻辑"></a>代码逻辑</h2><h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><ul>
+<li>第<code>40</code>行的<code>if</code>语句判断了<ul>
+<li>提交的参数<code>file</code>是否为空；</li>
+<li>参数<code>file</code>是否为字符串；</li>
+<li>函数<code>checkFile</code>是否返回<code>true</code>。</li>
+</ul>
+</li>
+<li>上述条件满足就将<code>file</code>对应的文件打开，不满足则显示<font color="orange">滑稽</font>。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/057e48ad7fa2e521926b5f00b48169d0.png" alt=""></p>
+<h3 id="checkFile函数"><a href="#checkFile函数" class="headerlink" title="checkFile函数"></a>checkFile函数</h3><ul>
+<li>在第<code>5</code>行中将参数<code>file</code>赋值给变量<code>page</code>。</li>
+<li>第<code>7</code>行给出白名单，分别是<code>source.php</code>、<code>hint.php</code>。</li>
+<li>第<code>8</code>行判断变量<code>page</code>是否已设置为字符串，若没有，则<font color="orange">滑稽</font>伺候。</li>
+<li>第<code>13</code>行<font color="red">第一次</font>判断<code>page</code>是否属于白名单，若是则包含文件。</li>
+<li>第<code>17</code>行裁剪原始变量<code>page</code>，<code>_page</code>留下第一个<code>?</code>之前的字符串。</li>
+<li>第<code>22</code>行<font color="red">第二次</font>判断<code>page</code>是否属于白名单。</li>
+<li>第<code>26</code>行对变量<code>page</code>进行<code>URL</code>编码的解码，赋值给<code>_page</code>。</li>
+</ul>
+<blockquote>
+<p>注意：<code>page</code>取自<code>URL</code>，作为参数传入会先进行一次解码。</p>
+</blockquote>
+<ul>
+<li>第<code>27</code>行裁剪解码后的变量<code>_page</code>。</li>
+<li>第<code>32</code>行<font color="red">第三次</font>判断<code>_page</code>是否属于白名单。</li>
+</ul>
+<h3 id="hint-php"><a href="#hint-php" class="headerlink" title="hint.php"></a>hint.php</h3><ul>
+<li>提示给出了<code>flag</code>所在文件夹。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">flag not here, and flag in ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<h1 id="EazySQL"><a href="#EazySQL" class="headerlink" title="EazySQL"></a>EazySQL</h1><h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
+<li>在上述我<font color="red">标红</font>的三次判断中，可以设置不同状态的<code>page</code>得到文件包含。</li>
+<li><font color="red">第一次</font>判断时，对变量<code>page</code>没有做任何改变，满足条件只有参数<code>file</code>（原始传入的<code>page</code>）为<code>source.php</code>或<code>hint.php</code>，很明显无法包含文件<code>ffffllllaaaagggg</code>。</li>
+<li><font color="red">第二次</font>判断时，考虑到裁剪之后需要满足<code>?</code>前包含<code>source.php</code>或<code>hint.php</code>，之后的部分可以任意修改。</li>
+</ul>
+<blockquote>
+<p>包含<code>？</code>后就已经绕过了第一个判断。</p>
+</blockquote>
+<ul>
+<li>尝试包含到文件<code>ffffllllaaaagggg</code>，在<code>?</code>之后不断添加访问上级目录符号<code>../</code>，例如。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php?../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当<code>../</code>达到<code>8</code>个时，出现<code>flag</code>。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210310211409843.png" alt=""></p>
+<ul>
+<li><p>这里出现了多解，使用<font color="red">第三次</font>判断仍然可以实现。</p>
+</li>
+<li><p>由于<code>URL</code>会对特殊字符进行编码，故利用代码中的<font color="red">二次解码</font>，将<code>?</code>设计为经过两次编码的码值。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">? =&gt; %3f =&gt; %253f</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>%253f</code>替换<code>?</code>位置之后，传入服务器时变成<code>%3f</code>，此时即可绕过前两次判断。</li>
+<li>在<font color="red">第三次</font>判断前，<code>urldecode()</code>将<code>%3f</code>转化为<code>?</code>，完成判断。</li>
+<li>给出<font color="red">第三次</font>判断的<code>Payload</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php%253f../../../../../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<h2 id="题目介绍-1"><a href="#题目介绍-1" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
+<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第二题。</li>
+<li>涉及的知识点包括：<ul>
+<li><code>SQL</code>注入</li>
+</ul>
+</li>
+</ul>
+<h2 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h2><ul>
+<li>很单纯的登录界面，需要输入用户名和密码。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210310213340786.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+<ul>
+<li>此时你输入的字符串将被用于数据库查询对应的用户，通过这样的机制，即可构造<code>SQL</code>注入攻击。</li>
+</ul>
+<blockquote>
+<p><code>SQL</code>注入具体知识参考我的一篇<a href="https://cheuhxg.github.io/2021/01/31/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">博客</a>。</p>
+</blockquote>
+<h2 id="解题过程-1"><a href="#解题过程-1" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
+<li>观察攻击场景，通常来说用户名和密码都为字符串输入，故此处猜测为字符型注入。</li>
+<li>假设查询语句模型。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> user_id<span class="operator">=</span><span class="string">&#x27;$&#123;User-Name&#125;&#x27;</span> <span class="keyword">and</span> passwd<span class="operator">=</span><span class="string">&#x27;$&#123;User-Passwd&#125;&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>尝试使用注释<code>#</code>屏蔽后面代码，下面给出用户名和密码的<code>Payload</code>。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or 1=1#</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>得到<code>flag</code>。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/2021031021335315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+<ul>
+<li>若注释符被屏蔽，使用<code>&#39;</code>构造查询字符串闭合，给出<code>Payload</code>。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>note</category>
+      </categories>
+      <tags>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -1684,437 +1829,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CTF note</title>
-    <url>/2022/05/17/note_CTF/</url>
-    <content><![CDATA[<h1 id="WarmUp"><a href="#WarmUp" class="headerlink" title="WarmUp"></a>WarmUp</h1><h2 id="题目介绍"><a href="#题目介绍" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
-<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第一题。</li>
-<li>设计的知识点包括：<ul>
-<li><code>PHP</code>代码审计</li>
-<li>远程文件包含</li>
-</ul>
-</li>
-</ul>
-<h2 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="函数解析"><a href="#函数解析" class="headerlink" title="函数解析"></a>函数解析</h2><ul>
-<li><a href="https://www.php.net/manual/zh/function.isset.php">isset</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> , <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$...</code> = ? ) : bool<ul>
-<li>判断变量<code>var</code>是否被设置并且非<code>NULL</code>。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.is-string.php">is_string</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$var</code> ) : bool<ul>
-<li>检测变量<code>var</code>是否是字符串。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.in-array.php">in_array</a> ( <a href="https://www.php.net/manual/zh/language.types.declarations.php#language.types.declarations.mixed">mixed</a> <code>$needle</code> , array <code>$haystack</code> , bool <code>$strict</code> = <strong><code>false</code></strong> ) : bool<ul>
-<li>检查数组<code>haystack</code>中是否存在某个值<code>needle</code>。</li>
-<li>若数组为键值数组，则匹配值。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.mb-substr.php">mb_substr</a> ( string <code>$str</code> , int <code>$start</code> , int <code>$length</code> = NULL , string <code>$encoding</code> = mb_internal_encoding() ) : string<ul>
-<li>根据字符数执行一个多字节安全的 <a href="https://www.php.net/manual/zh/function.substr.php">substr()</a> 操作。</li>
-<li>取字符串<code>str</code>从<code>start</code>开始<code>length</code>长度的子串。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.mb-strpos.php">mb_strpos</a> ( string <code>$haystack</code> , string <code>$needle</code> , int <code>$offset</code> = 0 , string <code>$encoding</code> = mb_internal_encoding() ) : int<ul>
-<li>查找字符串<code>needle</code>在字符串<code>haystack</code>中首次出现的位置。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.urldecode.php">urldecode</a> ( string <code>$str</code> ) : string<ul>
-<li>解码已编码的 <code>URL</code> 字符串<code>str</code>。</li>
-</ul>
-</li>
-<li><a href="https://www.php.net/manual/zh/function.include.php">include</a><ul>
-<li>后跟要被包含的文件名，表示引入该文件。</li>
-</ul>
-</li>
-</ul>
-<h2 id="代码逻辑"><a href="#代码逻辑" class="headerlink" title="代码逻辑"></a>代码逻辑</h2><h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><ul>
-<li>第<code>40</code>行的<code>if</code>语句判断了<ul>
-<li>提交的参数<code>file</code>是否为空；</li>
-<li>参数<code>file</code>是否为字符串；</li>
-<li>函数<code>checkFile</code>是否返回<code>true</code>。</li>
-</ul>
-</li>
-<li>上述条件满足就将<code>file</code>对应的文件打开，不满足则显示<font color="orange">滑稽</font>。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/057e48ad7fa2e521926b5f00b48169d0.png" alt=""></p>
-<h3 id="checkFile函数"><a href="#checkFile函数" class="headerlink" title="checkFile函数"></a>checkFile函数</h3><ul>
-<li>在第<code>5</code>行中将参数<code>file</code>赋值给变量<code>page</code>。</li>
-<li>第<code>7</code>行给出白名单，分别是<code>source.php</code>、<code>hint.php</code>。</li>
-<li>第<code>8</code>行判断变量<code>page</code>是否已设置为字符串，若没有，则<font color="orange">滑稽</font>伺候。</li>
-<li>第<code>13</code>行<font color="red">第一次</font>判断<code>page</code>是否属于白名单，若是则包含文件。</li>
-<li>第<code>17</code>行裁剪原始变量<code>page</code>，<code>_page</code>留下第一个<code>?</code>之前的字符串。</li>
-<li>第<code>22</code>行<font color="red">第二次</font>判断<code>page</code>是否属于白名单。</li>
-<li>第<code>26</code>行对变量<code>page</code>进行<code>URL</code>编码的解码，赋值给<code>_page</code>。</li>
-</ul>
-<blockquote>
-<p>注意：<code>page</code>取自<code>URL</code>，作为参数传入会先进行一次解码。</p>
-</blockquote>
-<ul>
-<li>第<code>27</code>行裁剪解码后的变量<code>_page</code>。</li>
-<li>第<code>32</code>行<font color="red">第三次</font>判断<code>_page</code>是否属于白名单。</li>
-</ul>
-<h3 id="hint-php"><a href="#hint-php" class="headerlink" title="hint.php"></a>hint.php</h3><ul>
-<li>提示给出了<code>flag</code>所在文件夹。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">flag not here, and flag in ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<h1 id="EazySQL"><a href="#EazySQL" class="headerlink" title="EazySQL"></a>EazySQL</h1><h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
-<li>在上述我<font color="red">标红</font>的三次判断中，可以设置不同状态的<code>page</code>得到文件包含。</li>
-<li><font color="red">第一次</font>判断时，对变量<code>page</code>没有做任何改变，满足条件只有参数<code>file</code>（原始传入的<code>page</code>）为<code>source.php</code>或<code>hint.php</code>，很明显无法包含文件<code>ffffllllaaaagggg</code>。</li>
-<li><font color="red">第二次</font>判断时，考虑到裁剪之后需要满足<code>?</code>前包含<code>source.php</code>或<code>hint.php</code>，之后的部分可以任意修改。</li>
-</ul>
-<blockquote>
-<p>包含<code>？</code>后就已经绕过了第一个判断。</p>
-</blockquote>
-<ul>
-<li>尝试包含到文件<code>ffffllllaaaagggg</code>，在<code>?</code>之后不断添加访问上级目录符号<code>../</code>，例如。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php?../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<ul>
-<li>当<code>../</code>达到<code>8</code>个时，出现<code>flag</code>。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20210310211409843.png" alt=""></p>
-<ul>
-<li><p>这里出现了多解，使用<font color="red">第三次</font>判断仍然可以实现。</p>
-</li>
-<li><p>由于<code>URL</code>会对特殊字符进行编码，故利用代码中的<font color="red">二次解码</font>，将<code>?</code>设计为经过两次编码的码值。</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">? =&gt; %3f =&gt; %253f</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用<code>%253f</code>替换<code>?</code>位置之后，传入服务器时变成<code>%3f</code>，此时即可绕过前两次判断。</li>
-<li>在<font color="red">第三次</font>判断前，<code>urldecode()</code>将<code>%3f</code>转化为<code>?</code>，完成判断。</li>
-<li>给出<font color="red">第三次</font>判断的<code>Payload</code>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">source.php%253f../../../../../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<h2 id="题目介绍-1"><a href="#题目介绍-1" class="headerlink" title="题目介绍"></a>题目介绍</h2><ul>
-<li>这道题来自<a href="https://buuoj.cn/">BUUCTF</a>，<code>Web</code>组的第二题。</li>
-<li>涉及的知识点包括：<ul>
-<li><code>SQL</code>注入</li>
-</ul>
-</li>
-</ul>
-<h2 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h2><ul>
-<li>很单纯的登录界面，需要输入用户名和密码。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20210310213340786.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-<ul>
-<li>此时你输入的字符串将被用于数据库查询对应的用户，通过这样的机制，即可构造<code>SQL</code>注入攻击。</li>
-</ul>
-<blockquote>
-<p><code>SQL</code>注入具体知识参考我的一篇<a href="https://cheuhxg.github.io/2021/01/31/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">博客</a>。</p>
-</blockquote>
-<h2 id="解题过程-1"><a href="#解题过程-1" class="headerlink" title="解题过程"></a>解题过程</h2><ul>
-<li>观察攻击场景，通常来说用户名和密码都为字符串输入，故此处猜测为字符型注入。</li>
-<li>假设查询语句模型。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> user_id<span class="operator">=</span><span class="string">&#x27;$&#123;User-Name&#125;&#x27;</span> <span class="keyword">and</span> passwd<span class="operator">=</span><span class="string">&#x27;$&#123;User-Passwd&#125;&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>尝试使用注释<code>#</code>屏蔽后面代码，下面给出用户名和密码的<code>Payload</code>。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or 1=1#</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>得到<code>flag</code>。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/2021031021335315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-<ul>
-<li>若注释符被屏蔽，使用<code>&#39;</code>构造查询字符串闭合，给出<code>Payload</code>。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; or &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>note</category>
-      </categories>
-      <tags>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iptables note</title>
-    <url>/2022/05/23/note_iptables/</url>
-    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
-<li>iptables 用于<strong>检查、修改、转发、重定向和丢弃</strong> IP 数据包。</li>
-<li><p>过滤 IP 数据包的代码已经内置在内核中，并被<strong>组织成一组表</strong>，每个表都有特定的用途。</p>
-<ul>
-<li>这些表由一组<strong>预定义的链</strong>组成，链包含按顺序遍历的规则。</li>
-</ul>
-</li>
-<li><p>每个规则由一个潜在匹配的<strong>谓词</strong>和一个对应的<strong>操作</strong>(称为目标)组成。</p>
-<ul>
-<li>如果谓词为真，则执行该动作；即条件匹配。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>iptables允许用户使用这些链和规则</p>
-</blockquote>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
-<li>iptables工作原理</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
-<blockquote>
-<p>小写是表，大写是链。</p>
-<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
-</blockquote>
-<ul>
-<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
-</ul>
-<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
-<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
-<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
-<p>iptables在用户空间，可以控制安全框架。</p>
-</blockquote>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
-<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
-<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
-<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
-<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
-<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
-<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
-<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
-<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
-<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
-<li>iptables 包含五个表：<ol>
-<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
-<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
-<li>nat用于网络地址转换（例如端口转发）。</li>
-<li>mangle用于专门的数据包更改。</li>
-<li>security用于强制访问控制网络规则。</li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<p><strong>常用的表为filter和nat</strong>。</p>
-</blockquote>
-<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
-<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
-<ul>
-<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
-<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
-</ul>
-</li>
-<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
-</li>
-<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
-<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
-<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
-</ul>
-</li>
-</ul>
-<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
-<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
-<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>使用-j或—jump选项指定目标。</p>
-</blockquote>
-<ul>
-<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
-<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
-<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
-<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
-</ul>
-</li>
-</ul>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
-<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
-<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
-</ul>
-</li>
-</ul>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
-<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
-<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
-</blockquote>
-<ul>
-<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
-<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
-<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
-<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
-<p>可以使用-t选项指定其他表。</p>
-</blockquote>
-<ul>
-<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
-</ul>
-<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
-<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
-<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
-<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
-</ul>
-</li>
-</ul>
-<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
-<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
-<li>下面举例说明了前三个命令。</li>
-</ul>
-</li>
-<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
-</blockquote>
-<ul>
-<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
-<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
-</blockquote>
-<ul>
-<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
-<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<ul>
-<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
-<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
-<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
-</ul>
-</li>
-<li>首先，创建一个ipset散列容器。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>timeout是接受客户端响应的时间窗口。</p>
-</blockquote>
-<ul>
-<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
-</ul>
-<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
-<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
-<ul>
-<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
-<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
-</ul>
-</li>
-<li><p>创建链</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
-<ul>
-<li>并将以下规则添加到新创建的链:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
-</blockquote>
-<ul>
-<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
-<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
-<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
-<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
-</ul>
-</li>
-<li>limit模块<strong>使用-m limit调用</strong>。<ul>
-<li>使用—limit来<strong>设置平均速率</strong>；</li>
-<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
-<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
-<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
-</ul>
-</li>
-</ul>
-<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
-<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
-<li>要查看自计算机最后一次启动以来记录的所有包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
-<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
-</blockquote>
-<ul>
-<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
-<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
-<li>ulogd包可以在[community]存储库中找到。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>note</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>iptables</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Effective C++ note</title>
     <url>/2022/05/17/note_effective_cpp/</url>
     <content><![CDATA[<h1 id="条款01：视C-为一个语言联邦"><a href="#条款01：视C-为一个语言联邦" class="headerlink" title="条款01：视C++为一个语言联邦"></a>条款01：视C++为一个语言联邦</h1><ul>
@@ -2705,465 +2419,281 @@
       </tags>
   </entry>
   <entry>
-    <title>lxc note</title>
-    <url>/2022/05/20/note_lxc/</url>
-    <content><![CDATA[<h1 id="Remise"><a href="#Remise" class="headerlink" title="Remise"></a>Remise</h1><ul>
-<li>本文翻译(有道翻译)自<a href="https://raydenchia.com/linux-containers-lxc/#seccomp">linux-container-lxc</a>，根据重点摘录学习。</li>
-</ul>
-<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><ul>
-<li>最好将<strong>容器化</strong>定义为：通过操作系统中的特性启用的<strong>进程隔离机制</strong>。</li>
-</ul>
-<blockquote>
-<p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
-</blockquote>
-<h2 id="Containers-VMs"><a href="#Containers-VMs" class="headerlink" title="Containers != VMs"></a>Containers != VMs</h2><ul>
-<li>lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限)<ul>
-<li><a href="#cgroup">Control groups(cgroup)</a></li>
-<li><a href="#Capabilities">Capabilities</a></li>
-<li><a href="#seccomp">seccomp</a></li>
-<li><a href="#MAC">Mandatory Access Control</a> (via AppArmor, SELinux)</li>
-<li><a href="#Namespaces">Namespaces</a></li>
-<li><a href="#chroot">chroot jails</a></li>
+    <title>iptables note</title>
+    <url>/2022/05/23/note_iptables/</url>
+    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>iptables 用于<strong>检查、修改、转发、重定向和丢弃</strong> IP 数据包。</li>
+<li><p>过滤 IP 数据包的代码已经内置在内核中，并被<strong>组织成一组表</strong>，每个表都有特定的用途。</p>
+<ul>
+<li>这些表由一组<strong>预定义的链</strong>组成，链包含按顺序遍历的规则。</li>
 </ul>
 </li>
-<li>VM和LXC的区别</li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Virtual Machine</th>
-<th>Linux LXC Container</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>操作系统</td>
-<td>在VM中运行隔离的客户OS</td>
-<td>在主机OS上运行(共享内核)</td>
-</tr>
-<tr>
-<td>网络</td>
-<td>通过虚拟网络设备</td>
-<td>通过虚拟网络适配器隔离的视图</td>
-</tr>
-<tr>
-<td>隔离性</td>
-<td>OS之间完全隔离</td>
-<td>基于命名空间和cgroup的隔离</td>
-</tr>
-<tr>
-<td>大小</td>
-<td>通常是GB级别</td>
-<td>通常是MB级别</td>
-</tr>
-<tr>
-<td>启动时间</td>
-<td>以秒、分钟数量级，取决于存储介质</td>
-<td>以秒数量级</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h2><h3 id="Introduction-1"><a href="#Introduction-1" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>默认情况下，操作系统的根目录为<code>/</code>，进程将其视为所有文件绝对路径的根目录。</li>
-<li>这个“视图”可以通过<strong>调用chroot()系统调用来更改</strong>，这样我们就可以创建一个独立的独立环境来运行。</li>
-<li><strong>chroot更改当前运行进程及其子进程的表面上的根目录。</strong></li>
-</ul>
-<h3 id="Defect"><a href="#Defect" class="headerlink" title="Defect"></a>Defect</h3><ul>
-<li>但是，chroot本身并<strong>不能提供强隔离</strong>。</li>
-<li>似乎阻止对父目录的访问就足够了，但是chroot只是<strong>修改进程(通过pivot_root)及其子进程的路径名查找</strong>，将新的chroot-ed目录路径放在任何绝对路径(以<code>/</code>开头的路径)前面。</li>
-<li>在其他原因中，如果进程能够<strong>访问chroot监狱之外的句柄</strong>，那么也<strong>允许访问chroot-ed目录的父目录</strong>——因此这本身不是强隔离。</li>
-</ul>
-<h2 id="Capabilities"><a href="#Capabilities" class="headerlink" title="Capabilities"></a>Capabilities</h2><h3 id="Introduction-2"><a href="#Introduction-2" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>传统的UNIX自由访问控制分为两个部分<ul>
-<li>root/超级用户/特权;</li>
-<li>用户/非特权。</li>
-</ul>
-</li>
-<li>假设一个系统用户需要生成一个<u>需要一些root权限的</u>服务器进程。同时，假设服务器代码具有远程代码执行漏洞。如果脆弱的服务器进程被破坏，整个系统就会被破坏(因为进程的UID是0)。有没有一种方法只给进程它需要的权限(最小权限)?</li>
-<li>为了<strong><u>分割通常完全提供给root用户的特权</u></strong>，Linux Capabilities从2.2版开始被引入到Linux内核中。每个Capability代表一个不同的特权单位，前缀为CAP_。一些功能包括：<ul>
-<li>CAP_CHOWN：更改文件的用户和组所有权的能力</li>
-<li>CAP_NET_ADMIN：在系统上执行与网络相关的管理的能力</li>
-<li>CAP_NET_RAW：创建RAW和PACKET套接字以及任意地址绑定的能力</li>
-<li>CAP_SYS_ADMIN：能够做很多事情，以至于很多人把它当作新的根。未来肯定需要进一步的特权分片。</li>
+<li><p>每个规则由一个潜在匹配的<strong>谓词</strong>和一个对应的<strong>操作</strong>(称为目标)组成。</p>
+<ul>
+<li>如果谓词为真，则执行该动作；即条件匹配。</li>
 </ul>
 </li>
 </ul>
 <blockquote>
-<p>总共29种Capability</p>
+<p>iptables允许用户使用这些链和规则</p>
 </blockquote>
-<ul>
-<li>getcap和setcap命令用于获取/设置文件的Capabilities。</li>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
+<li>iptables工作原理</li>
 </ul>
-<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
-<li>让我们看看ping实用程序，它需要创建一个RAW套接字来发送ICMP数据包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">ls</span> -al /bin/ping</span><br><span class="line">-rwsr-xr-x 1 root root 64424 Jun 28  2019 /bin/ping</span><br></pre></td></tr></table></figure>
-<ul>
-<li>它属于root:root，但任何用户都可读和执行。如果我们尝试ping google.com，我们可以验证UID是当前用户的(因为没有setuid位设置)：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">student    2090  0.0  0.1  21044  2476 pts/2    S+   23:17   0:00 /bin/ping google.com</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这里的非特权用户能够ping，因为在/bin/ping二进制文件上设置了一个功能：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">getcap</span> /bin/ping</span><br><span class="line">/bin/ping = cap_net_raw+ep</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>有3个capability标志可以设置：</p>
-<ul>
-<li>Effective：该capability是否激活</li>
-<li>Inheritable：该capability是否被子进程继承</li>
-<li>allowed：该capability是否被允许，与父进程capability集无关</li>
-</ul>
-</li>
-<li>如果我们清空了ping的capability</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">cp</span> /bin/ping .</span><br><span class="line">student@6858-v20:~$ <span class="built_in">getcap</span> ./ping </span><br><span class="line">student@6858-v20:~$ ./ping google.com</span><br><span class="line">ping: socket: Operation not permitted</span><br><span class="line">student@6858-v20:~$ sudo <span class="built_in">setcap</span> cap_net_raw=ep ./ping</span><br><span class="line">student@6858-v20:~$ ./ping google.com</span><br><span class="line">PING google.com (172.217.163.46) 56(84) bytes of data.</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
 <blockquote>
-<p>通过<strong>复制</strong>ping二进制文件到一个新的目的地，任何扩展的属性(setuid，capabilities等)都会被清除。</p>
+<p>小写是表，大写是链。</p>
+<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
 </blockquote>
 <ul>
-<li>如果没有cap_net_raw这个capability，生成的ping进程就无法打开RAW套接字。一旦我们恢复了这种capability，ping功能就会恢复正常。</li>
-<li>Capabilities似乎是一个好主意，但CAP_SYS_ADMIN仍然有太多特权，这只是lxc用于加强隔离的另一种机制。</li>
+<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
 </ul>
-<h2 id="cgroup"><a href="#cgroup" class="headerlink" title="cgroup"></a>cgroup</h2><h3 id="Introduction-3"><a href="#Introduction-3" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>Control groups (cgroups)<strong>用于根据用户定义的进程组<u>限制系统资源的使用</u></strong>。</li>
-<li>假设您正在运行一个非常密集的数据分析例程，它使用了大量的算力和内存，以致于您的系统没有很好的响应。cgroups是一个<strong>内核特性</strong>，它允许您<strong>定义一组进程</strong>，这些进程运行分析作业并<strong>限制、解释和隔离分配的资源</strong>，这样您就可以在资源有限的情况下执行多任务分析作业。特别地，cgroup特性包括：<ul>
-<li>Limits：可以在处理器使用、内存使用、设备使用等方面指定最大限制。</li>
-<li>Accounting：监控资源使用情况。</li>
-<li>Prioritization：资源使用可以优先于其他cgroup。</li>
-<li>Control：可以控制进程的状态(如停止、重启、挂起)。</li>
-</ul>
-</li>
-<li><p>一个cgroup是<strong>一个或多个进程的集合</strong>，它们被绑定到为cgroup定义的同一组限制上。cgroup还可以以<strong>分层</strong>的方式继承另一个cgroup的属性。</p>
-</li>
-<li><p>cgroups通常在大多数现代版本的Linux发行版中可用，大多数定义了大约10个子系统(也称为控制器)。</p>
-<ul>
-<li>blkio：这个子系统设置对块设备，如物理驱动器(磁盘、固态或USB)的输入/输出访问的限制。</li>
-<li>cpu：这个子系统使用调度器提供cgroup任务对cpu的访问。</li>
-<li>cpuacct：该子系统自动生成cgroup中任务使用CPU资源的报告。</li>
-<li>cpuset：这个子系统为cgroup中的任务分配单独的cpu(在多核系统上)和内存节点。</li>
-<li>devices：这个子系统允许或拒绝cgroup中的任务访问设备。</li>
-<li>freezer：这个子系统挂起或恢复cgroup中的任务。</li>
-<li>memory：这个子系统对cgroup中的任务使用内存进行限制，并自动生成关于这些任务使用内存资源的报告。</li>
-<li>net_cls：这个子系统用一个类标识符(classid)标记网络数据包，这个类标识符允许Linux流量控制器(tc)识别来自特定cgroup任务的数据包。</li>
-<li>net_prio：这个子系统提供了一种动态设置每个网络接口的网络流量优先级的方法。</li>
-<li>ns：命名空间子系统。</li>
-<li>perf_event：这个子系统标识任务的cgroup成员，可以用于性能分析。</li>
-</ul>
-</li>
-<li><p>管理它们需要cgroup-tools和libcgroup1包，它们可以通过以下方式安装到Ubuntu中：</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install cgroup-tools libcgroup1</span><br></pre></td></tr></table></figure>
-<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><ul>
-<li>假设我们有一个称为memes的内存密集型进程，我们希望在工作站上运行它。我们可以使用cgroups来限制内存使用，方法是在内存子系统中创建一个名为memegroup的cgroup(使用cgcreate)，设置它的限制(使用cgset)，并在该cgroup下执行进程(使用cgexec)：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo cgcreate -g memory:memegroup</span><br><span class="line">student@6858-v20:~$ sudo cgset -r memory.limit_in_bytes=1500K memegroup</span><br><span class="line">student@6858-v20:~$ cgget -r memory.limit_in_bytes memegroup </span><br><span class="line">primes: </span><br><span class="line">memory.limit_in_bytes: 1536000</span><br><span class="line">student@6858-v20:~$ <span class="built_in">cat</span> /sys/fs/cgroup/memory/memegroup/memory.limit_in_bytes</span><br><span class="line">1536000</span><br><span class="line">student@6858-v20:~$ sudo cgexec -g memory:memegroup ./memes </span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>cgcreate命令帮助在sysfs下创建目录(sysfs几乎总是挂载在/sys上，可以直接从命令行进行操作)，并且cgset适当地设置值。注意，系统总是将其更正为<strong>最接近的4096B对齐</strong>(从1500 KB到1536 KB)，这是<strong>内核页面</strong>大小。最后，我们在内存子系统下的memegroup中执行meme。</p>
-<ul>
-<li>过了一段时间，你会在终端上看到消息，说进程已经被终止了。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /sys/fs/cgroup/memory/memegroup/memory.oom_control</span><br><span class="line">oom_kill_disable 0</span><br><span class="line">under_oom 0</span><br><span class="line">oom_kill 1</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>我们看到oom_kill被设置为1，这意味着”内核内存不足杀手”(OOM Killer)已经终止了memegroup中的进程。</p>
-</blockquote>
-<ul>
-<li>memes程序源码如下;</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> *ptr;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">        ptr = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">4096</span>);</span><br><span class="line">        <span class="built_in">memset</span>(ptr, <span class="number">0</span>, <span class="number">4096</span>);</span><br><span class="line">        cnt += <span class="number">4096</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d bytes have been in use\n&quot;</span>, cnt);</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这是一个如何通过cgroup执行限制和过程控制的例子。</p>
-<p>大多数子系统都有计数功能，比如memory.usage_in_bytes、cpuacct.usage_sys等等。优先级的一个例子是cpu.shares(每个cgroup中每个进程可用的CPU资源份额)。</p>
-</blockquote>
-<h2 id="Namespaces"><a href="#Namespaces" class="headerlink" title="Namespaces"></a>Namespaces</h2><h3 id="Introduction-4"><a href="#Introduction-4" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>命名空间是一个抽象对象，它<strong>封装了资源</strong>，以便<strong>资源具有限制于同一命名空间中的其他资源的视图</strong>。</li>
-<li>例如，Linux进程形成了一个单进程树，根在init (PID 1)。一般情况下，特权进程可以跟踪或杀死其他进程。随着PID名称空间的引入，我们可以有多个不相交的进程树(它们不知道另一个名称空间中的进程)。如果我们创建一个新的PID名称空间并在其中运行一个进程，那么<strong>第一个进程就成为该名称空间中的PID 1</strong>。<u>创建命名空间的进程仍然位于父命名空间中，但使其子进程成为新进程树的根</u>。</li>
-<li><p>Linux内核定义了7个命名空间</p>
-<ul>
-<li>PID：隔离进程</li>
-<li>Network：隔离网络</li>
-<li>User：隔离用户/组id</li>
-<li>UTS：隔离主机名和完全限定域名(FQDN)</li>
-<li>Mount：隔离挂载点</li>
-<li>cgroup：隔离Cgroup的sysfs根目录</li>
-<li>IPC：隔离IPC/消息队列</li>
-</ul>
-</li>
-<li>通过procfs查看系统中定义的名称空间</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ sudo <span class="built_in">ls</span> /proc/1/ns</span><br><span class="line">cgroup  mnt  pid               user</span><br><span class="line">ipc     net  pid_for_children  uts</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>这种级别的隔离在容器化中很有用</strong>。如果没有名称空间，在容器中运行的进程可以更改另一个容器的主机名、卸载文件系统、删除网络接口、更改限制等。</li>
-<li>通过<strong>使用名称空间来封装这些资源</strong>，<u>容器X中的进程不知道另一个容器Y中的资源</u>。</li>
-<li><p>随着名称空间的引入，Linux内核提供了3个新的系统调用：</p>
-<ul>
-<li>clone()：使用指定的名称空间创建一个新进程。如果传递了CLONE_NEW标志，则为每个指定的名称空间创建新的名称空间。</li>
-<li>setns()：允许进程加入一个现有的命名空间。命名空间由procfs中的文件描述符引用指定。</li>
-<li>unshare()：将调用进程移动到一个新的命名空间。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#procfs下的文件描述符</span></span><br><span class="line">student@6858-v20:~/cgroup$ sudo <span class="built_in">ls</span> -al /proc/1/ns</span><br><span class="line">total 0</span><br><span class="line">dr-x--x--x 2 root root 0 May 20 01:28 .</span><br><span class="line">dr-xr-xr-x 9 root root 0 May 19 22:29 ..</span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 cgroup -&gt; <span class="string">&#x27;cgroup:[4026531835]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 ipc -&gt; <span class="string">&#x27;ipc:[4026531839]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 mnt -&gt; <span class="string">&#x27;mnt:[4026531840]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 net -&gt; <span class="string">&#x27;net:[4026531993]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid_for_children -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 user -&gt; <span class="string">&#x27;user:[4026531837]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 uts -&gt; <span class="string">&#x27;uts:[4026531838]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h3 id="Example-2"><a href="#Example-2" class="headerlink" title="Example"></a>Example</h3><ul>
-<li>在新的UTS名称空间中创建新的bash</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br><span class="line">student@6858-v20:~$ sudo unshare -u /bin/bash</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname lmao</span></span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname</span></span><br><span class="line">lmao</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：主机名在父进程中不变</p>
-</blockquote>
-<ul>
-<li>进程id可以做到相同的事</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ sudo unshare --fork --pid --mount-proc /bin/bash</span><br><span class="line">root@6858-v20:~/cgroup<span class="comment"># pidof /bin/bash</span></span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在父进程中查看fork出来的进程id不为1</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root       4446  0.0  0.0   7912   780 pts/1    S    01:40   0:00 unshare --fork --pid --mount-proc /bin/bash</span><br></pre></td></tr></table></figure>
-<h3 id="Difference"><a href="#Difference" class="headerlink" title="Difference"></a>Difference</h3><ul>
-<li><strong>cgroups定义了一个名称空间子系统</strong>(因此可以通过名称空间控制资源)，但是注意不要混淆这两者:<ul>
-<li><strong>cgroups限制资源利用率</strong>，而<strong>名称空间限制资源视图</strong>(资源在系统上可能看到的内容)。</li>
-</ul>
-</li>
-</ul>
-<h2 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h2><h3 id="Introduction-5"><a href="#Introduction-5" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>在有些情况下，通过chroot、capabilities、cgroup和namespaces进行隔离是<strong>不够的</strong>。</li>
-<li>假设某个运行在容器中的web服务器遭到破坏，攻击者生成了一个远程shell。宿主进程和容器可以调用同一组系统调用，并且可能存在一些调用序列，使容器逃逸成为可能。</li>
-<li>seccomp通过<strong>限制进程允许执行的系统调用的数量</strong>来防止恶意进程通过系统调用造成的破坏。<ul>
-<li>像Chrome和Firefox这样的现代浏览器使用seccomp来更严格地限制它们的应用程序。</li>
-<li>通过将系统调用接口限制为<u>只允许容器化应用程序执行其功能所需的系统调用</u>，可以很容易地阻止许多容器逃逸漏洞。</li>
-</ul>
-</li>
-<li>在lxc中，可以通过容器配置文件指定seccomp过滤器</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#vim ~/.local/share/lxc/&lt;container_name&gt;/config</span></span><br><span class="line">lxc.seccomp = /usr/share/lxc/config/common.seccomp</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>/usr/share/lxc/config/common.seccomp</code>是<strong>默认拒绝</strong>的系统调用列表。</p>
-</blockquote>
-<h2 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h2><ul>
-<li>假设在上一节的小型web服务器的例子中，攻击者无视chroot, capabilities, cgroups, namespaces和seccomp成功地逃出了容器。现在会发生什么?<ul>
-<li>如果容器是有特权的(使用UID 0运行)，它几乎是完胜。</li>
-<li>如果它是无特权的，攻击者仍然可以尝试升级特权，或者如果当前用户的特权足够大，就会造成足够大的破坏。</li>
-</ul>
-</li>
-<li>在这种情况下，只有自由访问控制(DAC)(通过UNIX权限)站在攻击者和完全受损的系统之间。在老式的纵深防御模式中，我们使用另一种控制来降低这种风险:强制访问控制(Mandatory Access Control)。</li>
-<li>MAC是一种<strong>集中的授权机制</strong>，其运作原理是<strong>信息属于组织(而不是个体成员)</strong>。安全策略被定义并保存在内核中，内核根据定义的策略授权访问。像SELinux这样的现代MAC实现是基于角色访问控制(RBAC)和两个概念的结合:<ul>
-<li><a href="#TE">类型执行(TE)</a></li>
-<li><a href="#MLS">多级安全(MLS)</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h3><ul>
-<li><strong>TE将类型标记引入到每个文件系统对象中</strong>，这是<strong>MAC的先决条件</strong>。<ul>
-<li>对象被标记一个类型，并且<strong>在内核中定义了一个策略来指定哪些类型允许过渡到其他类型</strong>；</li>
-<li>然后，每次访问带标签的文件系统对象时，内核都会检查指定的策略。如果不存在特定的类型转换，则默认拒绝访问。</li>
-<li>例如，在 Security-Enhanced Linux (SELinux)中，适用于Apache提供的web服务器内容的标准标签httpd_sys_content_t不允许访问标记为bin_t的文件，它适用于/usr/bin中的二进制文件。</li>
-</ul>
-</li>
-<li>假设，在同一个小型web服务器示例中，攻击者设法获得了root访问权。<ul>
-<li>在DAC下，任何用户都可以任意控制自己拥有的任何东西，因此攻击者拥有完全的控制权。</li>
-<li>如果TE是通过SELinux实现的，则攻击者会受到严重阻碍：web服务器exploit给了一个UID 0的进程，但exploit继承自被exploit的网页的类型标签(httpd_sys_content_t)，其只允许访问相同标签的其他文件系统对象(由web服务器提供的内容应该只需要访问其他web内容，而不需要访问其他东西)。</li>
-</ul>
-</li>
-<li>类似地，如果我们为容器主机启用了像SELinux这样的MAC机制，那么<strong>所有容器都将被标记为默认的lxc_t类型标签</strong>(由用于lxc的默认SELinux TE策略定义)。任何绕过其他隔离机制的恶意进程都将受到TE策略的限制。</li>
-</ul>
-<h3 id="MLS"><a href="#MLS" class="headerlink" title="MLS"></a>MLS</h3><blockquote>
-<p>MLS超纲了，此处省略。</p>
-</blockquote>
-<h1 id="Demo-working-with-lxc"><a href="#Demo-working-with-lxc" class="headerlink" title="Demo: working with lxc"></a>Demo: working with lxc</h1><ul>
-<li>在Ubuntu上安装lxc:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install lxc</span><br></pre></td></tr></table></figure>
-<h2 id="Subordinate-UID-GID-ranges"><a href="#Subordinate-UID-GID-ranges" class="headerlink" title="Subordinate UID/GID ranges"></a>Subordinate UID/GID ranges</h2><ul>
-<li>通过定义以下文件，我们可以确保当前用户可以拥有从属的uid和gid:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subuid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subgid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这允许用户student拥有从165536开始的65536个从属uid /gid。</li>
-<li>我们还需要为lxc创建用户配置目录，如果它不存在，并创建默认配置文件:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/lxc</span><br><span class="line"><span class="built_in">touch</span> ~/.config/lxc/default.conf</span><br></pre></td></tr></table></figure>
-<ul>
-<li>应该修改<code>~/.config/lxc/default.conf</code>文件，使其看起来像这样(使用正确的id_map值):</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> ~/.config/lxc/default.conf </span><br><span class="line">lxc.idmap = u 0 165536 65536</span><br><span class="line">lxc.idmap = g 0 165536 65536</span><br></pre></td></tr></table></figure>
-<h2 id="Virtual-network-interfaces"><a href="#Virtual-network-interfaces" class="headerlink" title="Virtual network interfaces"></a>Virtual network interfaces</h2><ul>
-<li>在安装lxc时，应该已经创建了一个默认网桥:lxcbr0。通过命令验证网桥是否存在</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ brctl show</span><br><span class="line">bridge name     bridge <span class="built_in">id</span>               STP enabled    interfaces</span><br><span class="line">lxcbr0          8000.00163e000000       no</span><br><span class="line">lxcbr1          8000.00163e000000       no</span><br><span class="line">lxcbr2          8000.00163e000000       no</span><br><span class="line">lxcbr3          8000.00163e000000       no</span><br><span class="line">lxcbr4          8000.00163e000000       no</span><br><span class="line">lxcbr5          8000.00163e000000       no</span><br><span class="line">lxcbr6          8000.00163e000000       no</span><br><span class="line">lxcbr7          8000.00163e000000       no</span><br><span class="line">lxcbr8          8000.00163e000000       no</span><br><span class="line">lxcbr9          8000.00163e000000       no</span><br></pre></td></tr></table></figure>
-<ul>
-<li>确保<code>/etc/lxc/lxc-usernet</code>文件定义为:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/lxc/lxc-usernet</span><br><span class="line"><span class="comment"># USERNAME TYPE BRIDGE COUNT</span></span><br><span class="line">student veth lxcbr0 10</span><br><span class="line">student veth lxcbr1 10</span><br><span class="line">student veth lxcbr2 10</span><br><span class="line">student veth lxcbr3 10</span><br><span class="line">student veth lxcbr4 10</span><br><span class="line">student veth lxcbr5 10</span><br><span class="line">student veth lxcbr6 10</span><br><span class="line">student veth lxcbr7 10</span><br><span class="line">student veth lxcbr8 10</span><br><span class="line">student veth lxcbr9 10</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这告诉lxc它可以将多少虚拟网络接口作为用户student连接到指定的网桥(或组，每行一个)。</p>
-<p>应用更改的最快方法是<strong>重新启动节点或注销并重新登录</strong>。</p>
-<ul>
-<li>这将重启dbus、正确设置cgroup并打开用户名称空间(kernel.unprivileged_userns_clone=1)。</li>
-</ul>
-</blockquote>
-<ul>
-<li>验证以太网网络模块</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lsmod | grep veth</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果veth模块没有加载，加载它并使其在重启后持续存在:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> veth | sudo <span class="built_in">tee</span> -a /etc/modules</span><br></pre></td></tr></table></figure>
-<h2 id="Creating-a-container"><a href="#Creating-a-container" class="headerlink" title="Creating a container"></a>Creating a container</h2><ul>
-<li>运行lxc-create来创建一个容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ lxc-create -t download -n example</span><br><span class="line">Setting up the GPG keyring</span><br><span class="line">Downloading the image index</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">DIST    RELEASE ARCH    VARIANT BUILD</span><br><span class="line">---</span><br><span class="line">almalinux       8       amd64   default 20220519_23:08</span><br><span class="line">almalinux       8       arm64   default 20220519_23:08</span><br><span class="line">almalinux       8       ppc64el default 20220519_23:08</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>这是一个交互式命令，使用download模板创建一个名为example的容器。lxc install中指定了4个默认模板，基本上都是在/usr/share/lxc/templates/目录下的脚本：</p>
-<ul>
-<li>download：下载预构建的映像并解压缩它们</li>
-<li>local：使用distrobuilder build-lxc命令构建的本地映像</li>
-<li>busybox：包含在单个可执行文件中的通用UNIX实用程序</li>
-<li>oci：从开放容器图像(oci)格式的图像创建应用程序容器</li>
-</ul>
-</li>
-<li><p>download模板提示您从给定的列表中选择发行版/发行版作为容器的基本映像，我们将使用该映像创建示例容器。</p>
-<ul>
-<li>我们可以直接在命令行中指定所需的映像，例如Ubuntu 19.10 (Eoan) amd64映像(注意名称后的双破折号):</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-create -t download -n example -- --dist ubuntu --release focalx --<span class="built_in">arch</span> amd64</span><br></pre></td></tr></table></figure>
-<ul>
-<li>将在<code>~/.local/share/lxc/example/</code>处创建一个容器目录，带有一个特定于容器的配置文件config，在这里你可以指定更多的过滤和控制，如MAC、seccomp拒绝列表、网络等。你会看到<strong>新创建的容器的root文件系统被解压到rootfs/中</strong>，它看起来像一个标准的Linux根文件系统:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/.local/share/lxc/example$ <span class="built_in">ls</span> rootfs/</span><br><span class="line">bin   dev  home lib32  libx32  mnt  proc  run   srv  tmp  var</span><br><span class="line">boot  etc  lib  lib64  media   opt  root  sbin  sys  usr</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以通过在rootfs目录上使用chroot进行离线更改(无需启动和附加到容器)。</li>
-</ul>
-<h2 id="Running-a-container"><a href="#Running-a-container" class="headerlink" title="Running a container"></a>Running a container</h2><ul>
-<li>后台运行example容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-start example</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果在启动容器时遇到错误，使用-F选项在前台启动容器将提供更详细的输出。</p>
-</blockquote>
-<ul>
-<li>验证我们的容器正在运行：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-info example</span><br><span class="line">Name:           example</span><br><span class="line">State:          RUNNING</span><br><span class="line">PID:            21372</span><br></pre></td></tr></table></figure>
-<ul>
-<li>查看所有的容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-ls --fancy</span><br><span class="line">NAME    STATE   AUTOSTART GROUPS IPV4 IPV6 UNPRIVILEGED </span><br><span class="line">example RUNNING 0         -      -    -    <span class="literal">true</span>         </span><br></pre></td></tr></table></figure>
-<ul>
-<li>连接到正在运行的容器实例：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-attach example</span><br><span class="line">root@example:/<span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">root@example:/<span class="comment"># passwd</span></span><br><span class="line">New password: </span><br><span class="line">Retype new password: </span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>一旦我们添加了用户并更改了他们的密码，我们就可以<strong>通过命令lxc-console使用交互式登录连接到容器</strong>。</p>
-<p>不同之处在于，lxc-attach的行为更像是<strong>基于密钥的ssh设置</strong>(在没有任何提示的情况下直接获得一个root会话)，而lxc-console为您提供了一个虚拟控制台，它模拟了一个真实服务器上的交互式控制台，如serial、DRAC、ILO等。</p>
-</blockquote>
-<ul>
-<li><strong>注意：我们是容器中的root，尽管我们创建的是一个非特权容器。</strong><ul>
-<li>此行为是UID名称空间的结果。我们可以看到，通过在容器中运行一个进程，容器中的任何进程都被映射到主机上一个无特权的UID：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@example:/<span class="comment"># while [ 1 ]; do sleep 5; done &amp;</span></span><br><span class="line">[1] 130</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在主机上可以看到，进程以UID 165536运行：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep <span class="built_in">sleep</span></span><br><span class="line">165536    22060  0.0  0.0   9832   580 pts/5    S    03:55   0:00 <span class="built_in">sleep</span> 5</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果从ps aux输出查看其他进程，可以注意到容器的init进程也是通过uid映射的：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep init</span><br><span class="line">165536    21372  0.0  0.5 103876 10656 ?        Ss   03:49   0:00 /sbin/init</span><br></pre></td></tr></table></figure>
-<ul>
-<li>我们可以在里面运行大多数系统管理任务，比如安装包。<ul>
-<li>安装nginx web服务器和net-tools二进制包：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@example:/<span class="comment"># apt update</span></span><br><span class="line">[output truncated]</span><br><span class="line">root@example:/<span class="comment"># apt install nginx net-tools</span></span><br><span class="line">[output truncated]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>验证nginx在80端口运行：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@example:/<span class="comment"># netstat -atunp | grep LISTEN</span></span><br><span class="line">tcp  0 0 127.0.0.53:53 0.0.0.0:* LISTEN 88/systemd-resolved</span><br><span class="line">tcp  0 0 0.0.0.0:80    0.0.0.0:* LISTEN 881/nginx: master p</span><br><span class="line">tcp6 0 0 :::80         :::*      LISTEN 881/nginx: master p</span><br></pre></td></tr></table></figure>
-<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><ul>
-<li>LXC默认情况下创建一个独立的网桥，它对所有到主接口的流量使用<strong>masquerading(伪装)</strong>。<ul>
-<li>网桥是凭空创建的(lxcbr0)，容器连接到这个网桥。</li>
-<li>如果主接口也可以访问Internet(通过转发和伪装)，则允许容器访问Internet。</li>
-<li>快速查看主机上的接口，可以看到带有Internet连接ens33的主接口、默认桥接器lxcbr0和容器示例中的虚拟接口veth1000_XXXX。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="Stopping-a-container"><a href="#Stopping-a-container" class="headerlink" title="Stopping a container"></a>Stopping a container</h2><ul>
-<li>要停止创建的示例容器，只需发出以下命令：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-stop example</span><br></pre></td></tr></table></figure>
-<ul>
-<li>从文件系统中清除(删除)容器：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-destroy example</span><br></pre></td></tr></table></figure>
-<h1 id="What’s-the-difference-between-lxc-and-Docker"><a href="#What’s-the-difference-between-lxc-and-Docker" class="headerlink" title="What’s the difference between lxc and Docker?"></a>What’s the difference between lxc and Docker?</h1><blockquote>
-<p>这两种解决方案<strong>适用于不同的用例</strong>。</p>
-</blockquote>
-<ul>
-<li><p>lxc：出现的<strong>时间更长</strong>(Docker过去使用lxc)。</p>
-<ul>
-<li>感觉更像是虚拟机中的一个完整的操作系统，必须以类似的方式处理：<strong>软件必须手动安装和更新</strong>，要么手工安装，要么<strong>通过配置管理工具，如Ansible</strong>。</li>
-</ul>
-</li>
-<li><p>Docker：用于运行<strong>单个应用程序</strong>。</p>
-<ul>
-<li><strong>没有完整的系统进程堆栈</strong>，如lxc。一个容器的<strong>应用程序及其依赖是使用Dockerfile构建和部署</strong>的。</li>
-</ul>
-</li>
-<li><p>在容器编排方面，两者都有相当新的工具：</p>
-<ul>
-<li>lxc有lxd, Docker有Docker Swarm和Kubernetes。</li>
-<li>有一个名为lxe的新项目，旨在将lxc/lxd与Kubernetes集成。</li>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
+<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
+<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
 </ul>
 </li>
 </ul>
 <blockquote>
-<p><strong>Docker不使用lxc</strong>；Docker曾经使用lxc来运行容器，但在几年前就停止了。</p>
-<p>Docker和lxc都<strong>使用相同的内核特性</strong>来实现容器化，但它们是独立的解决方案。</p>
+<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
+<p>iptables在用户空间，可以控制安全框架。</p>
 </blockquote>
-<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><ul>
-<li><p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
-</li>
-<li><p>lxc通过使用Linux内核特性来抽象操作系统，并隔离容器来实现容器化，例如:</p>
-<ul>
-<li><p>Control Groups (cgroups)</p>
-</li>
-<li><p>Capabilities</p>
-</li>
-<li>seccomp</li>
-<li>Mandatory Access Control(通过AppArmor, SELinux)</li>
-<li>Namespaces</li>
-<li>chroot jails</li>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
+<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
+<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
+<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
+<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
+<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
+<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
+<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
+<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
 </ul>
 </li>
-<li><p>lxc配置位置</p>
+</ul>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
+<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
+<li>iptables 包含五个表：<ol>
+<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
+<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
+<li>nat用于网络地址转换（例如端口转发）。</li>
+<li>mangle用于专门的数据包更改。</li>
+<li>security用于强制访问控制网络规则。</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p><strong>常用的表为filter和nat</strong>。</p>
+</blockquote>
+<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
+<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
 <ul>
-<li>lxc特定于容器的配置位于<code>~/.local/share/lxc/&lt;container name&gt;/config</code></li>
-<li>针对lxc的用户特定配置位于<code>~/.config/lxc/default.conf</code></li>
-<li>lxc的全局配置位于<code>/etc/lxc/default.conf</code></li>
-<li>容器rootfs位于<code>~/.local/share/lxc/&lt;container name&gt;/rootfs</code></li>
+<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
+<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
 </ul>
 </li>
-<li><p>lxc用法</p>
-<ul>
-<li>使用lxc-attach创建容器</li>
-<li>使用lxc-start启动容器</li>
-<li>使用lxc-stop停止容器</li>
-<li>使用lxc-info列出容器</li>
-<li>使用lxc-destroy销毁容器</li>
+<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
+</li>
+<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
+<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
+<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
 </ul>
 </li>
+</ul>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
+<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
+<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>使用-j或—jump选项指定目标。</p>
+</blockquote>
+<ul>
+<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
+<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
+<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
+<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
+<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
+<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
+</ul>
+</li>
+</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
+<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
+<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
+</blockquote>
+<ul>
+<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
+<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
+<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
+<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
+<p>可以使用-t选项指定其他表。</p>
+</blockquote>
+<ul>
+<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
+</ul>
+<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
+<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
+<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
+<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
+<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
+<li>下面举例说明了前三个命令。</li>
+</ul>
+</li>
+<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
+</blockquote>
+<ul>
+<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
+<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
+</blockquote>
+<ul>
+<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
+<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<ul>
+<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
+<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
+<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
+</ul>
+</li>
+<li>首先，创建一个ipset散列容器。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>timeout是接受客户端响应的时间窗口。</p>
+</blockquote>
+<ul>
+<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
+</ul>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
+<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
+<ul>
+<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
+<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
+</ul>
+</li>
+<li><p>创建链</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
+<ul>
+<li>并将以下规则添加到新创建的链:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
+</blockquote>
+<ul>
+<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
+<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
+<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
+<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
+</ul>
+</li>
+<li>limit模块<strong>使用-m limit调用</strong>。<ul>
+<li>使用—limit来<strong>设置平均速率</strong>；</li>
+<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
+<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
+<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
+</ul>
+</li>
+</ul>
+<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
+<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
+<li>要查看自计算机最后一次启动以来记录的所有包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
+<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
+</blockquote>
+<ul>
+<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
+<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
+<li>ulogd包可以在[community]存储库中找到。</li>
 </ul>
 ]]></content>
       <categories>
@@ -3171,7 +2701,7 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Container</tag>
+        <tag>iptables</tag>
       </tags>
   </entry>
   <entry>
@@ -3813,6 +3343,476 @@
       </categories>
       <tags>
         <tag>DVWA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lxc note</title>
+    <url>/2022/05/20/note_lxc/</url>
+    <content><![CDATA[<h1 id="Remise"><a href="#Remise" class="headerlink" title="Remise"></a>Remise</h1><ul>
+<li>本文翻译(有道翻译)自<a href="https://raydenchia.com/linux-containers-lxc/#seccomp">linux-container-lxc</a>，根据重点摘录学习。</li>
+</ul>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><ul>
+<li>最好将<strong>容器化</strong>定义为：通过操作系统中的特性启用的<strong>进程隔离机制</strong>。</li>
+</ul>
+<blockquote>
+<p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
+</blockquote>
+<h2 id="Containers-VMs"><a href="#Containers-VMs" class="headerlink" title="Containers != VMs"></a>Containers != VMs</h2><ul>
+<li>lxc通过使用以下Linux特性来实现容器化，以抽象操作系统(并限制容器到主机的权限)<ul>
+<li><a href="#cgroup">Control groups(cgroup)</a></li>
+<li><a href="#Capabilities">Capabilities</a></li>
+<li><a href="#seccomp">seccomp</a></li>
+<li><a href="#MAC">Mandatory Access Control</a> (via AppArmor, SELinux)</li>
+<li><a href="#Namespaces">Namespaces</a></li>
+<li><a href="#chroot">chroot jails</a></li>
+</ul>
+</li>
+<li>VM和LXC的区别</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Virtual Machine</th>
+<th>Linux LXC Container</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>操作系统</td>
+<td>在VM中运行隔离的客户OS</td>
+<td>在主机OS上运行(共享内核)</td>
+</tr>
+<tr>
+<td>网络</td>
+<td>通过虚拟网络设备</td>
+<td>通过虚拟网络适配器隔离的视图</td>
+</tr>
+<tr>
+<td>隔离性</td>
+<td>OS之间完全隔离</td>
+<td>基于命名空间和cgroup的隔离</td>
+</tr>
+<tr>
+<td>大小</td>
+<td>通常是GB级别</td>
+<td>通常是MB级别</td>
+</tr>
+<tr>
+<td>启动时间</td>
+<td>以秒、分钟数量级，取决于存储介质</td>
+<td>以秒数量级</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h2><h3 id="Introduction-1"><a href="#Introduction-1" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
+<li>默认情况下，操作系统的根目录为<code>/</code>，进程将其视为所有文件绝对路径的根目录。</li>
+<li>这个“视图”可以通过<strong>调用chroot()系统调用来更改</strong>，这样我们就可以创建一个独立的独立环境来运行。</li>
+<li><strong>chroot更改当前运行进程及其子进程的表面上的根目录。</strong></li>
+</ul>
+<h3 id="Defect"><a href="#Defect" class="headerlink" title="Defect"></a>Defect</h3><ul>
+<li>但是，chroot本身并<strong>不能提供强隔离</strong>。</li>
+<li>似乎阻止对父目录的访问就足够了，但是chroot只是<strong>修改进程(通过pivot_root)及其子进程的路径名查找</strong>，将新的chroot-ed目录路径放在任何绝对路径(以<code>/</code>开头的路径)前面。</li>
+<li>在其他原因中，如果进程能够<strong>访问chroot监狱之外的句柄</strong>，那么也<strong>允许访问chroot-ed目录的父目录</strong>——因此这本身不是强隔离。</li>
+</ul>
+<h2 id="Capabilities"><a href="#Capabilities" class="headerlink" title="Capabilities"></a>Capabilities</h2><h3 id="Introduction-2"><a href="#Introduction-2" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
+<li>传统的UNIX自由访问控制分为两个部分<ul>
+<li>root/超级用户/特权;</li>
+<li>用户/非特权。</li>
+</ul>
+</li>
+<li>假设一个系统用户需要生成一个<u>需要一些root权限的</u>服务器进程。同时，假设服务器代码具有远程代码执行漏洞。如果脆弱的服务器进程被破坏，整个系统就会被破坏(因为进程的UID是0)。有没有一种方法只给进程它需要的权限(最小权限)?</li>
+<li>为了<strong><u>分割通常完全提供给root用户的特权</u></strong>，Linux Capabilities从2.2版开始被引入到Linux内核中。每个Capability代表一个不同的特权单位，前缀为CAP_。一些功能包括：<ul>
+<li>CAP_CHOWN：更改文件的用户和组所有权的能力</li>
+<li>CAP_NET_ADMIN：在系统上执行与网络相关的管理的能力</li>
+<li>CAP_NET_RAW：创建RAW和PACKET套接字以及任意地址绑定的能力</li>
+<li>CAP_SYS_ADMIN：能够做很多事情，以至于很多人把它当作新的根。未来肯定需要进一步的特权分片。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>总共29种Capability</p>
+</blockquote>
+<ul>
+<li>getcap和setcap命令用于获取/设置文件的Capabilities。</li>
+</ul>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
+<li>让我们看看ping实用程序，它需要创建一个RAW套接字来发送ICMP数据包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">ls</span> -al /bin/ping</span><br><span class="line">-rwsr-xr-x 1 root root 64424 Jun 28  2019 /bin/ping</span><br></pre></td></tr></table></figure>
+<ul>
+<li>它属于root:root，但任何用户都可读和执行。如果我们尝试ping google.com，我们可以验证UID是当前用户的(因为没有setuid位设置)：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">student    2090  0.0  0.1  21044  2476 pts/2    S+   23:17   0:00 /bin/ping google.com</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这里的非特权用户能够ping，因为在/bin/ping二进制文件上设置了一个功能：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">getcap</span> /bin/ping</span><br><span class="line">/bin/ping = cap_net_raw+ep</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>有3个capability标志可以设置：</p>
+<ul>
+<li>Effective：该capability是否激活</li>
+<li>Inheritable：该capability是否被子进程继承</li>
+<li>allowed：该capability是否被允许，与父进程capability集无关</li>
+</ul>
+</li>
+<li>如果我们清空了ping的capability</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ <span class="built_in">cp</span> /bin/ping .</span><br><span class="line">student@6858-v20:~$ <span class="built_in">getcap</span> ./ping </span><br><span class="line">student@6858-v20:~$ ./ping google.com</span><br><span class="line">ping: socket: Operation not permitted</span><br><span class="line">student@6858-v20:~$ sudo <span class="built_in">setcap</span> cap_net_raw=ep ./ping</span><br><span class="line">student@6858-v20:~$ ./ping google.com</span><br><span class="line">PING google.com (172.217.163.46) 56(84) bytes of data.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过<strong>复制</strong>ping二进制文件到一个新的目的地，任何扩展的属性(setuid，capabilities等)都会被清除。</p>
+</blockquote>
+<ul>
+<li>如果没有cap_net_raw这个capability，生成的ping进程就无法打开RAW套接字。一旦我们恢复了这种capability，ping功能就会恢复正常。</li>
+<li>Capabilities似乎是一个好主意，但CAP_SYS_ADMIN仍然有太多特权，这只是lxc用于加强隔离的另一种机制。</li>
+</ul>
+<h2 id="cgroup"><a href="#cgroup" class="headerlink" title="cgroup"></a>cgroup</h2><h3 id="Introduction-3"><a href="#Introduction-3" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
+<li>Control groups (cgroups)<strong>用于根据用户定义的进程组<u>限制系统资源的使用</u></strong>。</li>
+<li>假设您正在运行一个非常密集的数据分析例程，它使用了大量的算力和内存，以致于您的系统没有很好的响应。cgroups是一个<strong>内核特性</strong>，它允许您<strong>定义一组进程</strong>，这些进程运行分析作业并<strong>限制、解释和隔离分配的资源</strong>，这样您就可以在资源有限的情况下执行多任务分析作业。特别地，cgroup特性包括：<ul>
+<li>Limits：可以在处理器使用、内存使用、设备使用等方面指定最大限制。</li>
+<li>Accounting：监控资源使用情况。</li>
+<li>Prioritization：资源使用可以优先于其他cgroup。</li>
+<li>Control：可以控制进程的状态(如停止、重启、挂起)。</li>
+</ul>
+</li>
+<li><p>一个cgroup是<strong>一个或多个进程的集合</strong>，它们被绑定到为cgroup定义的同一组限制上。cgroup还可以以<strong>分层</strong>的方式继承另一个cgroup的属性。</p>
+</li>
+<li><p>cgroups通常在大多数现代版本的Linux发行版中可用，大多数定义了大约10个子系统(也称为控制器)。</p>
+<ul>
+<li>blkio：这个子系统设置对块设备，如物理驱动器(磁盘、固态或USB)的输入/输出访问的限制。</li>
+<li>cpu：这个子系统使用调度器提供cgroup任务对cpu的访问。</li>
+<li>cpuacct：该子系统自动生成cgroup中任务使用CPU资源的报告。</li>
+<li>cpuset：这个子系统为cgroup中的任务分配单独的cpu(在多核系统上)和内存节点。</li>
+<li>devices：这个子系统允许或拒绝cgroup中的任务访问设备。</li>
+<li>freezer：这个子系统挂起或恢复cgroup中的任务。</li>
+<li>memory：这个子系统对cgroup中的任务使用内存进行限制，并自动生成关于这些任务使用内存资源的报告。</li>
+<li>net_cls：这个子系统用一个类标识符(classid)标记网络数据包，这个类标识符允许Linux流量控制器(tc)识别来自特定cgroup任务的数据包。</li>
+<li>net_prio：这个子系统提供了一种动态设置每个网络接口的网络流量优先级的方法。</li>
+<li>ns：命名空间子系统。</li>
+<li>perf_event：这个子系统标识任务的cgroup成员，可以用于性能分析。</li>
+</ul>
+</li>
+<li><p>管理它们需要cgroup-tools和libcgroup1包，它们可以通过以下方式安装到Ubuntu中：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install cgroup-tools libcgroup1</span><br></pre></td></tr></table></figure>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><ul>
+<li>假设我们有一个称为memes的内存密集型进程，我们希望在工作站上运行它。我们可以使用cgroups来限制内存使用，方法是在内存子系统中创建一个名为memegroup的cgroup(使用cgcreate)，设置它的限制(使用cgset)，并在该cgroup下执行进程(使用cgexec)：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo cgcreate -g memory:memegroup</span><br><span class="line">student@6858-v20:~$ sudo cgset -r memory.limit_in_bytes=1500K memegroup</span><br><span class="line">student@6858-v20:~$ cgget -r memory.limit_in_bytes memegroup </span><br><span class="line">primes: </span><br><span class="line">memory.limit_in_bytes: 1536000</span><br><span class="line">student@6858-v20:~$ <span class="built_in">cat</span> /sys/fs/cgroup/memory/memegroup/memory.limit_in_bytes</span><br><span class="line">1536000</span><br><span class="line">student@6858-v20:~$ sudo cgexec -g memory:memegroup ./memes </span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>cgcreate命令帮助在sysfs下创建目录(sysfs几乎总是挂载在/sys上，可以直接从命令行进行操作)，并且cgset适当地设置值。注意，系统总是将其更正为<strong>最接近的4096B对齐</strong>(从1500 KB到1536 KB)，这是<strong>内核页面</strong>大小。最后，我们在内存子系统下的memegroup中执行meme。</p>
+<ul>
+<li>过了一段时间，你会在终端上看到消息，说进程已经被终止了。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /sys/fs/cgroup/memory/memegroup/memory.oom_control</span><br><span class="line">oom_kill_disable 0</span><br><span class="line">under_oom 0</span><br><span class="line">oom_kill 1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们看到oom_kill被设置为1，这意味着”内核内存不足杀手”(OOM Killer)已经终止了memegroup中的进程。</p>
+</blockquote>
+<ul>
+<li>memes程序源码如下;</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> *ptr;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">        ptr = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">4096</span>);</span><br><span class="line">        <span class="built_in">memset</span>(ptr, <span class="number">0</span>, <span class="number">4096</span>);</span><br><span class="line">        cnt += <span class="number">4096</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d bytes have been in use\n&quot;</span>, cnt);</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是一个如何通过cgroup执行限制和过程控制的例子。</p>
+<p>大多数子系统都有计数功能，比如memory.usage_in_bytes、cpuacct.usage_sys等等。优先级的一个例子是cpu.shares(每个cgroup中每个进程可用的CPU资源份额)。</p>
+</blockquote>
+<h2 id="Namespaces"><a href="#Namespaces" class="headerlink" title="Namespaces"></a>Namespaces</h2><h3 id="Introduction-4"><a href="#Introduction-4" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
+<li>命名空间是一个抽象对象，它<strong>封装了资源</strong>，以便<strong>资源具有限制于同一命名空间中的其他资源的视图</strong>。</li>
+<li>例如，Linux进程形成了一个单进程树，根在init (PID 1)。一般情况下，特权进程可以跟踪或杀死其他进程。随着PID名称空间的引入，我们可以有多个不相交的进程树(它们不知道另一个名称空间中的进程)。如果我们创建一个新的PID名称空间并在其中运行一个进程，那么<strong>第一个进程就成为该名称空间中的PID 1</strong>。<u>创建命名空间的进程仍然位于父命名空间中，但使其子进程成为新进程树的根</u>。</li>
+<li><p>Linux内核定义了7个命名空间</p>
+<ul>
+<li>PID：隔离进程</li>
+<li>Network：隔离网络</li>
+<li>User：隔离用户/组id</li>
+<li>UTS：隔离主机名和完全限定域名(FQDN)</li>
+<li>Mount：隔离挂载点</li>
+<li>cgroup：隔离Cgroup的sysfs根目录</li>
+<li>IPC：隔离IPC/消息队列</li>
+</ul>
+</li>
+<li>通过procfs查看系统中定义的名称空间</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ sudo <span class="built_in">ls</span> /proc/1/ns</span><br><span class="line">cgroup  mnt  pid               user</span><br><span class="line">ipc     net  pid_for_children  uts</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>这种级别的隔离在容器化中很有用</strong>。如果没有名称空间，在容器中运行的进程可以更改另一个容器的主机名、卸载文件系统、删除网络接口、更改限制等。</li>
+<li>通过<strong>使用名称空间来封装这些资源</strong>，<u>容器X中的进程不知道另一个容器Y中的资源</u>。</li>
+<li><p>随着名称空间的引入，Linux内核提供了3个新的系统调用：</p>
+<ul>
+<li>clone()：使用指定的名称空间创建一个新进程。如果传递了CLONE_NEW标志，则为每个指定的名称空间创建新的名称空间。</li>
+<li>setns()：允许进程加入一个现有的命名空间。命名空间由procfs中的文件描述符引用指定。</li>
+<li>unshare()：将调用进程移动到一个新的命名空间。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#procfs下的文件描述符</span></span><br><span class="line">student@6858-v20:~/cgroup$ sudo <span class="built_in">ls</span> -al /proc/1/ns</span><br><span class="line">total 0</span><br><span class="line">dr-x--x--x 2 root root 0 May 20 01:28 .</span><br><span class="line">dr-xr-xr-x 9 root root 0 May 19 22:29 ..</span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 cgroup -&gt; <span class="string">&#x27;cgroup:[4026531835]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 ipc -&gt; <span class="string">&#x27;ipc:[4026531839]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 mnt -&gt; <span class="string">&#x27;mnt:[4026531840]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 net -&gt; <span class="string">&#x27;net:[4026531993]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 pid_for_children -&gt; <span class="string">&#x27;pid:[4026531836]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 user -&gt; <span class="string">&#x27;user:[4026531837]&#x27;</span></span><br><span class="line">lrwxrwxrwx 1 root root 0 May 20 01:28 uts -&gt; <span class="string">&#x27;uts:[4026531838]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Example-2"><a href="#Example-2" class="headerlink" title="Example"></a>Example</h3><ul>
+<li>在新的UTS名称空间中创建新的bash</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br><span class="line">student@6858-v20:~$ sudo unshare -u /bin/bash</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname lmao</span></span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># hostname</span></span><br><span class="line">lmao</span><br><span class="line">root@6858-v20:/home/rayden<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">student@6858-v20:~$ hostname</span><br><span class="line">6858-v20</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：主机名在父进程中不变</p>
+</blockquote>
+<ul>
+<li>进程id可以做到相同的事</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ sudo unshare --fork --pid --mount-proc /bin/bash</span><br><span class="line">root@6858-v20:~/cgroup<span class="comment"># pidof /bin/bash</span></span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在父进程中查看fork出来的进程id不为1</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root       4446  0.0  0.0   7912   780 pts/1    S    01:40   0:00 unshare --fork --pid --mount-proc /bin/bash</span><br></pre></td></tr></table></figure>
+<h3 id="Difference"><a href="#Difference" class="headerlink" title="Difference"></a>Difference</h3><ul>
+<li><strong>cgroups定义了一个名称空间子系统</strong>(因此可以通过名称空间控制资源)，但是注意不要混淆这两者:<ul>
+<li><strong>cgroups限制资源利用率</strong>，而<strong>名称空间限制资源视图</strong>(资源在系统上可能看到的内容)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="seccomp"><a href="#seccomp" class="headerlink" title="seccomp"></a>seccomp</h2><h3 id="Introduction-5"><a href="#Introduction-5" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
+<li>在有些情况下，通过chroot、capabilities、cgroup和namespaces进行隔离是<strong>不够的</strong>。</li>
+<li>假设某个运行在容器中的web服务器遭到破坏，攻击者生成了一个远程shell。宿主进程和容器可以调用同一组系统调用，并且可能存在一些调用序列，使容器逃逸成为可能。</li>
+<li>seccomp通过<strong>限制进程允许执行的系统调用的数量</strong>来防止恶意进程通过系统调用造成的破坏。<ul>
+<li>像Chrome和Firefox这样的现代浏览器使用seccomp来更严格地限制它们的应用程序。</li>
+<li>通过将系统调用接口限制为<u>只允许容器化应用程序执行其功能所需的系统调用</u>，可以很容易地阻止许多容器逃逸漏洞。</li>
+</ul>
+</li>
+<li>在lxc中，可以通过容器配置文件指定seccomp过滤器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#vim ~/.local/share/lxc/&lt;container_name&gt;/config</span></span><br><span class="line">lxc.seccomp = /usr/share/lxc/config/common.seccomp</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>/usr/share/lxc/config/common.seccomp</code>是<strong>默认拒绝</strong>的系统调用列表。</p>
+</blockquote>
+<h2 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h2><ul>
+<li>假设在上一节的小型web服务器的例子中，攻击者无视chroot, capabilities, cgroups, namespaces和seccomp成功地逃出了容器。现在会发生什么?<ul>
+<li>如果容器是有特权的(使用UID 0运行)，它几乎是完胜。</li>
+<li>如果它是无特权的，攻击者仍然可以尝试升级特权，或者如果当前用户的特权足够大，就会造成足够大的破坏。</li>
+</ul>
+</li>
+<li>在这种情况下，只有自由访问控制(DAC)(通过UNIX权限)站在攻击者和完全受损的系统之间。在老式的纵深防御模式中，我们使用另一种控制来降低这种风险:强制访问控制(Mandatory Access Control)。</li>
+<li>MAC是一种<strong>集中的授权机制</strong>，其运作原理是<strong>信息属于组织(而不是个体成员)</strong>。安全策略被定义并保存在内核中，内核根据定义的策略授权访问。像SELinux这样的现代MAC实现是基于角色访问控制(RBAC)和两个概念的结合:<ul>
+<li><a href="#TE">类型执行(TE)</a></li>
+<li><a href="#MLS">多级安全(MLS)</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h3><ul>
+<li><strong>TE将类型标记引入到每个文件系统对象中</strong>，这是<strong>MAC的先决条件</strong>。<ul>
+<li>对象被标记一个类型，并且<strong>在内核中定义了一个策略来指定哪些类型允许过渡到其他类型</strong>；</li>
+<li>然后，每次访问带标签的文件系统对象时，内核都会检查指定的策略。如果不存在特定的类型转换，则默认拒绝访问。</li>
+<li>例如，在 Security-Enhanced Linux (SELinux)中，适用于Apache提供的web服务器内容的标准标签httpd_sys_content_t不允许访问标记为bin_t的文件，它适用于/usr/bin中的二进制文件。</li>
+</ul>
+</li>
+<li>假设，在同一个小型web服务器示例中，攻击者设法获得了root访问权。<ul>
+<li>在DAC下，任何用户都可以任意控制自己拥有的任何东西，因此攻击者拥有完全的控制权。</li>
+<li>如果TE是通过SELinux实现的，则攻击者会受到严重阻碍：web服务器exploit给了一个UID 0的进程，但exploit继承自被exploit的网页的类型标签(httpd_sys_content_t)，其只允许访问相同标签的其他文件系统对象(由web服务器提供的内容应该只需要访问其他web内容，而不需要访问其他东西)。</li>
+</ul>
+</li>
+<li>类似地，如果我们为容器主机启用了像SELinux这样的MAC机制，那么<strong>所有容器都将被标记为默认的lxc_t类型标签</strong>(由用于lxc的默认SELinux TE策略定义)。任何绕过其他隔离机制的恶意进程都将受到TE策略的限制。</li>
+</ul>
+<h3 id="MLS"><a href="#MLS" class="headerlink" title="MLS"></a>MLS</h3><blockquote>
+<p>MLS超纲了，此处省略。</p>
+</blockquote>
+<h1 id="Demo-working-with-lxc"><a href="#Demo-working-with-lxc" class="headerlink" title="Demo: working with lxc"></a>Demo: working with lxc</h1><ul>
+<li>在Ubuntu上安装lxc:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install lxc</span><br></pre></td></tr></table></figure>
+<h2 id="Subordinate-UID-GID-ranges"><a href="#Subordinate-UID-GID-ranges" class="headerlink" title="Subordinate UID/GID ranges"></a>Subordinate UID/GID ranges</h2><ul>
+<li>通过定义以下文件，我们可以确保当前用户可以拥有从属的uid和gid:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subuid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/subgid</span><br><span class="line">lxd:100000:65536</span><br><span class="line">root:100000:65536</span><br><span class="line">student:165536:65536</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这允许用户student拥有从165536开始的65536个从属uid /gid。</li>
+<li>我们还需要为lxc创建用户配置目录，如果它不存在，并创建默认配置文件:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/lxc</span><br><span class="line"><span class="built_in">touch</span> ~/.config/lxc/default.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>应该修改<code>~/.config/lxc/default.conf</code>文件，使其看起来像这样(使用正确的id_map值):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> ~/.config/lxc/default.conf </span><br><span class="line">lxc.idmap = u 0 165536 65536</span><br><span class="line">lxc.idmap = g 0 165536 65536</span><br></pre></td></tr></table></figure>
+<h2 id="Virtual-network-interfaces"><a href="#Virtual-network-interfaces" class="headerlink" title="Virtual network interfaces"></a>Virtual network interfaces</h2><ul>
+<li>在安装lxc时，应该已经创建了一个默认网桥:lxcbr0。通过命令验证网桥是否存在</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ brctl show</span><br><span class="line">bridge name     bridge <span class="built_in">id</span>               STP enabled    interfaces</span><br><span class="line">lxcbr0          8000.00163e000000       no</span><br><span class="line">lxcbr1          8000.00163e000000       no</span><br><span class="line">lxcbr2          8000.00163e000000       no</span><br><span class="line">lxcbr3          8000.00163e000000       no</span><br><span class="line">lxcbr4          8000.00163e000000       no</span><br><span class="line">lxcbr5          8000.00163e000000       no</span><br><span class="line">lxcbr6          8000.00163e000000       no</span><br><span class="line">lxcbr7          8000.00163e000000       no</span><br><span class="line">lxcbr8          8000.00163e000000       no</span><br><span class="line">lxcbr9          8000.00163e000000       no</span><br></pre></td></tr></table></figure>
+<ul>
+<li>确保<code>/etc/lxc/lxc-usernet</code>文件定义为:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ <span class="built_in">cat</span> /etc/lxc/lxc-usernet</span><br><span class="line"><span class="comment"># USERNAME TYPE BRIDGE COUNT</span></span><br><span class="line">student veth lxcbr0 10</span><br><span class="line">student veth lxcbr1 10</span><br><span class="line">student veth lxcbr2 10</span><br><span class="line">student veth lxcbr3 10</span><br><span class="line">student veth lxcbr4 10</span><br><span class="line">student veth lxcbr5 10</span><br><span class="line">student veth lxcbr6 10</span><br><span class="line">student veth lxcbr7 10</span><br><span class="line">student veth lxcbr8 10</span><br><span class="line">student veth lxcbr9 10</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这告诉lxc它可以将多少虚拟网络接口作为用户student连接到指定的网桥(或组，每行一个)。</p>
+<p>应用更改的最快方法是<strong>重新启动节点或注销并重新登录</strong>。</p>
+<ul>
+<li>这将重启dbus、正确设置cgroup并打开用户名称空间(kernel.unprivileged_userns_clone=1)。</li>
+</ul>
+</blockquote>
+<ul>
+<li>验证以太网网络模块</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lsmod | grep veth</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果veth模块没有加载，加载它并使其在重启后持续存在:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> veth | sudo <span class="built_in">tee</span> -a /etc/modules</span><br></pre></td></tr></table></figure>
+<h2 id="Creating-a-container"><a href="#Creating-a-container" class="headerlink" title="Creating a container"></a>Creating a container</h2><ul>
+<li>运行lxc-create来创建一个容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/cgroup$ lxc-create -t download -n example</span><br><span class="line">Setting up the GPG keyring</span><br><span class="line">Downloading the image index</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">DIST    RELEASE ARCH    VARIANT BUILD</span><br><span class="line">---</span><br><span class="line">almalinux       8       amd64   default 20220519_23:08</span><br><span class="line">almalinux       8       arm64   default 20220519_23:08</span><br><span class="line">almalinux       8       ppc64el default 20220519_23:08</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>这是一个交互式命令，使用download模板创建一个名为example的容器。lxc install中指定了4个默认模板，基本上都是在/usr/share/lxc/templates/目录下的脚本：</p>
+<ul>
+<li>download：下载预构建的映像并解压缩它们</li>
+<li>local：使用distrobuilder build-lxc命令构建的本地映像</li>
+<li>busybox：包含在单个可执行文件中的通用UNIX实用程序</li>
+<li>oci：从开放容器图像(oci)格式的图像创建应用程序容器</li>
+</ul>
+</li>
+<li><p>download模板提示您从给定的列表中选择发行版/发行版作为容器的基本映像，我们将使用该映像创建示例容器。</p>
+<ul>
+<li>我们可以直接在命令行中指定所需的映像，例如Ubuntu 19.10 (Eoan) amd64映像(注意名称后的双破折号):</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-create -t download -n example -- --dist ubuntu --release focalx --<span class="built_in">arch</span> amd64</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将在<code>~/.local/share/lxc/example/</code>处创建一个容器目录，带有一个特定于容器的配置文件config，在这里你可以指定更多的过滤和控制，如MAC、seccomp拒绝列表、网络等。你会看到<strong>新创建的容器的root文件系统被解压到rootfs/中</strong>，它看起来像一个标准的Linux根文件系统:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/.local/share/lxc/example$ <span class="built_in">ls</span> rootfs/</span><br><span class="line">bin   dev  home lib32  libx32  mnt  proc  run   srv  tmp  var</span><br><span class="line">boot  etc  lib  lib64  media   opt  root  sbin  sys  usr</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以通过在rootfs目录上使用chroot进行离线更改(无需启动和附加到容器)。</li>
+</ul>
+<h2 id="Running-a-container"><a href="#Running-a-container" class="headerlink" title="Running a container"></a>Running a container</h2><ul>
+<li>后台运行example容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-start example</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果在启动容器时遇到错误，使用-F选项在前台启动容器将提供更详细的输出。</p>
+</blockquote>
+<ul>
+<li>验证我们的容器正在运行：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-info example</span><br><span class="line">Name:           example</span><br><span class="line">State:          RUNNING</span><br><span class="line">PID:            21372</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看所有的容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-ls --fancy</span><br><span class="line">NAME    STATE   AUTOSTART GROUPS IPV4 IPV6 UNPRIVILEGED </span><br><span class="line">example RUNNING 0         -      -    -    <span class="literal">true</span>         </span><br></pre></td></tr></table></figure>
+<ul>
+<li>连接到正在运行的容器实例：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~/lab$ lxc-attach example</span><br><span class="line">root@example:/<span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">root@example:/<span class="comment"># passwd</span></span><br><span class="line">New password: </span><br><span class="line">Retype new password: </span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>一旦我们添加了用户并更改了他们的密码，我们就可以<strong>通过命令lxc-console使用交互式登录连接到容器</strong>。</p>
+<p>不同之处在于，lxc-attach的行为更像是<strong>基于密钥的ssh设置</strong>(在没有任何提示的情况下直接获得一个root会话)，而lxc-console为您提供了一个虚拟控制台，它模拟了一个真实服务器上的交互式控制台，如serial、DRAC、ILO等。</p>
+</blockquote>
+<ul>
+<li><strong>注意：我们是容器中的root，尽管我们创建的是一个非特权容器。</strong><ul>
+<li>此行为是UID名称空间的结果。我们可以看到，通过在容器中运行一个进程，容器中的任何进程都被映射到主机上一个无特权的UID：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@example:/<span class="comment"># while [ 1 ]; do sleep 5; done &amp;</span></span><br><span class="line">[1] 130</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在主机上可以看到，进程以UID 165536运行：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep <span class="built_in">sleep</span></span><br><span class="line">165536    22060  0.0  0.0   9832   580 pts/5    S    03:55   0:00 <span class="built_in">sleep</span> 5</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果从ps aux输出查看其他进程，可以注意到容器的init进程也是通过uid映射的：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ ps aux | grep init</span><br><span class="line">165536    21372  0.0  0.5 103876 10656 ?        Ss   03:49   0:00 /sbin/init</span><br></pre></td></tr></table></figure>
+<ul>
+<li>我们可以在里面运行大多数系统管理任务，比如安装包。<ul>
+<li>安装nginx web服务器和net-tools二进制包：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@example:/<span class="comment"># apt update</span></span><br><span class="line">[output truncated]</span><br><span class="line">root@example:/<span class="comment"># apt install nginx net-tools</span></span><br><span class="line">[output truncated]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>验证nginx在80端口运行：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@example:/<span class="comment"># netstat -atunp | grep LISTEN</span></span><br><span class="line">tcp  0 0 127.0.0.53:53 0.0.0.0:* LISTEN 88/systemd-resolved</span><br><span class="line">tcp  0 0 0.0.0.0:80    0.0.0.0:* LISTEN 881/nginx: master p</span><br><span class="line">tcp6 0 0 :::80         :::*      LISTEN 881/nginx: master p</span><br></pre></td></tr></table></figure>
+<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><ul>
+<li>LXC默认情况下创建一个独立的网桥，它对所有到主接口的流量使用<strong>masquerading(伪装)</strong>。<ul>
+<li>网桥是凭空创建的(lxcbr0)，容器连接到这个网桥。</li>
+<li>如果主接口也可以访问Internet(通过转发和伪装)，则允许容器访问Internet。</li>
+<li>快速查看主机上的接口，可以看到带有Internet连接ens33的主接口、默认桥接器lxcbr0和容器示例中的虚拟接口veth1000_XXXX。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Stopping-a-container"><a href="#Stopping-a-container" class="headerlink" title="Stopping a container"></a>Stopping a container</h2><ul>
+<li>要停止创建的示例容器，只需发出以下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-stop example</span><br></pre></td></tr></table></figure>
+<ul>
+<li>从文件系统中清除(删除)容器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lxc-destroy example</span><br></pre></td></tr></table></figure>
+<h1 id="What’s-the-difference-between-lxc-and-Docker"><a href="#What’s-the-difference-between-lxc-and-Docker" class="headerlink" title="What’s the difference between lxc and Docker?"></a>What’s the difference between lxc and Docker?</h1><blockquote>
+<p>这两种解决方案<strong>适用于不同的用例</strong>。</p>
+</blockquote>
+<ul>
+<li><p>lxc：出现的<strong>时间更长</strong>(Docker过去使用lxc)。</p>
+<ul>
+<li>感觉更像是虚拟机中的一个完整的操作系统，必须以类似的方式处理：<strong>软件必须手动安装和更新</strong>，要么手工安装，要么<strong>通过配置管理工具，如Ansible</strong>。</li>
+</ul>
+</li>
+<li><p>Docker：用于运行<strong>单个应用程序</strong>。</p>
+<ul>
+<li><strong>没有完整的系统进程堆栈</strong>，如lxc。一个容器的<strong>应用程序及其依赖是使用Dockerfile构建和部署</strong>的。</li>
+</ul>
+</li>
+<li><p>在容器编排方面，两者都有相当新的工具：</p>
+<ul>
+<li>lxc有lxd, Docker有Docker Swarm和Kubernetes。</li>
+<li>有一个名为lxe的新项目，旨在将lxc/lxd与Kubernetes集成。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Docker不使用lxc</strong>；Docker曾经使用lxc来运行容器，但在几年前就停止了。</p>
+<p>Docker和lxc都<strong>使用相同的内核特性</strong>来实现容器化，但它们是独立的解决方案。</p>
+</blockquote>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><ul>
+<li><p>容器是与系统其他部分隔离的一个或多个进程的集合。</p>
+</li>
+<li><p>lxc通过使用Linux内核特性来抽象操作系统，并隔离容器来实现容器化，例如:</p>
+<ul>
+<li><p>Control Groups (cgroups)</p>
+</li>
+<li><p>Capabilities</p>
+</li>
+<li>seccomp</li>
+<li>Mandatory Access Control(通过AppArmor, SELinux)</li>
+<li>Namespaces</li>
+<li>chroot jails</li>
+</ul>
+</li>
+<li><p>lxc配置位置</p>
+<ul>
+<li>lxc特定于容器的配置位于<code>~/.local/share/lxc/&lt;container name&gt;/config</code></li>
+<li>针对lxc的用户特定配置位于<code>~/.config/lxc/default.conf</code></li>
+<li>lxc的全局配置位于<code>/etc/lxc/default.conf</code></li>
+<li>容器rootfs位于<code>~/.local/share/lxc/&lt;container name&gt;/rootfs</code></li>
+</ul>
+</li>
+<li><p>lxc用法</p>
+<ul>
+<li>使用lxc-attach创建容器</li>
+<li>使用lxc-start启动容器</li>
+<li>使用lxc-stop停止容器</li>
+<li>使用lxc-info列出容器</li>
+<li>使用lxc-destroy销毁容器</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>note</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Container</tag>
       </tags>
   </entry>
   <entry>
