@@ -76,44 +76,6 @@
       </tags>
   </entry>
   <entry>
-    <title>VSCode with C/C++ projection&#39;s profile</title>
-    <url>/2022/05/17/exp_VSCode_C_pro/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
-<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
-</ul>
-<span id="more"></span>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
-<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
-<li>选好项目的文件路径，此路径即为项目的位置。</li>
-</ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
-<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
-</ul>
-<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
-</ul>
-<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>exp</category>
-      </categories>
-      <tags>
-        <tag>VSCode</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ONOS group multicast in SDN</title>
     <url>/2022/05/17/exp_ONOS_group/</url>
     <content><![CDATA[<h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
@@ -217,6 +179,44 @@
       <tags>
         <tag>SDN</tag>
         <tag>ONOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VSCode with C/C++ projection&#39;s profile</title>
+    <url>/2022/05/17/exp_VSCode_C_pro/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
+<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+</ul>
+<span id="more"></span>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
+<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
+<li>选好项目的文件路径，此路径即为项目的位置。</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
+<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
+</ul>
+<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
+</ul>
+<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>exp</category>
+      </categories>
+      <tags>
+        <tag>VSCode</tag>
+        <tag>C/C++</tag>
       </tags>
   </entry>
   <entry>
@@ -482,131 +482,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PostgreSQL build</title>
-    <url>/2022/05/17/exp_postgresql_build/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>这学期的<font color="blue">数据库课程</font>要求使用<code>PostgreSQL</code>作为学习使用的数据库工具。</li>
-<li>所以今天尝试着安装了一下<code>PostgreSQL</code>，出了一些问题，在此做一个记录。</li>
-</ul>
-<span id="more"></span>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
-<li><code>Windows</code>是首选，不论安装还是后期使用都方便许多。</li>
-<li><code>PostgreSQL</code>自带<code>pgAdmin</code>也省去了很多步骤。</li>
-<li>这里参考一些<a href="https://blog.csdn.net/sinat_36226553/article/details/100750378">博客</a>和<a href="https://tieba.baidu.com/p/6649548146">论坛</a>，提出一些问题并给出方法。</li>
-</ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
-<li>目前<code>Windows</code>版本已经更新到了<code>13</code>，不过老师要求的也就是<code>10</code>。</li>
-<li><p>这里我选择了<code>10.16</code>、<code>11.11</code>、<code>13.2</code>(<a href="https://www.postgresql.org/download/">官网</a>提供的几个版本)分别尝试安装。</p>
-</li>
-<li><p>结果以上版本在安装时都出现了同一个问题。</p>
-</li>
-<li><img src="https://img-blog.csdnimg.cn/20210303103503673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<ul>
-<li><p>上网搜索过后，大致给出了三种可能：</p>
-<ol>
-<li>路径中包含中文<font color="red">（然而我并没有）</font>。</li>
-<li>权限不够<font color="red">（管理员打开也不行）</font>。</li>
-<li>之前安装过的<code>Temp</code>文件冲突。</li>
-</ol>
-</li>
-<li><p>结合以上的问题，总结了一下解决过程：</p>
-<ol>
-<li><p>先到对应路径下，把<code>Temp</code>文件夹中所有<code>postgresql_install</code>的文件夹删除<font color="red">（需要管理员权限）</font>。</p>
-</li>
-<li><p>删除后保证用户名不包含中文，即可正常安装。</p>
-</li>
-<li><p>安装到选择目录时，如果你曾尝试在此目录安装，可能出现</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">the choosen installation directory exists and is non-empty.please choose a different directory</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>把此目录删除后新建即可。</p>
-</li>
-</ol>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2></li>
-<li><p><code>Windows</code>安装虽然简便，但是一个简单的步骤出了很多莫名的问题。</p>
-</li>
-<li><p>与此同时我在<code>Ubuntu</code>安装了一个<code>Linux</code>版本的<code>PostgreSQL</code>。</p>
-</li>
-<li><p>在<code>Linux</code>中，<code>PostgreSQL</code>和<code>pgAdmin4</code>没有捆绑，需要后期建立连接。</p>
-<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3></li>
-<li><p>这里<a href="https://www.tecmint.com/install-postgresql-and-pgadmin-in-ubuntu/">参考</a>了一下官方的方法，下面相当于对方法的翻译和总结吧。</p>
-</li>
-<li><p>更新系统软件包</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>直接在库中安装最新的<code>PostgreSQL</code></p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install postgresql</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>默认的<code>data</code>文件夹在<code>/var/lib/postgresql/12/main</code>下，配置文件在<code>/etc/postgresql/12/main</code>。</p>
-</blockquote>
-<ul>
-<li>添加存储库的公共密钥并创建存储库配置文件</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add</span><br><span class="line">sudo sh -c <span class="string">&#x27;echo &quot;deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main&quot; &gt; /etc/apt/sources.list.d/pgadmin4.list &amp;&amp; apt update&#x27;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>由于<code>Ubuntu</code>库中没有<code>pgAdmin4</code>，只能通过<code>pgAdmin4 APT</code>仓库安装。</p>
-</blockquote>
-<ul>
-<li>安装<code>pgAdmin4</code></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install pgadmin4</span><br></pre></td></tr></table></figure>
-<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><ul>
-<li>安装完成后，检查<code>PostgreSQL</code>状态</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl is-active postgresql</span><br><span class="line">sudo systemctl is-enabled postgresql</span><br><span class="line">sudo systemctl status postgresql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>确认<code>PostgreSQL server</code>的状态</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pg_isready</span><br></pre></td></tr></table></figure>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
-<li>切换用户到<code>postgres</code>进行登录</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo su - postgres</span><br><span class="line">psql</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>出现了<code>postgres=#</code>即成功登入</p>
-</blockquote>
-<ul>
-<li>创建数据库用户和数据库并授权(<font color="pink">这里的参数需要自定义</font>)</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CREATE USER &#123;USER_NAME&#125; WITH PASSWORD &#123;USER_PASSWD&#125;;</span><br><span class="line">CREATE DATABASE &#123;DATABASE_NAME&#125;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE &#123;DATABASE_NAME&#125; to &#123;USER_NAME&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>远程控制配置</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/postgresql/12/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
-<ul>
-<li>配置完成后重启服务</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart postgresql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>运行<code>pgdmin4</code>二进制软件包附带的<code>Web</code>设置脚本，以配置系统以<code>Web</code>模式运行</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo /usr/pgadmin4/bin/setup-web.sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li>填入你的邮箱和设置的密码，方便以后登录。</li>
-<li>打开下列连接进入<code>pgAdmin4</code>（<font color="red"><code>SERVER_IP</code>需要换成你服务器的<code>ip</code></font>）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://SERVER_IP/pgadmin4</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用你刚刚设置的邮箱和密码登录。</li>
-<li>连接新的服务器，点击<code>Add New Server</code>。</li>
-<li><code>General</code>填写<code>Name</code>即可</li>
-<li><img src="https://img-blog.csdnimg.cn/20210303103651920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<ul>
-<li>在<code>Connection</code>填写<code>Host name/address</code>为你的服务器地址，<code>Username</code>改为你之前创建的数据库用户。</li>
-<li><img src="https://img-blog.csdnimg.cn/img_convert/2261e9c329e204684505cc2c0636a085.png" alt=""></li>
-</ul>
-]]></content>
-      <categories>
-        <category>exp</category>
-      </categories>
-      <tags>
-        <tag>Database</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu20 deploy Gitlab</title>
     <url>/2022/05/17/exp_ubuntu_deploy_gitlab/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="更新本地包-amp-安装相关依赖"><a href="#更新本地包-amp-安装相关依赖" class="headerlink" title="更新本地包&amp;安装相关依赖"></a>更新本地包&amp;安装相关依赖</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install ca-certificates curl openssh-server postfix</span><br></pre></td></tr></table></figure>
@@ -737,24 +612,128 @@
       </tags>
   </entry>
   <entry>
-    <title>Mit 6.858 Lab</title>
-    <url>/2022/05/17/lab-mit-6858/</url>
-    <content><![CDATA[<h2 id="Paper"><a href="#Paper" class="headerlink" title="Paper"></a>Paper</h2><ul>
-<li>baggy.pdf</li>
+    <title>PostgreSQL build</title>
+    <url>/2022/05/17/exp_postgresql_build/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>这学期的<font color="blue">数据库课程</font>要求使用<code>PostgreSQL</code>作为学习使用的数据库工具。</li>
+<li>所以今天尝试着安装了一下<code>PostgreSQL</code>，出了一些问题，在此做一个记录。</li>
 </ul>
-<div class="pdfobject-container" data-target="./pdf/baggy.pdf" data-height="500px"></div>
 <span id="more"></span>
-<ul>
-<li>okwa.pdf</li>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
+<li><code>Windows</code>是首选，不论安装还是后期使用都方便许多。</li>
+<li><code>PostgreSQL</code>自带<code>pgAdmin</code>也省去了很多步骤。</li>
+<li>这里参考一些<a href="https://blog.csdn.net/sinat_36226553/article/details/100750378">博客</a>和<a href="https://tieba.baidu.com/p/6649548146">论坛</a>，提出一些问题并给出方法。</li>
 </ul>
-<div class="pdfobject-container" data-target="./pdf/okws.pdf" data-height="500px"></div>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>目前<code>Windows</code>版本已经更新到了<code>13</code>，不过老师要求的也就是<code>10</code>。</li>
+<li><p>这里我选择了<code>10.16</code>、<code>11.11</code>、<code>13.2</code>(<a href="https://www.postgresql.org/download/">官网</a>提供的几个版本)分别尝试安装。</p>
+</li>
+<li><p>结果以上版本在安装时都出现了同一个问题。</p>
+</li>
+<li><img src="https://img-blog.csdnimg.cn/20210303103503673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<ul>
+<li><p>上网搜索过后，大致给出了三种可能：</p>
+<ol>
+<li>路径中包含中文<font color="red">（然而我并没有）</font>。</li>
+<li>权限不够<font color="red">（管理员打开也不行）</font>。</li>
+<li>之前安装过的<code>Temp</code>文件冲突。</li>
+</ol>
+</li>
+<li><p>结合以上的问题，总结了一下解决过程：</p>
+<ol>
+<li><p>先到对应路径下，把<code>Temp</code>文件夹中所有<code>postgresql_install</code>的文件夹删除<font color="red">（需要管理员权限）</font>。</p>
+</li>
+<li><p>删除后保证用户名不包含中文，即可正常安装。</p>
+</li>
+<li><p>安装到选择目录时，如果你曾尝试在此目录安装，可能出现</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">the choosen installation directory exists and is non-empty.please choose a different directory</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把此目录删除后新建即可。</p>
+</li>
+</ol>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2></li>
+<li><p><code>Windows</code>安装虽然简便，但是一个简单的步骤出了很多莫名的问题。</p>
+</li>
+<li><p>与此同时我在<code>Ubuntu</code>安装了一个<code>Linux</code>版本的<code>PostgreSQL</code>。</p>
+</li>
+<li><p>在<code>Linux</code>中，<code>PostgreSQL</code>和<code>pgAdmin4</code>没有捆绑，需要后期建立连接。</p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3></li>
+<li><p>这里<a href="https://www.tecmint.com/install-postgresql-and-pgadmin-in-ubuntu/">参考</a>了一下官方的方法，下面相当于对方法的翻译和总结吧。</p>
+</li>
+<li><p>更新系统软件包</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接在库中安装最新的<code>PostgreSQL</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install postgresql</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>默认的<code>data</code>文件夹在<code>/var/lib/postgresql/12/main</code>下，配置文件在<code>/etc/postgresql/12/main</code>。</p>
+</blockquote>
+<ul>
+<li>添加存储库的公共密钥并创建存储库配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add</span><br><span class="line">sudo sh -c <span class="string">&#x27;echo &quot;deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main&quot; &gt; /etc/apt/sources.list.d/pgadmin4.list &amp;&amp; apt update&#x27;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>由于<code>Ubuntu</code>库中没有<code>pgAdmin4</code>，只能通过<code>pgAdmin4 APT</code>仓库安装。</p>
+</blockquote>
+<ul>
+<li>安装<code>pgAdmin4</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install pgadmin4</span><br></pre></td></tr></table></figure>
+<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><ul>
+<li>安装完成后，检查<code>PostgreSQL</code>状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl is-active postgresql</span><br><span class="line">sudo systemctl is-enabled postgresql</span><br><span class="line">sudo systemctl status postgresql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>确认<code>PostgreSQL server</code>的状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pg_isready</span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li>切换用户到<code>postgres</code>进行登录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo su - postgres</span><br><span class="line">psql</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>出现了<code>postgres=#</code>即成功登入</p>
+</blockquote>
+<ul>
+<li>创建数据库用户和数据库并授权(<font color="pink">这里的参数需要自定义</font>)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CREATE USER &#123;USER_NAME&#125; WITH PASSWORD &#123;USER_PASSWD&#125;;</span><br><span class="line">CREATE DATABASE &#123;DATABASE_NAME&#125;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE &#123;DATABASE_NAME&#125; to &#123;USER_NAME&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>远程控制配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/postgresql/12/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置完成后重启服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart postgresql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>运行<code>pgdmin4</code>二进制软件包附带的<code>Web</code>设置脚本，以配置系统以<code>Web</code>模式运行</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo /usr/pgadmin4/bin/setup-web.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>填入你的邮箱和设置的密码，方便以后登录。</li>
+<li>打开下列连接进入<code>pgAdmin4</code>（<font color="red"><code>SERVER_IP</code>需要换成你服务器的<code>ip</code></font>）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://SERVER_IP/pgadmin4</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用你刚刚设置的邮箱和密码登录。</li>
+<li>连接新的服务器，点击<code>Add New Server</code>。</li>
+<li><code>General</code>填写<code>Name</code>即可</li>
+<li><img src="https://img-blog.csdnimg.cn/20210303103651920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<ul>
+<li>在<code>Connection</code>填写<code>Host name/address</code>为你的服务器地址，<code>Username</code>改为你之前创建的数据库用户。</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/2261e9c329e204684505cc2c0636a085.png" alt=""></li>
+</ul>
 ]]></content>
       <categories>
-        <category>lab</category>
+        <category>exp</category>
       </categories>
       <tags>
-        <tag>MIT</tag>
-        <tag>System Security</tag>
+        <tag>Database</tag>
       </tags>
   </entry>
   <entry>
@@ -898,6 +877,27 @@
       </categories>
       <tags>
         <tag>Burp Suite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mit 6.858 Lab</title>
+    <url>/2022/05/17/lab-mit-6858/</url>
+    <content><![CDATA[<h2 id="Paper"><a href="#Paper" class="headerlink" title="Paper"></a>Paper</h2><ul>
+<li>baggy.pdf</li>
+</ul>
+<div class="pdfobject-container" data-target="./pdf/baggy.pdf" data-height="500px"></div>
+<span id="more"></span>
+<ul>
+<li>okwa.pdf</li>
+</ul>
+<div class="pdfobject-container" data-target="./pdf/okws.pdf" data-height="500px"></div>
+]]></content>
+      <categories>
+        <category>lab</category>
+      </categories>
+      <tags>
+        <tag>MIT</tag>
+        <tag>System Security</tag>
       </tags>
   </entry>
   <entry>
@@ -3078,6 +3078,293 @@
       </tags>
   </entry>
   <entry>
+    <title>iptables note</title>
+    <url>/2022/05/23/note_iptables/</url>
+    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>iptables 用于<strong>检查、修改、转发、重定向和丢弃</strong> IP 数据包。</li>
+<li><p>过滤 IP 数据包的代码已经内置在内核中，并被<strong>组织成一组表</strong>，每个表都有特定的用途。</p>
+<ul>
+<li>这些表由一组<strong>预定义的链</strong>组成，链包含按顺序遍历的规则。</li>
+</ul>
+</li>
+<li><p>每个规则由一个潜在匹配的<strong>谓词</strong>和一个对应的<strong>操作</strong>(称为目标)组成。</p>
+<ul>
+<li>如果谓词为真，则执行该动作；即条件匹配。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>iptables允许用户使用这些链和规则</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
+<li>iptables工作原理</li>
+</ul>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
+<blockquote>
+<p>小写是表，大写是链。</p>
+<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
+</blockquote>
+<ul>
+<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
+</ul>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
+<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
+<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
+<p>iptables在用户空间，可以控制安全框架。</p>
+</blockquote>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
+<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
+<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
+<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
+<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
+<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
+<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
+<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
+<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
+<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
+<li>iptables 包含五个表：<ol>
+<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
+<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
+<li>nat用于网络地址转换（例如端口转发）。</li>
+<li>mangle用于专门的数据包更改。</li>
+<li>security用于强制访问控制网络规则。</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p><strong>常用的表为filter和nat</strong>。</p>
+</blockquote>
+<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
+<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
+<ul>
+<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
+<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
+</ul>
+</li>
+<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
+</li>
+<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
+<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
+<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
+</ul>
+</li>
+</ul>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
+<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
+<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>使用-j或—jump选项指定目标。</p>
+</blockquote>
+<ul>
+<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
+<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
+<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
+<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
+<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
+<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
+</ul>
+</li>
+</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
+<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
+<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
+</blockquote>
+<ul>
+<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
+<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
+<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
+<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
+<p>可以使用-t选项指定其他表。</p>
+</blockquote>
+<ul>
+<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
+</ul>
+<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
+<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
+<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
+<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
+<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
+<li>下面举例说明了前三个命令。</li>
+</ul>
+</li>
+<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
+</blockquote>
+<ul>
+<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
+<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
+</blockquote>
+<ul>
+<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
+<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+<ul>
+<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
+<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
+<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
+<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
+</ul>
+</li>
+<li>首先，创建一个ipset散列容器。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>timeout是接受客户端响应的时间窗口。</p>
+</blockquote>
+<ul>
+<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
+</ul>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
+<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
+<ul>
+<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
+<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
+</ul>
+</li>
+<li><p>创建链</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
+<ul>
+<li>并将以下规则添加到新创建的链:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
+</blockquote>
+<ul>
+<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
+<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
+<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
+<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
+</ul>
+</li>
+<li>limit模块<strong>使用-m limit调用</strong>。<ul>
+<li>使用—limit来<strong>设置平均速率</strong>；</li>
+<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
+<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
+<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
+</ul>
+</li>
+</ul>
+<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
+<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
+<li>要查看自计算机最后一次启动以来记录的所有包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
+<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
+</blockquote>
+<ul>
+<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
+<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
+<li>ulogd包可以在[community]存储库中找到。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>note</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>iptables</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>lxc note</title>
     <url>/2022/05/20/note_lxc/</url>
     <content><![CDATA[<h1 id="Remise"><a href="#Remise" class="headerlink" title="Remise"></a>Remise</h1><ul>
@@ -3549,293 +3836,6 @@
       </tags>
   </entry>
   <entry>
-    <title>iptables note</title>
-    <url>/2022/05/23/note_iptables/</url>
-    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
-<li>iptables 用于<strong>检查、修改、转发、重定向和丢弃</strong> IP 数据包。</li>
-<li><p>过滤 IP 数据包的代码已经内置在内核中，并被<strong>组织成一组表</strong>，每个表都有特定的用途。</p>
-<ul>
-<li>这些表由一组<strong>预定义的链</strong>组成，链包含按顺序遍历的规则。</li>
-</ul>
-</li>
-<li><p>每个规则由一个潜在匹配的<strong>谓词</strong>和一个对应的<strong>操作</strong>(称为目标)组成。</p>
-<ul>
-<li>如果谓词为真，则执行该动作；即条件匹配。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>iptables允许用户使用这些链和规则</p>
-</blockquote>
-<span id="more"></span>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
-<li>iptables工作原理</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg" alt=""></p>
-<blockquote>
-<p>小写是表，大写是链。</p>
-<p><strong>所有(无论内部外部)进入网卡的IP数据包都必须经历这个流程！</strong></p>
-</blockquote>
-<ul>
-<li>如果 IP 数据包到达一个内置链的末端，包括一个空链，那么该链的策略target 便决定 IP 数据包的最终目的地。</li>
-</ul>
-<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
-<li>iptables本质上<strong>不是通常定义的防火墙</strong>，实践上是做了一个代理。<ul>
-<li>将用户设置的安全规则在安全框架(netfilter)中执行。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>netfilter位于内核空间</strong>，是真正的防火墙框架。</p>
-<p>iptables在用户空间，可以控制安全框架。</p>
-</blockquote>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
-<li>在任何接口上接收的网络数据包都将<strong>按照流程图</strong>中所示的顺序遍历表的流量控制链。</li>
-<li><u>第一个路由决策</u>涉及<strong>决定信息包的最终目的地是本地机器</strong>(在这种情况下，信息包<strong>通过INPUT链</strong>)<strong>还是其他机器</strong>(在这种情况下，信息包<strong>通过FORWARD链</strong>)。</li>
-<li><u>随后的路由决策</u>包括<strong>决定将哪个接口分配给一个出包</strong>。<ul>
-<li>在路径中的每个链上，该链中的每个规则都<strong>按顺序计算</strong>，每当规则匹配时，就执行相应的目标/跳转操作。<strong>3个最常用的目标是ACCEPT、DROP和跳转到用户定义链</strong>。</li>
-<li>虽然<strong>内置链可以有默认策略</strong>，但<strong>用户定义链不能</strong>。</li>
-<li>如果跳过的链中的每个规则<u>都不能提供完全匹配</u>，则包将<strong>被丢回调用链中</strong>，如下图所示。</li>
-<li>如果在任何时候<u>对具有DROP目标的规则实现了完全匹配</u>，则<strong>丢弃数据包</strong>，不再进行进一步的处理。</li>
-<li>如果一个包<u>在一个链中被ACCEPT</u>，它也<strong>将在<u>所有超集链</u>中被ACCEPT</strong>，并且它<strong>将不再进一步遍历任何超集链</strong>。但是，包将继续<strong><u>以正常方式遍历</u>其他表中的所有其他链</strong>。</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://www.frozentux.net/iptables-tutorial/images/table_subtraverse.jpg" alt=""></p>
-<h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><ul>
-<li>iptables 包含五个表：<ol>
-<li>raw仅用于配置数据包，使它们免于连接跟踪。</li>
-<li>filter是默认表，通常与防火墙相关联的所有操作都发生在该表中。</li>
-<li>nat用于网络地址转换（例如端口转发）。</li>
-<li>mangle用于专门的数据包更改。</li>
-<li>security用于强制访问控制网络规则。</li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<p><strong>常用的表为filter和nat</strong>。</p>
-</blockquote>
-<h2 id="链"><a href="#链" class="headerlink" title="链"></a>链</h2><ul>
-<li><p>表由链组成，链是按顺序遵循的规则列表。</p>
-<ul>
-<li>缺省表filter包含三个内置链：INPUT、OUTPUT和FORWARD，它们在包过滤过程的不同点被激活。</li>
-<li>nat表包括PREROUTING、POSTROUTING和OUTPUT链。</li>
-</ul>
-</li>
-<li><p><strong>缺省情况下，没有一个链包含规则</strong>。将规则附加到想要使用的链上<strong>由用户自己决定</strong>。</p>
-</li>
-<li>链有一个默认策略，通常将其设置为ACCEPT，但如果希望确保没有任何东西能通过规则集，则可以将其重置为DROP。<ul>
-<li>默认策略总是<strong>只应用于链的末端</strong>。因此，在应用缺省策略之前，信息包必须通过链中的所有现有规则。</li>
-<li>可以添加用户定义链，使规则集更高效或更容易修改。</li>
-</ul>
-</li>
-</ul>
-<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
-<li>包过滤是基于规则的，<strong>规则由多个<u>匹配项</u>(报文必须满足的条件才能应用该规则)和一个<u>目标</u>(报文匹配所有条件时的动作)指定</strong>。<ul>
-<li>规则可能匹配的典型内容是数据包来自哪个网卡(例如eth0或eth1)，它是什么类型的数据包(ICMP、TCP或UDP)，或者数据包的目的端口。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>使用-j或—jump选项指定目标。</p>
-</blockquote>
-<ul>
-<li><strong>目标</strong>可以是<strong>用户定义链</strong>(如果这些条件匹配，则跳转到以下用户定义链并在那里继续处理)、<strong>特殊的内置目标之一或目标扩展</strong>。<ul>
-<li><strong>内置目标</strong>是ACCEPT, DROP, QUEUE和RETURN，如果目标是内置目标，则<strong>立即决定数据包的命运</strong>，并停止对当前表中的数据包的处理。</li>
-<li><strong>目标扩展</strong>包括例如REJECT和LOG。</li>
-<li><strong>用户定义链</strong>，若数据包的命运不是由该链决定的，它将<strong>根据原始链的剩余规则进行过滤</strong>。目标扩展可以是终止的(作为内置目标)或非终止的(作为用户定义的链)。</li>
-</ul>
-</li>
-</ul>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
-<li>有许多模块可用于扩展 iptables，例如 connlimit、conntrack、limit 和 recent。<ul>
-<li>这些模块添加了额外的功能以<strong>允许复杂的过滤规则</strong>。</li>
-</ul>
-</li>
-</ul>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li>iptables是一个<strong>systemd服务</strong>，叫做iptables.service。<ul>
-<li>iptables包在<code>/etc/iptables/iptables.rules</code>中安装了一组空的规则，当你第一次启动iptables.service单元时将加载这些规则。</li>
-<li>与其他服务一样，如果希望iptables在引导时自动加载，则必须启用它。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>IPv6的iptables规则默认保存在<code>/etc/iptables/ip6tables.rules</code>中，由ip6tables.service读取。</p>
-</blockquote>
-<ul>
-<li>如下所示，通过命令行添加规则后，配置文件不会自动更改，必须手动保存:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-save -f /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果手动编辑配置文件，则必须重新加载iptables。或者你可以直接通过iptables加载它：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables-restore /etc/iptables/iptables.rules</span><br></pre></td></tr></table></figure>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="显示当前规则"><a href="#显示当前规则" class="headerlink" title="显示当前规则"></a>显示当前规则</h2><ul>
-<li>列出当前规则的基本命令是list-rules (-S)，其输出格式类似于iptables-save实用程序。<ul>
-<li>这两个命令的主要区别是，后者默认输出<strong>所有表</strong>的规则，而所有iptables命令默认只输出<strong>filter表</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -S</span><br><span class="line">-P INPUT ACCEPT</span><br><span class="line">-P FORWARD ACCEPT</span><br><span class="line">-P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>—list (-L)命令接受更多修饰符并显示更多信息。<ul>
-<li>例如，可以使用以下命令查看当前的规则集和每条规则的命中次数:</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 1059 packets, 89762 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 1051 packets, 88652 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果输出像上面那样，那么在默认的过滤表中没有规则(即没有阻塞)。</p>
-<p>可以使用-t选项指定其他表。</p>
-</blockquote>
-<ul>
-<li>要在列出规则时显示行号，请将—line-numbers追加到该输入。当在命令行上编辑规则时，行号是一种有用的速记。</li>
-</ul>
-<h2 id="重置规则"><a href="#重置规则" class="headerlink" title="重置规则"></a>重置规则</h2><ul>
-<li>可以使用以下命令将iptables刷新和重置为默认值：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line">iptables -t mangle -F</span><br><span class="line">iptables -t mangle -X</span><br><span class="line">iptables -t raw -F</span><br><span class="line">iptables -t raw -X</span><br><span class="line">iptables -t security -F</span><br><span class="line">iptables -t security -X</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>不带参数的-F命令将<strong>刷新其当前表中的所有链</strong>。<ul>
-<li>类似地，-X<strong>删除表中所有空的非默认链</strong>。</li>
-<li>可以通过在-F和-X后面<u>加上[chain]参数</u>来<strong>清除或删除单个链</strong>。</li>
-</ul>
-</li>
-</ul>
-<h2 id="编辑规则"><a href="#编辑规则" class="headerlink" title="编辑规则"></a>编辑规则</h2><ul>
-<li>可以通过以下方式<strong>编辑规则</strong>：在链上添加-A规则，在链上的特定位置插入-I，替换现有规则-R，或删除-D规则。<ul>
-<li>下面举例说明了前三个命令。</li>
-</ul>
-</li>
-<li>首先，我们的计算机不是路由器。我们希望将FORWARD链上的默认策略从ACCEPT更改为DROP。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Dropbox的局域网同步功能每30秒向它能看到的所有计算机广播数据包。如果我们碰巧与Dropbox客户端在局域网中，并且没有使用该功能，那么我们可能会希望拒绝这些数据包。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 67 packets, 5771 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 55 packets, 5174 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：这里我们<strong>使用REJECT而不是DROP</strong>，因为RFC 1122<u>要求主机尽可能地返回ICMP错误，而不是丢弃数据包</u>。<a href="https://www.chiark.greenend.org.uk/~peterb/network/drop-vs-reject">这一页</a>解释了为什么拒绝包几乎总是比DROP包更好。</p>
-</blockquote>
-<ul>
-<li>现在，假设我们改变了对Dropbox的看法，决定在自己的电脑上安装它。我们还想进行局域网同步，但只能与网络上的一个特定IP进行同步。<ul>
-<li>所以我们应该<strong>用-R来代替原来的规则</strong>。其中10.0.0.85是我们的其他IP：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 1 -p tcp --dport 17500 ! -s 10.0.0.85 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 21 packets, 1849 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>我们现在已经用一个允许10.0.0.85访问17500端口的规则替换了原来的规则。</p>
-</blockquote>
-<ul>
-<li>我们意识到这是<strong>不可扩展的</strong>。如果我们<u>友好的Dropbox用户</u>试图访问设备上的17500端口，我们应该<u>立即允许</u>他，而不是测试他是否违反任何防火墙规则。<ul>
-<li>因此，我们编写了一个新的规则，允许我们的信任用户。使<strong>用-I将新规则插入到旧规则之前</strong>：</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 17500 -s 10.0.0.85 -j ACCEPT -m comment --comment <span class="string">&quot;Friendly Dropbox&quot;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1857 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *      !10.0.0.85            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 16 packets, 1892 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
-<ul>
-<li>把我们的第二条规则替换成拒绝所有17500端口的规则：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 2 -p tcp --dport 17500 -j REJECT --reject-with icmp-port-unreachable</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">student@6858-v20:~$ sudo iptables -nvL --line-numbers</span><br><span class="line">Chain INPUT (policy ACCEPT 19 packets, 1656 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line">1        0     0 ACCEPT     tcp  --  *      *       10.0.0.85            0.0.0.0/0            tcp dpt:17500 /* Friendly Dropbox */</span><br><span class="line">2        0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:17500 reject-with icmp-port-unreachable</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 15 packets, 2224 bytes)</span><br><span class="line">num   pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination </span><br></pre></td></tr></table></figure>
-<h2 id="允许组播流量"><a href="#允许组播流量" class="headerlink" title="允许组播流量"></a>允许组播流量</h2><ul>
-<li>使用多播标识的协议(例如，SANE搜索网络扫描器)将向网络的广播IP发送流量，并从特定的客户端的IP返回响应。<ul>
-<li>由于这些IP地址是不同的，所以iptables不会将响应识别为RELATED或ESTABLISHED，它将<strong>阻塞响应</strong>。</li>
-</ul>
-</li>
-<li>首先，创建一个ipset散列容器。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ipset create upnp <span class="built_in">hash</span>:ip,port <span class="built_in">timeout</span> 3</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>timeout是接受客户端响应的时间窗口。</p>
-</blockquote>
-<ul>
-<li>其次，创建一个规则，将传出多播流量添加到ipset散列中。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A OUTPUT -d 239.255.255.250/32 -p udp -m udp -j SET --add-set upnp src,src --exist</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第三，创建一个规则，允许与ipset散列匹配的传入流量。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p udp -m <span class="built_in">set</span> --match-set upnp dst,dst -j ACCEPT</span><br></pre></td></tr></table></figure>
-<ul>
-<li>最后，记住保存新规则，并确保启用iptables.service和ipset.service，以便在系统启动时加载规则。</li>
-</ul>
-<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
-<li><p>LOG目标可以用来记录命中规则的数据包。与其他目标(如ACCEPT或DROP)不同，<strong>包在命中LOG目标后将继续在链中移动</strong>。</p>
-<ul>
-<li>这意味着，为了对所有丢失的包启用日志记录，必须在每个DROP规则之前添加一个重复的LOG规则。</li>
-<li>由于这降低了效率并使事情变得不那么简单，因此可以创建一个logdrop链。</li>
-</ul>
-</li>
-<li><p>创建链</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -N logdrop</span><br></pre></td></tr></table></figure>
-<ul>
-<li>并将以下规则添加到新创建的链:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br><span class="line">iptables -A logdrop -j DROP</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>limit和limit-burst选项解释<a href="#限制日志速率">如下</a>。</p>
-</blockquote>
-<ul>
-<li>现在，当我们想要丢弃一个包并记录这个事件时，我们只需跳转到日志丢弃链，例如：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstate INVALID -j logdrop</span><br></pre></td></tr></table></figure>
-<h2 id="限制日志速率"><a href="#限制日志速率" class="headerlink" title="限制日志速率"></a>限制日志速率</h2><ul>
-<li>上面的logdrop链<strong>使用<u>limit模块</u>来防止iptables日志变得太大或导致不必要的硬盘写操作</strong>。<ul>
-<li>在不限制错误配置的服务尝试连接的情况下，攻击者可以<u>通过引起对iptables日志的写入来填充驱动器</u>(或至少是<code>/var</code>分区)。</li>
-</ul>
-</li>
-<li>limit模块<strong>使用-m limit调用</strong>。<ul>
-<li>使用—limit来<strong>设置平均速率</strong>；</li>
-<li>使用—limit-burst来<strong>设置初始突发速率</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -A logdrop -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 5/m --limit-burst 10 -j LOG</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述命令<u>附加</u>一个规则，该规则将记录通过它的所有数据包。<ul>
-<li>记录<u>前10个连续数据包</u>，从那时起<u>每分钟仅记录5个数据包</u>。</li>
-<li>每当“限制速率”未被打破时，“限制突发”计数将被重置，即日志记录活动自动恢复正常。</li>
-</ul>
-</li>
-</ul>
-<h2 id="查看记录包"><a href="#查看记录包" class="headerlink" title="查看记录包"></a>查看记录包</h2><ul>
-<li>记录的数据包在systemd journal中<strong>作为内核消息可见</strong>。</li>
-<li>要查看自计算机最后一次启动以来记录的所有包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">journalctl -k --grep=<span class="string">&quot;IN=.*OUT=.*&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="syslog-ng"><a href="#syslog-ng" class="headerlink" title="syslog-ng"></a>syslog-ng</h2><ul>
-<li>可以在syslog-ng.conf中<strong>控制iptables的日志输出到哪里</strong>。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Replace</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv); &#125;;</span><br><span class="line"><span class="comment"># To</span></span><br><span class="line">filter f_everything &#123; level(debug..emerg) and not facility(auth, authpriv) and not filter(f_iptables); &#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这将停止将iptables输出记录到<code>/var/log/everything.log</code>。</p>
-</blockquote>
-<ul>
-<li>如果你也想让iptables记录到不同于<code>/var/log/iptables.log</code>的文件中，可以简单地改变目标d_iptables的文件值(仍然在syslog-ng.conf中):</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">destination d_iptables &#123; file(<span class="string">&quot;/var/log/iptables.log&quot;</span>); &#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="ulogd"><a href="#ulogd" class="headerlink" title="ulogd"></a>ulogd</h2><ul>
-<li>ulogd是用于netfilter的专用用户空间包日志记录守护进程，它可以替换默认的LOG目标。</li>
-<li>ulogd包可以在[community]存储库中找到。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>note</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>iptables</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Scapy note</title>
     <url>/2022/05/17/note_scapy/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
@@ -4270,92 +4270,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SessionID introduce and usage</title>
-    <url>/2022/05/17/vuln_SessionID/</url>
-    <content><![CDATA[<h1 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h1><ul>
-<li>当用户第一次访问服务程序时，服务器端会给用户创建一个独立的会话<code>Session</code><br>并且生成一个<code>SessionID</code>。</li>
-<li><code>SessionID</code>在响应浏览器的时候会被加载到<code>cookie</code>中，并保存到浏览器中。</li>
-<li>当用户再一次访问服务程序时，请求中会携带着<code>cookie</code>中的<code>SessionID</code>去访问服务器。</li>
-<li>服务器会根据这个<code>SessionID</code>去查看是否有对应的<code>Session</code>对象，有则使用，没有就新创建一个<code>Session</code>。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210228093534272.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<span id="more"></span>
-<h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul>
-<li>如果<code>SessionID</code>的构造原理太简单，就很容易被别人仿造。</li>
-<li>仿造了<code>SessionID</code>之后应用到<code>cookie</code>，即可无登录访问被害者服务。</li>
-</ul>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><ul>
-<li>使用<code>DVWA</code>靶场的<code>Weak Session IDs</code>作为演示场景。</li>
-</ul>
-<h2 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span> (<span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>]++;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h3><ul>
-<li>使用<code>POST</code>上传参数时候，设置<code>SessionID</code>。</li>
-<li>若设置过，则使用上一次的<code>SessionID</code>直接<code>+1</code>，若未设置，则初始化为<code>0</code>。</li>
-<li>这样的<code>SessionID</code>太过简单，并且很容易冲突，无法标识单一个体。</li>
-</ul>
-<h3 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h3><ul>
-<li>找到每次<code>dvwaSession</code>的变化规律，使用<code>BurpSuite</code>抓包查看<code>dvwaSession</code>。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210228093546369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>使用他人的<code>dvwaSession</code>以及其他<code>cookie</code>内容，尝试删除<code>cookie</code>后登录。</p>
-</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210228093553623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>能够登录，说明<code>cookie</code>构造成功(虽然是自己已经看到的)。</p>
-</li>
-</ul>
-<h2 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a>Medium</h2><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="title function_ invoke__">time</span>();</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="审计-1"><a href="#审计-1" class="headerlink" title="审计"></a>审计</h3><ul>
-<li>使用时间函数获取当前时间作为<code>cookie</code>，故同一时间的会话将会发生冲突。</li>
-<li>其余设置同<code>Low</code>。</li>
-</ul>
-<blockquote>
-<p><a href="https://www.php.net/manual/en/function.time.php">time</a>( ) : int 返回当前的<code>GMT</code>时间，即<code>Unix</code>纪元起到现在的秒数。</p>
-</blockquote>
-<h3 id="攻击-1"><a href="#攻击-1" class="headerlink" title="攻击"></a>攻击</h3><ul>
-<li>使用<a href="https://tool.lu/timestamp/">时间戳在线转换器</a>构造时间点，诱骗受害者在该时间点击，形成<code>SessionID</code>碰撞(感觉不太可能)。</li>
-<li>或者在受害者最近一次登录后，通过获取其登入时间点，构造时间戳。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210228093603976.png" alt=""></p>
-</li>
-<li><p>使用预测的<code>dvwaSession</code>登入即可。</p>
-</li>
-</ul>
-<h2 id="High"><a href="#High" class="headerlink" title="High"></a>High</h2><h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span> (<span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>]++;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="title function_ invoke__">md5</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>]);</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>, <span class="title function_ invoke__">time</span>()+<span class="number">3600</span>, <span class="string">&quot;/vulnerabilities/weak_id/&quot;</span>, <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>], <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="审计-2"><a href="#审计-2" class="headerlink" title="审计"></a>审计</h3><ul>
-<li>基本内容同<code>Low</code>，在累加的基础上增加了<code>md5</code>加密。</li>
-</ul>
-<blockquote>
-<p><a href="https://www.php.net/manual/zh/function.setcookie.php">setcookie</a>( string <code>$name</code> , string <code>$value</code> = “” , int <code>$expires</code> = 0 , string <code>$path</code> = “” , string <code>$domain</code> = “” , bool <code>$secure</code> = <strong><code>false</code></strong> , bool <code>$httponly</code> = <strong><code>false</code></strong> ) : bool 即定义一条<code>cookie</code>，名为<code>name</code>，值为<code>value</code>，失效期为<code>expires</code>(<code>GMT</code>时间)，<code>path</code>为有效的服务器路径，<code>domain</code>为有效的域名，<code>secure</code>表示是否建立<code>HTTPS</code>连接，<code>httponly</code>表示是否只通过<code>HTTP</code>协议访问。</p>
-</blockquote>
-<h3 id="攻击-2"><a href="#攻击-2" class="headerlink" title="攻击"></a>攻击</h3><ul>
-<li>获取现有<code>dvwaSession</code>后，使用网上的<a href="https://www.cmd5.com/">md5在线加解密工具</a>得到明文。</li>
-<li><img src="https://img-blog.csdnimg.cn/202102280936229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-<ul>
-<li>找到明文规律后，构造<code>dvwaSession</code>实现无登录访问。</li>
-</ul>
-<h1 id="漏洞防御"><a href="#漏洞防御" class="headerlink" title="漏洞防御"></a>漏洞防御</h1><ul>
-<li>使用<code>DVWA</code>的<code>Impossible</code>级别进行审计。</li>
-</ul>
-<h2 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="title function_ invoke__">sha1</span>(<span class="title function_ invoke__">mt_rand</span>() . <span class="title function_ invoke__">time</span>() . <span class="string">&quot;Impossible&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>, <span class="title function_ invoke__">time</span>()+<span class="number">3600</span>, <span class="string">&quot;/vulnerabilities/weak_id/&quot;</span>, <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>], <span class="literal">true</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="审计-3"><a href="#审计-3" class="headerlink" title="审计"></a>审计</h2><ul>
-<li>使用<code>SHA1</code>加密，使得<code>SessionID</code>难以破译。</li>
-<li>明文内容为随机数+<code>GMT</code>时间+字符串，增加了伪造的难度。</li>
-<li>但仍存在<code>SessionID</code>冲突的情况。</li>
-</ul>
-<blockquote>
-<p><a href="https://www.php.net/manual/zh/function.sha1.php">sha1</a>( string <code>$string</code> , bool <code>$binary</code> = <strong><code>false</code></strong> ) : string计算字符串的<code>SHA-1</code>散列，<code>binary</code>为<code>TRUE</code>时为二进制，<code>FALSE</code>时为十六进制。</p>
-<p><a href="https://www.php.net/manual/zh/function.mt-rand.php">mt_rand</a>( int <code>$min</code> , int <code>$max</code> ) : int 使用<a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html">Mersenne Twister</a>的算法生成随机数，若有参数则介于<code>min</code>和<code>max</code>，若无参数则生成<code>0</code>到<a href="https://www.php.net/manual/zh/function.mt-getrandmax.php">mt_getrandmax()</a>之间的随机数。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>vuln</category>
-      </categories>
-      <tags>
-        <tag>SessionID</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>XSS introduce and usage</title>
     <url>/2022/05/17/vuln_XSS/</url>
     <content><![CDATA[<h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
@@ -4599,6 +4513,92 @@
       </categories>
       <tags>
         <tag>XSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SessionID introduce and usage</title>
+    <url>/2022/05/17/vuln_SessionID/</url>
+    <content><![CDATA[<h1 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h1><ul>
+<li>当用户第一次访问服务程序时，服务器端会给用户创建一个独立的会话<code>Session</code><br>并且生成一个<code>SessionID</code>。</li>
+<li><code>SessionID</code>在响应浏览器的时候会被加载到<code>cookie</code>中，并保存到浏览器中。</li>
+<li>当用户再一次访问服务程序时，请求中会携带着<code>cookie</code>中的<code>SessionID</code>去访问服务器。</li>
+<li>服务器会根据这个<code>SessionID</code>去查看是否有对应的<code>Session</code>对象，有则使用，没有就新创建一个<code>Session</code>。</li>
+<li><img src="https://img-blog.csdnimg.cn/20210228093534272.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<span id="more"></span>
+<h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul>
+<li>如果<code>SessionID</code>的构造原理太简单，就很容易被别人仿造。</li>
+<li>仿造了<code>SessionID</code>之后应用到<code>cookie</code>，即可无登录访问被害者服务。</li>
+</ul>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><ul>
+<li>使用<code>DVWA</code>靶场的<code>Weak Session IDs</code>作为演示场景。</li>
+</ul>
+<h2 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span> (<span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>]++;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h3><ul>
+<li>使用<code>POST</code>上传参数时候，设置<code>SessionID</code>。</li>
+<li>若设置过，则使用上一次的<code>SessionID</code>直接<code>+1</code>，若未设置，则初始化为<code>0</code>。</li>
+<li>这样的<code>SessionID</code>太过简单，并且很容易冲突，无法标识单一个体。</li>
+</ul>
+<h3 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h3><ul>
+<li>找到每次<code>dvwaSession</code>的变化规律，使用<code>BurpSuite</code>抓包查看<code>dvwaSession</code>。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210228093546369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>使用他人的<code>dvwaSession</code>以及其他<code>cookie</code>内容，尝试删除<code>cookie</code>后登录。</p>
+</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210228093553623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>能够登录，说明<code>cookie</code>构造成功(虽然是自己已经看到的)。</p>
+</li>
+</ul>
+<h2 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a>Medium</h2><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="title function_ invoke__">time</span>();</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="审计-1"><a href="#审计-1" class="headerlink" title="审计"></a>审计</h3><ul>
+<li>使用时间函数获取当前时间作为<code>cookie</code>，故同一时间的会话将会发生冲突。</li>
+<li>其余设置同<code>Low</code>。</li>
+</ul>
+<blockquote>
+<p><a href="https://www.php.net/manual/en/function.time.php">time</a>( ) : int 返回当前的<code>GMT</code>时间，即<code>Unix</code>纪元起到现在的秒数。</p>
+</blockquote>
+<h3 id="攻击-1"><a href="#攻击-1" class="headerlink" title="攻击"></a>攻击</h3><ul>
+<li>使用<a href="https://tool.lu/timestamp/">时间戳在线转换器</a>构造时间点，诱骗受害者在该时间点击，形成<code>SessionID</code>碰撞(感觉不太可能)。</li>
+<li>或者在受害者最近一次登录后，通过获取其登入时间点，构造时间戳。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210228093603976.png" alt=""></p>
+</li>
+<li><p>使用预测的<code>dvwaSession</code>登入即可。</p>
+</li>
+</ul>
+<h2 id="High"><a href="#High" class="headerlink" title="High"></a>High</h2><h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span> (<span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>]++;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="title function_ invoke__">md5</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;last_session_id_high&#x27;</span>]);</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>, <span class="title function_ invoke__">time</span>()+<span class="number">3600</span>, <span class="string">&quot;/vulnerabilities/weak_id/&quot;</span>, <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>], <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="审计-2"><a href="#审计-2" class="headerlink" title="审计"></a>审计</h3><ul>
+<li>基本内容同<code>Low</code>，在累加的基础上增加了<code>md5</code>加密。</li>
+</ul>
+<blockquote>
+<p><a href="https://www.php.net/manual/zh/function.setcookie.php">setcookie</a>( string <code>$name</code> , string <code>$value</code> = “” , int <code>$expires</code> = 0 , string <code>$path</code> = “” , string <code>$domain</code> = “” , bool <code>$secure</code> = <strong><code>false</code></strong> , bool <code>$httponly</code> = <strong><code>false</code></strong> ) : bool 即定义一条<code>cookie</code>，名为<code>name</code>，值为<code>value</code>，失效期为<code>expires</code>(<code>GMT</code>时间)，<code>path</code>为有效的服务器路径，<code>domain</code>为有效的域名，<code>secure</code>表示是否建立<code>HTTPS</code>连接，<code>httponly</code>表示是否只通过<code>HTTP</code>协议访问。</p>
+</blockquote>
+<h3 id="攻击-2"><a href="#攻击-2" class="headerlink" title="攻击"></a>攻击</h3><ul>
+<li>获取现有<code>dvwaSession</code>后，使用网上的<a href="https://www.cmd5.com/">md5在线加解密工具</a>得到明文。</li>
+<li><img src="https://img-blog.csdnimg.cn/202102280936229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+<ul>
+<li>找到明文规律后，构造<code>dvwaSession</code>实现无登录访问。</li>
+</ul>
+<h1 id="漏洞防御"><a href="#漏洞防御" class="headerlink" title="漏洞防御"></a>漏洞防御</h1><ul>
+<li>使用<code>DVWA</code>的<code>Impossible</code>级别进行审计。</li>
+</ul>
+<h2 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$html</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">    <span class="variable">$cookie_value</span> = <span class="title function_ invoke__">sha1</span>(<span class="title function_ invoke__">mt_rand</span>() . <span class="title function_ invoke__">time</span>() . <span class="string">&quot;Impossible&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;dvwaSession&quot;</span>, <span class="variable">$cookie_value</span>, <span class="title function_ invoke__">time</span>()+<span class="number">3600</span>, <span class="string">&quot;/vulnerabilities/weak_id/&quot;</span>, <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>], <span class="literal">true</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="审计-3"><a href="#审计-3" class="headerlink" title="审计"></a>审计</h2><ul>
+<li>使用<code>SHA1</code>加密，使得<code>SessionID</code>难以破译。</li>
+<li>明文内容为随机数+<code>GMT</code>时间+字符串，增加了伪造的难度。</li>
+<li>但仍存在<code>SessionID</code>冲突的情况。</li>
+</ul>
+<blockquote>
+<p><a href="https://www.php.net/manual/zh/function.sha1.php">sha1</a>( string <code>$string</code> , bool <code>$binary</code> = <strong><code>false</code></strong> ) : string计算字符串的<code>SHA-1</code>散列，<code>binary</code>为<code>TRUE</code>时为二进制，<code>FALSE</code>时为十六进制。</p>
+<p><a href="https://www.php.net/manual/zh/function.mt-rand.php">mt_rand</a>( int <code>$min</code> , int <code>$max</code> ) : int 使用<a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html">Mersenne Twister</a>的算法生成随机数，若有参数则介于<code>min</code>和<code>max</code>，若无参数则生成<code>0</code>到<a href="https://www.php.net/manual/zh/function.mt-getrandmax.php">mt_getrandmax()</a>之间的随机数。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>vuln</category>
+      </categories>
+      <tags>
+        <tag>SessionID</tag>
       </tags>
   </entry>
 </search>
