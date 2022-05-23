@@ -1224,7 +1224,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #835808;
+  background: #29b5ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2583,4 +2583,15 @@ mjx-container + br {
 }
 .links-of-blogroll-item {
   padding: 0;
+}
+body {
+  background: url("/images/background.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 50%;
+  background: var(--body-bg-color);
+  color: var(--text-color);
+  font-family: 'Monoca', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 1em;
+  line-height: 2;
 }
