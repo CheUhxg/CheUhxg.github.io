@@ -76,6 +76,44 @@
       </tags>
   </entry>
   <entry>
+    <title>VSCode with C/C++ projection&#39;s profile</title>
+    <url>/2022/05/17/exp_VSCode_C_pro/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
+<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
+</ul>
+<span id="more"></span>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
+<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
+<li>选好项目的文件路径，此路径即为项目的位置。</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
+<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
+</ul>
+<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
+</ul>
+<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>exp</category>
+      </categories>
+      <tags>
+        <tag>VSCode</tag>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ONOS group multicast in SDN</title>
     <url>/2022/05/17/exp_ONOS_group/</url>
     <content><![CDATA[<h2 id="0x00-OpenFlow组表"><a href="#0x00-OpenFlow组表" class="headerlink" title="0x00 OpenFlow组表"></a>0x00 OpenFlow组表</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>实现更高级的数据包转发特性，如：组播、负载均衡、容灾备份和聚合</p>
@@ -179,44 +217,6 @@
       <tags>
         <tag>SDN</tag>
         <tag>ONOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VSCode with C/C++ projection&#39;s profile</title>
-    <url>/2022/05/17/exp_VSCode_C_pro/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>下学期计网可能要用到<code>C</code>，又不想用之前做算法题的编译器，因为<code>CodeBlocks</code>不好看，<code>Visual Studio</code>又太大了。</li>
-<li>想用一下<code>VSCode</code>，不过我很久没有用过了，于是查了一下<code>C</code>项目的搭建，做一下笔记，以防找不到配置文件。</li>
-</ul>
-<span id="more"></span>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="选定文件夹"><a href="#选定文件夹" class="headerlink" title="选定文件夹"></a>选定文件夹</h2><ul>
-<li>在<code>资源管理器</code>中选择<code>打开文件夹</code>。</li>
-<li>选好项目的文件路径，此路径即为项目的位置。</li>
-</ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h3><ul>
-<li><code>Ctrl+Shift+P</code>打开设置，选择<code>Tasks:Configure Task</code>即可创建<code>.vscode</code>文件夹。</li>
-</ul>
-<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">        <span class="punctuation">&#123;</span> </span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch&quot;</span><span class="punctuation">,</span> <span class="comment">// 配置名称，将会在启动配置的下拉菜单中显示</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span>       <span class="comment">// 配置类型，这里只能为cppdbg</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span>    <span class="comment">// 请求配置类型，可以为launch（启动）或attach（附加）  </span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">,</span><span class="comment">// 将要进行调试的程序的路径  </span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>             <span class="comment">// 程序调试时传递给程序的命令行参数，一般设为空即可  </span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span>   <span class="comment">// 设为true时程序将暂停在程序入口处，一般设置为false  </span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试程序时的工作目录，一般为$&#123;workspaceFolder&#125;即代码所在目录 </span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span> <span class="comment">// 调试时是否显示控制台窗口，一般设置为true显示控制台  </span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;D:\\MinGW\\bin\\gdb.exe&quot;</span><span class="punctuation">,</span> <span class="comment">// miDebugger的路径，注意这里要与MinGw的路径对应  </span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  </span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span>  </span><br><span class="line">                <span class="punctuation">&#123;</span>   </span><br><span class="line">            <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span>  </span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">                <span class="punctuation">&#125;</span>  </span><br><span class="line">            <span class="punctuation">]</span>  </span><br><span class="line">        <span class="punctuation">&#125;</span>  </span><br><span class="line">    <span class="punctuation">]</span>  </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>其中<code>miDebuggerPath</code>和<code>preLaunchTask</code>根据自己情况来定。</li>
-</ul>
-<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><ul>
-<li>代码</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc&quot;</span><span class="punctuation">,</span> <span class="comment">// 注意对应</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-g&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span><span class="string">&quot;-o&quot;</span><span class="punctuation">,</span><span class="string">&quot;$&#123;fileBasenameNoExtension&#125;.exe&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span>    <span class="comment">// 编译命令参数</span></span><br><span class="line">    <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;relative&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;regexp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;column&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;severity&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>同样<code>command</code>决定是<code>C</code>还是<code>C++</code>，也是看需求而改变。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>exp</category>
-      </categories>
-      <tags>
-        <tag>VSCode</tag>
-        <tag>C/C++</tag>
       </tags>
   </entry>
   <entry>
@@ -401,6 +401,84 @@
       </categories>
       <tags>
         <tag>XTerm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Basic configuration of Docker</title>
+    <url>/2022/05/17/exp_docker_profiles/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li><code>Docker Image</code>（镜像）就是一个集装箱，可以看作是封装成了一个小型的操作系统。</li>
+<li><code>Docker</code>就是一个容器，<code>Image</code>可以在上面运行。</li>
+<li>这样的机制使得，我们只要有<code>Docker</code>，就能够在不同系统运行<code>Image</code>。</li>
+<li><code>Docker</code>和虚拟机有很大的相似之处，不过<code>Docker</code>更轻量级，每次不会运行出整个大的操作系统。</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/ca52036386a130f0cc2a669746578878.png" alt=""></li>
+<li>如图所示，<code>VMware</code>需要建立多个<code>Guest OS</code>，而<code>docker</code>直接利用<code>Host OS</code>。</li>
+</ul>
+<span id="more"></span>
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>参考<a href="https://docs.docker.com/engine/install/ubuntu/">官方文档</a></p>
+<blockquote>
+<p>我这里用的是<code>Ubuntu</code>，其余操作系统参考其他文档。</p>
+</blockquote>
+<ul>
+<li>移除旧版本</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+<ul>
+<li>准备相关依赖</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用阿里源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<ul>
+<li>写入软件源</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装社区版<code>docker</code></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试运行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有如下显示则安装成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"><span class="meta prompt_"> $ </span><span class="language-bash">docker run -it ubuntu bash</span></span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
+<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>我的系统是家庭版（懒），这里还是参考<a href="https://docs.docker.com/docker-for-windows/install-windows-home/">官方文档</a></p>
+<ul>
+<li>下载<code>Docker Desktop</code>，直接安装。</li>
+<li>至少选中安装<code>WSL2</code>进行，装完后会要求重启。</li>
+<li>重启后可能报错，点击链接安装更新内核。</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210307115408399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p><code>Restart</code>之后，我出现了如下情况。</p>
+</li>
+<li><p><img src="https://img-blog.csdnimg.cn/20210307115416976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
+</li>
+<li><p>按照网上的<a href="https://blog.csdn.net/qq_34033853/article/details/110246866">方法</a>，以管理员身份打开<code>CMD</code>，输入命令。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重启之后，安装成功。</li>
+</ul>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>参考<a href="https://docs.docker.com/reference/">官方文档</a></p>
+<ul>
+<li>相关信息</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示版本</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示详细信息</span></span><br><span class="line">docker info</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示COMMAND帮助</span></span><br><span class="line">docker &#123;COMMAND&#125; --help</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其他命令<br><img src="https://img-blog.csdnimg.cn/20210307115432611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+</ul>
+]]></content>
+      <categories>
+        <category>exp</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
@@ -677,84 +755,6 @@
       <tags>
         <tag>MIT</tag>
         <tag>System Security</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Basic configuration of Docker</title>
-    <url>/2022/05/17/exp_docker_profiles/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li><code>Docker Image</code>（镜像）就是一个集装箱，可以看作是封装成了一个小型的操作系统。</li>
-<li><code>Docker</code>就是一个容器，<code>Image</code>可以在上面运行。</li>
-<li>这样的机制使得，我们只要有<code>Docker</code>，就能够在不同系统运行<code>Image</code>。</li>
-<li><code>Docker</code>和虚拟机有很大的相似之处，不过<code>Docker</code>更轻量级，每次不会运行出整个大的操作系统。</li>
-<li><img src="https://img-blog.csdnimg.cn/img_convert/ca52036386a130f0cc2a669746578878.png" alt=""></li>
-<li>如图所示，<code>VMware</code>需要建立多个<code>Guest OS</code>，而<code>docker</code>直接利用<code>Host OS</code>。</li>
-</ul>
-<span id="more"></span>
-<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>参考<a href="https://docs.docker.com/engine/install/ubuntu/">官方文档</a></p>
-<blockquote>
-<p>我这里用的是<code>Ubuntu</code>，其余操作系统参考其他文档。</p>
-</blockquote>
-<ul>
-<li>移除旧版本</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
-<ul>
-<li>准备相关依赖</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用阿里源</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写入软件源</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装社区版<code>docker</code></li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
-<ul>
-<li>测试运行</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
-<ul>
-<li>有如下显示则安装成功</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"><span class="meta prompt_"> $ </span><span class="language-bash">docker run -it ubuntu bash</span></span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
-<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>我的系统是家庭版（懒），这里还是参考<a href="https://docs.docker.com/docker-for-windows/install-windows-home/">官方文档</a></p>
-<ul>
-<li>下载<code>Docker Desktop</code>，直接安装。</li>
-<li>至少选中安装<code>WSL2</code>进行，装完后会要求重启。</li>
-<li>重启后可能报错，点击链接安装更新内核。</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210307115408399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p><code>Restart</code>之后，我出现了如下情况。</p>
-</li>
-<li><p><img src="https://img-blog.csdnimg.cn/20210307115416976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></p>
-</li>
-<li><p>按照网上的<a href="https://blog.csdn.net/qq_34033853/article/details/110246866">方法</a>，以管理员身份打开<code>CMD</code>，输入命令。</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
-<ul>
-<li>重启之后，安装成功。</li>
-</ul>
-<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>参考<a href="https://docs.docker.com/reference/">官方文档</a></p>
-<ul>
-<li>相关信息</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示版本</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示详细信息</span></span><br><span class="line">docker info</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示COMMAND帮助</span></span><br><span class="line">docker &#123;COMMAND&#125; --help</span><br></pre></td></tr></table></figure>
-<ul>
-<li>其他命令<br><img src="https://img-blog.csdnimg.cn/20210307115432611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
-</ul>
-]]></content>
-      <categories>
-        <category>exp</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1845,597 +1845,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Effective C++ note</title>
-    <url>/2022/05/17/note_effective_cpp/</url>
-    <content><![CDATA[<h1 id="条款01：视C-为一个语言联邦"><a href="#条款01：视C-为一个语言联邦" class="headerlink" title="条款01：视C++为一个语言联邦"></a>条款01：视C++为一个语言联邦</h1><ul>
-<li>语言联邦<ul>
-<li>C</li>
-<li>Object-Oriented C++</li>
-<li>Template C++</li>
-<li>STL</li>
-</ul>
-</li>
-<li>对<strong>内置类型</strong>而言，pass-by-value比pass-by-reference高效。</li>
-<li>对<strong>类类型</strong>而言，pass-by-reference-to-const更好。</li>
-<li>STL的迭代器和函数对象都是在C指针之上塑造出来的，故pass-by-value依然有效。</li>
-</ul>
-<span id="more"></span>
-<h1 id="条款02：尽量以const、enum、inline替代-define"><a href="#条款02：尽量以const、enum、inline替代-define" class="headerlink" title="条款02：尽量以const、enum、inline替代#define"></a>条款02：尽量以const、enum、inline替代#define</h1><h2 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h2><ul>
-<li>宏在编译器开始处理代码之前就被移走了，实际使用的名称可能并<strong>未进入记号表</strong>。</li>
-<li>使用常量替换宏<ul>
-<li>对于<strong>浮点常量</strong>而言，使用常量可能比宏导致更小的码量，因为预处理器盲目的<strong>替换宏为浮点数</strong>，导致目标代码出现多份浮点数。</li>
-<li>定义<strong>常量指针</strong>时，由于常量定义式<u>通常放在头文件中</u>，因此有必要<strong>将指针声明为const</strong>。</li>
-<li>定义<strong>class专属常量</strong>时，必须让它成为一个<strong>static成员</strong>。</li>
-</ul>
-</li>
-<li>使用enum替换宏<ul>
-<li>enum的行为比较<strong>像#define而不像const</strong>，如const变量可以取地址，但是不能取enum和#define的地址（不会导致非必要内存的分配）。</li>
-<li>enum在很多代码中使用了，实质上是<strong>模板元编程</strong>。</li>
-</ul>
-</li>
-</ul>
-<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><ul>
-<li>使用inline替换宏函数<ul>
-<li>inline可以获得<strong>宏的效率</strong>和<strong>函数类型安全性</strong>。</li>
-<li>由于不知道传入内敛模板的类型，故使用pass-by-reference-to-const。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">callWithMax</span><span class="params">(<span class="type">const</span> T&amp; a, <span class="type">const</span> T&amp; b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="条款03：尽可能使用const"><a href="#条款03：尽可能使用const" class="headerlink" title="条款03：尽可能使用const"></a>条款03：尽可能使用const</h1><ul>
-<li>const指定一个<strong>语义约束</strong>，由编译器强制实施这个约束。</li>
-<li>const出现在*左边，表示指针指向的对象是常量，出现在*右边，表示指针本身是常量。</li>
-</ul>
-<blockquote>
-<p>STL的迭代器是以指针为根据封装出来的，所以迭代器的作用<strong>像个T*指针</strong>。</p>
-<p>声明迭代器为const(const_iterator)就像声明指针为const一样，表示迭代器不可指向不同的东西。</p>
-</blockquote>
-<ul>
-<li><strong>令函数返回常量值</strong>，往往可以降低因客户错误而造成的意外。</li>
-</ul>
-<h2 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h2><ul>
-<li>const成员函数重要的原因<ul>
-<li>使得class接口比较容易被理解。</li>
-<li>使得<strong>操作const对象</strong>成为可能。</li>
-</ul>
-</li>
-<li>两个成员函数如果只是常量性不同，<strong>可以被重载</strong>。</li>
-</ul>
-<h3 id="bitwise-constness"><a href="#bitwise-constness" class="headerlink" title="bitwise constness"></a>bitwise constness</h3><ul>
-<li>成员函数只有<u>在不更改对象的任何成员变量时</u>才可以说是const。</li>
-<li>优点：编译器只需寻找成员变量的赋值动作就可以找到违反const的点。</li>
-<li>缺点：一些成员函数不具备const的性质，仍能通过bitwise测试。<ul>
-<li>如一个更改了指针所指对象的成员函数不能算是const，但如果只有指针隶属于对象，就能通过bitwise测试。</li>
-</ul>
-</li>
-</ul>
-<h3 id="logical-constness"><a href="#logical-constness" class="headerlink" title="logical constness"></a>logical constness</h3><ul>
-<li>一个const成员函数可以修改它所处理的对象内的某些bits。</li>
-<li><strong>使用mutable</strong>释放掉non-static成员的bitwise constness约束。</li>
-</ul>
-<h2 id="const和non-const重复避免"><a href="#const和non-const重复避免" class="headerlink" title="const和non-const重复避免"></a>const和non-const重复避免</h2><ul>
-<li>为减少代码重复，可以令重载的函数一个调用另外一个。</li>
-<li><strong>令non-const调用const</strong>是安全的做法，过程中需要转型。<ul>
-<li>第一个转型动作：为调用const版本的成员函数，必须使用const对象/指针/引用来调用，故需要将*this从&amp;转换为const &amp;，这个转型是安全的，可以使用static_const。</li>
-<li>第二个转型动作：将调用结果转换为非const类型，可以使用const_cast。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款04：确定对象被使用前已先被初始化"><a href="#条款04：确定对象被使用前已先被初始化" class="headerlink" title="条款04：确定对象被使用前已先被初始化"></a>条款04：确定对象被使用前已先被初始化</h1><ul>
-<li>读取未初始化的值会导致未定义行为。</li>
-<li>对<strong>内置类型</strong>来说，它们是<strong>类C的</strong>，必须<strong>手工</strong>完成初始化。</li>
-<li>对<strong>类类型</strong>来说，尽量使用<strong>成员初始化列表</strong>完成初始化，而不是赋值。<ul>
-<li>总是在初始列中列出所有成员变量，以免遗漏。</li>
-<li>成员变量是const或者reference则必须初始化而不能赋值。</li>
-<li>多份成员初始化列表时，可以将那些<strong>初始化和赋值一样高效的变量</strong>归类为<u>统一的赋值工作</u>(一般是private)。</li>
-<li><strong>成员初始化顺序只和在类中定义的顺序相同</strong>。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>函数内的static对象被称为local static对象，其他static对象被称为non-local static对象。</p>
-<p>编译单元是指产出单一目标文件的源码（cpp文件加上其包含的头文件内容）。</p>
-</blockquote>
-<ul>
-<li>如果某编译单元内的non-static对象初始化时使用了另一个编译单元的non-local static对象，它所用到的这个对象可能尚未初始化。</li>
-<li>解决方案<ul>
-<li>将每个non-local static对象<strong>搬到自己的专属函数内</strong>，对象在函数内被声明为static（<strong>变为local</strong>），返回它的reference，其他用户调用这些函数而不是对象。</li>
-<li>这是Singleton模式的常见手法，且由于函数内容简单、可能被频繁调用，可以将其设置为inline。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>static对象是<strong>非线程安全</strong>的。</p>
-</blockquote>
-<h1 id="条款05：了解C-默认生成和调用的函数"><a href="#条款05：了解C-默认生成和调用的函数" class="headerlink" title="条款05：了解C++默认生成和调用的函数"></a>条款05：了解C++默认生成和调用的函数</h1><ul>
-<li>如果程序员没有声明，编译器会自动为它声明：默认构造函数（没有任何构造函数时）、拷贝构造函数、拷贝赋值运算符=、析构函数。且都是public和inline。</li>
-<li>编译器生成的默认构造函数和析构函数中，包含了父类和non-static成员的构造函数和析构函数。</li>
-</ul>
-<blockquote>
-<p>编译器生成的析构函数是non-virtual的，除非其基类有virtual的析构函数。</p>
-</blockquote>
-<ul>
-<li>编译器生成的拷贝构造函数和拷贝赋值运算符=只是浅拷贝。</li>
-<li>拷贝赋值运算符=是否生成<ul>
-<li>取决于成员是否包括reference和const成员。</li>
-<li>基类的拷贝赋值运算符=为private时，也拒绝生成。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款06：若不想使用编译器自动生成的函数，就该明确拒绝"><a href="#条款06：若不想使用编译器自动生成的函数，就该明确拒绝" class="headerlink" title="条款06：若不想使用编译器自动生成的函数，就该明确拒绝"></a>条款06：若不想使用编译器自动生成的函数，就该明确拒绝</h1><ul>
-<li>拷贝构造函数和拷贝赋值运算符会自动生成，导致不能直接通过不声明的方式拒绝其生产。<ul>
-<li>方法1：可以声明一个private成员函数，阻止用户调用。</li>
-<li>方法2：方法1对于友元和其他成员函数无效，可以在其基础上不定义函数内容，如果有人使用了该函数，则会获得一个连接错误（连接期）。</li>
-<li>方法3：为了将连接期的错误提前到编译期，可以将方法2移植到其基类（专门用于阻止自动生成）中。<ul>
-<li>编译器生成这些函数时，会尝试调用父类的对应函数，调用会被拒绝（父类中是private）。</li>
-<li>使用这项技术可能导致多重继承的问题。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>现代方法：加上=delete。</li>
-</ul>
-<h1 id="条款07：为多态基类声明virtual析构函数"><a href="#条款07：为多态基类声明virtual析构函数" class="headerlink" title="条款07：为多态基类声明virtual析构函数"></a>条款07：为多态基类声明virtual析构函数</h1><ul>
-<li>情景：只想使用基类的一个功能，可以使用工厂函数返回指向派生类对象的基类指针，然后通过基类指针调用功能。而此时基类的析构函数是non-virtual的，此时析构只会执行父类的析构函数，而子类额外的部分无法被销毁。</li>
-<li>解决方案：给基类一个virtual析构函数。</li>
-</ul>
-<blockquote>
-<p>virtual函数的目的是允许派生类的实现得以客制化。</p>
-</blockquote>
-<ul>
-<li>带virtual函数的类几乎都应该有一个virtual析构函数。</li>
-<li>若类不想作为基类，不应该将其析构函数设置为virtual。<ul>
-<li>因为虚函数都放在虚函数表中，用一个vptr指针就是指向虚函数表的指针，相当于多了内存开销。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>继承类的时候，需要注意基类的析构函数是否是virtual的。</p>
-</blockquote>
-<ul>
-<li>构造抽象类时，不管成员函数有无pure virtual，析构函数可以声明为pure virtual的。<ul>
-<li>必须为这个析构函数提供定义，否则基类调用时会连接失败。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款08：别让异常逃离析构函数"><a href="#条款08：别让异常逃离析构函数" class="headerlink" title="条款08：别让异常逃离析构函数"></a>条款08：别让异常逃离析构函数</h1><ul>
-<li>C++不禁止析构函数抛出异常，但是不建议。</li>
-</ul>
-<blockquote>
-<p>两个同时作用的异常会导致程序结束或者不明确行为。</p>
-</blockquote>
-<ul>
-<li>如果程序已经遭遇析构期间的错误，强迫程序终止可避免异常从析构函数抛出。</li>
-<li>如果某个操作可能导致异常抛出，必须让它在析构函数以外的函数抛出（相当于转移责任）。</li>
-</ul>
-<h1 id="条款09：绝不在构造和析构过程中调用virtual函数"><a href="#条款09：绝不在构造和析构过程中调用virtual函数" class="headerlink" title="条款09：绝不在构造和析构过程中调用virtual函数"></a>条款09：绝不在构造和析构过程中调用virtual函数</h1><ul>
-<li>由于基类的构造函数先于派生类的构造函数执行，当<strong>执行基类构造函数时</strong>，派生类的成员变量<strong>尚未初始化</strong>。<ul>
-<li><strong>若</strong>基类构造函数中调用的虚函数<strong>使用派生类版本</strong>，虚函数又不免用到<strong>派生类成员变量</strong>，此时成员变量<strong>未初始化</strong>。</li>
-</ul>
-</li>
-<li>在派生类对象调用基类构造函数期间，对象的类型是基类而不是派生类。<ul>
-<li>若<strong>使用RTTI</strong>，也会把对象视作基类。</li>
-<li>因为对象<u>在派生类构造函数开始执行之前</u><strong>不会</strong>成为一个派生类对象。</li>
-</ul>
-</li>
-<li>析构函数同理<ul>
-<li>派生类析构函数开始后，派生类成员变量<strong>呈现未定义值</strong>，所以C++视它们不存在。</li>
-<li>进入基类析构函数时，对象才成为一个基类对象。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款10：令operator-返回一个reference-to-this"><a href="#条款10：令operator-返回一个reference-to-this" class="headerlink" title="条款10：令operator=返回一个reference to *this"></a>条款10：令operator=返回一个reference to *this</h1><ul>
-<li>连锁赋值</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">x = y = z = <span class="number">15</span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>为了实现“连锁赋值”，赋值操作符必须返回一个<strong>reference指向操作符的左侧实参</strong>。</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这只是个<strong>建议</strong>，并<strong>无强制性</strong>。</p>
-</blockquote>
-<h1 id="条款11：在operator-中处理自我赋值"><a href="#条款11：在operator-中处理自我赋值" class="headerlink" title="条款11：在operator=中处理自我赋值"></a>条款11：在operator=中处理自我赋值</h1><ul>
-<li>潜在自我赋值</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">a[i] = a[j];</span><br><span class="line">*px = *py;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果尝试自行管理资源，可能造成<strong>对释放资源的使用</strong>。</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    <span class="keyword">delete</span> p_bitmap;</span><br><span class="line">    p_bitmap = <span class="keyword">new</span> <span class="built_in">Bitmap</span>(*rhs.p_bitmap);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述代码如果左侧和右侧为同一个对象，则会发生错误：<strong>释放指针后使用该指针</strong>。<ul>
-<li>阻止这种错误的传统做法是在operator=的函数体中加一个<strong>认同测试</strong>，以检验是否是自我赋值。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> == &amp;rhs) <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">delete</span> p_bitmap;</span><br><span class="line">    p_bitmap = <span class="keyword">new</span> <span class="built_in">Bitmap</span>(*rhs.p_bitmap);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述版本仍不具备异常安全性：new Bitmap导致异常时，p_bitmap指向被删除的对象。<ul>
-<li>且由于自我赋值较少，导致<strong>认同测试</strong>实际进入分支次数少，但每次都需要判断，<strong>降低了执行速度</strong>。</li>
-<li>替代方案是使用<strong>copy and swap技术</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//代码逻辑清晰版本</span></span><br><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    Base <span class="built_in">tmp</span>(rhs);</span><br><span class="line">    <span class="built_in">swap</span>(tmp);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//代码简洁版本</span></span><br><span class="line">Base&amp; <span class="keyword">operator</span>=(Base rhs) &#123;	<span class="comment">//值传递</span></span><br><span class="line">    <span class="built_in">swap</span>(rhs);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="条款12：复制对象时勿忘每一个成分"><a href="#条款12：复制对象时勿忘每一个成分" class="headerlink" title="条款12：复制对象时勿忘每一个成分"></a>条款12：复制对象时勿忘每一个成分</h1><ul>
-<li>设计良好的面向对象系统会<strong>将对象内部封装起来</strong>，只留下<strong>拷贝构造函数</strong>和<strong>拷贝赋值操作符</strong>（统称为<strong>copying函数</strong>）用于对象拷贝。</li>
-<li>如果声明自己的copying函数，即使你的代码不完全，编译器也不会报错。<ul>
-<li>当你添加一个成员变量时，往往需要修改<strong>所有的构造函数和operator=</strong>（不仅仅是copying函数），如果没有修改，编译器也不会提醒。</li>
-</ul>
-</li>
-<li>编写自己的copying函数需要确保：<ul>
-<li>复制所有<strong>local成员变量</strong>；</li>
-<li>调用<strong>基类的copying函数</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">Derived</span>(<span class="type">const</span> Derived&amp; rhs) </span><br><span class="line">    	: <span class="built_in">Base</span>(rhs), <span class="built_in">local_variable</span>(rhs.local_variable)&#123; &#125;</span><br><span class="line">    Derived&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Derived&amp; rhs) &#123;</span><br><span class="line">        Base::<span class="keyword">operator</span>=(rhs);</span><br><span class="line">        local_variable=rhs.local_variable;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> local_variable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>copying函数有大致相同的实现过程，可以通过调用其他函数来避免代码重复。<ul>
-<li>但是：<strong>不应该令拷贝构造函数调用拷贝赋值操作符，相反同理</strong>。</li>
-<li>正确的做法是：建立<strong>一个新的成员函数</strong>给copying函数调用。这个函数往往是<strong>private</strong>，且常被<strong>命名为init</strong>。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款13：以对象管理资源"><a href="#条款13：以对象管理资源" class="headerlink" title="条款13：以对象管理资源"></a>条款13：以对象管理资源</h1><ul>
-<li>背景：有时使用工厂函数<strong>创建资源返回指针</strong>，需要考虑<strong>资源的释放</strong>。<ul>
-<li>由于一些<strong>特殊情况（异常、分支、遗忘）</strong>，会导致资源无法被释放，导致内存泄漏。</li>
-</ul>
-</li>
-<li>为确保资源总是能被释放，我们需要将资源放进对象内，<strong>当离开作用域时，该对象可以自动释放资源（利用对象的析构函数）</strong>。<ul>
-<li>使用<strong>智能指针</strong>。</li>
-</ul>
-</li>
-<li>“以对象管理资源”的关键想法<ul>
-<li><strong>获得资源后立即放进管理对象</strong>。我们应该在获得资源后在<strong>同一语句初始化其管理对象</strong>，这被称为<strong>RAII（资源取得实际便是初始化时机）</strong>。</li>
-<li><strong>管理对象运用析构函数确保资源被释放</strong>。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>智能指针在析构函数里面做的是delete而不是delete[]，故<strong>不能管理动态数组资源</strong>。</p>
-</blockquote>
-<ul>
-<li>工厂函数返回<strong>未加工指针</strong>很容易造成<strong>资源泄漏</strong>！</li>
-</ul>
-<h1 id="条款14：在资源管理类中小心copying行为"><a href="#条款14：在资源管理类中小心copying行为" class="headerlink" title="条款14：在资源管理类中小心copying行为"></a>条款14：在资源管理类中小心copying行为</h1><ul>
-<li>智能指针表现在<strong>堆创建的资源</strong>上，其余资源的管理可能需要自己创建资源管理类。</li>
-<li>自己创建资源管理类<strong>面临复制</strong>，有以下4种可能：<ul>
-<li>禁止复制：将copying声明为private；</li>
-<li>对底层资源使用<strong>引用计数</strong>。</li>
-<li><strong>复制底部资源</strong>：进行深拷贝。</li>
-<li><strong>转移</strong>底部资源的拥有权：希望同时只有<strong>一个RAII</strong>指向<strong>一个未加工资源</strong>，在被复制时，<strong>转移拥有权</strong>。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>shared_ptr支持<strong>指定删除器</strong>。</p>
-</blockquote>
-<h1 id="条款15：在资源管理类中提供对原始资源的访问"><a href="#条款15：在资源管理类中提供对原始资源的访问" class="headerlink" title="条款15：在资源管理类中提供对原始资源的访问"></a>条款15：在资源管理类中提供对原始资源的访问</h1><ul>
-<li>使用<strong>资源管理类</strong>来管理原始资源，而不是直接处理。</li>
-<li>有的函数需要<strong>提供原始资源的指针</strong>，但此时是用资源管理类封装的资源，有<strong>两个方法</strong>可以完成。<ul>
-<li>显示转换：提供一个get成员函数，<strong>返回原始指针</strong>。</li>
-<li>隐式转换：将类型隐式<strong>转换为原始指针类型</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ManageResouce</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Resource* p_res;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//显式转换</span></span><br><span class="line">    <span class="function">Resource* <span class="title">get</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> p_res; &#125;</span><br><span class="line">    <span class="comment">//隐式转换</span></span><br><span class="line">    <span class="function"><span class="keyword">operator</span> <span class="title">ManageResouce</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> p_res; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>关于选择显式转换还是隐式转换，主要取决于RAII类被设计的特定工作。</li>
-</ul>
-<h1 id="条款16：成对使用new和delete时要采取相同形式"><a href="#条款16：成对使用new和delete时要采取相同形式" class="headerlink" title="条款16：成对使用new和delete时要采取相同形式"></a>条款16：成对使用new和delete时要采取相同形式</h1><ul>
-<li>new对象时，有两件事发生<ul>
-<li>内存被分配出来；</li>
-<li>针对此内存调用构造函数。</li>
-</ul>
-</li>
-<li>delete对象时，也有两件事发生<ul>
-<li>针对此内存调用析构函数；</li>
-<li>内存被释放。</li>
-</ul>
-</li>
-<li>delete需要知道被删除的指针是<strong>单一对象还是对象数组</strong>。<ul>
-<li>使用<strong>delete加上[]</strong>表示为对象数组：delete[]会读取若干内存并将其<strong>解释为数组大小</strong>，开始多次调用析构函数。</li>
-</ul>
-</li>
-<li>由于new和delete的形式必须匹配，所以<strong>不建议使用typedef定义数组</strong>，因为不知道使用delete还是delete[]。</li>
-</ul>
-<h1 id="条款17：以独立语句将newed对象置入智能指针"><a href="#条款17：以独立语句将newed对象置入智能指针" class="headerlink" title="条款17：以独立语句将newed对象置入智能指针"></a>条款17：以独立语句将newed对象置入智能指针</h1><ul>
-<li>考虑情景</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">priority</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(shared_ptr&lt;Resource&gt; pr, <span class="type">int</span> priority)</span></span>;</span><br><span class="line">...</span><br><span class="line"><span class="built_in">func</span>(<span class="built_in">shared_ptr</span>&lt;Resource&gt;(<span class="keyword">new</span> Resource), <span class="built_in">priority</span>());		<span class="comment">//调用func</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>对于上述情景，func执行前会发生：<ul>
-<li>priority的调用；</li>
-<li>new Resource；</li>
-<li>构造shared_ptr。</li>
-</ul>
-</li>
-<li>但是上述事件的<strong>执行顺序是不一定的</strong>（new Resource一定在构造shared_ptr之前），编译器会进行优化。</li>
-<li>当priority在其他两者之间执行时，若priority抛出异常，会<strong>导致new Resource之后并没有传入shared_ptr</strong>，这块内存会<strong>遗失</strong>。<ul>
-<li>是因为在<strong>资源被创建</strong>和<strong>资源被转换为资源管理对象</strong>之间可能发生异常。</li>
-<li>解决方法就是将<strong>资源被创建</strong>和<strong>资源被转换为资源管理对象</strong>单独出来执行。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">shared_ptr&lt;Resource&gt;<span class="built_in">sr</span>(<span class="keyword">new</span> Resource);</span><br><span class="line"><span class="built_in">func</span>(sr, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
-<h1 id="条款18：让接口容易被正确使用，不易被误用"><a href="#条款18：让接口容易被正确使用，不易被误用" class="headerlink" title="条款18：让接口容易被正确使用，不易被误用"></a>条款18：让接口容易被正确使用，不易被误用</h1><blockquote>
-<p>必须考虑<strong>客户可能犯什么错误</strong>。</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//客户可能传输错误的参数范围或者顺序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Date</span><span class="params">(<span class="type">int</span> month, <span class="type">int</span> day, <span class="type">int</span> year)</span></span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述问题可以通过<strong>导入新类型</strong>来预防。<ul>
-<li>导入<strong>覆盖类型</strong>来区分month、day、year。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Month</span> &#123;	<span class="comment">//Day、Year类似</span></span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Day</span><span class="params">(<span class="type">int</span> d)</span> : val(d)&#123;</span>&#125;</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Date</span><span class="params">(<span class="type">const</span> Month&amp; m, <span class="type">const</span> Day&amp; d, <span class="type">const</span> Year&amp; y)</span></span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>将类型设置为<strong>成熟的class比struct更好</strong>。</p>
-</blockquote>
-<ul>
-<li>类型正确后，可以通过逻辑<strong>限制其范围</strong>。<ul>
-<li>可以通过enum枚举可用值，但<strong>enum不具备类型安全性</strong>；</li>
-<li>有效安全的解法是预先定义所有有效的值。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Month</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> Month <span class="title">Jan</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">Month</span>(<span class="number">1</span>); &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Month</span><span class="params">(<span class="type">int</span> m)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br><span class="line"><span class="built_in">Date</span>(Month::<span class="built_in">Dec</span>(), <span class="built_in">Day</span>(<span class="number">30</span>), <span class="built_in">Year</span>(<span class="number">2000</span>));</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p><strong>限制</strong>客户使用的<strong>对象功能</strong>。</p>
-<ul>
-<li>通常是加上<strong>const</strong>（参考<a href="#条款03：尽可能使用const">条款3</a>）。</li>
-</ul>
-</li>
-<li><p>除非有特殊原因，应该令<strong>自定义类型</strong>行为和其<strong>内置类型</strong>行为一致。</p>
-<ul>
-<li>如上述例子中，应该让Month的行为类似于int，但由于乘法不合法，应该避免乘法。</li>
-<li>方法是<strong>提供行为一致的接口</strong>。</li>
-</ul>
-</li>
-<li><p>参考<a href="#条款13：以对象管理资源">条款13</a>的客户错误：没有删除指针、删除同一个指针两次。</p>
-<ul>
-<li>解决方案是让<u>客户</u><strong>使用智能指针接收原始指针</strong>。</li>
-</ul>
-</li>
-<li>万一客户忘记使用智能指针接收。<ul>
-<li>解决方案是<u>工厂函数</u>将指针通过<strong>智能指针</strong>的形式返回。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">shared_ptr&lt;Resource&gt; <span class="title">createResource</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>若工厂函数<strong>仍返回原始指针</strong>，且希望使用<strong>指定删除器</strong>释放指针，同时客户错误的使用了delete（或其他方式）释放了资源。<ul>
-<li>解决方案是<u>工厂函数</u><strong>返回一个绑定了删除器的智能指针</strong>。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">shared_ptr&lt;Resource&gt; <span class="title">createResource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;Resource&gt; <span class="title">retSP</span><span class="params">(<span class="literal">nullptr</span>, removeResource)</span></span>;</span><br><span class="line">    retSP = ...;</span><br><span class="line">    <span class="keyword">return</span> retSP;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>当然，能够<strong>将原始指针直接传给智能指针的构造函数</strong>是更好的。</p>
-</blockquote>
-<ul>
-<li>在一个DLL被new创建，却在另一个DLL内被delete销毁，会导致cross-DLL问题。<ul>
-<li>解决方案是使用智能指针，因为它的默认删除器是<strong>创建时DLL的删除器</strong>。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>智能指针比原始指针大且慢，而且<strong>使用辅助动态内存</strong>。</p>
-<p>但实际中成本不显著，而且能<strong>大幅减少客户错误</strong>。</p>
-</blockquote>
-<h1 id="条款19：设计class犹如设计type"><a href="#条款19：设计class犹如设计type" class="headerlink" title="条款19：设计class犹如设计type"></a>条款19：设计class犹如设计type</h1><blockquote>
-<p>设计高效的类，需要考虑的问题如下。</p>
-</blockquote>
-<ul>
-<li>对象如何被<strong>创建和销毁</strong>？<ul>
-<li>影响到<strong>构造函数、析构函数、内存分配和释放函数</strong>的设计。</li>
-</ul>
-</li>
-<li>对象的<strong>初始化和赋值</strong>应该有什么区别？<ul>
-<li>影响到<strong>构造函数和赋值操作符</strong>的设计。</li>
-</ul>
-</li>
-<li>对象被<strong>pass by value</strong>，意味着什么？<ul>
-<li><font color="red">矛盾：拷贝构造函数<strong>不能</strong>pass by value</font>。</li>
-</ul>
-</li>
-<li>什么是对象的<strong>合法值</strong>？<ul>
-<li><strong>约束条件</strong>决定了成员函数必须进行的<strong>错误检查</strong>工作。</li>
-</ul>
-</li>
-<li>类需要<strong>继承</strong>吗？<ul>
-<li>作为<strong>派生类</strong>，就会受到基类的约束，特别是<strong>成员函数是否为virtual</strong>的影响；</li>
-<li>作为<strong>基类</strong>，需要注意<strong>成员函数（尤其是析构函数）是否为virtual</strong>。</li>
-</ul>
-</li>
-<li>类需要什么<strong>转换</strong>？<ul>
-<li>A<strong>隐式转换</strong>到B：在A中写一个<strong>类型转换函数</strong>或在B中写一个<strong>non-explicit-one-argument</strong>的构造函数；</li>
-<li><strong>只允许explicit</strong>构造函数：就得写出<strong>专门负责转换</strong>的函数。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">A</span>(<span class="type">int</span> _val) : <span class="built_in">val</span>(_val) &#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">operator</span> <span class="title">B</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">B</span>(val); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">B</span>(<span class="type">int</span> _val) : <span class="built_in">val</span>(_val) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>类需要哪些<strong>函数和操作符</strong>？</li>
-<li>类应该<strong>拒绝哪些函数</strong>？<ul>
-<li>决定了必须声明为<strong>private</strong>的函数。</li>
-</ul>
-</li>
-<li>谁能<strong>使用类的成员</strong>？<ul>
-<li>决定了<strong>public、protected和private</strong>。</li>
-</ul>
-</li>
-<li>什么是类的<strong>未声明接口</strong>？<ul>
-<li><font color="orange">待办</font></li>
-</ul>
-</li>
-<li>类有多么<strong>一般化</strong>？<ul>
-<li>有时候不仅仅是定义一个类，而是定义一整个<strong>类家族</strong>，这种情况可以选择定义一个<strong>类模板</strong>。</li>
-</ul>
-</li>
-<li>真的<strong>需要</strong>一个新类吗？<ul>
-<li>有时候<strong>继承再添加功能</strong>是更好的选择。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款20：宁以pass-by-reference-to-const替换pass-by-value"><a href="#条款20：宁以pass-by-reference-to-const替换pass-by-value" class="headerlink" title="条款20：宁以pass-by-reference-to-const替换pass-by-value"></a>条款20：宁以pass-by-reference-to-const替换pass-by-value</h1><ul>
-<li>缺省情况下C++以<strong>by value</strong>的方式传递对象。<ul>
-<li>副本由对象的<strong>拷贝构造函数</strong>产出；</li>
-<li>传递开销多了：<strong>1次对象的拷贝构造函数的调用+1次对象的析构函数调用</strong>。</li>
-</ul>
-</li>
-<li><strong>pass-by-reference-to-const</strong>常用于替换<strong>pass-by-value</strong>。<ul>
-<li><strong>效率高</strong>：没有对象被创建；</li>
-<li><strong>合理性</strong>：pass-by-value的参数一般不会被修改，使用const合理且安全；</li>
-<li><strong>避免对象切割</strong>：派生类对象以by-value的形式传给基类参数时，<strong>只会保留基类的部分</strong>。</li>
-</ul>
-</li>
-<li>C++编译器底层实现reference的方式是<strong>指针</strong>。</li>
-<li>某些编译器对<strong>内置类型</strong>和<strong>用户自定义类型</strong>态度不同。<ul>
-<li>例如：（某些编译器）拒绝把只由<u>单一内置类型组成的对象</u>放入缓存器，但<u>单一内存类型数组</u>可以。</li>
-<li>此时应该使用<strong>by reference</strong>的方式传递此对象。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款21：必须返回对象时，别妄想返回其reference"><a href="#条款21：必须返回对象时，别妄想返回其reference" class="headerlink" title="条款21：必须返回对象时，别妄想返回其reference"></a>条款21：必须返回对象时，别妄想返回其reference</h1><ul>
-<li>如果想要<strong>返回reference</strong>，就会有个致命错误：传递reference指向并<strong>不存在的</strong>对象。<ul>
-<li>返回reference的初衷是<strong>避免调用构造函数</strong>；</li>
-<li>函数创建对象有2个方式：<strong>stack</strong>空间和<strong>heap</strong>空间创建。</li>
-</ul>
-</li>
-<li><p>若在<strong>stack</strong>创建对象，相当于定义一个<strong>local对象</strong>。</p>
-<ul>
-<li>本身可以拒绝，因为<strong>违背了使用reference的初衷</strong>；</li>
-<li>任何函数返回reference指向local对象，<strong>返回后local对象已经销毁了</strong>。</li>
-</ul>
-</li>
-<li><p>若在<strong>heap</strong>创建对象，同时<strong>通过reference返回</strong>。</p>
-<ul>
-<li><strong>无法delete</strong>在函数内部new的对象。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>上述两个方法都因为<strong>对返回结果调用构造函数</strong>而失败。</p>
-</blockquote>
-<ul>
-<li>若<strong>在stack使用static对象</strong>，可以成功<strong>返回引用并且在全局变量区</strong>。<ul>
-<li>首先是<strong>非多线程安全</strong>的；</li>
-<li>每次调用该函数返回的是同一个static变量，若两次函数<strong>同时</strong>比较返回结果，那么一定是相同的（<strong>都是后一次调用结果</strong>）。</li>
-</ul>
-</li>
-<li>正确写法：<strong>返回一个新对象，而不是引用</strong>。<ul>
-<li>编译器会自动优化。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款22：将成员变量声明为private"><a href="#条款22：将成员变量声明为private" class="headerlink" title="条款22：将成员变量声明为private"></a>条款22：将成员变量声明为private</h1><ul>
-<li>若成员变量<strong>不是public</strong>，客户只能通过<strong>成员函数</strong>访问对象。<ul>
-<li>若<strong>public接口</strong>全都是函数，客户就不需要考虑<strong>是成员还是变量（是否带<code>()</code>）</strong>；</li>
-<li>使用函数可以保证对成员变量的处理<strong>更精确（定义具体使用方式）</strong>；</li>
-<li>每个成员变量都需要一个<strong>getter和setter函数</strong>；</li>
-<li><strong>封装</strong>之后，可以<strong>在类内部修改成员变量逻辑</strong>，而使用该类的用户并不需要做出任何变化；<ul>
-<li>可根据<strong>不同需求</strong>修改底层逻辑，使得程序设计更有<strong>弹性</strong>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>public成员和protected成员变量类似，从<strong>一致性</strong>和<strong>访问控制</strong>来说都不合适（和private相反）。<ul>
-<li><u>成员变量的封装性</u>和<u>“成员变量内容改变时所破坏的代码数量”</u>成<strong>反比</strong>。</li>
-<li>若一个public成员变量被取消，所有使用它的<strong>客户代码</strong>都会被破坏；</li>
-<li>若一个protected成员变量被取消，所有使用它的<strong>派生类</strong>都会被破坏。</li>
-</ul>
-</li>
-<li>从<strong>封装</strong>的角度来看，只有两种访问权限：<ul>
-<li>private：提供封装；</li>
-<li>其他：不提供封装。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款23：宁以non-member、non-friend替换member函数"><a href="#条款23：宁以non-member、non-friend替换member函数" class="headerlink" title="条款23：宁以non-member、non-friend替换member函数"></a>条款23：宁以non-member、non-friend替换member函数</h1><ul>
-<li>如果用户想将<strong>一系列成员函数封装到一个函数中</strong>统一运行时，有两个选择：<ul>
-<li><strong>member函数</strong>；</li>
-<li><strong>non-member函数</strong>。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>面向对象守则要求<strong>数据尽可能被封装</strong>。</p>
-</blockquote>
-<ul>
-<li><strong><u>member函数</u>的封装性比<u>non-member函数</u>低</strong>。<ul>
-<li>non-member函数对类有较大的<strong>包裹弹性</strong>，导致<strong>编译依赖度低</strong>，增加了<strong>类的可延伸性</strong>；</li>
-<li>越少代码可以看到数据，越多的数据可被封装=&gt;<strong>越多函数可访问，数据的封装性越低</strong>；</li>
-<li>member函数<strong>可以访问类的private部分以及enum、typedef等</strong>，而non-member且non-friend函数不可。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>注意：</p>
-<ol>
-<li>上述只适用于<strong>non-member且non-friend函数</strong>：friend函数等同于member函数。</li>
-<li>此类的non-member函数，<strong>可以</strong>是其他类的member。</li>
-</ol>
-</blockquote>
-<ul>
-<li>C++的做法是使用non-member函数并将其放到namespace中。<ul>
-<li>namespace可以跨越多个源码文件，而class不行；</li>
-<li>若发生编译依赖问题，可以将不同的non-member功能函数<strong>放到不同的头文件中</strong>。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>C++标准库</strong>就是这么做的，将封装函数放到<strong>多个头文件</strong>中，但隶属于<strong>同一个命名空间</strong>。</p>
-</blockquote>
-<h1 id="条款24：若所有参数皆需类型转换，请为此采用non-member函数"><a href="#条款24：若所有参数皆需类型转换，请为此采用non-member函数" class="headerlink" title="条款24：若所有参数皆需类型转换，请为此采用non-member函数"></a>条款24：若所有参数皆需类型转换，请为此采用non-member函数</h1><ul>
-<li>有时候需要做<strong>混合运算</strong>时，若使用<strong>member函数</strong>会出现以下情况：</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">result = rational * <span class="number">2</span>;	<span class="comment">//在non-explicit构造函数下没问题</span></span><br><span class="line">result = <span class="number">2</span> * rational;	<span class="comment">//甚至在non-explicit构造函数下也报错</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>因为只有当参数<strong>位于参数列表中</strong>，该参数才允许被隐式转换。</p>
-<ul>
-<li>调用函数的<u>this对应的对象</u><strong>不允许</strong>隐式转换。</li>
-</ul>
-</li>
-<li><p>让混合运算的函数成为<strong>non-member函数</strong>，即可允许编译器给每个实参进行隐式转换。</p>
-<ul>
-<li>该函数不应该是friend函数，因为<strong>member函数的对立面</strong>应该是<strong>non-member且non-friend函数</strong>（见<a href="#条款23：宁以non-member、non-friend替换member函数">条款23</a>）。</li>
-</ul>
-</li>
-</ul>
-<h1 id="条款25：考虑写出一个不抛异常的swap函数"><a href="#条款25：考虑写出一个不抛异常的swap函数" class="headerlink" title="条款25：考虑写出一个不抛异常的swap函数"></a>条款25：考虑写出一个不抛异常的swap函数</h1><blockquote>
-<p>std::swap是提供<strong>异常安全</strong>的。</p>
-</blockquote>
-<ul>
-<li>若swap的缺省实现可以满足class或class template交换的<strong>效率</strong>，则使用缺省版本。</li>
-<li>若swap效率不足（往往是class或class template使用了<strong>pimpl</strong>手法），做法如下：<ul>
-<li>提供一个<strong>public swap函数</strong>，内部<u>对内置类型进行<strong>高效交换</strong></u>；</li>
-<li>在class或class template<strong>所在命名空间</strong>提供一个<strong>non-member swap函数</strong>，令其<strong>调用public swap成员函数</strong>；</li>
-<li>如果编写的是<strong>class而非class template</strong>，最好为class<strong>特化std::swap</strong>，并令它<strong>调用public swap成员函数</strong>。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>调用swap时，在函数中<strong>包含using声明式</strong>，从而不加namespace修饰直接调用。</p>
-</blockquote>
-<ul>
-<li>成员版swap<strong>绝不可抛出异常</strong>。<ul>
-<li>swap的应用可以帮助class/class template<strong>提供强异常安全性</strong>；</li>
-<li><strong>只约束成员版</strong>，因为swap缺省版本以<strong>拷贝构造函数和拷贝赋值操作符</strong>为基础，而这两者都允许抛出异常。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>note</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DVWA note</title>
     <url>/2022/05/17/note_DVWA/</url>
     <content><![CDATA[<h1 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h1><ul>
@@ -3075,6 +2484,597 @@
       </categories>
       <tags>
         <tag>DVWA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Effective C++ note</title>
+    <url>/2022/05/17/note_effective_cpp/</url>
+    <content><![CDATA[<h1 id="条款01：视C-为一个语言联邦"><a href="#条款01：视C-为一个语言联邦" class="headerlink" title="条款01：视C++为一个语言联邦"></a>条款01：视C++为一个语言联邦</h1><ul>
+<li>语言联邦<ul>
+<li>C</li>
+<li>Object-Oriented C++</li>
+<li>Template C++</li>
+<li>STL</li>
+</ul>
+</li>
+<li>对<strong>内置类型</strong>而言，pass-by-value比pass-by-reference高效。</li>
+<li>对<strong>类类型</strong>而言，pass-by-reference-to-const更好。</li>
+<li>STL的迭代器和函数对象都是在C指针之上塑造出来的，故pass-by-value依然有效。</li>
+</ul>
+<span id="more"></span>
+<h1 id="条款02：尽量以const、enum、inline替代-define"><a href="#条款02：尽量以const、enum、inline替代-define" class="headerlink" title="条款02：尽量以const、enum、inline替代#define"></a>条款02：尽量以const、enum、inline替代#define</h1><h2 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h2><ul>
+<li>宏在编译器开始处理代码之前就被移走了，实际使用的名称可能并<strong>未进入记号表</strong>。</li>
+<li>使用常量替换宏<ul>
+<li>对于<strong>浮点常量</strong>而言，使用常量可能比宏导致更小的码量，因为预处理器盲目的<strong>替换宏为浮点数</strong>，导致目标代码出现多份浮点数。</li>
+<li>定义<strong>常量指针</strong>时，由于常量定义式<u>通常放在头文件中</u>，因此有必要<strong>将指针声明为const</strong>。</li>
+<li>定义<strong>class专属常量</strong>时，必须让它成为一个<strong>static成员</strong>。</li>
+</ul>
+</li>
+<li>使用enum替换宏<ul>
+<li>enum的行为比较<strong>像#define而不像const</strong>，如const变量可以取地址，但是不能取enum和#define的地址（不会导致非必要内存的分配）。</li>
+<li>enum在很多代码中使用了，实质上是<strong>模板元编程</strong>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><ul>
+<li>使用inline替换宏函数<ul>
+<li>inline可以获得<strong>宏的效率</strong>和<strong>函数类型安全性</strong>。</li>
+<li>由于不知道传入内敛模板的类型，故使用pass-by-reference-to-const。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">callWithMax</span><span class="params">(<span class="type">const</span> T&amp; a, <span class="type">const</span> T&amp; b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="条款03：尽可能使用const"><a href="#条款03：尽可能使用const" class="headerlink" title="条款03：尽可能使用const"></a>条款03：尽可能使用const</h1><ul>
+<li>const指定一个<strong>语义约束</strong>，由编译器强制实施这个约束。</li>
+<li>const出现在*左边，表示指针指向的对象是常量，出现在*右边，表示指针本身是常量。</li>
+</ul>
+<blockquote>
+<p>STL的迭代器是以指针为根据封装出来的，所以迭代器的作用<strong>像个T*指针</strong>。</p>
+<p>声明迭代器为const(const_iterator)就像声明指针为const一样，表示迭代器不可指向不同的东西。</p>
+</blockquote>
+<ul>
+<li><strong>令函数返回常量值</strong>，往往可以降低因客户错误而造成的意外。</li>
+</ul>
+<h2 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h2><ul>
+<li>const成员函数重要的原因<ul>
+<li>使得class接口比较容易被理解。</li>
+<li>使得<strong>操作const对象</strong>成为可能。</li>
+</ul>
+</li>
+<li>两个成员函数如果只是常量性不同，<strong>可以被重载</strong>。</li>
+</ul>
+<h3 id="bitwise-constness"><a href="#bitwise-constness" class="headerlink" title="bitwise constness"></a>bitwise constness</h3><ul>
+<li>成员函数只有<u>在不更改对象的任何成员变量时</u>才可以说是const。</li>
+<li>优点：编译器只需寻找成员变量的赋值动作就可以找到违反const的点。</li>
+<li>缺点：一些成员函数不具备const的性质，仍能通过bitwise测试。<ul>
+<li>如一个更改了指针所指对象的成员函数不能算是const，但如果只有指针隶属于对象，就能通过bitwise测试。</li>
+</ul>
+</li>
+</ul>
+<h3 id="logical-constness"><a href="#logical-constness" class="headerlink" title="logical constness"></a>logical constness</h3><ul>
+<li>一个const成员函数可以修改它所处理的对象内的某些bits。</li>
+<li><strong>使用mutable</strong>释放掉non-static成员的bitwise constness约束。</li>
+</ul>
+<h2 id="const和non-const重复避免"><a href="#const和non-const重复避免" class="headerlink" title="const和non-const重复避免"></a>const和non-const重复避免</h2><ul>
+<li>为减少代码重复，可以令重载的函数一个调用另外一个。</li>
+<li><strong>令non-const调用const</strong>是安全的做法，过程中需要转型。<ul>
+<li>第一个转型动作：为调用const版本的成员函数，必须使用const对象/指针/引用来调用，故需要将*this从&amp;转换为const &amp;，这个转型是安全的，可以使用static_const。</li>
+<li>第二个转型动作：将调用结果转换为非const类型，可以使用const_cast。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款04：确定对象被使用前已先被初始化"><a href="#条款04：确定对象被使用前已先被初始化" class="headerlink" title="条款04：确定对象被使用前已先被初始化"></a>条款04：确定对象被使用前已先被初始化</h1><ul>
+<li>读取未初始化的值会导致未定义行为。</li>
+<li>对<strong>内置类型</strong>来说，它们是<strong>类C的</strong>，必须<strong>手工</strong>完成初始化。</li>
+<li>对<strong>类类型</strong>来说，尽量使用<strong>成员初始化列表</strong>完成初始化，而不是赋值。<ul>
+<li>总是在初始列中列出所有成员变量，以免遗漏。</li>
+<li>成员变量是const或者reference则必须初始化而不能赋值。</li>
+<li>多份成员初始化列表时，可以将那些<strong>初始化和赋值一样高效的变量</strong>归类为<u>统一的赋值工作</u>(一般是private)。</li>
+<li><strong>成员初始化顺序只和在类中定义的顺序相同</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>函数内的static对象被称为local static对象，其他static对象被称为non-local static对象。</p>
+<p>编译单元是指产出单一目标文件的源码（cpp文件加上其包含的头文件内容）。</p>
+</blockquote>
+<ul>
+<li>如果某编译单元内的non-static对象初始化时使用了另一个编译单元的non-local static对象，它所用到的这个对象可能尚未初始化。</li>
+<li>解决方案<ul>
+<li>将每个non-local static对象<strong>搬到自己的专属函数内</strong>，对象在函数内被声明为static（<strong>变为local</strong>），返回它的reference，其他用户调用这些函数而不是对象。</li>
+<li>这是Singleton模式的常见手法，且由于函数内容简单、可能被频繁调用，可以将其设置为inline。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>static对象是<strong>非线程安全</strong>的。</p>
+</blockquote>
+<h1 id="条款05：了解C-默认生成和调用的函数"><a href="#条款05：了解C-默认生成和调用的函数" class="headerlink" title="条款05：了解C++默认生成和调用的函数"></a>条款05：了解C++默认生成和调用的函数</h1><ul>
+<li>如果程序员没有声明，编译器会自动为它声明：默认构造函数（没有任何构造函数时）、拷贝构造函数、拷贝赋值运算符=、析构函数。且都是public和inline。</li>
+<li>编译器生成的默认构造函数和析构函数中，包含了父类和non-static成员的构造函数和析构函数。</li>
+</ul>
+<blockquote>
+<p>编译器生成的析构函数是non-virtual的，除非其基类有virtual的析构函数。</p>
+</blockquote>
+<ul>
+<li>编译器生成的拷贝构造函数和拷贝赋值运算符=只是浅拷贝。</li>
+<li>拷贝赋值运算符=是否生成<ul>
+<li>取决于成员是否包括reference和const成员。</li>
+<li>基类的拷贝赋值运算符=为private时，也拒绝生成。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款06：若不想使用编译器自动生成的函数，就该明确拒绝"><a href="#条款06：若不想使用编译器自动生成的函数，就该明确拒绝" class="headerlink" title="条款06：若不想使用编译器自动生成的函数，就该明确拒绝"></a>条款06：若不想使用编译器自动生成的函数，就该明确拒绝</h1><ul>
+<li>拷贝构造函数和拷贝赋值运算符会自动生成，导致不能直接通过不声明的方式拒绝其生产。<ul>
+<li>方法1：可以声明一个private成员函数，阻止用户调用。</li>
+<li>方法2：方法1对于友元和其他成员函数无效，可以在其基础上不定义函数内容，如果有人使用了该函数，则会获得一个连接错误（连接期）。</li>
+<li>方法3：为了将连接期的错误提前到编译期，可以将方法2移植到其基类（专门用于阻止自动生成）中。<ul>
+<li>编译器生成这些函数时，会尝试调用父类的对应函数，调用会被拒绝（父类中是private）。</li>
+<li>使用这项技术可能导致多重继承的问题。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>现代方法：加上=delete。</li>
+</ul>
+<h1 id="条款07：为多态基类声明virtual析构函数"><a href="#条款07：为多态基类声明virtual析构函数" class="headerlink" title="条款07：为多态基类声明virtual析构函数"></a>条款07：为多态基类声明virtual析构函数</h1><ul>
+<li>情景：只想使用基类的一个功能，可以使用工厂函数返回指向派生类对象的基类指针，然后通过基类指针调用功能。而此时基类的析构函数是non-virtual的，此时析构只会执行父类的析构函数，而子类额外的部分无法被销毁。</li>
+<li>解决方案：给基类一个virtual析构函数。</li>
+</ul>
+<blockquote>
+<p>virtual函数的目的是允许派生类的实现得以客制化。</p>
+</blockquote>
+<ul>
+<li>带virtual函数的类几乎都应该有一个virtual析构函数。</li>
+<li>若类不想作为基类，不应该将其析构函数设置为virtual。<ul>
+<li>因为虚函数都放在虚函数表中，用一个vptr指针就是指向虚函数表的指针，相当于多了内存开销。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>继承类的时候，需要注意基类的析构函数是否是virtual的。</p>
+</blockquote>
+<ul>
+<li>构造抽象类时，不管成员函数有无pure virtual，析构函数可以声明为pure virtual的。<ul>
+<li>必须为这个析构函数提供定义，否则基类调用时会连接失败。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款08：别让异常逃离析构函数"><a href="#条款08：别让异常逃离析构函数" class="headerlink" title="条款08：别让异常逃离析构函数"></a>条款08：别让异常逃离析构函数</h1><ul>
+<li>C++不禁止析构函数抛出异常，但是不建议。</li>
+</ul>
+<blockquote>
+<p>两个同时作用的异常会导致程序结束或者不明确行为。</p>
+</blockquote>
+<ul>
+<li>如果程序已经遭遇析构期间的错误，强迫程序终止可避免异常从析构函数抛出。</li>
+<li>如果某个操作可能导致异常抛出，必须让它在析构函数以外的函数抛出（相当于转移责任）。</li>
+</ul>
+<h1 id="条款09：绝不在构造和析构过程中调用virtual函数"><a href="#条款09：绝不在构造和析构过程中调用virtual函数" class="headerlink" title="条款09：绝不在构造和析构过程中调用virtual函数"></a>条款09：绝不在构造和析构过程中调用virtual函数</h1><ul>
+<li>由于基类的构造函数先于派生类的构造函数执行，当<strong>执行基类构造函数时</strong>，派生类的成员变量<strong>尚未初始化</strong>。<ul>
+<li><strong>若</strong>基类构造函数中调用的虚函数<strong>使用派生类版本</strong>，虚函数又不免用到<strong>派生类成员变量</strong>，此时成员变量<strong>未初始化</strong>。</li>
+</ul>
+</li>
+<li>在派生类对象调用基类构造函数期间，对象的类型是基类而不是派生类。<ul>
+<li>若<strong>使用RTTI</strong>，也会把对象视作基类。</li>
+<li>因为对象<u>在派生类构造函数开始执行之前</u><strong>不会</strong>成为一个派生类对象。</li>
+</ul>
+</li>
+<li>析构函数同理<ul>
+<li>派生类析构函数开始后，派生类成员变量<strong>呈现未定义值</strong>，所以C++视它们不存在。</li>
+<li>进入基类析构函数时，对象才成为一个基类对象。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款10：令operator-返回一个reference-to-this"><a href="#条款10：令operator-返回一个reference-to-this" class="headerlink" title="条款10：令operator=返回一个reference to *this"></a>条款10：令operator=返回一个reference to *this</h1><ul>
+<li>连锁赋值</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">x = y = z = <span class="number">15</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>为了实现“连锁赋值”，赋值操作符必须返回一个<strong>reference指向操作符的左侧实参</strong>。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这只是个<strong>建议</strong>，并<strong>无强制性</strong>。</p>
+</blockquote>
+<h1 id="条款11：在operator-中处理自我赋值"><a href="#条款11：在operator-中处理自我赋值" class="headerlink" title="条款11：在operator=中处理自我赋值"></a>条款11：在operator=中处理自我赋值</h1><ul>
+<li>潜在自我赋值</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">a[i] = a[j];</span><br><span class="line">*px = *py;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果尝试自行管理资源，可能造成<strong>对释放资源的使用</strong>。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    <span class="keyword">delete</span> p_bitmap;</span><br><span class="line">    p_bitmap = <span class="keyword">new</span> <span class="built_in">Bitmap</span>(*rhs.p_bitmap);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述代码如果左侧和右侧为同一个对象，则会发生错误：<strong>释放指针后使用该指针</strong>。<ul>
+<li>阻止这种错误的传统做法是在operator=的函数体中加一个<strong>认同测试</strong>，以检验是否是自我赋值。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> == &amp;rhs) <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">delete</span> p_bitmap;</span><br><span class="line">    p_bitmap = <span class="keyword">new</span> <span class="built_in">Bitmap</span>(*rhs.p_bitmap);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述版本仍不具备异常安全性：new Bitmap导致异常时，p_bitmap指向被删除的对象。<ul>
+<li>且由于自我赋值较少，导致<strong>认同测试</strong>实际进入分支次数少，但每次都需要判断，<strong>降低了执行速度</strong>。</li>
+<li>替代方案是使用<strong>copy and swap技术</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//代码逻辑清晰版本</span></span><br><span class="line">Base&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Base&amp; rhs) &#123;</span><br><span class="line">    Base <span class="built_in">tmp</span>(rhs);</span><br><span class="line">    <span class="built_in">swap</span>(tmp);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//代码简洁版本</span></span><br><span class="line">Base&amp; <span class="keyword">operator</span>=(Base rhs) &#123;	<span class="comment">//值传递</span></span><br><span class="line">    <span class="built_in">swap</span>(rhs);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="条款12：复制对象时勿忘每一个成分"><a href="#条款12：复制对象时勿忘每一个成分" class="headerlink" title="条款12：复制对象时勿忘每一个成分"></a>条款12：复制对象时勿忘每一个成分</h1><ul>
+<li>设计良好的面向对象系统会<strong>将对象内部封装起来</strong>，只留下<strong>拷贝构造函数</strong>和<strong>拷贝赋值操作符</strong>（统称为<strong>copying函数</strong>）用于对象拷贝。</li>
+<li>如果声明自己的copying函数，即使你的代码不完全，编译器也不会报错。<ul>
+<li>当你添加一个成员变量时，往往需要修改<strong>所有的构造函数和operator=</strong>（不仅仅是copying函数），如果没有修改，编译器也不会提醒。</li>
+</ul>
+</li>
+<li>编写自己的copying函数需要确保：<ul>
+<li>复制所有<strong>local成员变量</strong>；</li>
+<li>调用<strong>基类的copying函数</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">Derived</span>(<span class="type">const</span> Derived&amp; rhs) </span><br><span class="line">    	: <span class="built_in">Base</span>(rhs), <span class="built_in">local_variable</span>(rhs.local_variable)&#123; &#125;</span><br><span class="line">    Derived&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Derived&amp; rhs) &#123;</span><br><span class="line">        Base::<span class="keyword">operator</span>=(rhs);</span><br><span class="line">        local_variable=rhs.local_variable;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> local_variable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>copying函数有大致相同的实现过程，可以通过调用其他函数来避免代码重复。<ul>
+<li>但是：<strong>不应该令拷贝构造函数调用拷贝赋值操作符，相反同理</strong>。</li>
+<li>正确的做法是：建立<strong>一个新的成员函数</strong>给copying函数调用。这个函数往往是<strong>private</strong>，且常被<strong>命名为init</strong>。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款13：以对象管理资源"><a href="#条款13：以对象管理资源" class="headerlink" title="条款13：以对象管理资源"></a>条款13：以对象管理资源</h1><ul>
+<li>背景：有时使用工厂函数<strong>创建资源返回指针</strong>，需要考虑<strong>资源的释放</strong>。<ul>
+<li>由于一些<strong>特殊情况（异常、分支、遗忘）</strong>，会导致资源无法被释放，导致内存泄漏。</li>
+</ul>
+</li>
+<li>为确保资源总是能被释放，我们需要将资源放进对象内，<strong>当离开作用域时，该对象可以自动释放资源（利用对象的析构函数）</strong>。<ul>
+<li>使用<strong>智能指针</strong>。</li>
+</ul>
+</li>
+<li>“以对象管理资源”的关键想法<ul>
+<li><strong>获得资源后立即放进管理对象</strong>。我们应该在获得资源后在<strong>同一语句初始化其管理对象</strong>，这被称为<strong>RAII（资源取得实际便是初始化时机）</strong>。</li>
+<li><strong>管理对象运用析构函数确保资源被释放</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>智能指针在析构函数里面做的是delete而不是delete[]，故<strong>不能管理动态数组资源</strong>。</p>
+</blockquote>
+<ul>
+<li>工厂函数返回<strong>未加工指针</strong>很容易造成<strong>资源泄漏</strong>！</li>
+</ul>
+<h1 id="条款14：在资源管理类中小心copying行为"><a href="#条款14：在资源管理类中小心copying行为" class="headerlink" title="条款14：在资源管理类中小心copying行为"></a>条款14：在资源管理类中小心copying行为</h1><ul>
+<li>智能指针表现在<strong>堆创建的资源</strong>上，其余资源的管理可能需要自己创建资源管理类。</li>
+<li>自己创建资源管理类<strong>面临复制</strong>，有以下4种可能：<ul>
+<li>禁止复制：将copying声明为private；</li>
+<li>对底层资源使用<strong>引用计数</strong>。</li>
+<li><strong>复制底部资源</strong>：进行深拷贝。</li>
+<li><strong>转移</strong>底部资源的拥有权：希望同时只有<strong>一个RAII</strong>指向<strong>一个未加工资源</strong>，在被复制时，<strong>转移拥有权</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>shared_ptr支持<strong>指定删除器</strong>。</p>
+</blockquote>
+<h1 id="条款15：在资源管理类中提供对原始资源的访问"><a href="#条款15：在资源管理类中提供对原始资源的访问" class="headerlink" title="条款15：在资源管理类中提供对原始资源的访问"></a>条款15：在资源管理类中提供对原始资源的访问</h1><ul>
+<li>使用<strong>资源管理类</strong>来管理原始资源，而不是直接处理。</li>
+<li>有的函数需要<strong>提供原始资源的指针</strong>，但此时是用资源管理类封装的资源，有<strong>两个方法</strong>可以完成。<ul>
+<li>显示转换：提供一个get成员函数，<strong>返回原始指针</strong>。</li>
+<li>隐式转换：将类型隐式<strong>转换为原始指针类型</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ManageResouce</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Resource* p_res;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//显式转换</span></span><br><span class="line">    <span class="function">Resource* <span class="title">get</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> p_res; &#125;</span><br><span class="line">    <span class="comment">//隐式转换</span></span><br><span class="line">    <span class="function"><span class="keyword">operator</span> <span class="title">ManageResouce</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> p_res; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>关于选择显式转换还是隐式转换，主要取决于RAII类被设计的特定工作。</li>
+</ul>
+<h1 id="条款16：成对使用new和delete时要采取相同形式"><a href="#条款16：成对使用new和delete时要采取相同形式" class="headerlink" title="条款16：成对使用new和delete时要采取相同形式"></a>条款16：成对使用new和delete时要采取相同形式</h1><ul>
+<li>new对象时，有两件事发生<ul>
+<li>内存被分配出来；</li>
+<li>针对此内存调用构造函数。</li>
+</ul>
+</li>
+<li>delete对象时，也有两件事发生<ul>
+<li>针对此内存调用析构函数；</li>
+<li>内存被释放。</li>
+</ul>
+</li>
+<li>delete需要知道被删除的指针是<strong>单一对象还是对象数组</strong>。<ul>
+<li>使用<strong>delete加上[]</strong>表示为对象数组：delete[]会读取若干内存并将其<strong>解释为数组大小</strong>，开始多次调用析构函数。</li>
+</ul>
+</li>
+<li>由于new和delete的形式必须匹配，所以<strong>不建议使用typedef定义数组</strong>，因为不知道使用delete还是delete[]。</li>
+</ul>
+<h1 id="条款17：以独立语句将newed对象置入智能指针"><a href="#条款17：以独立语句将newed对象置入智能指针" class="headerlink" title="条款17：以独立语句将newed对象置入智能指针"></a>条款17：以独立语句将newed对象置入智能指针</h1><ul>
+<li>考虑情景</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">priority</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(shared_ptr&lt;Resource&gt; pr, <span class="type">int</span> priority)</span></span>;</span><br><span class="line">...</span><br><span class="line"><span class="built_in">func</span>(<span class="built_in">shared_ptr</span>&lt;Resource&gt;(<span class="keyword">new</span> Resource), <span class="built_in">priority</span>());		<span class="comment">//调用func</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于上述情景，func执行前会发生：<ul>
+<li>priority的调用；</li>
+<li>new Resource；</li>
+<li>构造shared_ptr。</li>
+</ul>
+</li>
+<li>但是上述事件的<strong>执行顺序是不一定的</strong>（new Resource一定在构造shared_ptr之前），编译器会进行优化。</li>
+<li>当priority在其他两者之间执行时，若priority抛出异常，会<strong>导致new Resource之后并没有传入shared_ptr</strong>，这块内存会<strong>遗失</strong>。<ul>
+<li>是因为在<strong>资源被创建</strong>和<strong>资源被转换为资源管理对象</strong>之间可能发生异常。</li>
+<li>解决方法就是将<strong>资源被创建</strong>和<strong>资源被转换为资源管理对象</strong>单独出来执行。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">shared_ptr&lt;Resource&gt;<span class="built_in">sr</span>(<span class="keyword">new</span> Resource);</span><br><span class="line"><span class="built_in">func</span>(sr, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
+<h1 id="条款18：让接口容易被正确使用，不易被误用"><a href="#条款18：让接口容易被正确使用，不易被误用" class="headerlink" title="条款18：让接口容易被正确使用，不易被误用"></a>条款18：让接口容易被正确使用，不易被误用</h1><blockquote>
+<p>必须考虑<strong>客户可能犯什么错误</strong>。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//客户可能传输错误的参数范围或者顺序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Date</span><span class="params">(<span class="type">int</span> month, <span class="type">int</span> day, <span class="type">int</span> year)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述问题可以通过<strong>导入新类型</strong>来预防。<ul>
+<li>导入<strong>覆盖类型</strong>来区分month、day、year。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Month</span> &#123;	<span class="comment">//Day、Year类似</span></span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Day</span><span class="params">(<span class="type">int</span> d)</span> : val(d)&#123;</span>&#125;</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Date</span><span class="params">(<span class="type">const</span> Month&amp; m, <span class="type">const</span> Day&amp; d, <span class="type">const</span> Year&amp; y)</span></span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>将类型设置为<strong>成熟的class比struct更好</strong>。</p>
+</blockquote>
+<ul>
+<li>类型正确后，可以通过逻辑<strong>限制其范围</strong>。<ul>
+<li>可以通过enum枚举可用值，但<strong>enum不具备类型安全性</strong>；</li>
+<li>有效安全的解法是预先定义所有有效的值。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Month</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> Month <span class="title">Jan</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">Month</span>(<span class="number">1</span>); &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Month</span><span class="params">(<span class="type">int</span> m)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br><span class="line"><span class="built_in">Date</span>(Month::<span class="built_in">Dec</span>(), <span class="built_in">Day</span>(<span class="number">30</span>), <span class="built_in">Year</span>(<span class="number">2000</span>));</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>限制</strong>客户使用的<strong>对象功能</strong>。</p>
+<ul>
+<li>通常是加上<strong>const</strong>（参考<a href="#条款03：尽可能使用const">条款3</a>）。</li>
+</ul>
+</li>
+<li><p>除非有特殊原因，应该令<strong>自定义类型</strong>行为和其<strong>内置类型</strong>行为一致。</p>
+<ul>
+<li>如上述例子中，应该让Month的行为类似于int，但由于乘法不合法，应该避免乘法。</li>
+<li>方法是<strong>提供行为一致的接口</strong>。</li>
+</ul>
+</li>
+<li><p>参考<a href="#条款13：以对象管理资源">条款13</a>的客户错误：没有删除指针、删除同一个指针两次。</p>
+<ul>
+<li>解决方案是让<u>客户</u><strong>使用智能指针接收原始指针</strong>。</li>
+</ul>
+</li>
+<li>万一客户忘记使用智能指针接收。<ul>
+<li>解决方案是<u>工厂函数</u>将指针通过<strong>智能指针</strong>的形式返回。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">shared_ptr&lt;Resource&gt; <span class="title">createResource</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若工厂函数<strong>仍返回原始指针</strong>，且希望使用<strong>指定删除器</strong>释放指针，同时客户错误的使用了delete（或其他方式）释放了资源。<ul>
+<li>解决方案是<u>工厂函数</u><strong>返回一个绑定了删除器的智能指针</strong>。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">shared_ptr&lt;Resource&gt; <span class="title">createResource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;Resource&gt; <span class="title">retSP</span><span class="params">(<span class="literal">nullptr</span>, removeResource)</span></span>;</span><br><span class="line">    retSP = ...;</span><br><span class="line">    <span class="keyword">return</span> retSP;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当然，能够<strong>将原始指针直接传给智能指针的构造函数</strong>是更好的。</p>
+</blockquote>
+<ul>
+<li>在一个DLL被new创建，却在另一个DLL内被delete销毁，会导致cross-DLL问题。<ul>
+<li>解决方案是使用智能指针，因为它的默认删除器是<strong>创建时DLL的删除器</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>智能指针比原始指针大且慢，而且<strong>使用辅助动态内存</strong>。</p>
+<p>但实际中成本不显著，而且能<strong>大幅减少客户错误</strong>。</p>
+</blockquote>
+<h1 id="条款19：设计class犹如设计type"><a href="#条款19：设计class犹如设计type" class="headerlink" title="条款19：设计class犹如设计type"></a>条款19：设计class犹如设计type</h1><blockquote>
+<p>设计高效的类，需要考虑的问题如下。</p>
+</blockquote>
+<ul>
+<li>对象如何被<strong>创建和销毁</strong>？<ul>
+<li>影响到<strong>构造函数、析构函数、内存分配和释放函数</strong>的设计。</li>
+</ul>
+</li>
+<li>对象的<strong>初始化和赋值</strong>应该有什么区别？<ul>
+<li>影响到<strong>构造函数和赋值操作符</strong>的设计。</li>
+</ul>
+</li>
+<li>对象被<strong>pass by value</strong>，意味着什么？<ul>
+<li><font color="red">矛盾：拷贝构造函数<strong>不能</strong>pass by value</font>。</li>
+</ul>
+</li>
+<li>什么是对象的<strong>合法值</strong>？<ul>
+<li><strong>约束条件</strong>决定了成员函数必须进行的<strong>错误检查</strong>工作。</li>
+</ul>
+</li>
+<li>类需要<strong>继承</strong>吗？<ul>
+<li>作为<strong>派生类</strong>，就会受到基类的约束，特别是<strong>成员函数是否为virtual</strong>的影响；</li>
+<li>作为<strong>基类</strong>，需要注意<strong>成员函数（尤其是析构函数）是否为virtual</strong>。</li>
+</ul>
+</li>
+<li>类需要什么<strong>转换</strong>？<ul>
+<li>A<strong>隐式转换</strong>到B：在A中写一个<strong>类型转换函数</strong>或在B中写一个<strong>non-explicit-one-argument</strong>的构造函数；</li>
+<li><strong>只允许explicit</strong>构造函数：就得写出<strong>专门负责转换</strong>的函数。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">A</span>(<span class="type">int</span> _val) : <span class="built_in">val</span>(_val) &#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">operator</span> <span class="title">B</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">B</span>(val); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">B</span>(<span class="type">int</span> _val) : <span class="built_in">val</span>(_val) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>类需要哪些<strong>函数和操作符</strong>？</li>
+<li>类应该<strong>拒绝哪些函数</strong>？<ul>
+<li>决定了必须声明为<strong>private</strong>的函数。</li>
+</ul>
+</li>
+<li>谁能<strong>使用类的成员</strong>？<ul>
+<li>决定了<strong>public、protected和private</strong>。</li>
+</ul>
+</li>
+<li>什么是类的<strong>未声明接口</strong>？<ul>
+<li><font color="orange">待办</font></li>
+</ul>
+</li>
+<li>类有多么<strong>一般化</strong>？<ul>
+<li>有时候不仅仅是定义一个类，而是定义一整个<strong>类家族</strong>，这种情况可以选择定义一个<strong>类模板</strong>。</li>
+</ul>
+</li>
+<li>真的<strong>需要</strong>一个新类吗？<ul>
+<li>有时候<strong>继承再添加功能</strong>是更好的选择。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款20：宁以pass-by-reference-to-const替换pass-by-value"><a href="#条款20：宁以pass-by-reference-to-const替换pass-by-value" class="headerlink" title="条款20：宁以pass-by-reference-to-const替换pass-by-value"></a>条款20：宁以pass-by-reference-to-const替换pass-by-value</h1><ul>
+<li>缺省情况下C++以<strong>by value</strong>的方式传递对象。<ul>
+<li>副本由对象的<strong>拷贝构造函数</strong>产出；</li>
+<li>传递开销多了：<strong>1次对象的拷贝构造函数的调用+1次对象的析构函数调用</strong>。</li>
+</ul>
+</li>
+<li><strong>pass-by-reference-to-const</strong>常用于替换<strong>pass-by-value</strong>。<ul>
+<li><strong>效率高</strong>：没有对象被创建；</li>
+<li><strong>合理性</strong>：pass-by-value的参数一般不会被修改，使用const合理且安全；</li>
+<li><strong>避免对象切割</strong>：派生类对象以by-value的形式传给基类参数时，<strong>只会保留基类的部分</strong>。</li>
+</ul>
+</li>
+<li>C++编译器底层实现reference的方式是<strong>指针</strong>。</li>
+<li>某些编译器对<strong>内置类型</strong>和<strong>用户自定义类型</strong>态度不同。<ul>
+<li>例如：（某些编译器）拒绝把只由<u>单一内置类型组成的对象</u>放入缓存器，但<u>单一内存类型数组</u>可以。</li>
+<li>此时应该使用<strong>by reference</strong>的方式传递此对象。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款21：必须返回对象时，别妄想返回其reference"><a href="#条款21：必须返回对象时，别妄想返回其reference" class="headerlink" title="条款21：必须返回对象时，别妄想返回其reference"></a>条款21：必须返回对象时，别妄想返回其reference</h1><ul>
+<li>如果想要<strong>返回reference</strong>，就会有个致命错误：传递reference指向并<strong>不存在的</strong>对象。<ul>
+<li>返回reference的初衷是<strong>避免调用构造函数</strong>；</li>
+<li>函数创建对象有2个方式：<strong>stack</strong>空间和<strong>heap</strong>空间创建。</li>
+</ul>
+</li>
+<li><p>若在<strong>stack</strong>创建对象，相当于定义一个<strong>local对象</strong>。</p>
+<ul>
+<li>本身可以拒绝，因为<strong>违背了使用reference的初衷</strong>；</li>
+<li>任何函数返回reference指向local对象，<strong>返回后local对象已经销毁了</strong>。</li>
+</ul>
+</li>
+<li><p>若在<strong>heap</strong>创建对象，同时<strong>通过reference返回</strong>。</p>
+<ul>
+<li><strong>无法delete</strong>在函数内部new的对象。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>上述两个方法都因为<strong>对返回结果调用构造函数</strong>而失败。</p>
+</blockquote>
+<ul>
+<li>若<strong>在stack使用static对象</strong>，可以成功<strong>返回引用并且在全局变量区</strong>。<ul>
+<li>首先是<strong>非多线程安全</strong>的；</li>
+<li>每次调用该函数返回的是同一个static变量，若两次函数<strong>同时</strong>比较返回结果，那么一定是相同的（<strong>都是后一次调用结果</strong>）。</li>
+</ul>
+</li>
+<li>正确写法：<strong>返回一个新对象，而不是引用</strong>。<ul>
+<li>编译器会自动优化。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款22：将成员变量声明为private"><a href="#条款22：将成员变量声明为private" class="headerlink" title="条款22：将成员变量声明为private"></a>条款22：将成员变量声明为private</h1><ul>
+<li>若成员变量<strong>不是public</strong>，客户只能通过<strong>成员函数</strong>访问对象。<ul>
+<li>若<strong>public接口</strong>全都是函数，客户就不需要考虑<strong>是成员还是变量（是否带<code>()</code>）</strong>；</li>
+<li>使用函数可以保证对成员变量的处理<strong>更精确（定义具体使用方式）</strong>；</li>
+<li>每个成员变量都需要一个<strong>getter和setter函数</strong>；</li>
+<li><strong>封装</strong>之后，可以<strong>在类内部修改成员变量逻辑</strong>，而使用该类的用户并不需要做出任何变化；<ul>
+<li>可根据<strong>不同需求</strong>修改底层逻辑，使得程序设计更有<strong>弹性</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>public成员和protected成员变量类似，从<strong>一致性</strong>和<strong>访问控制</strong>来说都不合适（和private相反）。<ul>
+<li><u>成员变量的封装性</u>和<u>“成员变量内容改变时所破坏的代码数量”</u>成<strong>反比</strong>。</li>
+<li>若一个public成员变量被取消，所有使用它的<strong>客户代码</strong>都会被破坏；</li>
+<li>若一个protected成员变量被取消，所有使用它的<strong>派生类</strong>都会被破坏。</li>
+</ul>
+</li>
+<li>从<strong>封装</strong>的角度来看，只有两种访问权限：<ul>
+<li>private：提供封装；</li>
+<li>其他：不提供封装。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款23：宁以non-member、non-friend替换member函数"><a href="#条款23：宁以non-member、non-friend替换member函数" class="headerlink" title="条款23：宁以non-member、non-friend替换member函数"></a>条款23：宁以non-member、non-friend替换member函数</h1><ul>
+<li>如果用户想将<strong>一系列成员函数封装到一个函数中</strong>统一运行时，有两个选择：<ul>
+<li><strong>member函数</strong>；</li>
+<li><strong>non-member函数</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>面向对象守则要求<strong>数据尽可能被封装</strong>。</p>
+</blockquote>
+<ul>
+<li><strong><u>member函数</u>的封装性比<u>non-member函数</u>低</strong>。<ul>
+<li>non-member函数对类有较大的<strong>包裹弹性</strong>，导致<strong>编译依赖度低</strong>，增加了<strong>类的可延伸性</strong>；</li>
+<li>越少代码可以看到数据，越多的数据可被封装=&gt;<strong>越多函数可访问，数据的封装性越低</strong>；</li>
+<li>member函数<strong>可以访问类的private部分以及enum、typedef等</strong>，而non-member且non-friend函数不可。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注意：</p>
+<ol>
+<li>上述只适用于<strong>non-member且non-friend函数</strong>：friend函数等同于member函数。</li>
+<li>此类的non-member函数，<strong>可以</strong>是其他类的member。</li>
+</ol>
+</blockquote>
+<ul>
+<li>C++的做法是使用non-member函数并将其放到namespace中。<ul>
+<li>namespace可以跨越多个源码文件，而class不行；</li>
+<li>若发生编译依赖问题，可以将不同的non-member功能函数<strong>放到不同的头文件中</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>C++标准库</strong>就是这么做的，将封装函数放到<strong>多个头文件</strong>中，但隶属于<strong>同一个命名空间</strong>。</p>
+</blockquote>
+<h1 id="条款24：若所有参数皆需类型转换，请为此采用non-member函数"><a href="#条款24：若所有参数皆需类型转换，请为此采用non-member函数" class="headerlink" title="条款24：若所有参数皆需类型转换，请为此采用non-member函数"></a>条款24：若所有参数皆需类型转换，请为此采用non-member函数</h1><ul>
+<li>有时候需要做<strong>混合运算</strong>时，若使用<strong>member函数</strong>会出现以下情况：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">result = rational * <span class="number">2</span>;	<span class="comment">//在non-explicit构造函数下没问题</span></span><br><span class="line">result = <span class="number">2</span> * rational;	<span class="comment">//甚至在non-explicit构造函数下也报错</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>因为只有当参数<strong>位于参数列表中</strong>，该参数才允许被隐式转换。</p>
+<ul>
+<li>调用函数的<u>this对应的对象</u><strong>不允许</strong>隐式转换。</li>
+</ul>
+</li>
+<li><p>让混合运算的函数成为<strong>non-member函数</strong>，即可允许编译器给每个实参进行隐式转换。</p>
+<ul>
+<li>该函数不应该是friend函数，因为<strong>member函数的对立面</strong>应该是<strong>non-member且non-friend函数</strong>（见<a href="#条款23：宁以non-member、non-friend替换member函数">条款23</a>）。</li>
+</ul>
+</li>
+</ul>
+<h1 id="条款25：考虑写出一个不抛异常的swap函数"><a href="#条款25：考虑写出一个不抛异常的swap函数" class="headerlink" title="条款25：考虑写出一个不抛异常的swap函数"></a>条款25：考虑写出一个不抛异常的swap函数</h1><blockquote>
+<p>std::swap是提供<strong>异常安全</strong>的。</p>
+</blockquote>
+<ul>
+<li>若swap的缺省实现可以满足class或class template交换的<strong>效率</strong>，则使用缺省版本。</li>
+<li>若swap效率不足（往往是class或class template使用了<strong>pimpl</strong>手法），做法如下：<ul>
+<li>提供一个<strong>public swap函数</strong>，内部<u>对内置类型进行<strong>高效交换</strong></u>；</li>
+<li>在class或class template<strong>所在命名空间</strong>提供一个<strong>non-member swap函数</strong>，令其<strong>调用public swap成员函数</strong>；</li>
+<li>如果编写的是<strong>class而非class template</strong>，最好为class<strong>特化std::swap</strong>，并令它<strong>调用public swap成员函数</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>调用swap时，在函数中<strong>包含using声明式</strong>，从而不加namespace修饰直接调用。</p>
+</blockquote>
+<ul>
+<li>成员版swap<strong>绝不可抛出异常</strong>。<ul>
+<li>swap的应用可以帮助class/class template<strong>提供强异常安全性</strong>；</li>
+<li><strong>只约束成员版</strong>，因为swap缺省版本以<strong>拷贝构造函数和拷贝赋值操作符</strong>为基础，而这两者都允许抛出异常。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>note</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
       </tags>
   </entry>
   <entry>
