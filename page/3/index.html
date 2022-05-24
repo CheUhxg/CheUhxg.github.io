@@ -185,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/vuln_SessionID/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/vuln_Insecure_CAPTCHA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -199,7 +199,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/05/17/vuln_SessionID/" class="post-title-link" itemprop="url">SessionID introduce and usage</a>
+            <a href="/2022/05/17/vuln_Insecure_CAPTCHA/" class="post-title-link" itemprop="url">Insecure CAPTCHA introduce and usage</a>
         </h2>
 
         <div class="post-meta">
@@ -239,16 +239,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h1><ul>
-<li>当用户第一次访问服务程序时，服务器端会给用户创建一个独立的会话<code>Session</code><br>并且生成一个<code>SessionID</code>。</li>
-<li><code>SessionID</code>在响应浏览器的时候会被加载到<code>cookie</code>中，并保存到浏览器中。</li>
-<li>当用户再一次访问服务程序时，请求中会携带着<code>cookie</code>中的<code>SessionID</code>去访问服务器。</li>
-<li>服务器会根据这个<code>SessionID</code>去查看是否有对应的<code>Session</code>对象，有则使用，没有就新创建一个<code>Session</code>。</li>
-<li><img src="https://img-blog.csdnimg.cn/20210228093534272.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1OTY5MDYy,size_16,color_FFFFFF,t_70" alt=""></li>
+          <h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Captcha/9630117?fr=aladdin"><code>CAPTCHA</code></a>项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/图灵测试/1701255">图灵测试</a>)的简称，是一种区分用户是计算机和人的公共全自动程序。</li>
+<li>使用<code>CAPTCHA</code>可以防止计算机恶意破解密码、刷单等，保证用户是人类(无法快速反复发送请求)。</li>
+<li>攻击者绕过<code>CAPTCHA</code>验证后，可以使用恶意脚本操控计算机反复发送请求或者在异地实现绕过验证的<code>CSRF</code>攻击。</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/05/17/vuln_SessionID/#more" rel="contents">
+              <a class="btn" href="/2022/05/17/vuln_Insecure_CAPTCHA/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
