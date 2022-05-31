@@ -185,6 +185,225 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/31/note_SDN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="CheUhxg">
+      <meta itemprop="description" content="C0py for Coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CheUhxg's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/31/note_SDN/" class="post-title-link" itemprop="url">SDN note</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-31 12:39:40 / 修改时间：12:39:26" itemprop="dateCreated datePublished" datetime="2022-05-31T12:39:40+08:00">2022-05-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/note/" itemprop="url" rel="index"><span itemprop="name">note</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h2><ul>
+<li>传统网络<ul>
+<li>管理困难、配置麻烦。</li>
+</ul>
+</li>
+<li>SDN<ul>
+<li>将<strong>控制层面</strong>从底层路由器和交换机中分离。</li>
+<li>switches仅作为转发设备。</li>
+</ul>
+</li>
+</ul>
+<h2 id="网络架构"><a href="#网络架构" class="headerlink" title="网络架构"></a>网络架构</h2><p><img src="../image/image-20220531103132566.png" alt="image-20220531103132566"></p>
+<ul>
+<li>一个OpenFlow交换机有1个或多个流表。<ul>
+<li>流表中的<strong>规则</strong>匹配流量的子集，并执行相应操作。</li>
+<li>流表由控制器下发到转发设备。</li>
+</ul>
+</li>
+<li>转发决策是<u>基于<strong>流</strong>的</u>，而不是基于目的的。<ul>
+<li><strong>流</strong>：源和目的之间的数据序列。</li>
+</ul>
+</li>
+<li>控制逻辑是给到<strong>控制器</strong>的。<ul>
+<li><strong>控制器</strong>：运行在服务器上的软件平台。</li>
+</ul>
+</li>
+</ul>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>简称</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forwarding Device</td>
+<td>FD</td>
+<td>数据平面的转发设备</td>
+</tr>
+<tr>
+<td>Data Plane</td>
+<td>DP</td>
+<td>FD互联而成的层</td>
+</tr>
+<tr>
+<td>Southbound Interface</td>
+<td>SI</td>
+<td>使CP和DP(通信)形式化</td>
+</tr>
+<tr>
+<td>Control Plane</td>
+<td>CP</td>
+<td>通过SI对FD编程</td>
+</tr>
+<tr>
+<td>Northbound Interface</td>
+<td>NI</td>
+<td>为上层APP提供管理API</td>
+</tr>
+<tr>
+<td>Management Plane</td>
+<td>MP</td>
+<td>APP的集合，通过NI管理网络</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="自底向上"><a href="#自底向上" class="headerlink" title="自底向上"></a>自底向上</h1><h2 id="第一层：设施"><a href="#第一层：设施" class="headerlink" title="第一层：设施"></a>第一层：设施</h2><ul>
+<li>OpenFlow设备匹配表项(新增)。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>匹配字段</th>
+<th>统计单位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1.0</td>
+<td>入端口</td>
+<td>表</td>
+</tr>
+<tr>
+<td></td>
+<td>以太网：src,dst,type,VLAN</td>
+<td>流</td>
+</tr>
+<tr>
+<td></td>
+<td>IPv4：src,dst,proto,ToS</td>
+<td>端口</td>
+</tr>
+<tr>
+<td></td>
+<td>TCP/UDP：src port,dst port</td>
+<td>队列</td>
+</tr>
+<tr>
+<td>v1.1</td>
+<td>Metadata,SCTP,VLAN tagging</td>
+<td>组</td>
+</tr>
+<tr>
+<td></td>
+<td>MPLS：label,traffic class</td>
+<td>动作桶</td>
+</tr>
+<tr>
+<td>v1.2</td>
+<td>OpenFlow Extensible Match</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>IPv6：src,dst,flow label,ICMPv6</td>
+<td></td>
+</tr>
+<tr>
+<td>v1.3</td>
+<td>PBB,IPv6扩展头</td>
+<td>flow meter(band)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="第二层：南向接口"><a href="#第二层：南向接口" class="headerlink" title="第二层：南向接口"></a>第二层：南向接口</h2><ul>
+<li>OpenFlow协议提供3个信息源给网络操作系统。<ul>
+<li>当<u>链路或端口发生变化</u>时，转发设备会向控制器发送基于事件的消息。</li>
+<li><u>流量统计</u>由转发设备产生，由控制器收集。</li>
+<li>当<u>转发设备不知道如何处理</u>新的传入流或因为在<u>流表的匹配条目中有一个显式的“发送给控制器”动作</u>时，packer-in消息由转发设备发送给控制器。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这些信息通道是<strong>向网络操作系统提供流级信息</strong>的必要手段。</p>
+</blockquote>
+<h2 id="第三层：网络虚拟管理"><a href="#第三层：网络虚拟管理" class="headerlink" title="第三层：网络虚拟管理"></a>第三层：网络虚拟管理</h2><h3 id="划分网络"><a href="#划分网络" class="headerlink" title="划分网络"></a>划分网络</h3><blockquote>
+<p>FlowVisor是SDN虚拟化的早期技术之一。</p>
+</blockquote>
+<ul>
+<li>FlowVisor的基本思想是<u>允许多个逻辑网络共享相同的OpenFlow网络基础设施</u>。<ul>
+<li>为此，它提供了一个<strong>抽象层</strong>，使基于现成的支持openflow的交换机对数据平面进行切片变得更容易，从而允许多个不同的网络共存。</li>
+</ul>
+</li>
+<li>FlowVisor考虑了5个切片维度:带宽、拓扑、流量、设备CPU和转发表。此外，每个网络片支持一个控制器，即多个控制器可以在相同的物理网络基础设施上共存。每个控制器只允许作用于自己的网络片。一般来说，切片被定义为数据平面上的一组特定的流。从系统设计的角度来看，FlowVisor是一个透明的代理，它拦截交换机和控制器之间的OpenFlow消息。它划分了每个交换机的链路带宽和流表。每个片接收一个最小的数据速率，每个来宾控制器在交换机中获得自己的虚拟流表。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/29/lab-mit-6824/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -869,90 +1088,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_postgresql_build/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="CheUhxg">
-      <meta itemprop="description" content="C0py for Coding">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CheUhxg's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/17/exp_postgresql_build/" class="post-title-link" itemprop="url">PostgreSQL build</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-17 17:02:40" itemprop="dateCreated datePublished" datetime="2022-05-17T17:02:40+08:00">2022-05-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-23 21:36:20" itemprop="dateModified" datetime="2022-05-23T21:36:20+08:00">2022-05-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/exp/" itemprop="url" rel="index"><span itemprop="name">exp</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
-<li>这学期的<font color="blue">数据库课程</font>要求使用<code>PostgreSQL</code>作为学习使用的数据库工具。</li>
-<li>所以今天尝试着安装了一下<code>PostgreSQL</code>，出了一些问题，在此做一个记录。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/17/exp_postgresql_build/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/17/exp_XTerm_send/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1104,7 +1239,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
