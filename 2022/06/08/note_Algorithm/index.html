@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":false,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="分治strassen算法介绍 用于方阵求乘积。  步骤 将方阵分块后，得到8个子方阵； 计算10个S矩阵；   \begin{align*} &amp;S_{1}&#x3D;B_{12}-B_{22}\\ &amp;S_{2}&#x3D;A_{11}+A_{12}\\ &amp;S_{3}&#x3D;A_{21}+A_{22}\\ &amp;S_{4}&#x3D;B_{21}-B_{11}\\ &amp;S_{5}&#x3D;A_{11}+A_{22}\\ &amp;S_{6}&#x3D;B_{11}+">
+  <meta name="description" content="分治strassen算法介绍 用于方阵求乘积。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Algorithm note">
 <meta property="og:url" content="http://example.com/2022/06/08/note_Algorithm/index.html">
 <meta property="og:site_name" content="CheUhxg&#39;s Blog">
-<meta property="og:description" content="分治strassen算法介绍 用于方阵求乘积。  步骤 将方阵分块后，得到8个子方阵； 计算10个S矩阵；   \begin{align*} &amp;S_{1}&#x3D;B_{12}-B_{22}\\ &amp;S_{2}&#x3D;A_{11}+A_{12}\\ &amp;S_{3}&#x3D;A_{21}+A_{22}\\ &amp;S_{4}&#x3D;B_{21}-B_{11}\\ &amp;S_{5}&#x3D;A_{11}+A_{22}\\ &amp;S_{6}&#x3D;B_{11}+">
+<meta property="og:description" content="分治strassen算法介绍 用于方阵求乘积。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-08T00:20:40.000Z">
-<meta property="article:modified_time" content="2022-06-08T03:01:14.955Z">
+<meta property="article:modified_time" content="2022-06-08T03:04:56.386Z">
 <meta property="article:author" content="CheUhxg">
 <meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-06-08 08:20:40 / 修改时间：11:01:14" itemprop="dateCreated datePublished" datetime="2022-06-08T08:20:40+08:00">2022-06-08</time>
+              <time title="创建时间：2022-06-08 08:20:40 / 修改时间：11:04:56" itemprop="dateCreated datePublished" datetime="2022-06-08T08:20:40+08:00">2022-06-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,6 +238,7 @@
         <h1 id="分治"><a href="#分治" class="headerlink" title="分治"></a>分治</h1><h2 id="strassen算法"><a href="#strassen算法" class="headerlink" title="strassen算法"></a>strassen算法</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
 <li>用于<strong>方阵</strong>求乘积。</li>
 </ul>
+<span id="more"></span>
 <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
 <li>将方阵分块后，得到8个子方阵；</li>
 <li>计算10个S矩阵；</li>
