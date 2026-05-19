@@ -2,195 +2,489 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-    <title>Dongchen Xie</title>
-
+    <title>Dongchen Xie | Kernel Security Researcher</title>
     <meta name="author" content="Dongchen Xie">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="images/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
-    
   </head>
-
   <body>
+    <!-- Boot Sequence Overlay -->
+    <div id="boot-overlay">
+      <div id="boot-text"></div>
+      <div id="boot-cursor">_</div>
+    </div>
+
+    <!-- Matrix Rain Canvas -->
     <canvas id="matrix-canvas"></canvas>
-    <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-      <tr style="padding:0px">
-        <td style="padding:0px">
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr style="padding:0px">
-              <td style="padding:2.5%;width:63%;vertical-align:middle">
-                <p class="name" style="text-align: center;">
-                  Dongchen Xie
-                </p>
-                <p>
-                  I am a graduate student at the School of Information at Renmin University of China, supervised by Associate Professor Wei You at the <a href="https://rucsesec.github.io/">rucsesec</a>. Previously, I obtained my bachelor's degree from the School of Information and Software Engineering at the University of Electronic Science and Technology of China, with a GPA of 3.96/4.00.
-                </p>
-                <p>
-                  At RUC, I've worked on <a href="https://en.wikipedia.org/wiki/Security_kernel">Linux Kernel Security</a>. 
-                </p>
-                <p style="text-align:center">
-                  <a href="mailto:cheuhxg@gmail.com">Email</a> &nbsp;/&nbsp;
-                  <a href="data/cv.pdf">CV</a> &nbsp;/&nbsp;
-                  <a href="https://github.com/cheuhxg/">Github</a>
-                </p>
-              </td>
-              <td style="padding:2.5%;width:40%;max-width:40%">
-                <a href="images/black_cat.jpg"><img style="width:100%;max-width:100%;object-fit: cover; border-radius: 50%;" alt="profile photo" src="images/black_cat.jpg" class="hoverZoomLink"></a>
-              </td>
-            </tr>
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+
+    <!-- Mouse Follower -->
+    <div id="cursor-follower"></div>
+
+    <!-- Theme Toggle -->
+    <div id="theme-toggle" title="Toggle Light/Dark Mode">
+      <span id="toggle-icon">☀</span>
+    </div>
+
+    <!-- Visitor Counter -->
+    <div id="visitor-counter">
+      <span class="counter-label">VISITORS:</span>
+      <span id="counter-value">000000</span>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display:none;">
+      <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+        <tr style="padding:0px">
+          <td style="padding:0px">
+
+            <!-- About Section -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr style="padding:0px">
+                <td style="padding:2.5%;width:63%;vertical-align:middle">
+                  <p class="name" style="text-align: center;">Dongchen Xie</p>
+                  <div class="terminal-header">$ cat about.txt</div>
+                  <div id="typewriter-container">
+                    <p id="typewriter-text"></p>
+                    <span id="tw-cursor">|</span>
+                  </div>
+                  <p class="terminal-header">$ cat contact.txt</p>
+                  <p style="text-align:center" class="contact-links">
+                    <a href="mailto:cheuhxg@gmail.com" class="hack-link">Email</a> &nbsp;/&nbsp;
+                    <a href="data/cv.pdf" class="hack-link">CV</a> &nbsp;/&nbsp;
+                    <a href="https://github.com/cheuhxg/" class="hack-link">Github</a>
+                  </p>
+                </td>
+                <td style="padding:2.5%;width:40%;max-width:40%">
+                  <a href="images/black_cat.jpg"><img style="width:100%;max-width:100%;object-fit: cover; border-radius: 50%;" alt="profile photo" src="images/black_cat.jpg" class="hoverZoomLink"></a>
+                </td>
+              </tr>
+            </tbody></table>
+
+            <!-- Skills Section -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
               <tr>
-              <td style="padding:20px;width:100%;vertical-align:middle">
-                <h2>Research</h2>
-                <p>
-                  I'm interested in kernel security. My research is about linux kernel vulnerability exploitation.
-                </p>
-              </td>
-            </tr>
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-              <td style="padding:20px;width:25%;vertical-align:middle">
-                <img src="images/bridgerouter.png" alt="clean-usnob" width="160" height="160">
-              </td>
-              <td width="75%" valign="middle">
-                <a>
-                  <span class="papertitle">BridgeRouter: Automated Capability Upgrading of Out-Of-Bounds Write Vulnerabilities to Arbitrary Memory Write Primitives in the Linux Kernel</span>
-                </a>
-                <br>
-                <strong>Dongchen Xie</strong>, Dongnan He, Wei You, et al.
-                <br>
-                <em>IEEE S&P</em>, 2025
-                <p>	In this paper, we propose a practical approach that enables arbitrary memory writes from kernel OOB vulnerabilities with limited capabilities. Our method leverages two special kinds of kernel objects to upgrade the capability from an uncontrolled overwrite to a controlled overwrite, ultimately achieving arbitrary memory write. We develop a system to automatically identify and utilize these two kinds of kernel objects.</p>
-              </td>
-            </tr>
+                <td style="padding:20px;width:100%;vertical-align:middle">
+                  <div class="terminal-header">$ cat skills.dat</div>
+                  <h2>Skills</h2>
+                  <div class="skills-container">
+                    <div class="skill-item">
+                      <span class="skill-name">C / C++</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="95"></div></div>
+                    </div>
+                    <div class="skill-item">
+                      <span class="skill-name">Linux Kernel</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="90"></div></div>
+                    </div>
+                    <div class="skill-item">
+                      <span class="skill-name">Vulnerability Exploitation</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="88"></div></div>
+                    </div>
+                    <div class="skill-item">
+                      <span class="skill-name">Fuzzing</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="82"></div></div>
+                    </div>
+                    <div class="skill-item">
+                      <span class="skill-name">Python</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="80"></div></div>
+                    </div>
+                    <div class="skill-item">
+                      <span class="skill-name">QEMU / Virtualization</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="75"></div></div>
+                    </div>
+                    <div class="skill-item">
+                      <span class="skill-name">Reverse Engineering</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="72"></div></div>
+                    </div>
+                    <div class="skill-item">
+                      <span class="skill-name">SDN / Networking</span>
+                      <div class="skill-bar"><div class="skill-fill" data-level="68"></div></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody></table>
 
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-              <td style="padding:20px;width:25%;vertical-align:middle">
-                <img src="images/dueforce.png" alt="clean-usnob" width="160" height="160">
-              </td>
-              <td width="75%" valign="middle">
-                <a>
-                  <span class="papertitle">Define-Use Guided Path Exploration for Better ForcedExecution</span>
-                </a>
-                <br>
-                Dongnan He,<strong>Dongchen Xie</strong>, Yujie Wang, et al.
-                <br>
-                <em>ACM ISSTA</em>, 2024
-                <p>In this paper, we propose a novel and practical path exploration strategy that focuses on the coverage of define-use relations in the subject binary. We develop a fuzzing approach for exploring these define-use relations in a progressive and selfsupervised way.</p>
-              </td>
-            </tr>
+            <!-- Timeline Section -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+                <td style="padding:20px;width:100%;vertical-align:middle">
+                  <div class="terminal-header">$ git log --oneline career.log</div>
+                  <h2>Timeline</h2>
+                  <div class="timeline">
+                    <div class="timeline-item">
+                      <span class="timeline-date">[2023-09 ~ now]</span>
+                      <span class="timeline-event">M.S. @ Renmin University of China - Kernel Security Research</span>
+                    </div>
+                    <div class="timeline-item">
+                      <span class="timeline-date">[2019-09 ~ 2023-06]</span>
+                      <span class="timeline-event">B.E. @ UESTC - GPA 3.96/4.00</span>
+                    </div>
+                    <div class="timeline-item">
+                      <span class="timeline-date">[2025]</span>
+                      <span class="timeline-event">Published @ IEEE S&P - BridgeRouter</span>
+                    </div>
+                    <div class="timeline-item">
+                      <span class="timeline-date">[2024]</span>
+                      <span class="timeline-event">Published @ ACM ISSTA - DueForce</span>
+                    </div>
+                    <div class="timeline-item">
+                      <span class="timeline-date">[2022]</span>
+                      <span class="timeline-event">Contributed to Tencent OpenCloudOS - lkp-extent</span>
+                    </div>
+                    <div class="timeline-item">
+                      <span class="timeline-date">[2021]</span>
+                      <span class="timeline-event">Huawei Open Source - iSula Network Emulator</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody></table>
 
-          </tbody></table>
+            <!-- Research Section -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+                <td style="padding:20px;width:100%;vertical-align:middle">
+                  <div class="terminal-header">$ ls research/</div>
+                  <h2>Research</h2>
+                  <p>I'm interested in kernel security. My research is about linux kernel vulnerability exploitation.</p>
+                </td>
+              </tr>
+            </tbody></table>
 
-          
-          <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
-            <tr>
-              <td>
-                <h2>Miscellanea</h2>
-              </td>
-            </tr>
-          </tbody></table>
-          <table width="100%" align="center" border="0" cellpadding="20"><tbody>
-            
-            <tr>
-              <td style="padding:20px;width:25%;vertical-align:middle">
-                <img src="images/iSula.png" alt="clean-usnob" width="160" height="160">
-              </td>
-              <td width="75%" valign="middle">
-                <a href="https://github.com/CheUhxg/NestNet">
-                  Design for Extending iSula with a Software-Defined Network Emulator
-                </a>
-                <br>
-                <strong>Dongchen Xie</strong>, Beichuan Zhang, Jinhao Zhang
-                <br>
-                <em>Huawei Open Source Software Supply Chain</em>, 2021
-                <p>We design a virtual network emulator based on iSula containers, achieving unified management of virtual node clusters with the ONOS controller, and providing a virtual LAN environment for Huawei's experimental platform.</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:20px;width:25%;vertical-align:middle">
-                <img src="images/p4.png" alt="clean-usnob" width="160" height="160">
-              </td>
-              <td width="75%" valign="middle">
-                <a href="https://github.com/CheUhxg/SDN-IPS">
-                  SDN Campus Network Intrusion Detection and Defense System
-                </a>
-                <br>
-                <strong>Dongchen Xie</strong>, Beichuan Zhang
-                <br>
-                <em>C4-Network Technology Challenge</em>, 2021
-                <p>We utilize the lower-layer P4 and upper-layer deep learning for detecting incoming traffic, and issue flow tables according to pattern matching rules. By leveraging the characteristics of the SDN network, implement campus network intrusion monitoring, which can intercept more than 94% of malicious traffic.</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:20px;width:25%;vertical-align:middle">
-                <img src="images/lkp.png" alt="clean-usnob" width="160" height="160">
-              </td>
-              <td width="75%" valign="middle">
-                <a href="https://github.com/OpenCloudOS/lkp-extent">
-                  lkp-extent
-                </a>
-                <br>
-                <strong>Dongchen Xie</strong>, Dengzhi Wu
-                <br>
-                <em>Tencent OpenCloudOS</em>, 2022
-                <p>We add stress-related testing of Intel's open-source project LKP in a container environment to enhance the RAS (Reliability, Availability, and Serviceability) features of the Linux system. Primarily used to extend the functionality of LKP, it addresses the shortcomings of its multi-point parallel testing by designing a one-to-many operational mode.</p>
-              </td>
-            </tr>
-            
-            
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-              <td style="padding:0px">
-                <br>
-                <p style="text-align:right;font-size:small;">
-                  Feel free to steal this website's <a href="https://github.com/jonbarron/jonbarron_website">source code</a>. <strong>Do not</strong> scrape the HTML from this page itself, as it includes analytics tags that you do not want on your own website &mdash; use the github code instead. Also, consider using <a href="https://leonidk.com/">Leonid Keselman</a>'s <a href="https://github.com/leonidk/new_website">Jekyll fork</a> of this page.
-                </p>
-              </td>
-            </tr>
-          </tbody></table>
-        </td>
-      </tr>
-    </table>
+            <!-- Paper 1 -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+                <td style="padding:20px;width:25%;vertical-align:middle">
+                  <img src="images/bridgerouter.png" alt="bridgerouter" width="160" height="160">
+                </td>
+                <td width="75%" valign="middle">
+                  <a><span class="papertitle">BridgeRouter: Automated Capability Upgrading of Out-Of-Bounds Write Vulnerabilities to Arbitrary Memory Write Primitives in the Linux Kernel</span></a>
+                  <br><strong>Dongchen Xie</strong>, Dongnan He, Wei You, et al.
+                  <br><em>IEEE S&P</em>, 2025
+                  <p>In this paper, we propose a practical approach that enables arbitrary memory writes from kernel OOB vulnerabilities with limited capabilities. Our method leverages two special kinds of kernel objects to upgrade the capability from an uncontrolled overwrite to a controlled overwrite, ultimately achieving arbitrary memory write.</p>
+                </td>
+              </tr>
+            </tbody></table>
+
+            <!-- Paper 2 -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+                <td style="padding:20px;width:25%;vertical-align:middle">
+                  <img src="images/dueforce.png" alt="dueforce" width="160" height="160">
+                </td>
+                <td width="75%" valign="middle">
+                  <a><span class="papertitle">Define-Use Guided Path Exploration for Better ForcedExecution</span></a>
+                  <br>Dongnan He, <strong>Dongchen Xie</strong>, Yujie Wang, et al.
+                  <br><em>ACM ISSTA</em>, 2024
+                  <p>In this paper, we propose a novel and practical path exploration strategy that focuses on the coverage of define-use relations in the subject binary. We develop a fuzzing approach for exploring these define-use relations in a progressive and self-supervised way.</p>
+                </td>
+              </tr>
+            </tbody></table>
+
+            <!-- Code Showcase Section -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+                <td style="padding:20px;width:100%;vertical-align:middle">
+                  <div class="terminal-header">$ cat exploit_snippet.c</div>
+                  <h2>Code Showcase</h2>
+                  <div class="code-block">
+                    <div class="code-header">
+                      <span class="code-dot red"></span>
+                      <span class="code-dot yellow"></span>
+                      <span class="code-dot green"></span>
+                      <span class="code-filename">kernel_oob_exploit.c</span>
+                    </div>
+                    <pre class="code-content"><span class="code-comment">/* Capability upgrade: OOB write -> Arbitrary write */</span>
+<span class="code-keyword">static</span> <span class="code-type">int</span> <span class="code-func">trigger_oob_write</span>(<span class="code-type">int</span> fd, <span class="code-type">size_t</span> offset) {
+    <span class="code-keyword">struct</span> <span class="code-type">bridge_obj</span> *obj;
+    <span class="code-type">void</span> *spray_buf;
+
+    <span class="code-comment">/* Step 1: Spray vulnerable slab cache */</span>
+    spray_buf = <span class="code-func">heap_spray</span>(KMALLOC_256, NUM_SPRAY);
+
+    <span class="code-comment">/* Step 2: Trigger OOB via ioctl */</span>
+    <span class="code-func">ioctl</span>(fd, VULN_IOCTL, &amp;overflow_data);
+
+    <span class="code-comment">/* Step 3: Upgrade to arbitrary write */</span>
+    obj = <span class="code-func">find_bridge_object</span>(spray_buf);
+    obj-&gt;write_target = (<span class="code-type">void</span> *)MODPROBE_PATH;
+    <span class="code-func">trigger_controlled_write</span>(obj, payload, <span class="code-keyword">sizeof</span>(payload));
+
+    <span class="code-keyword">return</span> <span class="code-number">0</span>;
+}</pre>
+                  </div>
+                </td>
+              </tr>
+            </tbody></table>
+
+            <!-- Miscellanea Section -->
+            <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
+              <tr>
+                <td>
+                  <div class="terminal-header">$ ls projects/</div>
+                  <h2>Miscellanea</h2>
+                </td>
+              </tr>
+            </tbody></table>
+
+            <!-- Project items -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+                <td style="padding:20px;width:25%;vertical-align:middle">
+                  <img src="images/iSula.png" alt="isula" width="160" height="160">
+                </td>
+                <td width="75%" valign="middle">
+                  <a href="https://github.com/CheUhxg/NestNet" class="hack-link"><span class="papertitle">Design for Extending iSula with a Software-Defined Network Emulator</span></a>
+                  <br><strong>Dongchen Xie</strong>, Beichuan Zhang, Jinhao Zhang
+                  <br><em>Huawei Open Source Software Supply Chain</em>, 2021
+                  <p>We design a virtual network emulator based on iSula containers, achieving unified management of virtual node clusters with the ONOS controller.</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:20px;width:25%;vertical-align:middle">
+                  <img src="images/p4.png" alt="sdn-ips" width="160" height="160">
+                </td>
+                <td width="75%" valign="middle">
+                  <a href="https://github.com/CheUhxg/SDN-IPS" class="hack-link"><span class="papertitle">SDN Campus Network Intrusion Detection and Defense System</span></a>
+                  <br><strong>Dongchen Xie</strong>, Beichuan Zhang
+                  <br><em>C4-Network Technology Challenge</em>, 2021
+                  <p>We utilize the lower-layer P4 and upper-layer deep learning for detecting incoming traffic, intercepting more than 94% of malicious traffic.</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:20px;width:25%;vertical-align:middle">
+                  <img src="images/lkp.png" alt="lkp" width="160" height="160">
+                </td>
+                <td width="75%" valign="middle">
+                  <a href="https://github.com/OpenCloudOS/lkp-extent" class="hack-link"><span class="papertitle">lkp-extent</span></a>
+                  <br><strong>Dongchen Xie</strong>, Dengzhi Wu
+                  <br><em>Tencent OpenCloudOS</em>, 2022
+                  <p>We add stress-related testing of Intel's open-source project LKP in a container environment to enhance the RAS features of the Linux system.</p>
+                </td>
+              </tr>
+            </tbody></table>
+
+            <!-- Footer -->
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+              <tr>
+                <td style="padding:0px">
+                  <br>
+                  <p style="text-align:right;font-size:small;">
+                    Feel free to steal this website's <a href="https://github.com/jonbarron/jonbarron_website">source code</a>.
+                  </p>
+                </td>
+              </tr>
+            </tbody></table>
+
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ACCESS GRANTED tooltip -->
+    <div id="access-granted">[ACCESS GRANTED]</div>
+
     <script>
-      const canvas = document.getElementById('matrix-canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    // ===== BOOT SEQUENCE =====
+    const bootMessages = [
+      'BIOS v3.14.159 ... OK',
+      'Initializing kernel security modules...',
+      'Loading exploit primitives... [████████████] 100%',
+      'Mounting /dev/research ... OK',
+      'Starting matrix rain daemon...',
+      'Establishing secure connection...',
+      'Checking vulnerability database... 1337 entries found',
+      'Loading user profile: Dongchen Xie',
+      '> ACCESS GRANTED',
+      '> Welcome back, hacker.',
+      ''
+    ];
 
-      const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF{}[]<>/\\';
-      const fontSize = 14;
-      const columns = Math.floor(canvas.width / fontSize);
-      const drops = Array(columns).fill(1);
+    const bootOverlay = document.getElementById('boot-overlay');
+    const bootTextEl = document.getElementById('boot-text');
+    let bootLine = 0;
 
-      function drawMatrix() {
-        ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff41';
-        ctx.font = fontSize + 'px monospace';
+    function typeBoot() {
+      if (bootLine < bootMessages.length) {
+        const line = document.createElement('div');
+        line.className = 'boot-line';
+        line.textContent = bootMessages[bootLine];
+        bootTextEl.appendChild(line);
+        bootLine++;
+        const delay = bootMessages[bootLine - 1] === '' ? 300 : 80 + Math.random() * 120;
+        setTimeout(typeBoot, delay);
+      } else {
+        setTimeout(() => {
+          bootOverlay.style.opacity = '0';
+          setTimeout(() => {
+            bootOverlay.style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            startTypewriter();
+            animateSkillBars();
+          }, 500);
+        }, 600);
+      }
+    }
+    typeBoot();
 
-        for (let i = 0; i < drops.length; i++) {
-          const text = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-          drops[i]++;
+    // ===== TYPEWRITER EFFECT =====
+    const typewriterContent = "I am a graduate student at the School of Information at Renmin University of China, supervised by Associate Professor Wei You at the rucsesec lab. Previously, I obtained my bachelor's degree from UESTC with a GPA of 3.96/4.00. At RUC, I've worked on Linux Kernel Security.";
+    let twIndex = 0;
+
+    function startTypewriter() {
+      const twEl = document.getElementById('typewriter-text');
+      function typeChar() {
+        if (twIndex < typewriterContent.length) {
+          twEl.textContent += typewriterContent[twIndex];
+          twIndex++;
+          setTimeout(typeChar, 18 + Math.random() * 22);
         }
       }
+      typeChar();
+    }
 
-      setInterval(drawMatrix, 50);
-
-      window.addEventListener('resize', function() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    // ===== SKILL BAR ANIMATION =====
+    function animateSkillBars() {
+      document.querySelectorAll('.skill-fill').forEach(bar => {
+        const level = bar.getAttribute('data-level');
+        setTimeout(() => { bar.style.width = level + '%'; }, 300);
       });
+    }
+
+    // ===== MATRIX RAIN =====
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF{}[]<>/\\';
+    const fontSize = 14;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00ff41';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 50);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      drops.length = columns;
+      drops.fill(1);
+    });
+
+    // ===== MOUSE FOLLOWER =====
+    const follower = document.getElementById('cursor-follower');
+    document.addEventListener('mousemove', (e) => {
+      follower.style.left = e.clientX + 'px';
+      follower.style.top = e.clientY + 'px';
+    });
+
+    // ===== ACCESS GRANTED TOOLTIP =====
+    const accessGranted = document.getElementById('access-granted');
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('mouseenter', (e) => {
+        accessGranted.style.opacity = '1';
+        accessGranted.style.left = e.clientX + 15 + 'px';
+        accessGranted.style.top = e.clientY - 25 + 'px';
+      });
+      link.addEventListener('mouseleave', () => {
+        accessGranted.style.opacity = '0';
+      });
+      link.addEventListener('mousemove', (e) => {
+        accessGranted.style.left = e.clientX + 15 + 'px';
+        accessGranted.style.top = e.clientY - 25 + 'px';
+      });
+    });
+
+    // ===== THEME TOGGLE =====
+    const themeToggle = document.getElementById('theme-toggle');
+    const toggleIcon = document.getElementById('toggle-icon');
+    let isDark = true;
+
+    themeToggle.addEventListener('click', () => {
+      isDark = !isDark;
+      document.body.classList.toggle('light-mode');
+      toggleIcon.textContent = isDark ? '☀' : '🌙';
+      canvas.style.opacity = isDark ? '0.06' : '0';
+    });
+
+    // ===== VISITOR COUNTER (simulated) =====
+    function animateCounter() {
+      const counterEl = document.getElementById('counter-value');
+      const target = 1337 + Math.floor(Math.random() * 200);
+      let current = 0;
+      const step = Math.ceil(target / 60);
+      function tick() {
+        current = Math.min(current + step, target);
+        counterEl.textContent = String(current).padStart(6, '0');
+        if (current < target) requestAnimationFrame(tick);
+      }
+      tick();
+    }
+    setTimeout(animateCounter, 2500);
+
+    // ===== KONAMI CODE EASTER EGG =====
+    const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          konamiIndex = 0;
+          triggerEasterEgg();
+        }
+      } else {
+        konamiIndex = 0;
+      }
+    });
+
+    function triggerEasterEgg() {
+      const eggOverlay = document.createElement('div');
+      eggOverlay.id = 'easter-egg-overlay';
+      eggOverlay.innerHTML = `
+        <div class="egg-content">
+          <pre class="ascii-art">
+    ██╗  ██╗ █████╗  ██████╗██╗  ██╗███████╗██████╗ 
+    ██║  ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝██╔══██╗
+    ███████║███████║██║     █████╔╝ █████╗  ██║  ██║
+    ██╔══██║██╔══██║██║     ██╔═██╗ ██╔══╝  ██║  ██║
+    ██║  ██║██║  ██║╚██████╗██║  ██╗███████╗██████╔╝
+    ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═════╝ 
+          </pre>
+          <p class="egg-text">🎮 KONAMI CODE ACTIVATED! 🎮</p>
+          <p class="egg-text">You found the secret. You are a true hacker.</p>
+          <p class="egg-dismiss">[ Press any key to dismiss ]</p>
+        </div>
+      `;
+      document.body.appendChild(eggOverlay);
+      setTimeout(() => { eggOverlay.style.opacity = '1'; }, 10);
+
+      const dismiss = () => {
+        eggOverlay.style.opacity = '0';
+        setTimeout(() => eggOverlay.remove(), 500);
+        document.removeEventListener('keydown', dismiss);
+        eggOverlay.removeEventListener('click', dismiss);
+      };
+      setTimeout(() => {
+        document.addEventListener('keydown', dismiss, { once: true });
+        eggOverlay.addEventListener('click', dismiss);
+      }, 500);
+    }
     </script>
   </body>
 </html>
+HTMLEOF; __aone_exit=$?; pwd -P > '/var/folders/_s/g6m7mbh16ylfyyg5hj28wbbm0000gn/T/aone-copilot-cwd-1779183772321-ler1x8udfcd.txt' 2>/dev/null; exit $__aone_exit
